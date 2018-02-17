@@ -14,35 +14,8 @@
  */
 package com.gargoylesoftware.css.utils;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.gargoylesoftware.css.util.LangUtils;
-
 /**
  * @author Ronald Brill
  */
 public class LangUtilsTest {
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
-    public void join() throws Exception {
-        Assert.assertNull(LangUtils.join(null, null));
-
-        Assert.assertEquals("", LangUtils.join(new LinkedList<String>(), null));
-        Assert.assertEquals("1", LangUtils.join(Arrays.asList("1"), null));
-        Assert.assertEquals("12", LangUtils.join(Arrays.asList("1", "2"), null));
-
-        Assert.assertEquals("", LangUtils.join(new LinkedList<String>(), ","));
-        Assert.assertEquals("1", LangUtils.join(Arrays.asList("1"), ","));
-        Assert.assertEquals("1,2", LangUtils.join(Arrays.asList("1", "2"), ","));
-
-        Assert.assertEquals("", LangUtils.join(new LinkedList<String>(), ", "));
-        Assert.assertEquals("1", LangUtils.join(Arrays.asList("1"), ", "));
-        Assert.assertEquals("1, 2", LangUtils.join(Arrays.asList("1", "2"), ", "));
-    }
 }

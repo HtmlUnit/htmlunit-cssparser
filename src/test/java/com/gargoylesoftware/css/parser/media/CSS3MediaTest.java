@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gargoylesoftware.css.parser.media;
 
 import java.util.List;
@@ -82,7 +81,7 @@ public class CSS3MediaTest extends AbstractSACParserTest {
     }
 
     /**
-     * see http://keithclark.co.uk/articles/moving-ie-specific-css-into-media-blocks/media-tests/
+     * see http://keithclark.co.uk/articles/moving-ie-specific-css-into-media-blocks/media-tests/.
      * @throws Exception if any error occurs
      */
     @Test

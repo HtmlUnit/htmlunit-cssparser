@@ -5,4 +5,5 @@
 *.css    text
 *.js     text
 *.xml    text
+.jj      text
 .travis.yml text

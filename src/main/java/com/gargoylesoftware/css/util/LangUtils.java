@@ -17,47 +17,47 @@ package com.gargoylesoftware.css.util;
 
 import java.util.List;
 
+/**
+ * Some utils.
+ *
+ * @author Ronald Brill
+ */
 public final class LangUtils {
+
+    /** HASH_SEED = 17. */
     public static final int HASH_SEED = 17;
+
+    /** HASH_OFFSET = 37. */
     public static final int HASH_OFFSET = 37;
 
     private LangUtils() {
     }
 
+    /**
+     * @param seed the seed to be used
+     * @param hashcode the hashcode to be used as input
+     * @return a hash code calculated based on a given one.
+     */
     public static int hashCode(final int seed, final int hashcode) {
         return seed * HASH_OFFSET + hashcode;
     }
 
+    /**
+     * @param seed the seed to be used
+     * @param b the boolean to be used as input
+     * @return a hash code calculated based on a given boolean.
+     */
     public static int hashCode(final int seed, final boolean b) {
         return hashCode(seed, b ? 1 : 0);
     }
 
+    /**
+     * @param seed the seed to be used
+     * @param obj the object to be used as input
+     * @return a hash code calculated based on a given object.
+     */
     public static int hashCode(final int seed, final Object obj) {
         return hashCode(seed, obj != null ? obj.hashCode() : 0);
-    }
-
-    public static String join(final List<String> values, String separator) {
-        if (values == null) {
-            return null;
-        }
-        if (separator == null) {
-            separator = "";
-        }
-
-        boolean isFirst = true;
-        final StringBuilder result = new StringBuilder();
-        for (String part : values) {
-            if (part != null && part.length() > 0) {
-                if (isFirst) {
-                    isFirst = false;
-                }
-                else {
-                    result.append(separator);
-                }
-                result.append(part);
-            }
-        }
-        return result.toString();
     }
 
     public static boolean equals(final Object obj1, final Object obj2) {

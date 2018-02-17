@@ -135,6 +135,13 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
         return getMediaText();
     }
 
+    public void setMedia(final List<String> media) {
+        mediaQueries_.clear();
+        for (String medium : media) {
+            mediaQueries_.add(new MediaQuery(medium));
+        }
+    }
+
     private void setMediaList(final SACMediaList mediaList) {
         if (mediaList instanceof SACMediaList) {
             final SACMediaList impl = (SACMediaList) mediaList;

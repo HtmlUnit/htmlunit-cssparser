@@ -830,7 +830,7 @@ String pageSelectorList() :
   (    <COMMA> ( <S> )* sel = pageSelector() { selectors.add(sel); }
   )*
 
-  { return LangUtils.join(selectors, ", "); }
+  { return String.join(", ", selectors); }
 }
 
 //
