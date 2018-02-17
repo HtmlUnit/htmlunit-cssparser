@@ -29,7 +29,7 @@ import com.gargoylesoftware.css.parser.InputSource;
 /**
  * Unit tests for {@link CSSImportRuleImpl}.
  *
- * @author rbri
+ * @author Ronald Brill
  */
 public class CSSImportRuleImplTest {
 

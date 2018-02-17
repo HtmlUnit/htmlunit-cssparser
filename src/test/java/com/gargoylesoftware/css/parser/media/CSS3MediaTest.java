@@ -33,7 +33,7 @@ import com.gargoylesoftware.css.parser.LexicalUnitImpl;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 
 /**
- * @author rbri
+ * @author Ronald Brill
  */
 public class CSS3MediaTest extends AbstractSACParserTest {
 

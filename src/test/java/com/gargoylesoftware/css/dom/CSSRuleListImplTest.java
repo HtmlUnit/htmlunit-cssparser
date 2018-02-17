@@ -28,7 +28,7 @@ import com.gargoylesoftware.css.parser.InputSource;
 /**
  * Unit tests for {@link CSSPageRuleImpl}.
  *
- * @author rbri
+ * @author Ronald Brill
  */
 public class CSSRuleListImplTest {
 

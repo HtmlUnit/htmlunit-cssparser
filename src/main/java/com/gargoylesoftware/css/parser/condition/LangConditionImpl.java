@@ -24,7 +24,7 @@ import com.gargoylesoftware.css.parser.Locator;
  *
  * @author Ronald Brill
  */
-public class LangConditionImpl extends AbstractLocatable implements LangCondition, Serializable {
+public class LangConditionImpl extends AbstractLocatable implements Condition, Serializable {
 
     private String lang_;
 
@@ -38,7 +38,6 @@ public class LangConditionImpl extends AbstractLocatable implements LangConditio
         return ConditionType.LANG_CONDITION;
     }
 
-    @Override
     public String getLang() {
         return lang_;
     }

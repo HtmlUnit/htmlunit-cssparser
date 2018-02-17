@@ -37,7 +37,7 @@ import com.gargoylesoftware.css.parser.selector.SelectorList;
 /**
  * @author <a href="mailto:davidsch@users.sourceforge.net">David Schweinsberg</a>
  * @author sdanig
- * @author rbri
+ * @author Ronald Brill
  */
 public class CSSOMParserTest {
 

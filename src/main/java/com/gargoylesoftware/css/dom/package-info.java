@@ -12,20 +12,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gargoylesoftware.css.parser.condition;
 
 /**
- * @author Ronald Brill
+ * Implementation classes for the org.w3c.dom.css interfaces.
  */
-public interface CombinatorCondition extends Condition {
-
-    /**
-     * Returns the first condition.
-     */
-    Condition getFirstCondition();
-
-    /**
-     * Returns the second condition.
-     */
-    Condition getSecondCondition();
-}
+package com.gargoylesoftware.css.dom;

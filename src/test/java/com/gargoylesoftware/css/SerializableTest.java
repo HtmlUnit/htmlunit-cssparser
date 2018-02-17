@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gargoylesoftware.css;
 
 import java.io.File;
@@ -36,8 +35,7 @@ import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
 /**
- * @author David Schweinsberg
- * @author rbri
+ * @author Ronald Brill
  */
 public class SerializableTest {
 

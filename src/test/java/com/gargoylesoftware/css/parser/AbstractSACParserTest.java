@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gargoylesoftware.css.parser;
 
 import java.io.IOException;
@@ -33,37 +32,31 @@ import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
 import com.gargoylesoftware.css.dom.CSSStyleRuleImpl;
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.Property;
+import com.gargoylesoftware.css.parser.condition.AndConditionImpl;
 import com.gargoylesoftware.css.parser.condition.AttributeCondition;
-import com.gargoylesoftware.css.parser.condition.CombinatorCondition;
 import com.gargoylesoftware.css.parser.condition.Condition;
 import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 import com.gargoylesoftware.css.parser.media.SACMediaList;
 import com.gargoylesoftware.css.parser.selector.ConditionalSelector;
 import com.gargoylesoftware.css.parser.selector.DescendantSelector;
 import com.gargoylesoftware.css.parser.selector.Selector;
+import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
 import com.gargoylesoftware.css.parser.selector.SimpleSelector;
-import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
 /**
- * @author rbri
+ * @author Ronald Brill
  */
 public abstract class AbstractSACParserTest {
 
     private Locale systemLocale_;
 
-    /**
-     * Set up
-     */
     @Before
     public void setUp() {
         systemLocale_ = Locale.getDefault();
         Locale.setDefault(Locale.ENGLISH);
     }
 
-    /**
-     * Tear down
-     */
     @After
     public void tearDown() {
         Locale.setDefault(systemLocale_);
@@ -148,7 +141,7 @@ public abstract class AbstractSACParserTest {
     protected int conditionType(final Condition condition, int initial, final ConditionType... conditionTypes) {
         Assert.assertEquals(conditionTypes[initial], condition.getConditionType());
         if (conditionTypes[initial] == ConditionType.AND_CONDITION) {
-            final CombinatorCondition combinatorCondition = (CombinatorCondition) condition;
+            final AndConditionImpl combinatorCondition = (AndConditionImpl) condition;
             final Condition first = combinatorCondition.getFirstCondition();
             final Condition second = combinatorCondition.getSecondCondition();
             initial = conditionType(first, ++initial, conditionTypes);

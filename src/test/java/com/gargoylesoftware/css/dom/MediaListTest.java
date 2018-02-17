@@ -27,7 +27,7 @@ import org.w3c.dom.stylesheets.MediaList;
 /**
  * Unit tests for {@link MediaListImpl}.
  *
- * @author rbri
+ * @author Ronald Brill
  */
 public class MediaListTest {
 

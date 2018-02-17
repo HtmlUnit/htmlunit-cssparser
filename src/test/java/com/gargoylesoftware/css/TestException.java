@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gargoylesoftware.css;
 
 import java.io.Reader;
@@ -31,8 +30,7 @@ import com.gargoylesoftware.css.parser.InputSource;
 /**
  * Attempts to perform some illegal operations to ensure the correct exceptions are thrown.
  *
- * @author David Schweinsberg
- * @author rbri
+ * @author Ronald Brill
  */
 public class TestException {
 

@@ -23,7 +23,7 @@ import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
 /**
  * Testcases for {@link ConditionalSelector}.
- * @author rbri
+ * @author Ronald Brill
  */
 public class ConditionalSelectorTest {
 

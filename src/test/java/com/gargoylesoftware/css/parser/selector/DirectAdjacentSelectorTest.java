@@ -22,7 +22,7 @@ import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
 /**
  * Testcases for {@link DirectAdjacentSelector}.
- * @author rbri
+ * @author Ronald Brill
  */
 public class DirectAdjacentSelectorTest {
 

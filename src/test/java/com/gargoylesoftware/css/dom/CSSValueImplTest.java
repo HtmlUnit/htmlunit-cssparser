@@ -27,7 +27,7 @@ import com.gargoylesoftware.css.parser.LexicalUnitImpl;
 /**
  * Unit tests for {@link CSSValueImpl}.
  *
- * @author rbri
+ * @author Ronald Brill
  */
 public class CSSValueImplTest {
 

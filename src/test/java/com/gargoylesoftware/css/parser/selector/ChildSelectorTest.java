@@ -22,7 +22,7 @@ import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
 /**
  * Testcases for {@link ChildSelector}.
- * @author rbri
+ * @author Ronald Brill
  */
 public class ChildSelectorTest {
 

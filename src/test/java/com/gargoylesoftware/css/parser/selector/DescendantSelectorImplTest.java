@@ -22,7 +22,7 @@ import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
 /**
  * Testcases for {@link DescendantSelector}.
- * @author rbri
+ * @author Ronald Brill
  */
 public class DescendantSelectorImplTest {
 

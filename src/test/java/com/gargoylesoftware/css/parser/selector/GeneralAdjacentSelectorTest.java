@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gargoylesoftware.css.parser.selector;
 
 import org.junit.Assert;
@@ -22,7 +21,6 @@ import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
 /**
  * Test cases for {@link GeneralAdjacentSelector}.
- * @author Ahmed Ashour
  * @author Ronald Brill
  */
 public class GeneralAdjacentSelectorTest {

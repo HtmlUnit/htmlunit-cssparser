@@ -23,11 +23,16 @@ import com.gargoylesoftware.css.parser.Locatable;
 /**
  * @author Ronald Brill
  */
-public class AndConditionImpl extends AbstractLocatable implements CombinatorCondition, Serializable {
+public class AndConditionImpl extends AbstractLocatable implements Condition, Serializable {
 
     private final Condition firstCondition_;
     private final Condition secondCondition_;
 
+    /**
+     * Ctor.
+     * @param c1 the first condition
+     * @param c2 the second condition
+     */
     public AndConditionImpl(final Condition c1, final Condition c2) {
         firstCondition_ = c1;
         if (c1 instanceof Locatable) {
@@ -45,12 +50,10 @@ public class AndConditionImpl extends AbstractLocatable implements CombinatorCon
         return ConditionType.AND_CONDITION;
     }
 
-    @Override
     public Condition getFirstCondition() {
         return firstCondition_;
     }
 
-    @Override
     public Condition getSecondCondition() {
         return secondCondition_;
     }

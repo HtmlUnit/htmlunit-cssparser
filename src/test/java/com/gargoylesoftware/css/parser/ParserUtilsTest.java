@@ -19,7 +19,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @author rbri
+ * @author Ronald Brill
  */
 public class ParserUtilsTest {
 

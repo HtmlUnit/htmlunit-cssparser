@@ -28,7 +28,7 @@ import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 /**
  * Unit tests for {@link LexicalUnitImpl}.
  *
- * @author rbri
+ * @author Ronald Brill
  */
 public class LexicalUnitImplTest {
 

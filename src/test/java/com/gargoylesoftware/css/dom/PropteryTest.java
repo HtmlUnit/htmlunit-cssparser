@@ -25,7 +25,7 @@ import com.gargoylesoftware.css.parser.LexicalUnitImpl;
 /**
  * Unit tests for {@link Property}.
  *
- * @author rbri
+ * @author Ronald Brill
  */
 public class PropteryTest {
 

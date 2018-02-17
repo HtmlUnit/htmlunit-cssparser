@@ -34,7 +34,7 @@ import com.gargoylesoftware.css.parser.LexicalUnitImpl;
 /**
  * Unit tests for {@link RectImpl}.
  *
- * @author rbri
+ * @author Ronald Brill
  */
 public class RectImplTest {
 

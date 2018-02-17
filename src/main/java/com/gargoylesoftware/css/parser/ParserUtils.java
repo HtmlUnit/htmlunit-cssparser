@@ -18,7 +18,7 @@ package com.gargoylesoftware.css.parser;
 /**
  * Util methods used by the parser and lexer.
  *
- * @author RBRi
+ * @author Ronald Brill
  */
 public final class ParserUtils {
 

@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gargoylesoftware.css.dom;
 
 import java.io.IOException;
@@ -103,6 +102,10 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
         return mq.getMedia();
     }
 
+    /**
+     * @param index the position of the media query
+     * @return the media query at the given pos
+     */
     public MediaQuery mediaQuery(final int index) {
         if (index < 0 || (index >= mediaQueries_.size())) {
             return null;
@@ -130,13 +133,6 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
     @Override
     public String toString() {
         return getMediaText();
-    }
-
-    public void setMedia(final List<String> media) {
-        mediaQueries_.clear();
-        for (String medium : media) {
-            mediaQueries_.add(new MediaQuery(medium));
-        }
     }
 
     private void setMediaList(final SACMediaList mediaList) {

@@ -38,7 +38,7 @@ import com.gargoylesoftware.css.parser.InputSource;
  *
  * @author Daniel Gredler
  * @author waldbaer
- * @author rbri
+ * @author Ronald Brill
  * @author Ahmed Ashour
  */
 public class CSSStyleDeclarationImplTest {

@@ -23,7 +23,7 @@ import org.junit.Test;
 import com.gargoylesoftware.css.ErrorHandler;
 
 /**
- * @author rbri
+ * @author Ronald Brill
  */
 public class XhtmlCssTest {
 

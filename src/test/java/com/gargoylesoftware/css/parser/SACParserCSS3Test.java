@@ -58,7 +58,7 @@ import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
 /**
  * @author Ahmed Ashour
- * @author rbri
+ * @author Ronald Brill
  */
 public class SACParserCSS3Test  extends AbstractSACParserTest {
 

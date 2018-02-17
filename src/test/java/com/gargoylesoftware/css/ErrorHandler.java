@@ -19,7 +19,7 @@ import com.gargoylesoftware.css.parser.CSSException;
 import com.gargoylesoftware.css.parser.CSSParseException;
 
 /**
- * @author RBRi
+ * @author Ronald Brill
  */
 public class ErrorHandler implements com.gargoylesoftware.css.parser.CSSErrorHandler {
 

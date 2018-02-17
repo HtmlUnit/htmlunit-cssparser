@@ -8,7 +8,7 @@ package com.gargoylesoftware.css.parser;
  * part of the parser. CSS has some strange rules about that, so processing
  * unicode escapes in this class is too early.
  */
-
+@SuppressWarnings("all")
 public final class CssCharStream implements CharStream
 {
   /** Whether parser is static. */
