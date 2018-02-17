@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<document xmlns="http://maven.apache.org/changes/1.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
+  <properties>
+    <title>Changes</title>
+  </properties>
+
+  <body>
+    <release version="1.0.06" date="xx.xx.2018" description="Initial fork based on CSSParser">
+    </release>
+  </body>
+</document>

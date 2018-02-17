@@ -1,0 +1,1900 @@
+/*
+ * Copyright (C) 1999-2018 David Schweinsberg.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+options {
+    IGNORE_CASE = true;
+    STATIC = false;
+
+    UNICODE_INPUT = true;
+    USER_CHAR_STREAM = true;
+
+//    DEBUG_TOKEN_MANAGER = true;
+//    DEBUG_PARSER = true;
+
+    JDK_VERSION = "1.5";
+//    JAVA_TEMPLATE_TYPE = "modern"
+}
+
+PARSER_BEGIN(SACParserCSS3)
+
+package com.gargoylesoftware.css.parser;
+
+import java.util.LinkedList;
+import java.util.Locale;
+
+import com.gargoylesoftware.css.dom.CSSValueImpl;
+import com.gargoylesoftware.css.dom.Property;
+import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
+import com.gargoylesoftware.css.parser.condition.AndConditionImpl;
+import com.gargoylesoftware.css.parser.condition.AttributeConditionImpl;
+import com.gargoylesoftware.css.parser.condition.BeginHyphenAttributeConditionImpl;
+import com.gargoylesoftware.css.parser.condition.ClassConditionImpl;
+import com.gargoylesoftware.css.parser.condition.Condition;
+import com.gargoylesoftware.css.parser.condition.IdConditionImpl;
+import com.gargoylesoftware.css.parser.condition.LangConditionImpl;
+import com.gargoylesoftware.css.parser.condition.OneOfAttributeConditionImpl;
+import com.gargoylesoftware.css.parser.condition.PrefixAttributeConditionImpl;
+import com.gargoylesoftware.css.parser.condition.PseudoClassConditionImpl;
+import com.gargoylesoftware.css.parser.condition.SubstringAttributeConditionImpl;
+import com.gargoylesoftware.css.parser.condition.SuffixAttributeConditionImpl;
+import com.gargoylesoftware.css.parser.media.MediaQuery;
+import com.gargoylesoftware.css.parser.media.SACMediaList;
+import com.gargoylesoftware.css.parser.selector.ChildSelector;
+import com.gargoylesoftware.css.parser.selector.ConditionalSelector;
+import com.gargoylesoftware.css.parser.selector.DescendantSelector;
+import com.gargoylesoftware.css.parser.selector.DirectAdjacentSelector;
+import com.gargoylesoftware.css.parser.selector.ElementSelector;
+import com.gargoylesoftware.css.parser.selector.GeneralAdjacentSelector;
+import com.gargoylesoftware.css.parser.selector.PseudoElementSelector;
+import com.gargoylesoftware.css.parser.selector.Selector;
+import com.gargoylesoftware.css.parser.selector.SelectorList;
+import com.gargoylesoftware.css.parser.selector.SelectorListImpl;
+import com.gargoylesoftware.css.parser.selector.SimpleSelector;
+import com.gargoylesoftware.css.parser.selector.SyntheticElementSelector;
+import com.gargoylesoftware.css.util.LangUtils;
+
+/**
+ * @author David Schweinsberg
+ * @author waldbaer
+ * @author Ahmed Ashour
+ * @author Ronald Brill
+ */
+public class SACParserCSS3 extends AbstractSACParser {
+
+    public SACParserCSS3() {
+        this((CharStream) null);
+    }
+
+    public String getParserVersion() {
+        return "http://www.w3.org/Style/CSS/";
+    }
+
+    protected String getGrammarUri()
+    {
+        return "http://www.w3.org/TR/WD-css3-syntax-20030813";
+    }
+}
+
+PARSER_END(SACParserCSS3)
+
+TOKEN_MGR_DECLS :
+{
+}
+
+<DEFAULT> TOKEN :
+{
+// s        [ \t\r\n\f]+
+// {s}          {return S;}
+    < S: ( " "|"\t"|"\r"|"\n"|"\f" )+ >
+// w        {s}?
+    | < W: ( <S> )? >
+}
+
+<DEFAULT> MORE :
+{
+  < "/*" > : COMMENT
+}
+
+<COMMENT> SKIP :
+{
+  < "*/" > : DEFAULT
+}
+
+<COMMENT> MORE :
+{
+  < ~[] > : COMMENT
+}
+
+<DEFAULT> TOKEN :
+{
+// h        [0-9a-f]
+  < #H: ["0"-"9","a"-"f"] >
+| < #HNUM: <H> | <H><H> | <H><H><H> | <H><H><H><H> | <H><H><H><H><H> | <H><H><H><H><H><H> >
+
+// nonascii [\200-\377]
+// The two occurrences of "\377" represent the highest character number that
+// current versions of Flex can deal with (decimal 255). They should be read as
+// "\4177777" (decimal 1114111), which is the highest possible code point in
+// Unicode/ISO-10646.
+// Limitation: This parser can only handle Unicode characters up to \uFFFF
+// (decimal 65535).
+| < #NONASCII: ["\u0080"-"\uFFFF"] >
+
+// unicode      \\{h}{1,6}(\r\n|[ \t\r\n\f])?
+| < #UNICODE: "\\" <HNUM> ( "\r\n" | [" ","\t","\r","\n","\f"] )? >
+
+// escape       {unicode}|\\[^\r\n\f0-9a-f]
+| < #ESCAPE: <UNICODE> | ( "\\" ~["\r","\n","\f","0"-"9","a"-"f"] ) >
+
+// nmstart      [_a-z]|{nonascii}|{escape}
+| < #NMSTART: ["_","a"-"z"] | <NONASCII> | <ESCAPE> >
+
+// nmchar       [_a-z0-9-]|{nonascii}|{escape}
+| < #NMCHAR: ["_","a"-"z","0"-"9","-"] | <NONASCII> | <ESCAPE> >
+
+// nl       \n|\r\n|\r|\f
+| < #NL: "\n" | "\r\n" | "\r" | "\f" >
+
+// string1      \"([^\n\r\f\\"]|\\{nl}|{escape})*\"
+| < #STRING1: ( ~["\n","\r","\f","\\","\""] | "\\" <NL> | <ESCAPE> )* >
+
+// string2      \'([^\n\r\f\\']|\\{nl}|{escape})*\'
+| < #STRING2: ( ~["\n","\r","\f","\\","\'"] | "\\" <NL> | <ESCAPE> )* >
+
+// comment      \/\*[^*]*\*+([^/*][^*]*\*+)*\/
+| < #COMMENT_: "/" "*" ( ~["*"] )* ("*")+ ( ~["/","*"] ( ~["*"] )* ( "*" )+ )* "/">
+
+| < AND: "and" >
+| < NOT: "not" >
+| < ONLY: "only" >
+
+// {num}            {return NUMBER;}
+| < NUMBER: <NUM> >
+
+| < INHERIT: "inherit" >
+
+// ident        -?{nmstart}{nmchar}*
+// {ident}         {return IDENT;}
+| < IDENT: ("-")? <NMSTART> ( <NMCHAR> )* >
+
+// name     {nmchar}+
+| < #NAME: ( <NMCHAR> )+ >
+
+// num      [0-9]+|[0-9]*"."[0-9]+
+| < NUM: ( ["0"-"9"] )+ | ( ["0"-"9"] )* "." ( ["0"-"9"] )+ >
+
+// string       {string1}|{string2}
+// {string}        {return STRING;}
+| < STRING: ( "\"" <STRING1> "\"" ) | ( "\'" <STRING2> "\'" ) > { matchedToken.image = ParserUtils.trimBy(image, 1, 1); }
+
+// url      ([!#$%&*-~]|{nonascii}|{escape})*
+| < #URL: ( ["!","#","$","%","&","*"-"[","]"-"~"] | <NONASCII> | <ESCAPE> )* >
+
+// A        a|\\0{0,4}(41|61)(\r\n|[ \t\r\n\f])?
+| < #A_LETTER: "a" | "\\" ("0")? ("0")? ("0")? ("0")? ( "41" | "61" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? >
+
+// C        c|\\0{0,4}(43|63)(\r\n|[ \t\r\n\f])?
+| < #C_LETTER: "c" | "\\" ("0")? ("0")? ("0")? ("0")? ( "43" | "63" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? >
+
+// D        d|\\0{0,4}(44|64)(\r\n|[ \t\r\n\f])?
+| < #D_LETTER: "d" | "\\" ("0")? ("0")? ("0")? ("0")? ( "44" | "64" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? >
+
+// E        e|\\0{0,4}(45|65)(\r\n|[ \t\r\n\f])?
+| < #E_LETTER: "e" | "\\" ("0")? ("0")? ("0")? ("0")? ( "45" | "65" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? >
+
+// F        f|\\0{0,4}(46|66)(\r\n|[ \t\r\n\f])?
+| < #F_LETTER: "f" | "\\" ("0")? ("0")? ("0")? ("0")? ( "46" | "66" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? >
+
+// G        g|\\0{0,4}(47|67)(\r\n|[ \t\r\n\f])?|\\g
+| < #G_LETTER: "g" | "\\" ("0")? ("0")? ("0")? ("0")? ( "47" | "67" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "g" >
+
+// H        h|\\0{0,4}(48|68)(\r\n|[ \t\r\n\f])?|\\h
+| < #H_LETTER: "h" | "\\" ("0")? ("0")? ("0")? ("0")? ( "48" | "68" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "h" >
+
+// I        i|\\0{0,4}(49|69)(\r\n|[ \t\r\n\f])?|\\i
+| < #I_LETTER: "i" | "\\" ("0")? ("0")? ("0")? ("0")? ( "49" | "69" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "i" >
+
+// K        k|\\0{0,4}(4b|6b)(\r\n|[ \t\r\n\f])?|\\k
+| < #K_LETTER: "k" | "\\" ("0")? ("0")? ("0")? ("0")? ( "4b" | "6b" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "k" >
+
+// L        l|\\0{0,4}(4c|6c)(\r\n|[ \t\r\n\f])?|\\l
+| < #L_LETTER: "l" | "\\" ("0")? ("0")? ("0")? ("0")? ( "4c" | "6c" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "l" >
+
+// M        m|\\0{0,4}(4d|6d)(\r\n|[ \t\r\n\f])?|\\m
+| < #M_LETTER: "m" | "\\" ("0")? ("0")? ("0")? ("0")? ( "4d" | "6d" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "m" >
+
+// N        n|\\0{0,4}(4e|6e)(\r\n|[ \t\r\n\f])?|\\n
+| < #N_LETTER: "n" | "\\" ("0")? ("0")? ("0")? ("0")? ( "4e" | "6e" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "n" >
+
+// O        o|\\0{0,4}(51|71)(\r\n|[ \t\r\n\f])?|\\o
+| < #O_LETTER: "o" | "\\" ("0")? ("0")? ("0")? ("0")? ( "51" | "71" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "o" >
+
+// P        p|\\0{0,4}(50|70)(\r\n|[ \t\r\n\f])?|\\p
+| < #P_LETTER: "p" | "\\" ("0")? ("0")? ("0")? ("0")? ( "50" | "70" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "p" >
+
+// R        r|\\0{0,4}(52|72)(\r\n|[ \t\r\n\f])?|\\r
+| < #R_LETTER: "r" | "\\" ("0")? ("0")? ("0")? ("0")? ( "52" | "72" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "r" >
+
+// S        s|\\0{0,4}(53|73)(\r\n|[ \t\r\n\f])?|\\s
+| < #S_LETTER: "s" | "\\" ("0")? ("0")? ("0")? ("0")? ( "53" | "73" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "s" >
+
+// T        t|\\0{0,4}(54|74)(\r\n|[ \t\r\n\f])?|\\t
+| < #T_LETTER: "t" | "\\" ("0")? ("0")? ("0")? ("0")? ( "54" | "74" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "t" >
+
+// U        v|\\0{0,4}(55|76)(\r\n|[ \t\r\n\f])?|\\v
+| < #U_LETTER: "u" | "\\" ("0")? ("0")? ("0")? ("0")? ( "55" | "75" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "u" >
+
+// V        v|\\0{0,4}(56|76)(\r\n|[ \t\r\n\f])?|\\v
+| < #V_LETTER: "v" | "\\" ("0")? ("0")? ("0")? ("0")? ( "56" | "76" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "v" >
+
+// X        x|\\0{0,4}(58|78)(\r\n|[ \t\r\n\f])?|\\x
+| < #X_LETTER: "x" | "\\" ("0")? ("0")? ("0")? ("0")? ( "58" | "78" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "x" >
+
+// Z        z|\\0{0,4}(5a|7a)(\r\n|[ \t\r\n\f])?|\\z
+| < #Z_LETTER: "z" | "\\" ("0")? ("0")? ("0")? ("0")? ( "5a" | "7a" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "z" >
+
+// "<!--"               {return CDO;}
+| < CDO: "<!--" >
+
+// "-->"                {return CDC;}
+| < CDC: "-->" >
+
+// "~="                 {return INCLUDES;}
+| < INCLUDES: "~=" >
+
+// "|="                 {return DASHMATCH;}
+| < DASHMATCH: "|=" >
+
+// "^="                 {return PREFIXMATCH;}
+| < PREFIXMATCH: "^=" >
+
+// "$="                 {return SUFFIXMATCH;}
+| < SUFFIXMATCH: "$=" >
+
+// "*="                 {return SUBSTRINGMATCH;}
+| < SUBSTRINGMATCH: "*=" >
+
+// {w}"{"               {return LBRACE;}
+| < LBRACE: <W> "{" >
+| < RBRACE: "}" >
+
+| < LROUND: "(" >
+| < RROUND: ")" >
+
+| < DOT: "." >
+| < SEMICOLON: ";" >
+| < COLON: ":" >
+| < ASTERISK: "*" >
+| < SLASH: "/" >
+| < MINUS: "-" >
+| < EQUALS: "=" >
+| < LSQUARE: "[" >
+| < RSQUARE: "]" >
+
+// {w}"+"               {return PLUS;}
+| < PLUS: <W> "+" >
+
+// {w}">"               {return GREATER;}
+| < GREATER: <W> ">" >
+
+// {w}"~"               {return TILDE;}
+| < TILDE: "~" >
+
+// {w}","               {return COMMA;}
+| < COMMA: <W> "," >
+
+// "#"{name}            {return HASH;}
+| < HASH: "#" <NAME> >
+
+// @{I}{M}{P}{O}{R}{T}  {return IMPORT_SYM;}
+| < IMPORT_SYM: "@" <I_LETTER> <M_LETTER> <P_LETTER> <O_LETTER> <R_LETTER> <T_LETTER>>
+
+// @{P}{A}{G}{E}        {return PAGE_SYM;}
+| < PAGE_SYM: "@" <P_LETTER> <A_LETTER> <G_LETTER> <E_LETTER> >
+
+// @{M}{E}{D}{I}{A}     {return MEDIA_SYM;}
+| < MEDIA_SYM: "@" <M_LETTER> <E_LETTER> <D_LETTER> <I_LETTER> <A_LETTER> >
+
+// "@{F}{O}{N}{T}-{F}{A}{C}{E}"    {return FONT_FACE_SYM;}
+| < FONT_FACE_SYM: "@" <F_LETTER> <O_LETTER> <N_LETTER> <T_LETTER> "-" <F_LETTER> <A_LETTER> <C_LETTER> <E_LETTER> >
+
+// @{C}{H}{A}{R}{S}{E}{T}   {return CHARSET_SYM;}
+| < CHARSET_SYM: "@" <C_LETTER> <H_LETTER> <A_LETTER> <R_LETTER> <S_LETTER> <E_LETTER> <T_LETTER> >
+
+// "!"({w}|{comment})*{I}{M}{P}{O}{R}{T}{A}{N}{T}   {return IMPORTANT_SYM;}
+| < IMPORTANT_SYM: "!" ( <W> | <COMMENT_> )* <I_LETTER> <M_LETTER> <P_LETTER> <O_LETTER> <R_LETTER> <T_LETTER> <A_LETTER> <N_LETTER> <T_LETTER> >
+
+// {num}{E}{M}          {return EMS;}
+| < EMS: <NUM> <E_LETTER> <M_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{E}{X}          {return EXS;}
+| < EXS: <NUM> <E_LETTER> <X_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{P}{X}          {return LENGTH;}
+| < LENGTH_PX: <NUM> <P_LETTER> <X_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{C}{M}          {return LENGTH;}
+| < LENGTH_CM: <NUM> <C_LETTER> <M_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{M}{M}          {return LENGTH;}
+| < LENGTH_MM: <NUM> <M_LETTER> <M_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{I}{N}          {return LENGTH;}
+| < LENGTH_IN: <NUM> <I_LETTER> <N_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{P}{T}          {return LENGTH;}
+| < LENGTH_PT: <NUM> <P_LETTER> <T_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{P}{C}          {return LENGTH;}
+| < LENGTH_PC: <NUM> <P_LETTER> <C_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{D}{E}{G}       {return ANGLE;}
+| < ANGLE_DEG: <NUM> <D_LETTER> <E_LETTER> <G_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+
+// {num}{R}{A}{D}       {return ANGLE;}
+| < ANGLE_RAD: <NUM> <R_LETTER> <A_LETTER> <D_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+
+// {num}{G}{R}{A}{D}    {return ANGLE;}
+| < ANGLE_GRAD: <NUM> <G_LETTER> <R_LETTER> <A_LETTER> <D_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
+
+// {num}{M}{S}          {return TIME;}
+| < TIME_MS: <NUM> <M_LETTER> <S_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{S}             {return TIME;}
+| < TIME_S: <NUM> <S_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 1); }
+
+// {num}{H}{Z}          {return FREQ;}
+| < FREQ_HZ: <NUM> <H_LETTER> <Z_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{K}{H}{Z}       {return FREQ;}
+| < FREQ_KHZ: <NUM> <K_LETTER> <H_LETTER> <Z_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+
+// {num}{D}{P}{I}       {return RESOLUTION;}
+| < RESOLUTION_DPI: <NUM> "dpi" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+
+// {num}{D}{P}{C}{M}       {return RESOLUTION;}
+| < RESOLUTION_DPCM: <NUM> "dpcm" > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
+
+// {num}%               {return PERCENTAGE;}
+| < PERCENTAGE: <NUM> "%" > { matchedToken.image = ParserUtils.trimBy(image, 0, 1); }
+
+// {num}{ident}         {return DIMENSION;}
+| < DIMENSION: <NUM> <IDENT> >
+
+| < #H_PLACEHOLDER: (<H> | "?"){1,6} >
+| < UNICODE_RANGE: "u+" <H_PLACEHOLDER > ("-" < H_PLACEHOLDER >)? >
+
+// "url("{w}{string}{w}")"  {return URI;}
+// "url("{w}{url}{w}")" {return URI;}
+| < URI: "url" <LROUND> ( <S> )* ( <STRING> | <URL> ) ( <S> )* <RROUND> > { matchedToken.image = ParserUtils.trimUrl(image); }
+
+// {N}{O}{T} "("        {return FUNCTION_NOT;}
+| < FUNCTION_NOT: <N_LETTER> <O_LETTER> <T_LETTER> <LROUND> >
+
+// {L}{A}{N}{G} "("        {return FUNCTION_LANG;}
+| < FUNCTION_LANG: <L_LETTER> <A_LETTER> <N_LETTER> <G_LETTER> <LROUND> >
+
+// {ident} "("          {return FUNCTION;}
+| < FUNCTION: <IDENT> <LROUND> >
+
+| < ATKEYWORD: "@" <IDENT> >
+}
+
+<*> TOKEN:
+{
+    < UNKNOWN: ~[] >
+    {
+        // System.err.println("Illegal character : " + image.toString());
+    }
+}
+
+//
+// stylesheet
+//  : [ CHARSET_SYM STRING ';' ]?
+//    [S|CDO|CDC]* [ import [S|CDO|CDC]* ]*
+//    [ [ ruleset | media | page | font_face ] [S|CDO|CDC]* ]*
+//  ;
+//
+void styleSheet() :
+{
+}
+{
+    try
+    {
+        { handleStartDocument(); }
+        styleSheetRuleList()
+        <EOF>
+    }
+    finally
+    {
+        handleEndDocument();
+    }
+}
+
+void styleSheetRuleList() :
+{
+  boolean ruleFound = false;
+}
+{
+    ( <S> | <CDO> | <CDC> )*
+    (
+        charsetRule()
+        ( <S> | <CDO> | <CDC> )*
+    )?
+    (
+      (        (            importRule(ruleFound)
+            |
+            (
+                styleRule() | mediaRule() | pageRule() | fontFaceRule() | unknownAtRule()
+            )
+            {
+                ruleFound = true;
+            }
+        )
+        |
+        (
+            // skip until the next RBRACE
+            { ParseException e = generateParseException(); }
+            invalidRule()            {
+                Token t = getNextToken();
+
+                boolean charsetProcessed = false;
+                if (t.kind == CHARSET_SYM) {
+                    t = getNextToken();
+                    if (t.kind == S) {
+                        t = getNextToken();
+                        if (t.kind == STRING) {
+                            t = getNextToken();
+                            if (t.kind == SEMICOLON) {
+                                getNextToken();
+                                charsetProcessed = true;
+                            }
+                        }
+                    }
+                    CSSParseException cpe = toCSSParseException("misplacedCharsetRule", e);
+                    getErrorHandler().error(cpe);
+                    getErrorHandler().warning(createSkipWarning("ignoringRule", cpe));
+                }
+
+                if (!charsetProcessed) { 
+                    if (t.kind == EOF) {
+                        return;
+                    }
+
+                    CSSParseException cpe = toCSSParseException("invalidRule", e);
+                    getErrorHandler().error(cpe);
+                    getErrorHandler().warning(createSkipWarning("ignoringRule", cpe));
+                    while (t.kind != RBRACE && t.kind != EOF ) {
+                        t = getNextToken();
+                    }
+                    if (t.kind == EOF) {
+                        return;
+                    }
+                }
+            }
+        )
+      )
+      ( <S> | <CDO> | <CDC> )*
+    )*
+}
+
+JAVACODE
+void invalidRule()
+{
+}
+
+//
+// This is used by ASTStyleSheet.insertRule to parse a single rule
+//
+void styleSheetRuleSingle() :
+{
+}
+{
+    ( <S> )*
+    ( charsetRule() | importRule(false) | styleRule() | mediaRule() | pageRule() | fontFaceRule() | unknownAtRule() )
+    ( <S> )*
+}
+
+void charsetRule() :
+{
+  Token t;
+  Locator locator;
+}
+{
+    try
+    {
+        <CHARSET_SYM>
+        {
+            locator = createLocator(token);
+        }
+        <S>
+        t = <STRING>
+        <SEMICOLON>
+        {
+            handleCharset(t.toString(), locator);
+        }
+    }
+    catch (ParseException e)
+    {
+        getErrorHandler().error(toCSSParseException("invalidCharsetRule", e));
+    }
+}
+
+void unknownAtRule() :
+{
+    String s;
+    Locator locator;
+}
+{
+    try
+    {
+        <ATKEYWORD>
+        {
+            locator = createLocator(token);
+            s = skip();
+            handleIgnorableAtRule(s, locator);
+        }
+    }
+    catch (ParseException e)
+    {
+        getErrorHandler().error(toCSSParseException("invalidUnknownRule", generateParseException()));
+    }
+}
+
+//
+// import
+//  : IMPORT_SYM S*
+//    [STRING|URI] S* [ medium [ COMMA S* medium]* ]? ';' S*
+//  ;
+//
+void importRule(final boolean nonImportRuleFoundBefore) :
+{
+    Token t;
+    SACMediaList ml = new SACMediaList();
+    Locator locator;
+}
+{
+    try
+    {
+        {
+            ParseException e = null;
+            if (nonImportRuleFoundBefore)
+            {
+                e = generateParseException();
+            }
+        }
+        <IMPORT_SYM>
+        {
+            locator = createLocator(token);
+        }
+        ( <S> )*
+        ( t = <STRING> | t = <URI> ) ( <S> )*
+        ( mediaList(ml) )?
+        <SEMICOLON>
+        {
+            if (nonImportRuleFoundBefore)
+            {
+                getErrorHandler().error(toCSSParseException("invalidImportRuleIgnored2", e));
+            }
+            else
+            {
+                handleImportStyle(unescape(t.image, false), ml, null, locator);
+            }
+        }
+    }
+    catch (CSSParseException e)
+    {
+        getErrorHandler().error(e);
+        error_skipAtRule();
+    }
+    catch (ParseException e)
+    {
+        getErrorHandler().error(toCSSParseException("invalidImportRule", e));
+        error_skipAtRule();
+    }
+}
+
+//
+// media
+//  : MEDIA_SYM S* medium [ COMMA S* medium ]* '{' S* ruleset* '}' S*
+//  ;
+//
+void mediaRule() :
+{
+    boolean start = false;
+    SACMediaList ml = new SACMediaList();
+    Locator locator;
+}
+{
+    try
+    {
+        <MEDIA_SYM>
+        {
+            locator = createLocator(token);
+        }
+        ( <S> )*
+        mediaList(ml)
+        {
+            start = true;
+            handleStartMedia(ml, locator);
+        }
+        <LBRACE> ( <S> )*
+        ( mediaRuleList() )?
+        <RBRACE>
+    }
+    catch (CSSParseException e)
+    {
+        getErrorHandler().error(e);
+        error_skipblock("ignoringRule", e);
+    }
+    catch(ParseException e)
+    {
+        CSSParseException cpe = toCSSParseException("invalidMediaRule", e);
+        getErrorHandler().error(cpe);
+        error_skipblock("ignoringRule", cpe);
+    }
+    finally
+    {
+        if (start) {
+            handleEndMedia(ml);
+        }
+    }
+}
+
+void mediaList(SACMediaList ml) :
+{
+    MediaQuery mq;
+}
+{
+    try
+    {
+        mq = mediaQuery()
+        {
+            ml.setLocator(createLocator(token));
+        }
+        ( <COMMA> ( <S> )* { ml.add(mq); } mq = mediaQuery() )*
+        { ml.add(mq); }
+    }
+    catch(ParseException e)
+    {
+        throw toCSSParseException("invalidMediaList", e);
+    }
+}
+
+//
+// media_query
+//   : [ONLY | NOT]? S* media_type S* [ AND S* expression ]*
+//   | expression [ AND S* expression ]*
+//   ;
+//
+MediaQuery mediaQuery() :
+{
+    String s;
+    MediaQuery mq;
+    Property p;
+    boolean only = false;
+    boolean not = false;
+}
+{
+  (    (      (
+        (
+          <ONLY> { only = true; }          |
+          <NOT> { not = true; }
+        ) ( <S> )*
+      )?
+      s = medium()
+      { mq = new MediaQuery(s, only, not); mq.setLocator(createLocator(token)); }
+      (
+        <AND> ( <S> )*
+        p = mediaExpression()
+        {            mq.addMediaProperty(p);
+        }
+      )*
+    )
+    |    (      p = mediaExpression()
+      {          s = "all";          handleMedium(s, null);          mq = new MediaQuery(s, only, not);
+          mq.setLocator(createLocator(token));          mq.addMediaProperty(p);      }      (        <AND> ( <S> )*        p = mediaExpression()        {            mq.addMediaProperty(p);        }      )*    )
+  )
+  { return mq; }
+}
+
+//
+// expression
+//   : '(' S* media_feature S* [ ':' S* expr ]? ')' S*
+//   ;
+//
+Property mediaExpression() :
+{
+  String p;
+  LexicalUnit e = null;
+  Property prop;
+}
+{
+    <LROUND>
+    ( <S> )*
+    p = property()
+    (      <COLON> ( <S> )*
+      e = expr()
+    )?
+    <RROUND>
+    ( <S> )*
+    {
+        if(e==null)
+        {          prop = new Property(p, null, false);
+        }
+        else        {          prop = new Property(p, new CSSValueImpl(e), false);
+        }
+        return prop;
+    }
+}
+
+void mediaRuleList() :
+{
+}
+{
+  ( ( styleRule() | mediaRule() | pageRule() | importRule(true) | unknownAtRule() ) ( <S> )* )+
+}
+
+//
+// medium
+//   : IDENT S*
+//   ;
+//
+String medium() :
+{
+  Token t;
+  String medium;
+}
+{
+    t = <IDENT> ( <S> )*
+    {
+        medium = unescape(t.image, false);
+        handleMedium(medium, createLocator(t));
+        return medium;
+    }
+}
+
+//
+// page
+//  : PAGE_SYM S* pseudo_page? S*
+//    '{' S* declaration [ ';' S* declaration ]* '}' S*
+//  ;
+//
+void pageRule() :
+{
+    String sel = null;
+    boolean start = false;
+    Locator locator;
+}
+{
+    try {
+        <PAGE_SYM>
+        {
+            locator = createLocator(token);
+        }
+        ( <S> )*
+
+        ( sel = pageSelectorList() )?
+
+        <LBRACE> ( <S> )*
+        {
+            start = true;
+            handleStartPage(null, sel, locator);
+        }
+
+        styleDeclaration()
+        <RBRACE>
+    }
+    catch (CSSParseException e)
+    {
+        getErrorHandler().error(e);
+        error_skipblock("ignoringRule", e);
+    }
+    catch(ParseException e)
+    {
+        CSSParseException cpe = toCSSParseException("invalidPageRule", e);
+        getErrorHandler().error(cpe);
+        error_skipblock("ignoringRule", cpe);
+    }
+    finally {
+        if (start) {
+            handleEndPage(null, sel);
+        }
+    }
+}
+
+//
+// pageSelectorList
+//   : [ pageSelector S* [ ',' pageSelector S* ]* ]?
+//   ;
+//
+String pageSelectorList() :
+{
+  String sel;
+  LinkedList selectors = new LinkedList<String>(); 
+}
+{
+  sel = pageSelector() { selectors.add(sel); }
+  (    <COMMA> ( <S> )* sel = pageSelector() { selectors.add(sel); }
+  )*
+
+  { return LangUtils.join(selectors, ", "); }
+}
+
+//
+// pageSelector
+//   : pseudoPage+ | IDENT pseudoPage*
+//   ;
+//
+String pageSelector() :
+{
+  StringBuilder pseudos = new StringBuilder();
+  String pseudo;
+  Token ident;
+}
+{
+  (
+    pseudo = pseudoPage() { pseudos.append(pseudo); }
+    |
+    ident = <IDENT> { pseudos.append(unescape(ident.image, false)); }
+  )
+  ( pseudo = pseudoPage() { pseudos.append(pseudo); } )*
+  ( <S> )*
+
+  { return pseudos.toString(); }
+}
+
+//
+// pseudoPage
+//   : ':' IDENT
+//   ;
+//
+String pseudoPage() :
+{
+  Token t;
+}
+{
+  <COLON> t = <IDENT> { return ":" + unescape(t.image, false); }
+}
+
+//
+// font_face
+//  : FONT_FACE_SYM S*
+//    '{' S* declaration [ ';' S* declaration ]* '}' S*
+//  ;
+//
+void fontFaceRule() :
+{
+    boolean start = false;
+    Locator locator;
+}
+{
+    try {
+        <FONT_FACE_SYM>
+        {
+            locator = createLocator(token);
+        }
+        ( <S> )*
+        <LBRACE> ( <S> )* { start = true; handleStartFontFace(locator); }
+        styleDeclaration()
+        <RBRACE>
+    }
+    catch(ParseException e)
+    {
+        throw toCSSParseException("invalidFontFaceRule", e);
+    }
+    finally {
+        if (start) {
+            handleEndFontFace();
+        }
+    }
+}
+
+//
+// operator
+//  : '/' S* | COMMA S* | /* empty */
+//  ;
+//
+LexicalUnit operator(LexicalUnit prev) :
+{
+}
+{
+  <SLASH> ( <S> )*   { return new LexicalUnitImpl(prev, LexicalUnitType.OPERATOR_SLASH); }
+  | <COMMA> ( <S> )* { return LexicalUnitImpl.createComma(prev); }
+}
+
+//
+// combinator
+//  : PLUS S*
+//  | GREATER S*
+//  | S
+//  ;
+//
+char combinator() :
+{
+  char c = ' ';
+}
+{
+  (
+    <PLUS> { c='+'; } ( <S> )*
+    | <GREATER> { c='>'; } ( <S> )*
+    | <TILDE> { c='~'; } ( <S> )*
+    | <S> ( ( <PLUS> { c='+'; } | <GREATER> { c='>'; } | <TILDE> { c='~'; } ) ( <S> )* )?
+  )
+  { return c; }
+}
+
+//
+// unary_operator
+//  : '-' | PLUS
+//  ;
+//
+char unaryOperator() :
+{
+}
+{
+  ( <MINUS> { return '-'; } | <PLUS> { return '+'; } )
+}
+
+//
+// property
+//   : IDENT S*
+//   ;
+//
+String property() :
+{
+    Token t;
+}
+{
+    t = <IDENT> ( <S> )*
+    { return unescape(t.image, false); }
+}
+
+//
+// ruleset
+//  : selector [ COMMA S* selector ]*
+//    '{' S* declaration [ ';' S* declaration ]* '}' S*
+//  ;
+//
+void styleRule() :
+{
+    SelectorList selList = null;
+    boolean start = false;
+    Token t;
+}
+{
+    try {
+        {
+            t = token;
+        }
+        selList = selectorList()
+        <LBRACE> ( <S> )*
+        {
+            start = true;
+            handleStartSelector(selList, createLocator(t.next));
+        }
+        styleDeclaration()
+        ( <RBRACE> | <EOF> )
+    }
+    catch(CSSParseException e)
+    {
+        getErrorHandler().error(e);
+        error_skipblock("ignoringRule", e);
+    }
+    catch(ParseException e)
+    {
+        CSSParseException cpe = toCSSParseException("invalidStyleRule", e);
+        getErrorHandler().error(cpe);
+        error_skipblock("ignoringFollowingDeclarations", cpe);
+    }
+    finally {
+        if (start) {
+            handleEndSelector(selList);
+        }
+    }
+}
+
+SelectorList parseSelectorsInternal() :
+{
+    SelectorList selectors;
+}
+{
+    ( <S> )*
+    selectors = selectorList()
+    <EOF>
+    {
+        return selectors;
+    }
+}
+
+SelectorList selectorList() :
+{
+    SelectorListImpl selList = new SelectorListImpl();
+    Selector sel;
+}
+{
+    sel = selector() { selList.setLocator(sel.getLocator()); }
+    (   <COMMA> ( <S> )*
+        { selList.add(sel); }
+        sel = selector() { selList.setLocator(sel.getLocator()); }
+    )*
+    {
+        selList.add(sel);
+        return selList;
+    }
+}
+
+//
+// selector
+//   : simple_selector_sequence [ combinator simple_selector_sequence ]*
+//   ;
+//
+Selector selector() :
+{
+    Selector sel;
+    char comb;
+}
+{
+    try {
+        sel = simpleSelector(null, ' ')
+        ( LOOKAHEAD(2) comb = combinator() sel = simpleSelector(sel, comb) )* ( <S> )*
+        {
+            return sel;
+        }
+    } catch (ParseException e) {
+        throw toCSSParseException("invalidSelector", e);
+    }
+}
+
+//
+// simple_selector
+//  : element_name [ HASH | class | attrib | pseudo ]*
+//  | [ HASH | class | attrib | pseudo ]+
+//  ;
+//
+Selector simpleSelector(Selector sel, char comb) :
+{
+    SimpleSelector simpleSel = null;
+    Condition c = null;
+    SimpleSelector pseudoElementSel = null;
+    Object o = null;
+}
+{
+    try
+    {
+        (
+            ( simpleSel = elementName()
+                ( c = hash(c, null != pseudoElementSel)
+                | c = _class(c, null != pseudoElementSel)
+                | c = attrib(c, null != pseudoElementSel)
+                | (
+                    o = pseudo(c, null != pseudoElementSel)
+                    {  if (o instanceof Condition)
+                       {   c = (Condition) o;
+                       } else {
+                           pseudoElementSel = (SimpleSelector) o;
+                       }
+                    }
+                  )
+                )*
+            )
+            |
+            ( { simpleSel = new SyntheticElementSelector(); }
+                ( c = hash(c, null != pseudoElementSel)
+                | c = _class(c, null != pseudoElementSel)
+                | c = attrib(c, null != pseudoElementSel)
+                | (
+                    o = pseudo(c, null != pseudoElementSel)
+                    {  if (o instanceof Condition)
+                       {   c = (Condition) o;
+                       } else {
+                           pseudoElementSel = (SimpleSelector) o;
+                       }
+                    }
+                  )
+                )+
+            )
+        )
+
+        {
+            if (c != null) {
+                simpleSel = new ConditionalSelector(simpleSel, c);
+            }
+
+            if (sel == null) {
+                sel = simpleSel;
+            } else {
+                switch (comb) {
+                case ' ':
+                    sel = new DescendantSelector(sel, simpleSel);
+                    break;
+                case '+':
+                    sel = new DirectAdjacentSelector(sel.getSelectorType(), sel, simpleSel);
+                    break;
+                case '>':
+                    sel = new ChildSelector(sel, simpleSel);
+                    break;
+                case '~':
+                    sel = new GeneralAdjacentSelector(sel.getSelectorType(), sel, simpleSel);
+                    break;
+                }
+            }
+            if (pseudoElementSel != null)
+            {
+                sel = new DescendantSelector(sel, pseudoElementSel);
+            }
+
+            return sel;
+        }
+    }
+    catch (ParseException e)
+    {
+        throw toCSSParseException("invalidSimpleSelector", e);
+    }
+}
+
+//
+// class
+//   : '.' IDENT
+//   ;
+//
+Condition _class(Condition pred, boolean pseudoElementFound) :
+{
+    Token t;
+    Locator locator;
+    ParseException pe = null;
+}
+{
+    try
+    {
+        { if (pseudoElementFound) { pe = generateParseException(); } }
+        <DOT>
+        {
+            locator = createLocator(token);
+        }
+
+        t = <IDENT>
+        {
+            if (pseudoElementFound) { throw pe; }
+            Condition c = new ClassConditionImpl(unescape(t.image, false), locator);
+            return (pred == null) ? c : new AndConditionImpl(pred, c);
+        }
+    }
+    catch (ParseException e)
+    {
+        throw toCSSParseException("invalidClassSelector", e);
+    }
+}
+
+//
+// element_name
+//   : IDENT | '*'
+//   ;
+//
+SimpleSelector elementName() :
+{
+    Token t;
+    SimpleSelector sel;
+}
+{
+    try
+    {
+        t = <IDENT>
+        {
+            return new ElementSelector(unescape(t.image, false), createLocator(token));
+        }
+        | <ASTERISK>
+        {
+            return new ElementSelector(null, createLocator(token));
+        }
+    }
+    catch (ParseException e)
+    {
+        throw toCSSParseException("invalidElementName", e);
+    }
+}
+
+//
+// attrib
+//   : '[' S* IDENT S* [ [ '=' | INCLUDES | DASHMATCH | PREFIXMATCH | SUFFIXMATCH | SUBSTRINGMATCH ] S*
+//     [ IDENT | STRING ] S* ]? ']'
+//   ;
+//
+Condition attrib(Condition pred, boolean pseudoElementFound) :
+{
+    Token t;
+    String name = null;
+    String value = null;
+    int type = 0;
+    Locator locator;
+}
+{
+    try
+    {
+        <LSQUARE>
+        {
+            locator = createLocator(token);
+        }
+        ( <S> )*
+        { if (pseudoElementFound) { throw generateParseException(); } }
+
+        t = <IDENT> { name = unescape(t.image, false); } ( <S> )*
+        (
+            (
+                <PREFIXMATCH> { type = 4; }
+                |
+                <SUFFIXMATCH> { type = 5; }
+                |
+                <SUBSTRINGMATCH> { type = 6; }
+                |
+                "=" { type = 1; } // don't use <EQUALS> because of the leading whitespace
+                |
+                <INCLUDES> { type = 2; }
+                |
+                <DASHMATCH> { type = 3; }
+            )
+            ( <S> )*
+            (
+                t = <IDENT> { value = unescape(t.image, false); }
+                |
+                t = <STRING> { value = unescape(t.image, false); }
+            )
+            ( <S> )*
+        )?
+        <RSQUARE>
+        {
+            Condition c = null;
+            switch (type) {
+            case 0:
+                c = new AttributeConditionImpl(name, null);
+                break;
+            case 1:
+                c = new AttributeConditionImpl(name, value);
+                break;
+            case 2:
+                c = new OneOfAttributeConditionImpl(name, value);
+                break;
+            case 3:
+                c = new BeginHyphenAttributeConditionImpl(name, value);
+                break;
+            case 4:
+                c = new PrefixAttributeConditionImpl(name, value);
+                break;
+            case 5:
+                c = new SuffixAttributeConditionImpl(name, value);
+                break;
+            case 6:
+                c = new SubstringAttributeConditionImpl(name, value);
+                break;
+            }
+            c.setLocator(locator);
+            return (pred == null) ? c : new AndConditionImpl(pred, c);
+        }
+    }
+    catch (ParseException e)
+    {
+        throw toCSSParseException("invalidAttrib", e);
+    }
+}
+
+//
+// pseudo
+//  : ':' (':')?
+//        [ IDENT
+//          | FUNCTION_NOT S* selector() S* ')'
+//          | FUNCTION_LANG S* IDENT S* ')'
+//          | FUNCTION S* ((PLUS | MINUS | DIMENSION | NUMBER | STRING | IDENT)? S*)+ ')'
+//        ]
+//  ;
+//
+Object pseudo(Condition pred, boolean pseudoElementFound) :
+{
+    Condition c = null;
+    Token t;
+    String function;
+    Selector sel;
+    boolean doubleColon = false;
+    Locator locator;
+}
+{
+    try
+    {
+        <COLON> { locator = createLocator(token); }
+        (<COLON> { doubleColon = true; } )?
+
+        (
+            t = <IDENT>
+            {
+                String s = unescape(t.image, false);
+                if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { s }, locator); }
+                if ("first-line".equals(s)
+                    || "first-letter".equals(s)
+                    || "before".equals(s)
+                    || "after".equals(s))
+                {
+                    return new PseudoElementSelector(s, locator, doubleColon);
+                }
+                c = new PseudoClassConditionImpl(s, locator, doubleColon);
+                return (pred == null) ? c : new AndConditionImpl(pred, c);
+            }
+            |
+            (
+                t = <FUNCTION_NOT> { function = unescape(t.image, false); }
+                ( <S> )*
+                sel = negation_arg() {
+                        String arg = sel.toString();
+                        if ("".equals(arg)) { arg = "*"; }
+                      }
+                ( <S> )*
+                <RROUND>
+                {
+                    if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + arg + ")" }, locator); }
+                    c = new PseudoClassConditionImpl(function + arg + ")", locator, doubleColon);
+                    return (pred == null) ? c : new AndConditionImpl(pred, c);
+                }
+            )
+            |
+            (
+                t = <FUNCTION_LANG> { function = unescape(t.image, false); }
+                ( <S> )*
+                t = <IDENT> { String lang = unescape(t.image, false); }
+                ( <S> )*
+                <RROUND>
+                {
+                    if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { "lang(" + lang + ")" }, locator); }
+                    c = new LangConditionImpl(lang, locator);
+                    return (pred == null) ? c : new AndConditionImpl(pred, c);
+                }
+            )
+            |
+            (
+                t = <FUNCTION> { function = unescape(t.image, false); StringBuilder args = new StringBuilder(); }
+                ( <S> )*
+                (
+                    (t = <PLUS> | t = <MINUS> | t = <DIMENSION> | t = <NUMBER> | t = <STRING> | t = <IDENT>)
+                    { args.append(unescape(t.image, false)); }
+                    ( t = <S>
+                        { args.append(unescape(t.image, false)); }
+                    )*
+                )+
+                <RROUND>
+                {
+                    if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + args.toString().trim() + ")" }, locator); }
+                    c = new PseudoClassConditionImpl(function + args.toString().trim() + ")", locator, doubleColon);
+                    return (pred == null) ? c : new AndConditionImpl(pred, c);
+                }
+            )
+        )
+    }
+    catch (ParseException e)
+    {
+        throw toCSSParseException("invalidPseudo", e);
+    }
+}
+
+Condition hash(Condition pred, boolean pseudoElementFound) :
+{
+    Token t;
+    ParseException pe = null;
+}
+{
+    try
+    {
+        { if (pseudoElementFound) { pe = generateParseException(); } }
+        t = <HASH>
+        {
+            if (pseudoElementFound) { throw pe; }
+            Condition c = new IdConditionImpl(unescape(t.image.substring(1), false), createLocator(token));
+            return (pred == null) ? c : new AndConditionImpl(pred, c);
+        }
+    }
+    catch (ParseException e)
+    {
+        throw toCSSParseException("invalidHash", e);
+    }
+}
+
+void styleDeclaration()  :
+{
+}
+{
+    ( declaration() )?
+    ( <SEMICOLON> ( <S> )* ( declaration() )? )*
+}
+
+//
+// declaration
+//   : property ':' S* expr prio?
+//   |
+//   ;
+//
+void declaration() :
+{
+  String p;
+  LexicalUnit e;
+  Token t;
+  boolean priority = false;
+  Locator starHack = null;
+  Locator locator = null;
+}
+{
+    try
+    {
+        // at the moment i have no better idea how to handle the
+        // infamous css-star-hack (http://en.wikipedia.org/wiki/CSS_filter#Star_hack)
+        // smart (means: ignoring only one decl)
+        ( <ASTERISK> { starHack = createLocator(token); } )?
+        p = property()
+        {
+            locator = createLocator(token);
+        }
+        <COLON> ( <S> )*
+        e = expr()
+        ( priority = prio() )?
+
+        // maybe there are strange characters at the end - create error and skip
+        ( t = <UNKNOWN>
+          {
+            locator = createLocator(token);
+            CSSParseException cpe = toCSSParseException("invalidDeclarationInvalidChar", new String[] {t.image}, locator);
+            getErrorHandler().error(cpe);
+            error_skipdecl();
+          }
+        )?
+
+        {
+            if (starHack != null)            {                if (isIeStarHackAccepted()) {
+                    handleProperty("*" + p, e, priority, locator);
+                    return;
+                }
+                CSSParseException cpe = toCSSParseException("invalidDeclarationStarHack", new Object[0], starHack);
+                getErrorHandler().error(cpe);
+                return;
+            }
+            handleProperty(p, e, priority, locator);
+        }
+    }
+    catch (CSSParseException ex)
+    {
+        getErrorHandler().error(ex);
+        error_skipdecl();
+    }
+    catch (ParseException ex)
+    {
+        CSSParseException cpe = toCSSParseException("invalidDeclaration", ex);
+        getErrorHandler().error(cpe);
+        error_skipdecl();
+    }
+}
+
+//
+// prio
+//   : IMPORTANT_SYM S*
+//   ;
+boolean prio() :
+{
+}
+{
+  <IMPORTANT_SYM> ( <S> )*
+  { return true; }
+}
+
+//
+// expr
+//   : term [ operator term ]*
+//   ;
+LexicalUnit expr() :
+{
+    LexicalUnit head;
+    LexicalUnit body;
+}
+{
+    try
+    {
+        head = term(null) { body = head; }
+        (
+            ( body = operator(body) )?
+            body = term(body)
+        )*
+        { return head; }
+    }
+    catch (ParseException ex)
+    {
+        throw toCSSParseException("invalidExpr", ex);
+    }
+}
+
+//
+// term
+//  : unary_operator?
+//    [ NUMBER | PERCENTAGE | LENGTH | EMS | EXS | ANGLE | TIME | FREQ | function ]
+//  | STRING | IDENT | URI | hexcolor | DIMENSION
+//  S*
+//  ;
+//
+LexicalUnit term(LexicalUnit prev) :
+{
+  Token t;
+  char op = ' ';
+  LexicalUnit value = null;
+  Locator locator = null;
+}
+{
+    ( op = unaryOperator() )?
+    {
+        if (op != ' ')
+        {
+            locator = createLocator(token);
+        }
+    }
+    (
+        (   t = <NUMBER>
+            {
+                try
+                {
+                    value = LexicalUnitImpl.createNumber(prev, intValue(op, t.image));
+                }
+                catch (NumberFormatException e)
+                {
+                    value = LexicalUnitImpl.createNumber(prev, floatValue(op, t.image));
+                }
+            }
+            | t = <PERCENTAGE>        { value = LexicalUnitImpl.createPercentage(prev, floatValue(op, t.image)); }
+            | t = <LENGTH_PX>         { value = LexicalUnitImpl.createPixel(prev, floatValue(op, t.image)); }
+            | t = <LENGTH_CM>         { value = LexicalUnitImpl.createCentimeter(prev, floatValue(op, t.image)); }
+            | t = <LENGTH_MM>         { value = LexicalUnitImpl.createMillimeter(prev, floatValue(op, t.image)); }
+            | t = <LENGTH_IN>         { value = LexicalUnitImpl.createInch(prev, floatValue(op, t.image)); }
+            | t = <LENGTH_PT>         { value = LexicalUnitImpl.createPoint(prev, floatValue(op, t.image)); }
+            | t = <LENGTH_PC>         { value = LexicalUnitImpl.createPica(prev, floatValue(op, t.image)); }
+            | t = <EMS>               { value = LexicalUnitImpl.createEm(prev, floatValue(op, t.image)); }
+            | t = <EXS>               { value = LexicalUnitImpl.createEx(prev, floatValue(op, t.image)); }
+            | t = <ANGLE_DEG>         { value = LexicalUnitImpl.createDegree(prev, floatValue(op, t.image)); }
+            | t = <ANGLE_RAD>         { value = LexicalUnitImpl.createRadian(prev, floatValue(op, t.image)); }
+            | t = <ANGLE_GRAD>        { value = LexicalUnitImpl.createGradian(prev, floatValue(op, t.image)); }
+            | t = <TIME_MS>           { value = LexicalUnitImpl.createMillisecond(prev, floatValue(op, t.image)); }
+            | t = <TIME_S>            { value = LexicalUnitImpl.createSecond(prev, floatValue(op, t.image)); }
+            | t = <FREQ_HZ>           { value = LexicalUnitImpl.createHertz(prev, floatValue(op, t.image)); }
+            | t = <FREQ_KHZ>          { value = LexicalUnitImpl.createKiloHertz(prev, floatValue(op, t.image)); }
+            | t = <RESOLUTION_DPI>    { value = LexicalUnitImpl.createDimension(prev, floatValue(op, t.image), "dpi"); }
+            | t = <RESOLUTION_DPCM>   { value = LexicalUnitImpl.createDimension(prev, floatValue(op, t.image), "dpcm"); }
+            | value = function(prev)
+        )
+        | t = <STRING>          { value = LexicalUnitImpl.createString(prev, unescape(t.image, false), t.image); }
+        | t = "progid:"         { value = LexicalUnitImpl.createIdent(prev, skipUnit().trim()); }
+        |
+            (                t = <IDENT>
+                ( <COLON> { throw toCSSParseException("invalidExprColon", new String[]{ unescape(t.image, false) }, createLocator(token)); } )?
+            )
+            { value = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
+        | t = <URI>             { value = LexicalUnitImpl.createURI(prev, unescape(t.image, true)); }
+        | value = unicodeRange(prev)
+        | value = hexcolor(prev)
+        | t = <DIMENSION>
+            {
+                int n = getLastNumPos(t.image);
+                value = LexicalUnitImpl.createDimension(
+                    prev,
+                    floatValue(op, t.image.substring(0, n+1)),
+                    t.image.substring(n+1));
+            }
+        | t = <INHERIT>         { value = new LexicalUnitImpl(prev, LexicalUnitType.INHERIT, t.image); }
+    )
+        {
+            if (locator == null)
+            {
+                locator = createLocator(token);
+            }
+        }
+    ( <S> )*
+        {
+            if (value instanceof Locatable)
+            {
+                ((Locatable) value).setLocator(locator);
+            }
+            return value;
+        }
+}
+
+//
+// function
+//   : FUNCTION S* ((EQUALS | COMMA | (unaryOperator? NUMBER) | STRING | IDENT | URI)? S*)+ ')' S*
+//   ;
+//
+LexicalUnit function(LexicalUnit prev) :
+{
+    Token t;
+    LexicalUnit param = null;
+    LexicalUnit body = null;
+    String funct = "";
+}
+{
+    t = <FUNCTION> { funct = funct + unescape(t.image, false); }
+    ( <S> )*
+    (
+        param = term(null) { body = param; }
+        (
+            (
+                (                  t = <COMMA>    { body = LexicalUnitImpl.createComma(body); }
+                  | t = <EQUALS>   { body = LexicalUnitImpl.createIdent(body, t.image); }
+                )
+                ( <S> )*
+            )?
+            body = term(body)
+        )*
+    )? 
+    <RROUND>
+    {
+        return functionInternal(prev, funct, param);
+    }
+}
+
+//
+// negation_arg
+//   : type_selector | universal | HASH | class | attrib | pseudo
+//   ;
+//
+Selector negation_arg() :
+{
+    Selector negationArg = null;
+    Condition c = null;
+    SimpleSelector simpleSel = null;
+    SimpleSelector pseudoElementSel = null;
+    Object o;
+}
+{
+        (
+          simpleSel = elementName()
+        |
+          c = hash(null, false)
+        |
+          c = _class(null, false)
+        |
+          c = attrib(null, false)
+        |
+          (
+            o = pseudo(null, false)
+            {  if (o instanceof Condition)
+               {   c = (Condition) o;
+               } else {
+                   pseudoElementSel = (SimpleSelector) o;
+                   negationArg = new DescendantSelector(null, pseudoElementSel);
+               }
+            }
+          )
+        )
+
+        {
+            if (negationArg != null) {
+                return negationArg;
+            }
+
+            if (simpleSel != null) {
+                return simpleSel;
+            }
+
+            simpleSel = new ConditionalSelector(simpleSel, c);
+            return simpleSel;
+        }
+}
+
+//
+// unicodeRange
+//
+LexicalUnit unicodeRange(LexicalUnit prev) :
+{
+    Token t;
+    StringBuilder range = new StringBuilder();
+}
+{
+    t = <UNICODE_RANGE>    { range.append(unescape(t.image, false)); }
+    {
+        return LexicalUnitImpl.createIdent(prev, range.toString().toUpperCase(Locale.ROOT));
+    }
+}
+
+//
+// hexcolor
+//   : HASH S*
+//   ;
+//
+LexicalUnit hexcolor(LexicalUnit prev) :
+{
+    Token t;
+}
+{
+    t = <HASH>
+    {
+        return hexcolorInternal(prev, t);
+    }
+}
+
+JAVACODE
+String skip() {
+    StringBuilder sb = new StringBuilder();
+    int nesting = 0;
+    Token t = getToken(0);
+    if (t.image != null) {
+        sb.append(t.image);
+    }
+
+    do {
+        t = getNextToken();
+        if (t.kind == EOF) {
+            break;
+        }
+        sb.append(t.image);
+        appendUnit(t, sb);
+
+        if (t.kind == LBRACE) {
+            nesting++;
+        }
+        else if (t.kind == RBRACE) {
+            nesting--;
+        }
+    }
+    while ((t.kind != RBRACE && t.kind != SEMICOLON) || nesting > 0);
+
+    return sb.toString();
+}
+
+JAVACODE
+String skipUnit() {
+    StringBuilder sb = new StringBuilder();
+
+    Token t = token;
+    Token oldToken = null;
+    while (t.kind != SEMICOLON && t.kind != RBRACE && t.kind != EOF ) {
+        oldToken = t;
+        sb.append(oldToken.image);
+        appendUnit(t, sb);
+
+        t = getNextToken();
+    }
+    if (t.kind != EOF) {
+        token = oldToken;
+    }
+
+    return sb.toString();
+}
+
+JAVACODE
+void appendUnit(Token t, StringBuilder sb) {
+    if (t.kind == EMS) {
+      sb.append("ems");
+      return;
+    }
+    if (t.kind == EXS) {
+      sb.append("ex");
+      return;
+    }
+    if (t.kind == LENGTH_PX) {
+      sb.append("px");
+      return;
+    }
+    if (t.kind == LENGTH_CM) {
+      sb.append("cm");
+      return;
+    }
+    if (t.kind == LENGTH_MM) {
+      sb.append("mm");
+      return;
+    }
+    if (t.kind == LENGTH_IN) {
+      sb.append("in");
+      return;
+    }
+    if (t.kind == LENGTH_PT) {
+      sb.append("pt");
+      return;
+    }
+    if (t.kind == LENGTH_PC) {
+      sb.append("pc");
+      return;
+    }
+    if (t.kind == ANGLE_DEG) {
+      sb.append("deg");
+      return;
+    }
+    if (t.kind == ANGLE_RAD) {
+      sb.append("rad");
+      return;
+    }
+    if (t.kind == ANGLE_GRAD) {
+      sb.append("grad");
+      return;
+    }
+    if (t.kind == TIME_MS) {
+      sb.append("ms");
+      return;
+    }
+    if (t.kind == TIME_S) {
+      sb.append('s');
+      return;
+    }
+    if (t.kind == FREQ_HZ) {
+      sb.append("hz");
+      return;
+    }
+    if (t.kind == FREQ_KHZ) {
+      sb.append("khz");
+      return;
+    }
+    if (t.kind == RESOLUTION_DPI) {
+      sb.append("dpi");
+      return;
+    }
+    if (t.kind == RESOLUTION_DPCM) {
+      sb.append("dpcm");
+      return;
+    }
+    if (t.kind == PERCENTAGE) {
+      sb.append('%');
+      return;
+    }
+}
+
+JAVACODE
+void error_skipblock(String msgKey, CSSParseException e)
+{
+    if (msgKey != null) {
+        getErrorHandler().warning(createSkipWarning(msgKey, e));
+    }
+
+    Token t;
+    int nesting = 0;
+    do {
+        t = getNextToken();
+        if (t.kind == LBRACE) {
+            nesting++;
+        }
+        else if (t.kind == RBRACE) {
+            nesting--;
+        }
+    }
+    while (t.kind != EOF && (t.kind != RBRACE || nesting > 0));
+}
+
+JAVACODE
+void error_skipdecl()
+{
+    Token t = getToken(1);
+    if (t.kind == LBRACE) {
+        error_skipblock(null, null);
+        return;
+    }
+    if (t.kind == RBRACE) {
+        // next will be RBRACE so we are finished
+        return;
+    }
+
+    Token oldToken = token;
+    while (t.kind != SEMICOLON && t.kind != RBRACE && t.kind != EOF) {
+        oldToken = t;
+        t = getNextToken();
+    }
+    if (t.kind != EOF) {
+        token = oldToken;
+    }
+}
+
+JAVACODE
+void error_skipAtRule()
+{
+    Token t = null;
+    do {
+        t = getNextToken();
+    }
+    while (t.kind != SEMICOLON && t.kind != EOF);
+}
