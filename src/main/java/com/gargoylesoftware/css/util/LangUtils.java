@@ -12,10 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gargoylesoftware.css.util;
-
-import java.util.List;
 
 /**
  * Some utils.
@@ -60,6 +57,11 @@ public final class LangUtils {
         return hashCode(seed, obj != null ? obj.hashCode() : 0);
     }
 
+    /**
+     * @param obj1 the first object
+     * @param obj2 the second object
+     * @return true if the both objects are equals
+     */
     public static boolean equals(final Object obj1, final Object obj2) {
         return obj1 == null ? obj2 == null : obj1.equals(obj2);
     }
