@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gargoylesoftware.css.dom;
 
 import java.io.StringReader;
@@ -25,7 +24,6 @@ import org.w3c.dom.css.CSSStyleSheet;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
-/**
 /**
  * Unit tests for {@link CSSImportRuleImpl}.
  *

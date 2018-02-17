@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gargoylesoftware.css.dom;
 
 import java.io.Reader;
@@ -30,7 +29,6 @@ import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.parser.LexicalUnit;
 import com.gargoylesoftware.css.parser.LexicalUnitImpl;
 
-/**
 /**
  * Unit tests for {@link RectImpl}.
  *

@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gargoylesoftware.css.dom;
 
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import org.junit.Test;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.stylesheets.MediaList;
 
-/**
 /**
  * Unit tests for {@link MediaListImpl}.
  *
