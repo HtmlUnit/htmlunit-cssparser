@@ -1,9 +1,11 @@
 # HtmlUnit - CSSParser
 
-This is the code repository of the CSS parser used by HtmlUnit strarting with version 1.30.
+This is the code repository of the CSS parser used by HtmlUnit starting with version 1.30.
+
 For a long time HtmlUnit uses the CSSParser (http://cssparser.sourceforge.net/). But as HtmlUnit has to support more
 and more css related features a solution was required that offer more flexibility regarding the resulting object model.
 This implementation starts based on CSSParser 0.9.25; we removed the sac dependency and did some cleanup.
+
 We will try to stay in sync with CSSParser regarding the features in the future.
 
 ## Getting Started
