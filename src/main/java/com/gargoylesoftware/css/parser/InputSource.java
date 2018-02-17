@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gargoylesoftware.css.parser;
 
 import java.io.Closeable;
@@ -26,7 +25,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 /**
- * The input supported by the parser
+ * The input supported by the parser.
  *
  * @author Ronald Brill
  */

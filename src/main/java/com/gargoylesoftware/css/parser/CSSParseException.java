@@ -35,13 +35,12 @@ public class CSSParseException extends CSSException {
      * @param message The error or warning message.
      * @param locator The locator object for the error or warning.
      * @see Locator
-     * @see CSSParser#setLocale 
+     * @see CSSParser#setLocale
      */
-    public CSSParseException(String message, Locator locator) {
+    public CSSParseException(final String message, final Locator locator) {
         this(message, locator, null);
     }
-    
-    
+
     /**
 
      * Wrap an existing exception in a CSSParseException.
@@ -58,7 +57,7 @@ public class CSSParseException extends CSSException {
      * @see Locator
      * @see CSSParser#setLocale
      */
-    public CSSParseException(String message, Locator locator, Exception e) {
+    public CSSParseException(final String message, final Locator locator, final Exception e) {
         this(message, locator.getUri(), locator.getLineNumber(), locator.getColumnNumber(), e);
     }
 
@@ -77,10 +76,10 @@ public class CSSParseException extends CSSException {
      *                     cause the error or warning.
      * @see CSSParser#setLocale
      */
-    public CSSParseException(String message, String uri, int lineNumber, int columnNumber) {
+    public CSSParseException(final String message, final String uri, final int lineNumber, final int columnNumber) {
         this(message, uri, lineNumber, columnNumber, null);
     }
-        
+
     /**
      * Create a new CSSParseException with an embedded exception.
      *
@@ -100,15 +99,16 @@ public class CSSParseException extends CSSException {
      * @param columnNumber The column number of the end of the text that
      *                     cause the error or warning.
      * @param e Another exception to embed in this one.
-     * @see CSSParser#setLocale 
+     * @see CSSParser#setLocale
      */
-    public CSSParseException(String message, String uri, int lineNumber, int columnNumber, Exception e) {
+    public CSSParseException(final String message, final String uri,
+            final int lineNumber, final int columnNumber, final Exception e) {
         super(ErrorCode.SYNTAX_ERR, message, e);
         uri_ = uri;
         lineNumber_ = lineNumber;
         columnNumber_ = columnNumber;
     }
-    
+
     /**
      * Get the URI of the document where the exception occurred.
      *
@@ -121,8 +121,7 @@ public class CSSParseException extends CSSException {
     public String getURI() {
         return uri_;
     }
-    
-    
+
     /**
      * The line number of the end of the text where the exception occurred.
      *
@@ -133,8 +132,7 @@ public class CSSParseException extends CSSException {
     public int getLineNumber() {
         return lineNumber_;
     }
-    
-    
+
     /**
      * The column number of the end of the text where the exception occurred.
      *

@@ -51,7 +51,7 @@ public class DOMExceptionImpl extends DOMException {
     private static ResourceBundle ExceptionResource_ =
         ResourceBundle.getBundle(
             "com.gargoylesoftware.css.parser.ExceptionResource",
-            Locale.getDefault());
+            Locale.ENGLISH);
 
     public DOMExceptionImpl(final short code, final int messageKey) {
         this(code, messageKey, null);
