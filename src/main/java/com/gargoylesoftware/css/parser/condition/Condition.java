@@ -21,6 +21,9 @@ import com.gargoylesoftware.css.parser.Locatable;
  */
 public interface Condition extends Locatable {
 
+    /**
+     * ConditionType enum.
+     */
     enum ConditionType {
         AND_CONDITION,
         ATTRIBUTE_CONDITION,
