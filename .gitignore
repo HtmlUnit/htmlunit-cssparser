@@ -1,1 +1,4 @@
 /target/
+/.checkstyle
+/.classpath
+/.project
