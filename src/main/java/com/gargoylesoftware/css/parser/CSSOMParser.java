@@ -37,7 +37,7 @@ import com.gargoylesoftware.css.dom.CSSUnknownRuleImpl;
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.MediaListImpl;
 import com.gargoylesoftware.css.dom.Property;
-import com.gargoylesoftware.css.parser.media.SACMediaList;
+import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
 
 /**
@@ -131,7 +131,7 @@ public class CSSOMParser {
         return parser_.parseSelectors(source);
     }
 
-    public SACMediaList parseMedia(final InputSource source) throws IOException {
+    public MediaQueryList parseMedia(final InputSource source) throws IOException {
         final HandlerBase handler = new HandlerBase();
         parser_.setDocumentHandler(handler);
         if (parser_ instanceof AbstractSACParser) {
@@ -250,7 +250,7 @@ public class CSSOMParser {
         }
 
         @Override
-        public void importStyle(final String uri, final SACMediaList media,
+        public void importStyle(final String uri, final MediaQueryList media,
             final String defaultNamespaceURI, final Locator locator) throws CSSException {
             // Create the import rule and add it to the rule list
             final CSSImportRuleImpl ir = new CSSImportRuleImpl(
@@ -268,7 +268,7 @@ public class CSSOMParser {
         }
 
         @Override
-        public void startMedia(final SACMediaList media, final Locator locator) throws CSSException {
+        public void startMedia(final MediaQueryList media, final Locator locator) throws CSSException {
             final MediaListImpl ml = new MediaListImpl(media);
             // Create the media rule and add it to the rule list
             final CSSMediaRuleImpl mr = new CSSMediaRuleImpl(
@@ -288,7 +288,7 @@ public class CSSOMParser {
         }
 
         @Override
-        public void endMedia(final SACMediaList media) throws CSSException {
+        public void endMedia(final MediaQueryList media) throws CSSException {
             // Pop the rule list and media rule nodes
             nodeStack_.pop();
             root_ = nodeStack_.pop();

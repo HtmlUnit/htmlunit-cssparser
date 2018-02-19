@@ -44,7 +44,7 @@ import com.gargoylesoftware.css.parser.condition.PrefixAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.PseudoClassCondition;
 import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
-import com.gargoylesoftware.css.parser.media.SACMediaList;
+import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.ConditionalSelector;
 import com.gargoylesoftware.css.parser.selector.DescendantSelector;
 import com.gargoylesoftware.css.parser.selector.Selector;
@@ -108,19 +108,19 @@ public abstract class AbstractSACParserTest {
         return sheet;
     }
 
-    protected SACMediaList parseMedia(final String css,
+    protected MediaQueryList parseMedia(final String css,
             final int err, final int fatal, final int warn) throws IOException {
         final InputSource source = new InputSource(new StringReader(css));
         return parseMedia(source, err, fatal, warn);
     }
 
-    protected SACMediaList parseMedia(final InputSource source,
+    protected MediaQueryList parseMedia(final InputSource source,
             final int err, final int fatal, final int warn) throws IOException {
         final CSSOMParser parser = parser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final SACMediaList mediaList = parser.parseMedia(source);
+        final MediaQueryList mediaList = parser.parseMedia(source);
 
         Assert.assertEquals(err, errorHandler.getErrorCount());
         Assert.assertEquals(fatal, errorHandler.getFatalErrorCount());

@@ -14,7 +14,7 @@
  */
 package com.gargoylesoftware.css.parser;
 
-import com.gargoylesoftware.css.parser.media.SACMediaList;
+import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
 
 /**
@@ -82,7 +82,7 @@ public interface DocumentHandler {
      * @exception CSSException Any CSS exception, possibly wrapping another
      *                         exception.
      */
-    void endMedia(SACMediaList media) throws CSSException;
+    void endMedia(MediaQueryList media) throws CSSException;
 
     /**
      * Receive notification of the end of a media statement.
@@ -132,7 +132,7 @@ public interface DocumentHandler {
      * @exception CSSException Any CSS exception, possibly wrapping another
      *  exception.
      */
-    void importStyle(String uri, SACMediaList media,
+    void importStyle(String uri, MediaQueryList media,
         String defaultNamespaceURI, Locator locator) throws CSSException;
 
     /**
@@ -186,7 +186,7 @@ public interface DocumentHandler {
      * @exception CSSException Any CSS exception, possibly wrapping another
      *  exception.
      */
-    void startMedia(SACMediaList media, Locator locator) throws CSSException;
+    void startMedia(MediaQueryList media, Locator locator) throws CSSException;
 
     /**
      * Receive notification of the beginning of a rule statement.

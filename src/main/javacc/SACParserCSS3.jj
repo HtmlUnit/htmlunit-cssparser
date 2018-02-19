@@ -50,7 +50,7 @@ import com.gargoylesoftware.css.parser.condition.PseudoClassCondition;
 import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
 import com.gargoylesoftware.css.parser.media.MediaQuery;
-import com.gargoylesoftware.css.parser.media.SACMediaList;
+import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.ChildSelector;
 import com.gargoylesoftware.css.parser.selector.ConditionalSelector;
 import com.gargoylesoftware.css.parser.selector.DescendantSelector;
@@ -562,7 +562,7 @@ void unknownAtRule() :
 void importRule(final boolean nonImportRuleFoundBefore) :
 {
     Token t;
-    SACMediaList ml = new SACMediaList();
+    MediaQueryList ml = new MediaQueryList();
     Locator locator;
 }
 {
@@ -614,7 +614,7 @@ void importRule(final boolean nonImportRuleFoundBefore) :
 void mediaRule() :
 {
     boolean start = false;
-    SACMediaList ml = new SACMediaList();
+    MediaQueryList ml = new MediaQueryList();
     Locator locator;
 }
 {
@@ -653,7 +653,7 @@ void mediaRule() :
     }
 }
 
-void mediaList(SACMediaList ml) :
+void mediaList(MediaQueryList ml) :
 {
     MediaQuery mq;
 }

@@ -30,7 +30,7 @@ import org.w3c.dom.css.CSSValue;
 import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
 import com.gargoylesoftware.css.dom.CSSStyleRuleImpl;
 import com.gargoylesoftware.css.dom.Property;
-import com.gargoylesoftware.css.parser.media.SACMediaList;
+import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
 
 /**
@@ -220,7 +220,7 @@ public class CSSOMParserTest {
     public void parseMedia() throws Exception {
         final Reader r = new StringReader(testParseMedia_);
         final InputSource is = new InputSource(r);
-        final SACMediaList ml = new CSSOMParser().parseMedia(is);
+        final MediaQueryList ml = new CSSOMParser().parseMedia(is);
 
         Assert.assertEquals(2, ml.getLength());
     }
@@ -232,7 +232,7 @@ public class CSSOMParserTest {
     public void parseMediaParseException() throws Exception {
         final Reader r = new StringReader("~xx");
         final InputSource is = new InputSource(r);
-        final SACMediaList ml = new CSSOMParser().parseMedia(is);
+        final MediaQueryList ml = new CSSOMParser().parseMedia(is);
 
         Assert.assertEquals(0, ml.getLength());
     }

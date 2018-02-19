@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 import org.w3c.dom.DOMException;
 
-import com.gargoylesoftware.css.parser.media.SACMediaList;
+import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
 
 /**
@@ -344,10 +344,10 @@ abstract class AbstractSACParser implements CSSParser {
         return b;
     }
 
-    public SACMediaList parseMedia(final InputSource source) throws IOException {
+    public MediaQueryList parseMedia(final InputSource source) throws IOException {
         source_ = source;
         ReInit(getCharStream(source));
-        final SACMediaList ml = new SACMediaList();
+        final MediaQueryList ml = new MediaQueryList();
         try {
             mediaList(ml);
         }
@@ -385,7 +385,7 @@ abstract class AbstractSACParser implements CSSParser {
     protected abstract SelectorList selectorList() throws ParseException;
     protected abstract LexicalUnit expr() throws ParseException;
     protected abstract boolean prio() throws ParseException;
-    protected abstract void mediaList(SACMediaList ml) throws ParseException;
+    protected abstract void mediaList(MediaQueryList ml) throws ParseException;
 
     protected void handleStartDocument() {
         getDocumentHandler().startDocument(getInputSource());
@@ -403,12 +403,12 @@ abstract class AbstractSACParser implements CSSParser {
         getDocumentHandler().charset(characterEncoding, locator);
     }
 
-    protected void handleImportStyle(final String uri, final SACMediaList media,
+    protected void handleImportStyle(final String uri, final MediaQueryList media,
             final String defaultNamespaceURI, final Locator locator) {
         getDocumentHandler().importStyle(uri, media, defaultNamespaceURI, locator);
     }
 
-    protected void handleStartMedia(final SACMediaList media, final Locator locator) {
+    protected void handleStartMedia(final MediaQueryList media, final Locator locator) {
         getDocumentHandler().startMedia(media, locator);
     }
 
@@ -416,7 +416,7 @@ abstract class AbstractSACParser implements CSSParser {
         // empty default impl
     }
 
-    protected void handleEndMedia(final SACMediaList media) {
+    protected void handleEndMedia(final MediaQueryList media) {
         getDocumentHandler().endMedia(media);
     }
 

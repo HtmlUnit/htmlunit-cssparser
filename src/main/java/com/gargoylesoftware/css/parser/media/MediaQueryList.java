@@ -20,15 +20,15 @@ import java.util.List;
 import com.gargoylesoftware.css.parser.AbstractLocatable;
 
 /**
- * Implementation of {@link SACMediaList}.
+ * Implementation of {@link MediaQueryList}.
  *
  * @author Ronald Brill
  */
-public class SACMediaList extends AbstractLocatable {
+public class MediaQueryList extends AbstractLocatable {
 
     private final List<MediaQuery> mediaQueries_;
 
-    public SACMediaList() {
+    public MediaQueryList() {
         mediaQueries_ = new ArrayList<MediaQuery>();
     }
 

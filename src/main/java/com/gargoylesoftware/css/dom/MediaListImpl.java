@@ -28,7 +28,7 @@ import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.CSSParseException;
 import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.parser.media.MediaQuery;
-import com.gargoylesoftware.css.parser.media.SACMediaList;
+import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.util.LangUtils;
 import com.gargoylesoftware.css.util.ThrowCssExceptionErrorHandler;
 
@@ -45,7 +45,7 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
      * Creates new MediaList.
      * @param mediaList the media list
      */
-    public MediaListImpl(final SACMediaList mediaList) {
+    public MediaListImpl(final MediaQueryList mediaList) {
         mediaQueries_ = new ArrayList<MediaQuery>(10);
 
         setMediaList(mediaList);
@@ -76,7 +76,7 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
         try {
             final CSSOMParser parser = new CSSOMParser();
             parser.setErrorHandler(ThrowCssExceptionErrorHandler.INSTANCE);
-            final SACMediaList sml = parser.parseMedia(source);
+            final MediaQueryList sml = parser.parseMedia(source);
             setMediaList(sml);
         }
         catch (final CSSParseException e) {
@@ -142,9 +142,9 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
         }
     }
 
-    private void setMediaList(final SACMediaList mediaList) {
-        if (mediaList instanceof SACMediaList) {
-            final SACMediaList impl = (SACMediaList) mediaList;
+    private void setMediaList(final MediaQueryList mediaList) {
+        if (mediaList instanceof MediaQueryList) {
+            final MediaQueryList impl = (MediaQueryList) mediaList;
             for (int i = 0; i < mediaList.getLength(); i++) {
                 mediaQueries_.add(impl.mediaQuery(i));
             }

@@ -276,12 +276,12 @@ public class CSS3MediaTest extends AbstractSACParserTest {
     @Test
     public void parseMedia() throws Exception {
         final String css = "speech and (min-device-width: 800px)";
-        final SACMediaList mediaList = parseMedia(css, 0, 0, 0);
+        final MediaQueryList mediaList = parseMedia(css, 0, 0, 0);
 
         Assert.assertEquals(1, mediaList.getLength());
         Assert.assertEquals("speech", mediaList.toString());
 
-        final MediaQuery mediaQuery = ((SACMediaList) mediaList).mediaQuery(0);
+        final MediaQuery mediaQuery = ((MediaQueryList) mediaList).mediaQuery(0);
         Assert.assertEquals("speech", mediaQuery.getMedia());
         final List<Property> properties = mediaQuery.getProperties();
         Assert.assertEquals(1, properties.size());
@@ -295,24 +295,24 @@ public class CSS3MediaTest extends AbstractSACParserTest {
     public void parseMediaComplexRule() throws Exception {
         final String css = "only screen and (max-width: 735px) and (max-device-width: 768px), print,"
                 + "aural and (device-aspect-ratio: 16/9)";
-        final SACMediaList mediaList = parseMedia(css, 0, 0, 0);
+        final MediaQueryList mediaList = parseMedia(css, 0, 0, 0);
 
         Assert.assertEquals(3, mediaList.getLength());
         Assert.assertEquals("screen, print, aural", mediaList.toString());
 
-        MediaQuery mediaQuery = ((SACMediaList) mediaList).mediaQuery(0);
+        MediaQuery mediaQuery = ((MediaQueryList) mediaList).mediaQuery(0);
         Assert.assertEquals("screen", mediaQuery.getMedia());
         List<Property> properties = mediaQuery.getProperties();
         Assert.assertEquals(2, properties.size());
         Assert.assertEquals("max-width: 735px", properties.get(0).toString());
         Assert.assertEquals("max-device-width: 768px", properties.get(1).toString());
 
-        mediaQuery = ((SACMediaList) mediaList).mediaQuery(1);
+        mediaQuery = ((MediaQueryList) mediaList).mediaQuery(1);
         Assert.assertEquals("print", mediaQuery.getMedia());
         properties = mediaQuery.getProperties();
         Assert.assertEquals(0, properties.size());
 
-        mediaQuery = ((SACMediaList) mediaList).mediaQuery(2);
+        mediaQuery = ((MediaQueryList) mediaList).mediaQuery(2);
         Assert.assertEquals("aural", mediaQuery.getMedia());
         properties = mediaQuery.getProperties();
         Assert.assertEquals("device-aspect-ratio: 16 / 9", properties.get(0).toString());

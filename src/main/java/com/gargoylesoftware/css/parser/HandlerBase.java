@@ -14,7 +14,7 @@
  */
 package com.gargoylesoftware.css.parser;
 
-import com.gargoylesoftware.css.parser.media.SACMediaList;
+import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
 
 /**
@@ -48,18 +48,18 @@ public class HandlerBase implements DocumentHandler, CSSErrorHandler {
     }
 
     @Override
-    public void importStyle(final String uri, final SACMediaList media,
+    public void importStyle(final String uri, final MediaQueryList media,
             final String defaultNamespaceURI, final Locator locator) throws CSSException {
         // empty default impl
     }
 
     @Override
-    public void startMedia(final SACMediaList media, final Locator locator) throws CSSException {
+    public void startMedia(final MediaQueryList media, final Locator locator) throws CSSException {
         // empty default impl
     }
 
     @Override
-    public void endMedia(final SACMediaList media) throws CSSException {
+    public void endMedia(final MediaQueryList media) throws CSSException {
         // empty default impl
     }
 

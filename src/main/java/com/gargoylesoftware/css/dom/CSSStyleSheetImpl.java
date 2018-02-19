@@ -34,7 +34,7 @@ import org.w3c.dom.stylesheets.StyleSheet;
 import com.gargoylesoftware.css.parser.CSSException;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
-import com.gargoylesoftware.css.parser.media.SACMediaList;
+import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.util.LangUtils;
 import com.gargoylesoftware.css.util.ThrowCssExceptionErrorHandler;
 
@@ -267,7 +267,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         final InputSource source = new InputSource(new StringReader(mediaText));
         try {
             final CSSOMParser parser = new CSSOMParser();
-            final SACMediaList sml = parser.parseMedia(source);
+            final MediaQueryList sml = parser.parseMedia(source);
             media_ = new MediaListImpl(sml);
         }
         catch (final IOException e) {
