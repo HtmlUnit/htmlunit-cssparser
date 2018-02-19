@@ -17,32 +17,32 @@ package com.gargoylesoftware.css.parser.condition;
 import java.io.Serializable;
 
 import com.gargoylesoftware.css.parser.AbstractLocatable;
+import com.gargoylesoftware.css.parser.Locator;
 
 /**
+ *
  * @author Ronald Brill
  */
-public class BeginHyphenAttributeConditionImpl extends AbstractLocatable
-                implements AttributeCondition, Serializable {
+public class PseudoClassCondition extends AbstractLocatable implements Condition, Serializable {
 
-    private final String localName_;
     private final String value_;
+    private final boolean doubleColon_;
 
-    public BeginHyphenAttributeConditionImpl(final String localName, final String value) {
-        localName_ = localName;
+    public PseudoClassCondition(final String value, final Locator locator, final boolean doubleColon) {
         value_ = value;
+        setLocator(locator);
+        doubleColon_ = doubleColon;
     }
 
     @Override
     public ConditionType getConditionType() {
-        return ConditionType.BEGIN_HYPHEN_ATTRIBUTE_CONDITION;
+        return ConditionType.PSEUDO_CLASS_CONDITION;
     }
 
-    @Override
     public String getLocalName() {
-        return localName_;
+        return null;
     }
 
-    @Override
     public String getValue() {
         return value_;
     }
@@ -50,10 +50,9 @@ public class BeginHyphenAttributeConditionImpl extends AbstractLocatable
     @Override
     public String toString() {
         final String value = getValue();
-        if (value != null) {
-            return "[" + getLocalName() + "|=\"" + value + "\"]";
+        if (value == null) {
+            return value;
         }
-        return "[" + getLocalName() + "]";
+        return (doubleColon_ ? "::" : ":") + value;
     }
 }
-

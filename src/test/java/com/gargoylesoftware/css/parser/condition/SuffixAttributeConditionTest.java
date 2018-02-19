@@ -20,17 +20,17 @@ import org.junit.Test;
 import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 
 /**
- * Test cases for {@link SuffixAttributeConditionImpl}.
+ * Test cases for {@link SuffixAttributeCondition}.
  */
-public class SuffixAttributeConditionImplTest {
+public class SuffixAttributeConditionTest {
 
     /**
      * @throws Exception if any error occurs
      */
     @Test
     public void withoutValue() throws Exception {
-        final SuffixAttributeConditionImpl ac = new SuffixAttributeConditionImpl("test", null);
-        Assert.assertEquals(ConditionType.ATTRIBUTE_CONDITION, ac.getConditionType());
+        final SuffixAttributeCondition ac = new SuffixAttributeCondition("test", null);
+        Assert.assertEquals(ConditionType.SUFFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertNull(ac.getValue());
 
@@ -42,8 +42,8 @@ public class SuffixAttributeConditionImplTest {
      */
     @Test
     public void emptyValue() throws Exception {
-        final SuffixAttributeConditionImpl ac = new SuffixAttributeConditionImpl("test", "");
-        Assert.assertEquals(ConditionType.ATTRIBUTE_CONDITION, ac.getConditionType());
+        final SuffixAttributeCondition ac = new SuffixAttributeCondition("test", "");
+        Assert.assertEquals(ConditionType.SUFFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("", ac.getValue());
 
@@ -55,8 +55,8 @@ public class SuffixAttributeConditionImplTest {
      */
     @Test
     public void withValue() throws Exception {
-        final SuffixAttributeConditionImpl ac = new SuffixAttributeConditionImpl("test", "value");
-        Assert.assertEquals(ConditionType.ATTRIBUTE_CONDITION, ac.getConditionType());
+        final SuffixAttributeCondition ac = new SuffixAttributeCondition("test", "value");
+        Assert.assertEquals(ConditionType.SUFFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("value", ac.getValue());
 
@@ -68,8 +68,8 @@ public class SuffixAttributeConditionImplTest {
      */
     @Test
     public void withoutValueAndSpecified() throws Exception {
-        final SuffixAttributeConditionImpl ac = new SuffixAttributeConditionImpl("test", null);
-        Assert.assertEquals(ConditionType.ATTRIBUTE_CONDITION, ac.getConditionType());
+        final SuffixAttributeCondition ac = new SuffixAttributeCondition("test", null);
+        Assert.assertEquals(ConditionType.SUFFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertNull(ac.getValue());
 
@@ -81,8 +81,8 @@ public class SuffixAttributeConditionImplTest {
      */
     @Test
     public void emptyValueAndSpecified() throws Exception {
-        final SuffixAttributeConditionImpl ac = new SuffixAttributeConditionImpl("test", "");
-        Assert.assertEquals(ConditionType.ATTRIBUTE_CONDITION, ac.getConditionType());
+        final SuffixAttributeCondition ac = new SuffixAttributeCondition("test", "");
+        Assert.assertEquals(ConditionType.SUFFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("", ac.getValue());
 
@@ -94,8 +94,8 @@ public class SuffixAttributeConditionImplTest {
      */
     @Test
     public void withValueAndSpecified() throws Exception {
-        final SuffixAttributeConditionImpl ac = new SuffixAttributeConditionImpl("test", "value");
-        Assert.assertEquals(ConditionType.ATTRIBUTE_CONDITION, ac.getConditionType());
+        final SuffixAttributeCondition ac = new SuffixAttributeCondition("test", "value");
+        Assert.assertEquals(ConditionType.SUFFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("value", ac.getValue());
 

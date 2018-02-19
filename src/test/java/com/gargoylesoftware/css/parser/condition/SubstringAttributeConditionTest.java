@@ -20,17 +20,17 @@ import org.junit.Test;
 import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 
 /**
- * Testcases for {@link OneOfAttributeConditionImpl}.
+ * Test cases for {@link SubstringAttributeCondition}.
  */
-public class OneOfAttributeConditionImplTest {
+public class SubstringAttributeConditionTest {
 
     /**
      * @throws Exception if any error occurs
      */
     @Test
     public void withoutValue() throws Exception {
-        final OneOfAttributeConditionImpl ac = new OneOfAttributeConditionImpl("test", null);
-        Assert.assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
+        final SubstringAttributeCondition ac = new SubstringAttributeCondition("test", null);
+        Assert.assertEquals(ConditionType.SUBSTRING_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertNull(ac.getValue());
 
@@ -42,12 +42,12 @@ public class OneOfAttributeConditionImplTest {
      */
     @Test
     public void emptyValue() throws Exception {
-        final OneOfAttributeConditionImpl ac = new OneOfAttributeConditionImpl("test", "");
-        Assert.assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
+        final SubstringAttributeCondition ac = new SubstringAttributeCondition("test", "");
+        Assert.assertEquals(ConditionType.SUBSTRING_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("", ac.getValue());
 
-        Assert.assertEquals("[test~=\"\"]", ac.toString());
+        Assert.assertEquals("[test*=\"\"]", ac.toString());
     }
 
     /**
@@ -55,12 +55,12 @@ public class OneOfAttributeConditionImplTest {
      */
     @Test
     public void withValue() throws Exception {
-        final OneOfAttributeConditionImpl ac = new OneOfAttributeConditionImpl("test", "value");
-        Assert.assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
+        final SubstringAttributeCondition ac = new SubstringAttributeCondition("test", "value");
+        Assert.assertEquals(ConditionType.SUBSTRING_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("value", ac.getValue());
 
-        Assert.assertEquals("[test~=\"value\"]", ac.toString());
+        Assert.assertEquals("[test*=\"value\"]", ac.toString());
     }
 
     /**
@@ -68,8 +68,8 @@ public class OneOfAttributeConditionImplTest {
      */
     @Test
     public void withoutValueAndSpecified() throws Exception {
-        final OneOfAttributeConditionImpl ac = new OneOfAttributeConditionImpl("test", null);
-        Assert.assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
+        final SubstringAttributeCondition ac = new SubstringAttributeCondition("test", null);
+        Assert.assertEquals(ConditionType.SUBSTRING_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertNull(ac.getValue());
 
@@ -81,12 +81,12 @@ public class OneOfAttributeConditionImplTest {
      */
     @Test
     public void emptyValueAndSpecified() throws Exception {
-        final OneOfAttributeConditionImpl ac = new OneOfAttributeConditionImpl("test", "");
-        Assert.assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
+        final SubstringAttributeCondition ac = new SubstringAttributeCondition("test", "");
+        Assert.assertEquals(ConditionType.SUBSTRING_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("", ac.getValue());
 
-        Assert.assertEquals("[test~=\"\"]", ac.toString());
+        Assert.assertEquals("[test*=\"\"]", ac.toString());
     }
 
     /**
@@ -94,11 +94,11 @@ public class OneOfAttributeConditionImplTest {
      */
     @Test
     public void withValueAndSpecified() throws Exception {
-        final OneOfAttributeConditionImpl ac = new OneOfAttributeConditionImpl("test", "value");
-        Assert.assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
+        final SubstringAttributeCondition ac = new SubstringAttributeCondition("test", "value");
+        Assert.assertEquals(ConditionType.SUBSTRING_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("value", ac.getValue());
 
-        Assert.assertEquals("[test~=\"value\"]", ac.toString());
+        Assert.assertEquals("[test*=\"value\"]", ac.toString());
     }
 }

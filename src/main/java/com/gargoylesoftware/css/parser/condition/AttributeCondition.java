@@ -14,31 +14,42 @@
  */
 package com.gargoylesoftware.css.parser.condition;
 
+import java.io.Serializable;
+
+import com.gargoylesoftware.css.parser.AbstractLocatable;
+
 /**
  * @author Ronald Brill
  */
-public interface AttributeCondition extends Condition {
+public class AttributeCondition extends AbstractLocatable implements Condition, Serializable {
 
-    /**
-     * Returns the
-     * <a href="http://www.w3.org/TR/REC-xml-names/#NT-LocalPart">local part</a>
-     * of the
-     * <a href="http://www.w3.org/TR/REC-xml-names/#ns-qualnames">qualified
-     * name</a> of this attribute.
-     * <p><code>NULL</code> if :
-     * <ul>
-     * <li><p>this attribute condition can match any attribute.
-     * <li><p>this attribute is a class attribute.
-     * <li><p>this attribute is an id attribute.
-     * <li><p>this attribute is a pseudo-class attribute.
-     * </ul>
-     */
-    String getLocalName();
+    private final String localName_;
+    private final String value_;
 
-    /**
-     * Returns the value of the attribute.
-     * If this attribute is a class or a pseudo class attribute, you'll get
-     * the class name (or psedo class name) without the '.' or ':'.
-     */
-    String getValue();
+    public AttributeCondition(final String localName, final String value) {
+        localName_ = localName;
+        value_ = value;
+    }
+
+    @Override
+    public ConditionType getConditionType() {
+        return ConditionType.ATTRIBUTE_CONDITION;
+    }
+
+    public String getLocalName() {
+        return localName_;
+    }
+
+    public String getValue() {
+        return value_;
+    }
+
+    @Override
+    public String toString() {
+        final String value = getValue();
+        if (value != null) {
+            return "[" + getLocalName() + "=\"" + value + "\"]";
+        }
+        return "[" + getLocalName() + "]";
+    }
 }

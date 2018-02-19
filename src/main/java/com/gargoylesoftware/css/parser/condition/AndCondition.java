@@ -22,7 +22,7 @@ import com.gargoylesoftware.css.parser.Locatable;
 /**
  * @author Ronald Brill
  */
-public class AndConditionImpl extends AbstractLocatable implements Condition, Serializable {
+public class AndCondition extends AbstractLocatable implements Condition, Serializable {
 
     private final Condition firstCondition_;
     private final Condition secondCondition_;
@@ -32,7 +32,7 @@ public class AndConditionImpl extends AbstractLocatable implements Condition, Se
      * @param c1 the first condition
      * @param c2 the second condition
      */
-    public AndConditionImpl(final Condition c1, final Condition c2) {
+    public AndCondition(final Condition c1, final Condition c2) {
         firstCondition_ = c1;
         if (c1 instanceof Locatable) {
             setLocator(((Locatable) c1).getLocator());

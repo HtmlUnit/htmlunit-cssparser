@@ -42,11 +42,11 @@ import com.gargoylesoftware.css.dom.MediaListImpl;
 import com.gargoylesoftware.css.dom.Property;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 import com.gargoylesoftware.css.parser.condition.Condition;
-import com.gargoylesoftware.css.parser.condition.LangConditionImpl;
-import com.gargoylesoftware.css.parser.condition.PrefixAttributeConditionImpl;
-import com.gargoylesoftware.css.parser.condition.PseudoClassConditionImpl;
-import com.gargoylesoftware.css.parser.condition.SubstringAttributeConditionImpl;
-import com.gargoylesoftware.css.parser.condition.SuffixAttributeConditionImpl;
+import com.gargoylesoftware.css.parser.condition.LangCondition;
+import com.gargoylesoftware.css.parser.condition.PrefixAttributeCondition;
+import com.gargoylesoftware.css.parser.condition.PseudoClassCondition;
+import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;
+import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 import com.gargoylesoftware.css.parser.media.MediaQuery;
 import com.gargoylesoftware.css.parser.selector.ChildSelector;
@@ -162,14 +162,14 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         ConditionalSelector selector = (ConditionalSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getCondition().getConditionType());
-        Assert.assertEquals("fr-ca", ((LangConditionImpl) selector.getCondition()).getLang());
+        Assert.assertEquals("fr-ca", ((LangCondition) selector.getCondition()).getLang());
 
         rule = rules.item(1);
         Assert.assertEquals("html:lang(de) { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         selector = (ConditionalSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getCondition().getConditionType());
-        Assert.assertEquals("de", ((LangConditionImpl) selector.getCondition()).getLang());
+        Assert.assertEquals("de", ((LangCondition) selector.getCondition()).getLang());
 
         rule = rules.item(2);
         Assert.assertEquals(":lang(fr) > Q { }", rule.getCssText());
@@ -177,7 +177,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         ChildSelector childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
         selector = (ConditionalSelector) childSelector.getAncestorSelector();
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getCondition().getConditionType());
-        Assert.assertEquals("fr", ((LangConditionImpl) selector.getCondition()).getLang());
+        Assert.assertEquals("fr", ((LangCondition) selector.getCondition()).getLang());
 
         rule = rules.item(3);
         Assert.assertEquals(":lang(de) > Q { }", rule.getCssText());
@@ -185,7 +185,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
         selector = (ConditionalSelector) childSelector.getAncestorSelector();
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getCondition().getConditionType());
-        Assert.assertEquals("de", ((LangConditionImpl) selector.getCondition()).getLang());
+        Assert.assertEquals("de", ((LangCondition) selector.getCondition()).getLang());
     }
 
     /**
@@ -2289,7 +2289,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
     public void prefixAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel^=val]");
         final ConditionalSelector selector = (ConditionalSelector) selectors.item(0);
-        Assert.assertTrue(selector.getCondition() instanceof PrefixAttributeConditionImpl);
+        Assert.assertTrue(selector.getCondition() instanceof PrefixAttributeCondition);
     }
 
     /**
@@ -2299,7 +2299,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
     public void suffixAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel$=val]");
         final ConditionalSelector selector = (ConditionalSelector) selectors.item(0);
-        Assert.assertTrue(selector.getCondition() instanceof SuffixAttributeConditionImpl);
+        Assert.assertTrue(selector.getCondition() instanceof SuffixAttributeCondition);
     }
 
     /**
@@ -2309,7 +2309,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
     public void substringAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel*=val]");
         final ConditionalSelector selector = (ConditionalSelector) selectors.item(0);
-        Assert.assertTrue(selector.getCondition() instanceof SubstringAttributeConditionImpl);
+        Assert.assertTrue(selector.getCondition() instanceof SubstringAttributeCondition);
     }
 
     /**
@@ -2483,7 +2483,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
 
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
-        final PseudoClassConditionImpl pseudo = (PseudoClassConditionImpl) condition;
+        final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
         Assert.assertEquals("not(abc)", pseudo.getValue());
     }
 
@@ -2505,7 +2505,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
 
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
-        final PseudoClassConditionImpl pseudo = (PseudoClassConditionImpl) condition;
+        final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
         Assert.assertEquals("not(*)", pseudo.getValue());
     }
 
@@ -2527,7 +2527,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
 
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
-        final PseudoClassConditionImpl pseudo = (PseudoClassConditionImpl) condition;
+        final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
         Assert.assertEquals("not(#test)", pseudo.getValue());
     }
 
@@ -2550,7 +2550,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
 
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
-        final PseudoClassConditionImpl pseudo = (PseudoClassConditionImpl) condition;
+        final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
         Assert.assertEquals("not(.klass)", pseudo.getValue());
     }
 
@@ -2572,7 +2572,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
 
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
-        final PseudoClassConditionImpl pseudo = (PseudoClassConditionImpl) condition;
+        final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
         Assert.assertEquals("not([type=\"file\"])", pseudo.getValue());
     }
 
@@ -2594,7 +2594,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
 
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
-        final PseudoClassConditionImpl pseudo = (PseudoClassConditionImpl) condition;
+        final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
         Assert.assertEquals("not(:first)", pseudo.getValue());
     }
     /**

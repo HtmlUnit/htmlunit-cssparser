@@ -20,16 +20,16 @@ import org.junit.Test;
 import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 
 /**
- * Testcases for {@link BeginHyphenAttributeConditionImpl}.
+ * Testcases for {@link BeginHyphenAttributeCondition}.
  */
-public class BeginHyphenAttributeConditionImplTest {
+public class BeginHyphenAttributeConditionTest {
 
     /**
      * @throws Exception if any error occurs
      */
     @Test
     public void withoutValue() throws Exception {
-        final BeginHyphenAttributeConditionImpl ac = new BeginHyphenAttributeConditionImpl("test", null);
+        final BeginHyphenAttributeCondition ac = new BeginHyphenAttributeCondition("test", null);
         Assert.assertEquals(ConditionType.BEGIN_HYPHEN_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertNull(ac.getValue());
@@ -42,7 +42,7 @@ public class BeginHyphenAttributeConditionImplTest {
      */
     @Test
     public void emptyValue() throws Exception {
-        final BeginHyphenAttributeConditionImpl ac = new BeginHyphenAttributeConditionImpl("test", "");
+        final BeginHyphenAttributeCondition ac = new BeginHyphenAttributeCondition("test", "");
         Assert.assertEquals(ConditionType.BEGIN_HYPHEN_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("", ac.getValue());
@@ -55,7 +55,7 @@ public class BeginHyphenAttributeConditionImplTest {
      */
     @Test
     public void withValue() throws Exception {
-        final BeginHyphenAttributeConditionImpl ac = new BeginHyphenAttributeConditionImpl("test", "value");
+        final BeginHyphenAttributeCondition ac = new BeginHyphenAttributeCondition("test", "value");
         Assert.assertEquals(ConditionType.BEGIN_HYPHEN_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("value", ac.getValue());
@@ -68,7 +68,7 @@ public class BeginHyphenAttributeConditionImplTest {
      */
     @Test
     public void withoutValueAndSpecified() throws Exception {
-        final BeginHyphenAttributeConditionImpl ac = new BeginHyphenAttributeConditionImpl("test", null);
+        final BeginHyphenAttributeCondition ac = new BeginHyphenAttributeCondition("test", null);
         Assert.assertEquals(ConditionType.BEGIN_HYPHEN_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertNull(ac.getValue());
@@ -81,7 +81,7 @@ public class BeginHyphenAttributeConditionImplTest {
      */
     @Test
     public void emptyValueAndSpecified() throws Exception {
-        final BeginHyphenAttributeConditionImpl ac = new BeginHyphenAttributeConditionImpl("test", "");
+        final BeginHyphenAttributeCondition ac = new BeginHyphenAttributeCondition("test", "");
         Assert.assertEquals(ConditionType.BEGIN_HYPHEN_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("", ac.getValue());
@@ -94,7 +94,7 @@ public class BeginHyphenAttributeConditionImplTest {
      */
     @Test
     public void withValueAndSpecified() throws Exception {
-        final BeginHyphenAttributeConditionImpl ac = new BeginHyphenAttributeConditionImpl("test", "value");
+        final BeginHyphenAttributeCondition ac = new BeginHyphenAttributeCondition("test", "value");
         Assert.assertEquals(ConditionType.BEGIN_HYPHEN_ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("value", ac.getValue());

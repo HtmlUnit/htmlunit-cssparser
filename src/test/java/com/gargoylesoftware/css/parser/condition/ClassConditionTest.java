@@ -18,20 +18,20 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Testcases for {@link PseudoClassConditionImpl}.
+ * Testcases for {@link ClassCondition}.
  */
-public class PseudoClassConditionImplTest {
+public class ClassConditionTest {
 
     /**
      * @throws Exception if any error occurs
      */
     @Test
     public void withoutValue() throws Exception {
-        final PseudoClassConditionImpl c = new PseudoClassConditionImpl(null, null, false);
+        final ClassCondition c = new ClassCondition(null, null);
         Assert.assertNull(c.getLocalName());
         Assert.assertNull(c.getValue());
 
-        Assert.assertNull(c.toString());
+        Assert.assertEquals(".", c.toString());
     }
 
     /**
@@ -39,11 +39,11 @@ public class PseudoClassConditionImplTest {
      */
     @Test
     public void emptyValue() throws Exception {
-        final PseudoClassConditionImpl c = new PseudoClassConditionImpl("", null, false);
+        final ClassCondition c = new ClassCondition("", null);
         Assert.assertNull(c.getLocalName());
         Assert.assertEquals("", c.getValue());
 
-        Assert.assertEquals(":", c.toString());
+        Assert.assertEquals(".", c.toString());
     }
 
     /**
@@ -51,10 +51,10 @@ public class PseudoClassConditionImplTest {
      */
     @Test
     public void withValue() throws Exception {
-        final PseudoClassConditionImpl c = new PseudoClassConditionImpl("value", null, false);
+        final ClassCondition c = new ClassCondition("value", null);
         Assert.assertNull(c.getLocalName());
         Assert.assertEquals("value", c.getValue());
 
-        Assert.assertEquals(":value", c.toString());
+        Assert.assertEquals(".value", c.toString());
     }
 }

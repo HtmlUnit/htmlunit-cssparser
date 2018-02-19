@@ -17,7 +17,7 @@ package com.gargoylesoftware.css.parser.selector;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.gargoylesoftware.css.parser.condition.IdConditionImpl;
+import com.gargoylesoftware.css.parser.condition.IdCondition;
 import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
 /**
@@ -58,7 +58,7 @@ public class ConditionalSelectorTest {
      */
     @Test
     public void conditionOnly() throws Exception {
-        final IdConditionImpl condition = new IdConditionImpl("id", null);
+        final IdCondition condition = new IdCondition("id", null);
         final ConditionalSelector s = new ConditionalSelector(null, condition);
         Assert.assertEquals(SelectorType.CONDITIONAL_SELECTOR, s.getSelectorType());
         Assert.assertNull(s.getSimpleSelector());
@@ -73,7 +73,7 @@ public class ConditionalSelectorTest {
     @Test
     public void both() throws Exception {
         final ElementSelector selector = new ElementSelector("p", null);
-        final IdConditionImpl condition = new IdConditionImpl("id", null);
+        final IdCondition condition = new IdCondition("id", null);
         final ConditionalSelector s = new ConditionalSelector(selector, condition);
         Assert.assertEquals(SelectorType.CONDITIONAL_SELECTOR, s.getSelectorType());
         Assert.assertEquals(selector, s.getSimpleSelector());

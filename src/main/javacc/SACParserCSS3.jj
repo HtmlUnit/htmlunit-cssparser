@@ -37,18 +37,18 @@ import java.util.Locale;
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.Property;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
-import com.gargoylesoftware.css.parser.condition.AndConditionImpl;
-import com.gargoylesoftware.css.parser.condition.AttributeConditionImpl;
-import com.gargoylesoftware.css.parser.condition.BeginHyphenAttributeConditionImpl;
-import com.gargoylesoftware.css.parser.condition.ClassConditionImpl;
+import com.gargoylesoftware.css.parser.condition.AndCondition;
+import com.gargoylesoftware.css.parser.condition.AttributeCondition;
+import com.gargoylesoftware.css.parser.condition.BeginHyphenAttributeCondition;
+import com.gargoylesoftware.css.parser.condition.ClassCondition;
 import com.gargoylesoftware.css.parser.condition.Condition;
-import com.gargoylesoftware.css.parser.condition.IdConditionImpl;
-import com.gargoylesoftware.css.parser.condition.LangConditionImpl;
-import com.gargoylesoftware.css.parser.condition.OneOfAttributeConditionImpl;
-import com.gargoylesoftware.css.parser.condition.PrefixAttributeConditionImpl;
-import com.gargoylesoftware.css.parser.condition.PseudoClassConditionImpl;
-import com.gargoylesoftware.css.parser.condition.SubstringAttributeConditionImpl;
-import com.gargoylesoftware.css.parser.condition.SuffixAttributeConditionImpl;
+import com.gargoylesoftware.css.parser.condition.IdCondition;
+import com.gargoylesoftware.css.parser.condition.LangCondition;
+import com.gargoylesoftware.css.parser.condition.OneOfAttributeCondition;
+import com.gargoylesoftware.css.parser.condition.PrefixAttributeCondition;
+import com.gargoylesoftware.css.parser.condition.PseudoClassCondition;
+import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;
+import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
 import com.gargoylesoftware.css.parser.media.MediaQuery;
 import com.gargoylesoftware.css.parser.media.SACMediaList;
 import com.gargoylesoftware.css.parser.selector.ChildSelector;
@@ -1168,8 +1168,8 @@ Condition _class(Condition pred, boolean pseudoElementFound) :
         t = <IDENT>
         {
             if (pseudoElementFound) { throw pe; }
-            Condition c = new ClassConditionImpl(unescape(t.image, false), locator);
-            return (pred == null) ? c : new AndConditionImpl(pred, c);
+            Condition c = new ClassCondition(unescape(t.image, false), locator);
+            return (pred == null) ? c : new AndCondition(pred, c);
         }
     }
     catch (ParseException e)
@@ -1258,29 +1258,29 @@ Condition attrib(Condition pred, boolean pseudoElementFound) :
             Condition c = null;
             switch (type) {
             case 0:
-                c = new AttributeConditionImpl(name, null);
+                c = new AttributeCondition(name, null);
                 break;
             case 1:
-                c = new AttributeConditionImpl(name, value);
+                c = new AttributeCondition(name, value);
                 break;
             case 2:
-                c = new OneOfAttributeConditionImpl(name, value);
+                c = new OneOfAttributeCondition(name, value);
                 break;
             case 3:
-                c = new BeginHyphenAttributeConditionImpl(name, value);
+                c = new BeginHyphenAttributeCondition(name, value);
                 break;
             case 4:
-                c = new PrefixAttributeConditionImpl(name, value);
+                c = new PrefixAttributeCondition(name, value);
                 break;
             case 5:
-                c = new SuffixAttributeConditionImpl(name, value);
+                c = new SuffixAttributeCondition(name, value);
                 break;
             case 6:
-                c = new SubstringAttributeConditionImpl(name, value);
+                c = new SubstringAttributeCondition(name, value);
                 break;
             }
             c.setLocator(locator);
-            return (pred == null) ? c : new AndConditionImpl(pred, c);
+            return (pred == null) ? c : new AndCondition(pred, c);
         }
     }
     catch (ParseException e)
@@ -1326,8 +1326,8 @@ Object pseudo(Condition pred, boolean pseudoElementFound) :
                 {
                     return new PseudoElementSelector(s, locator, doubleColon);
                 }
-                c = new PseudoClassConditionImpl(s, locator, doubleColon);
-                return (pred == null) ? c : new AndConditionImpl(pred, c);
+                c = new PseudoClassCondition(s, locator, doubleColon);
+                return (pred == null) ? c : new AndCondition(pred, c);
             }
             |
             (
@@ -1341,8 +1341,8 @@ Object pseudo(Condition pred, boolean pseudoElementFound) :
                 <RROUND>
                 {
                     if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + arg + ")" }, locator); }
-                    c = new PseudoClassConditionImpl(function + arg + ")", locator, doubleColon);
-                    return (pred == null) ? c : new AndConditionImpl(pred, c);
+                    c = new PseudoClassCondition(function + arg + ")", locator, doubleColon);
+                    return (pred == null) ? c : new AndCondition(pred, c);
                 }
             )
             |
@@ -1354,8 +1354,8 @@ Object pseudo(Condition pred, boolean pseudoElementFound) :
                 <RROUND>
                 {
                     if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { "lang(" + lang + ")" }, locator); }
-                    c = new LangConditionImpl(lang, locator);
-                    return (pred == null) ? c : new AndConditionImpl(pred, c);
+                    c = new LangCondition(lang, locator);
+                    return (pred == null) ? c : new AndCondition(pred, c);
                 }
             )
             |
@@ -1372,8 +1372,8 @@ Object pseudo(Condition pred, boolean pseudoElementFound) :
                 <RROUND>
                 {
                     if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + args.toString().trim() + ")" }, locator); }
-                    c = new PseudoClassConditionImpl(function + args.toString().trim() + ")", locator, doubleColon);
-                    return (pred == null) ? c : new AndConditionImpl(pred, c);
+                    c = new PseudoClassCondition(function + args.toString().trim() + ")", locator, doubleColon);
+                    return (pred == null) ? c : new AndCondition(pred, c);
                 }
             )
         )
@@ -1396,8 +1396,8 @@ Condition hash(Condition pred, boolean pseudoElementFound) :
         t = <HASH>
         {
             if (pseudoElementFound) { throw pe; }
-            Condition c = new IdConditionImpl(unescape(t.image.substring(1), false), createLocator(token));
-            return (pred == null) ? c : new AndConditionImpl(pred, c);
+            Condition c = new IdCondition(unescape(t.image.substring(1), false), createLocator(token));
+            return (pred == null) ? c : new AndCondition(pred, c);
         }
     }
     catch (ParseException e)

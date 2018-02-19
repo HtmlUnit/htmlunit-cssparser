@@ -17,21 +17,23 @@ package com.gargoylesoftware.css.parser.condition;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
+
 /**
- * Testcases for {@link IdConditionImpl}.
+ * Testcases for {@link LangCondition}.
  */
-public class IdConditionImplTest {
+public class LangConditionTest {
 
     /**
      * @throws Exception if any error occurs
      */
     @Test
     public void withoutValue() throws Exception {
-        final IdConditionImpl c = new IdConditionImpl(null, null);
-        Assert.assertNull(c.getLocalName());
-        Assert.assertNull(c.getValue());
+        final LangCondition c = new LangCondition(null, null);
+        Assert.assertEquals(ConditionType.LANG_CONDITION, c.getConditionType());
+        Assert.assertNull(c.getLang());
 
-        Assert.assertEquals("#", c.toString());
+        Assert.assertEquals(":lang()", c.toString());
     }
 
     /**
@@ -39,11 +41,11 @@ public class IdConditionImplTest {
      */
     @Test
     public void emptyValue() throws Exception {
-        final IdConditionImpl c = new IdConditionImpl("", null);
-        Assert.assertNull(c.getLocalName());
-        Assert.assertEquals("", c.getValue());
+        final LangCondition c = new LangCondition("", null);
+        Assert.assertEquals(ConditionType.LANG_CONDITION, c.getConditionType());
+        Assert.assertEquals("", c.getLang());
 
-        Assert.assertEquals("#", c.toString());
+        Assert.assertEquals(":lang()", c.toString());
     }
 
     /**
@@ -51,10 +53,10 @@ public class IdConditionImplTest {
      */
     @Test
     public void withValue() throws Exception {
-        final IdConditionImpl c = new IdConditionImpl("value", null);
-        Assert.assertNull(c.getLocalName());
-        Assert.assertEquals("value", c.getValue());
+        final LangCondition c = new LangCondition("value", null);
+        Assert.assertEquals(ConditionType.LANG_CONDITION, c.getConditionType());
+        Assert.assertEquals("value", c.getLang());
 
-        Assert.assertEquals("#value", c.toString());
+        Assert.assertEquals(":lang(value)", c.toString());
     }
 }

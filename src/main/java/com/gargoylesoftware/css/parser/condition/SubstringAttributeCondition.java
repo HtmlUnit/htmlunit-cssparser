@@ -21,27 +21,25 @@ import com.gargoylesoftware.css.parser.AbstractLocatable;
 /**
  * @author Ronald Brill
  */
-public class AttributeConditionImpl extends AbstractLocatable implements AttributeCondition, Serializable {
+public class SubstringAttributeCondition extends AbstractLocatable implements Condition, Serializable {
 
     private final String localName_;
     private final String value_;
 
-    public AttributeConditionImpl(final String localName, final String value) {
+    public SubstringAttributeCondition(final String localName, final String value) {
         localName_ = localName;
         value_ = value;
     }
 
     @Override
     public ConditionType getConditionType() {
-        return ConditionType.ATTRIBUTE_CONDITION;
+        return ConditionType.SUBSTRING_ATTRIBUTE_CONDITION; //for now
     }
 
-    @Override
     public String getLocalName() {
         return localName_;
     }
 
-    @Override
     public String getValue() {
         return value_;
     }
@@ -50,7 +48,7 @@ public class AttributeConditionImpl extends AbstractLocatable implements Attribu
     public String toString() {
         final String value = getValue();
         if (value != null) {
-            return "[" + getLocalName() + "=\"" + value + "\"]";
+            return "[" + getLocalName() + "*=\"" + value + "\"]";
         }
         return "[" + getLocalName() + "]";
     }

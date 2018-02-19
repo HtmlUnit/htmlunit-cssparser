@@ -21,28 +21,25 @@ import com.gargoylesoftware.css.parser.AbstractLocatable;
 /**
  * @author Ronald Brill
  */
-public class SuffixAttributeConditionImpl extends AbstractLocatable
-                implements AttributeCondition, Serializable {
+public class SuffixAttributeCondition extends AbstractLocatable implements Condition, Serializable {
 
     private final String localName_;
     private final String value_;
 
-    public SuffixAttributeConditionImpl(final String localName, final String value) {
+    public SuffixAttributeCondition(final String localName, final String value) {
         localName_ = localName;
         value_ = value;
     }
 
     @Override
     public ConditionType getConditionType() {
-        return ConditionType.ATTRIBUTE_CONDITION; //for now
+        return ConditionType.SUFFIX_ATTRIBUTE_CONDITION; //for now
     }
 
-    @Override
     public String getLocalName() {
         return localName_;
     }
 
-    @Override
     public String getValue() {
         return value_;
     }

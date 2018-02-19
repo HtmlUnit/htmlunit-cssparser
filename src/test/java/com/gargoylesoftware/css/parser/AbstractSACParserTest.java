@@ -32,10 +32,18 @@ import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
 import com.gargoylesoftware.css.dom.CSSStyleRuleImpl;
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.Property;
-import com.gargoylesoftware.css.parser.condition.AndConditionImpl;
+import com.gargoylesoftware.css.parser.condition.AndCondition;
 import com.gargoylesoftware.css.parser.condition.AttributeCondition;
+import com.gargoylesoftware.css.parser.condition.BeginHyphenAttributeCondition;
+import com.gargoylesoftware.css.parser.condition.ClassCondition;
 import com.gargoylesoftware.css.parser.condition.Condition;
 import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
+import com.gargoylesoftware.css.parser.condition.IdCondition;
+import com.gargoylesoftware.css.parser.condition.OneOfAttributeCondition;
+import com.gargoylesoftware.css.parser.condition.PrefixAttributeCondition;
+import com.gargoylesoftware.css.parser.condition.PseudoClassCondition;
+import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;
+import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
 import com.gargoylesoftware.css.parser.media.SACMediaList;
 import com.gargoylesoftware.css.parser.selector.ConditionalSelector;
 import com.gargoylesoftware.css.parser.selector.DescendantSelector;
@@ -141,7 +149,7 @@ public abstract class AbstractSACParserTest {
     protected int conditionType(final Condition condition, int initial, final ConditionType... conditionTypes) {
         Assert.assertEquals(conditionTypes[initial], condition.getConditionType());
         if (conditionTypes[initial] == ConditionType.AND_CONDITION) {
-            final AndConditionImpl combinatorCondition = (AndConditionImpl) condition;
+            final AndCondition combinatorCondition = (AndCondition) condition;
             final Condition first = combinatorCondition.getFirstCondition();
             final Condition second = combinatorCondition.getSecondCondition();
             initial = conditionType(first, ++initial, conditionTypes);
@@ -153,9 +161,58 @@ public abstract class AbstractSACParserTest {
     protected void conditionAssert(final String cssText, final String name,
             final String value, final boolean specified) throws Exception {
         final Condition condition = createCondition(cssText);
-        final AttributeCondition attributeCondition = (AttributeCondition) condition;
-        Assert.assertEquals(name, attributeCondition.getLocalName());
-        Assert.assertEquals(value, attributeCondition.getValue());
+        switch (condition.getConditionType()) {
+            case ATTRIBUTE_CONDITION:
+                final AttributeCondition attributeCondition = (AttributeCondition) condition;
+                Assert.assertEquals(name, attributeCondition.getLocalName());
+                Assert.assertEquals(value, attributeCondition.getValue());
+                break;
+            case PSEUDO_CLASS_CONDITION:
+                final PseudoClassCondition pseudoClassCondition = (PseudoClassCondition) condition;
+                Assert.assertEquals(name, pseudoClassCondition.getLocalName());
+                Assert.assertEquals(value, pseudoClassCondition.getValue());
+                break;
+            case CLASS_CONDITION:
+                final ClassCondition classCondition = (ClassCondition) condition;
+                Assert.assertEquals(name, classCondition.getLocalName());
+                Assert.assertEquals(value, classCondition.getValue());
+                break;
+            case ID_CONDITION:
+                final IdCondition idCondition = (IdCondition) condition;
+                Assert.assertEquals(name, idCondition.getLocalName());
+                Assert.assertEquals(value, idCondition.getValue());
+                break;
+            case ONE_OF_ATTRIBUTE_CONDITION:
+                final OneOfAttributeCondition oneOfAttributeCondition = (OneOfAttributeCondition) condition;
+                Assert.assertEquals(name, oneOfAttributeCondition.getLocalName());
+                Assert.assertEquals(value, oneOfAttributeCondition.getValue());
+                break;
+            case BEGIN_HYPHEN_ATTRIBUTE_CONDITION:
+                final BeginHyphenAttributeCondition beginHyphenAttributeCondition
+                                = (BeginHyphenAttributeCondition) condition;
+                Assert.assertEquals(name, beginHyphenAttributeCondition.getLocalName());
+                Assert.assertEquals(value, beginHyphenAttributeCondition.getValue());
+                break;
+            case PREFIX_ATTRIBUTE_CONDITION:
+                final PrefixAttributeCondition prefixAttributeCondition = (PrefixAttributeCondition) condition;
+                Assert.assertEquals(name, prefixAttributeCondition.getLocalName());
+                Assert.assertEquals(value, prefixAttributeCondition.getValue());
+                break;
+            case SUFFIX_ATTRIBUTE_CONDITION:
+                final SuffixAttributeCondition suffixAttributeCondition = (SuffixAttributeCondition) condition;
+                Assert.assertEquals(name, suffixAttributeCondition.getLocalName());
+                Assert.assertEquals(value, suffixAttributeCondition.getValue());
+                break;
+            case SUBSTRING_ATTRIBUTE_CONDITION:
+                final SubstringAttributeCondition substringAttributeCondition = (SubstringAttributeCondition) condition;
+                Assert.assertEquals(name, substringAttributeCondition.getLocalName());
+                Assert.assertEquals(value, substringAttributeCondition.getValue());
+                break;
+
+            default:
+                Assert.fail("unsupported condition type " + condition.getConditionType());
+                break;
+        }
     }
 
     protected void selectorList(final String cssText, final int length) throws Exception {

@@ -23,28 +23,24 @@ import com.gargoylesoftware.css.parser.Locator;
  *
  * @author Ronald Brill
  */
-public class PseudoClassConditionImpl extends AbstractLocatable implements AttributeCondition, Serializable {
+public class ClassCondition extends AbstractLocatable implements Condition, Serializable {
 
     private final String value_;
-    private final boolean doubleColon_;
 
-    public PseudoClassConditionImpl(final String value, final Locator locator, final boolean doubleColon) {
+    public ClassCondition(final String value, final Locator locator) {
         value_ = value;
         setLocator(locator);
-        doubleColon_ = doubleColon;
     }
 
     @Override
     public ConditionType getConditionType() {
-        return ConditionType.PSEUDO_CLASS_CONDITION;
+        return ConditionType.CLASS_CONDITION;
     }
 
-    @Override
     public String getLocalName() {
         return null;
     }
 
-    @Override
     public String getValue() {
         return value_;
     }
@@ -52,9 +48,9 @@ public class PseudoClassConditionImpl extends AbstractLocatable implements Attri
     @Override
     public String toString() {
         final String value = getValue();
-        if (value == null) {
-            return value;
+        if (value != null) {
+            return "." + value;
         }
-        return (doubleColon_ ? "::" : ":") + value;
+        return ".";
     }
 }

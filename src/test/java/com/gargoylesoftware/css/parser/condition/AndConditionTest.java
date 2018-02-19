@@ -20,16 +20,16 @@ import org.junit.Test;
 import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 
 /**
- * Testcases for {@link AndConditionImpl}.
+ * Testcases for {@link AndCondition}.
  */
-public class AndConditionImplTest {
+public class AndConditionTest {
 
     /**
      * @throws Exception if any error occurs
      */
     @Test
     public void withoutFirstSecond() throws Exception {
-        final AndConditionImpl ac = new AndConditionImpl(null, null);
+        final AndCondition ac = new AndCondition(null, null);
         Assert.assertEquals(ConditionType.AND_CONDITION, ac.getConditionType());
         Assert.assertNull(ac.getFirstCondition());
         Assert.assertNull(ac.getSecondCondition());
@@ -42,8 +42,8 @@ public class AndConditionImplTest {
      */
     @Test
     public void firstOnly() throws Exception {
-        final AttributeConditionImpl first = new AttributeConditionImpl("test", null);
-        final AndConditionImpl ac = new AndConditionImpl(first, null);
+        final AttributeCondition first = new AttributeCondition("test", null);
+        final AndCondition ac = new AndCondition(first, null);
         Assert.assertEquals(ConditionType.AND_CONDITION, ac.getConditionType());
         Assert.assertEquals(first, ac.getFirstCondition());
         Assert.assertNull(ac.getSecondCondition());
@@ -56,8 +56,8 @@ public class AndConditionImplTest {
      */
     @Test
     public void secondOnly() throws Exception {
-        final AttributeConditionImpl second = new AttributeConditionImpl("test", null);
-        final AndConditionImpl ac = new AndConditionImpl(null, second);
+        final AttributeCondition second = new AttributeCondition("test", null);
+        final AndCondition ac = new AndCondition(null, second);
         Assert.assertEquals(ConditionType.AND_CONDITION, ac.getConditionType());
         Assert.assertNull(ac.getFirstCondition());
         Assert.assertEquals(second, ac.getSecondCondition());
@@ -70,9 +70,9 @@ public class AndConditionImplTest {
      */
     @Test
     public void both() throws Exception {
-        final IdConditionImpl first = new IdConditionImpl("value", null);
-        final AttributeConditionImpl second = new AttributeConditionImpl("test", null);
-        final AndConditionImpl ac = new AndConditionImpl(first, second);
+        final IdCondition first = new IdCondition("value", null);
+        final AttributeCondition second = new AttributeCondition("test", null);
+        final AndCondition ac = new AndCondition(first, second);
         Assert.assertEquals(ConditionType.AND_CONDITION, ac.getConditionType());
         Assert.assertEquals(first, ac.getFirstCondition());
         Assert.assertEquals(second, ac.getSecondCondition());

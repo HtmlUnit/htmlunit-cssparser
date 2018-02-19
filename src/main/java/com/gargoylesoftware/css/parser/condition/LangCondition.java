@@ -23,11 +23,11 @@ import com.gargoylesoftware.css.parser.Locator;
  *
  * @author Ronald Brill
  */
-public class LangConditionImpl extends AbstractLocatable implements Condition, Serializable {
+public class LangCondition extends AbstractLocatable implements Condition, Serializable {
 
     private String lang_;
 
-    public LangConditionImpl(final String lang, final Locator locator) {
+    public LangCondition(final String lang, final Locator locator) {
         lang_ = lang;
         setLocator(locator);
     }

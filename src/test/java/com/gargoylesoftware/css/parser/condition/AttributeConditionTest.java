@@ -20,16 +20,16 @@ import org.junit.Test;
 import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 
 /**
- * Testcases for {@link AttributeConditionImpl}.
+ * Testcases for {@link AttributeCondition}.
  */
-public class AttributeConditionImplTest {
+public class AttributeConditionTest {
 
     /**
      * @throws Exception if any error occurs
      */
     @Test
     public void withoutValue() throws Exception {
-        final AttributeConditionImpl ac = new AttributeConditionImpl("test", null);
+        final AttributeCondition ac = new AttributeCondition("test", null);
         Assert.assertEquals(ConditionType.ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertNull(ac.getValue());
@@ -42,7 +42,7 @@ public class AttributeConditionImplTest {
      */
     @Test
     public void emptyValue() throws Exception {
-        final AttributeConditionImpl ac = new AttributeConditionImpl("test", "");
+        final AttributeCondition ac = new AttributeCondition("test", "");
         Assert.assertEquals(ConditionType.ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("", ac.getValue());
@@ -55,7 +55,7 @@ public class AttributeConditionImplTest {
      */
     @Test
     public void withValue() throws Exception {
-        final AttributeConditionImpl ac = new AttributeConditionImpl("test", "value");
+        final AttributeCondition ac = new AttributeCondition("test", "value");
         Assert.assertEquals(ConditionType.ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("value", ac.getValue());
@@ -68,7 +68,7 @@ public class AttributeConditionImplTest {
      */
     @Test
     public void emptyValueAndSpecified() throws Exception {
-        final AttributeConditionImpl ac = new AttributeConditionImpl("test", "");
+        final AttributeCondition ac = new AttributeCondition("test", "");
         Assert.assertEquals(ConditionType.ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("", ac.getValue());
@@ -81,7 +81,7 @@ public class AttributeConditionImplTest {
      */
     @Test
     public void withoutValueAndSpecified() throws Exception {
-        final AttributeConditionImpl ac = new AttributeConditionImpl("test", null);
+        final AttributeCondition ac = new AttributeCondition("test", null);
         Assert.assertEquals(ConditionType.ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertNull(ac.getValue());
@@ -94,7 +94,7 @@ public class AttributeConditionImplTest {
      */
     @Test
     public void withValueAndSpecified() throws Exception {
-        final AttributeConditionImpl ac = new AttributeConditionImpl("test", "value");
+        final AttributeCondition ac = new AttributeCondition("test", "value");
         Assert.assertEquals(ConditionType.ATTRIBUTE_CONDITION, ac.getConditionType());
         Assert.assertEquals("test", ac.getLocalName());
         Assert.assertEquals("value", ac.getValue());

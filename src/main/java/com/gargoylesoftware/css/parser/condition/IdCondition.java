@@ -17,32 +17,29 @@ package com.gargoylesoftware.css.parser.condition;
 import java.io.Serializable;
 
 import com.gargoylesoftware.css.parser.AbstractLocatable;
+import com.gargoylesoftware.css.parser.Locator;
 
 /**
  * @author Ronald Brill
  */
-public class OneOfAttributeConditionImpl extends AbstractLocatable
-                implements AttributeCondition, Serializable {
+public class IdCondition extends AbstractLocatable implements Condition, Serializable {
 
-    private final String localName_;
     private final String value_;
 
-    public OneOfAttributeConditionImpl(final String localName, final String value) {
-        localName_ = localName;
+    public IdCondition(final String value, final Locator locator) {
         value_ = value;
+        setLocator(locator);
     }
 
     @Override
     public ConditionType getConditionType() {
-        return ConditionType.ONE_OF_ATTRIBUTE_CONDITION;
+        return ConditionType.ID_CONDITION;
     }
 
-    @Override
     public String getLocalName() {
-        return localName_;
+        return null;
     }
 
-    @Override
     public String getValue() {
         return value_;
     }
@@ -51,8 +48,8 @@ public class OneOfAttributeConditionImpl extends AbstractLocatable
     public String toString() {
         final String value = getValue();
         if (value != null) {
-            return "[" + getLocalName() + "~=\"" + value + "\"]";
+            return "#" + value;
         }
-        return "[" + getLocalName() + "]";
+        return "#";
     }
 }

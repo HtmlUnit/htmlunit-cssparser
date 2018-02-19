@@ -19,30 +19,27 @@ import java.io.Serializable;
 import com.gargoylesoftware.css.parser.AbstractLocatable;
 
 /**
- * @author Ronald Brill
+ * @author Ronlad Brill
  */
-public class SubstringAttributeConditionImpl extends AbstractLocatable
-                implements AttributeCondition, Serializable {
+public class PrefixAttributeCondition extends AbstractLocatable implements Condition, Serializable {
 
     private final String localName_;
     private final String value_;
 
-    public SubstringAttributeConditionImpl(final String localName, final String value) {
+    public PrefixAttributeCondition(final String localName, final String value) {
         localName_ = localName;
         value_ = value;
     }
 
     @Override
     public ConditionType getConditionType() {
-        return ConditionType.ATTRIBUTE_CONDITION; //for now
+        return ConditionType.PREFIX_ATTRIBUTE_CONDITION; //for now
     }
 
-    @Override
     public String getLocalName() {
         return localName_;
     }
 
-    @Override
     public String getValue() {
         return value_;
     }
@@ -51,7 +48,7 @@ public class SubstringAttributeConditionImpl extends AbstractLocatable
     public String toString() {
         final String value = getValue();
         if (value != null) {
-            return "[" + getLocalName() + "*=\"" + value + "\"]";
+            return "[" + getLocalName() + "^=\"" + value + "\"]";
         }
         return "[" + getLocalName() + "]";
     }
