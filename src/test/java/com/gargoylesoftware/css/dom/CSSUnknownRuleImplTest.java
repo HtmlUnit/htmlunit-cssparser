@@ -83,7 +83,7 @@ public class CSSUnknownRuleImplTest {
 
     private CSSUnknownRuleImpl parseUnknownRule(final String rule) throws Exception {
         final InputSource is = new InputSource(new StringReader(rule));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null, null);
+        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
 
         final CSSUnknownRuleImpl value = (CSSUnknownRuleImpl) ss.getCssRules().item(0);
         return value;

@@ -95,7 +95,7 @@ public class CSSRuleListImplTest {
 
     private CSSRuleListImpl parseRuleList(final String rules) throws Exception {
         final InputSource is = new InputSource(new StringReader(rules));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null, null);
+        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
 
         return (CSSRuleListImpl) ss.getCssRules();
     }

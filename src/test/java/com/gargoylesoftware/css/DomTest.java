@@ -135,7 +135,7 @@ public class DomTest {
         final InputSource source = new InputSource(new StringReader(cssText));
         final CSSOMParser cssomParser = new CSSOMParser();
 
-        final CSSStyleSheet css = cssomParser.parseStyleSheet(source, null, "http://www.example.org/css/style.css");
+        final CSSStyleSheet css = cssomParser.parseStyleSheet(source, "http://www.example.org/css/style.css");
 
         final CSSRuleList rules = css.getCssRules();
         Assert.assertEquals(2, rules.getLength());

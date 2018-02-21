@@ -99,7 +99,7 @@ public abstract class AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(err, errorHandler.getErrorCount());
         Assert.assertEquals(fatal, errorHandler.getFatalErrorCount());
@@ -255,7 +255,7 @@ public abstract class AbstractSACParserTest {
         parser.setErrorHandler(errorHandler);
 
         final InputSource source = new InputSource(new StringReader(input));
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());

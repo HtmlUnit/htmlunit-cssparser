@@ -372,7 +372,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
                     final URI importURI = new URI(getBaseUri()).resolve(cssImportRule.getHref());
                     final CSSStyleSheetImpl importedCSS = (CSSStyleSheetImpl)
                         new CSSOMParser().parseStyleSheet(
-                                new InputSource(importURI.toString()), null, importURI.toString());
+                                new InputSource(importURI.toString()), importURI.toString());
                     if (recursive) {
                         importedCSS.importImports(recursive);
                     }

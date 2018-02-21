@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.Stack;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.Node;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.dom.css.CSSStyleSheet;
@@ -66,17 +65,11 @@ public class CSSOMParser {
      * Parses a SAC input source into a CSSOM style sheet.
      *
      * @param source the SAC input source
-     * @param ownerNode the owner node (see the definition of
-     *   <code>ownerNode</code> in org.w3c.dom.css.StyleSheet)
-     * @param href the href (see the definition of <code>href</code> in
-     *   org.w3c.dom.css.StyleSheet)
      * @return the CSSOM style sheet
      * @throws IOException if the underlying SAC parser throws an IOException
      */
-    public CSSStyleSheet parseStyleSheet(final InputSource source,
-            final Node ownerNode, final String href) throws IOException {
+    public CSSStyleSheet parseStyleSheet(final InputSource source, final String href) throws IOException {
         final CSSOMHandler handler = new CSSOMHandler();
-        handler.setOwnerNode(ownerNode);
         handler.setHref(href);
         parser_.setDocumentHandler(handler);
         parser_.parseStyleSheet(source);
@@ -151,16 +144,7 @@ public class CSSOMParser {
     class CSSOMHandler implements DocumentHandler {
         private Stack<Object> nodeStack_;
         private Object root_;
-        private Node ownerNode_;
         private String href_;
-
-        private Node getOwnerNode() {
-            return ownerNode_;
-        }
-
-        private void setOwnerNode(final Node ownerNode) {
-            ownerNode_ = ownerNode;
-        }
 
         private String getHref() {
             return href_;
@@ -187,7 +171,6 @@ public class CSSOMParser {
             if (nodeStack_.empty()) {
                 final CSSStyleSheetImpl ss = new CSSStyleSheetImpl();
                 CSSOMParser.this.setParentStyleSheet(ss);
-                ss.setOwnerNode(getOwnerNode());
                 ss.setBaseUri(source.getURI());
                 ss.setHref(getHref());
                 ss.setMediaText(source.getMedia());
@@ -226,11 +209,6 @@ public class CSSOMParser {
             else {
                 root_ = ir;
             }
-        }
-
-        @Override
-        public void namespaceDeclaration(final String prefix, final String uri) throws CSSException {
-            // empty default impl
         }
 
         @Override

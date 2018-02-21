@@ -42,7 +42,7 @@ public class TestException {
 
         final Reader r = new StringReader("");
         final InputSource source = new InputSource(r);
-        final CSSStyleSheet stylesheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet stylesheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(0, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());

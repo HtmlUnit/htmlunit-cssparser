@@ -97,7 +97,7 @@ public class CSSCharsetRuleImplTest {
 
     private CSSCharsetRuleImpl parseCharsetRule(final String rule) throws Exception {
         final InputSource is = new InputSource(new StringReader(rule));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null, null);
+        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
 
         final CSSCharsetRuleImpl value = (CSSCharsetRuleImpl) ss.getCssRules().item(0);
         return value;

@@ -93,7 +93,7 @@ public class CSSOMParserTest {
         final String test = "p { color:#123456; }";
         final Reader r = new StringReader(test);
         final InputSource is = new InputSource(r);
-        final CSSStyleSheet ss = parser.parseStyleSheet(is, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(is, null);
         final CSSRuleList rl = ss.getCssRules();
         Assert.assertEquals(1, rl.getLength());
     }
@@ -114,7 +114,7 @@ public class CSSOMParserTest {
     public void parseStyleSheet() throws Exception {
         final Reader r = new StringReader(testString_);
         final InputSource is = new InputSource(r);
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null, null);
+        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
 
         final CSSRuleList rl = ss.getCssRules();
         final CSSRule rule = rl.item(0);
@@ -140,7 +140,7 @@ public class CSSOMParserTest {
 
         final Reader r = new StringReader(test);
         final InputSource is = new InputSource(r);
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null, null);
+        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
         final CSSRuleList rl = ss.getCssRules();
         Assert.assertEquals(2, rl.getLength());
 
@@ -394,7 +394,7 @@ public class CSSOMParserTest {
         final Reader r = new StringReader("..nieuwsframedatum{ font-size : 8pt;}");
         final InputSource source = new InputSource(r);
         final CSSOMParser parser = new CSSOMParser();
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(0, ss.getCssRules().getLength());
     }
@@ -414,7 +414,7 @@ public class CSSOMParserTest {
         final Reader r = new StringReader("@import http://www.wetator.org");
         final InputSource source = new InputSource(r);
         final CSSOMParser parser = new CSSOMParser();
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(0, ss.getCssRules().getLength());
     }
@@ -434,7 +434,7 @@ public class CSSOMParserTest {
         final Reader r = new StringReader("@import url('a.css'); @import url('c.css')");
         final InputSource source = new InputSource(r);
         final CSSOMParser parser = new CSSOMParser();
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
 
         // second rule is not detected, because the closing semicolon is missed
         Assert.assertEquals(1, ss.getCssRules().getLength());
@@ -501,7 +501,7 @@ public class CSSOMParserTest {
     public void parsePageDeclaration() throws Exception {
         final Reader r = new StringReader("@page :pageStyle { size: 21.0cm 29.7cm; }");
         final InputSource is = new InputSource(r);
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null, null);
+        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
 
         Assert.assertEquals("@page :pageStyle {size: 21cm 29.7cm}", ss.toString().trim());
 
@@ -525,7 +525,7 @@ public class CSSOMParserTest {
     public void parsePageDeclaration2() throws Exception {
         final Reader r = new StringReader("@page { size: 21.0cm 29.7cm; }");
         final InputSource is = new InputSource(r);
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null, null);
+        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
 
         Assert.assertEquals("@page {size: 21cm 29.7cm}", ss.toString().trim());
 
@@ -555,7 +555,7 @@ public class CSSOMParserTest {
                 + "background-size: 190px 48px;"
                 + "}");
         final InputSource is = new InputSource(r);
-        final CSSStyleSheet sheet = new CSSOMParser().parseStyleSheet(is, null, null);
+        final CSSStyleSheet sheet = new CSSOMParser().parseStyleSheet(is, null);
 
         Assert.assertEquals("p { background: rgb(0, 0, 0); "
                 + "background-repeat: repeat-y; "

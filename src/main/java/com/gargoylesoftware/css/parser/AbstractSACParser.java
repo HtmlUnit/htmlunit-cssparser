@@ -19,9 +19,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.channels.Selector;
 import java.text.MessageFormat;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.HashMap;
 
 import org.w3c.dom.DOMException;
 
@@ -37,7 +35,51 @@ abstract class AbstractSACParser implements CSSParser {
     private DocumentHandler documentHandler_;
     private CSSErrorHandler errorHandler_;
     private InputSource source_;
-    private ResourceBundle sacParserMessages_;
+
+    private static final HashMap<String, String> parserMessages_ = new HashMap<>();
+
+    static {
+        parserMessages_.put("invalidExpectingOne", "Invalid token \"{0}\". Was expecting: {1}.");
+        parserMessages_.put("invalidExpectingMore", "Invalid token \"{0}\". Was expecting one of: {1}.");
+        parserMessages_.put("invalidColor", "Invalid color \"{0}\".");
+        parserMessages_.put("invalidStyleSheet", "Error in style sheet.");
+        parserMessages_.put("invalidRule", "Error in rule.");
+        parserMessages_.put("invalidUnknownRule", "Error in unknown at-rule.");
+        parserMessages_.put("invalidCharsetRule", "Error in @charset rule.");
+        parserMessages_.put("misplacedCharsetRule", "The @charset must be the first element in the style sheet.");
+        parserMessages_.put("invalidImportRule", "Error in @import rule.");
+        parserMessages_.put("invalidImportRuleIgnored", "@import rule must occur before all other rules.");
+        parserMessages_.put("invalidImportRuleIgnored2",
+                                "@import rule must occur before all other rules, except the @charset rule.");
+        parserMessages_.put("invalidPageRule", "Error in @page rule.");
+        parserMessages_.put("invalidFontFaceRule", "Error in @font-face rule.");
+        parserMessages_.put("invalidMediaList", "Error in media list.");
+        parserMessages_.put("invalidMediaRule", "Error in @media rule.");
+        parserMessages_.put("invalidStyleRule", "Error in style rule.");
+        parserMessages_.put("invalidStyleDeclaration", "Error in style declaration.");
+        parserMessages_.put("invalidDeclaration", "Error in declaration.");
+        parserMessages_.put("invalidDeclarationInvalidChar", "Error in declaration; invalid character \"{0}\" found.");
+        parserMessages_.put("invalidDeclarationStarHack",
+                                    "Error in declaration. ''*'' is not allowed as first char of a property.");
+        parserMessages_.put("invalidSelectorList", "Error in selector list.");
+        parserMessages_.put("invalidSelector", "Error in selector.");
+        parserMessages_.put("invalidSimpleSelector", "Error in simple selector.");
+        parserMessages_.put("invalidClassSelector", "Error in class selector.");
+        parserMessages_.put("invalidElementName", "Error in element name.");
+        parserMessages_.put("invalidAttrib", "Error in attribute selector.");
+        parserMessages_.put("invalidPseudo", "Error in pseudo class or element.");
+        parserMessages_.put("duplicatePseudo", "Duplicate pseudo class \":{0}\" or pseudo class \":{0}\" not at end.");
+        parserMessages_.put("invalidHash", "Error in hash.");
+        parserMessages_.put("invalidExpr", "Error in expression.");
+        parserMessages_.put("invalidExprColon", "Error in expression; '':'' found after identifier \"{0}\".");
+        parserMessages_.put("invalidPrio", "Error in priority.");
+
+        parserMessages_.put("ignoringRule", "Ignoring the whole rule.");
+        parserMessages_.put("ignoringFollowingDeclarations", "Ignoring the following declarations in this rule.");
+
+        parserMessages_.put("tokenMgrError", "Lexical error.");
+        parserMessages_.put("domException", "DOM exception: ''{0}''");
+    }
 
     private boolean ieStarHackAccepted_;
 
@@ -81,18 +123,12 @@ abstract class AbstractSACParser implements CSSParser {
         return ieStarHackAccepted_;
     }
 
-    protected ResourceBundle getSACParserMessages() {
-        if (sacParserMessages_ == null) {
-            try {
-                sacParserMessages_ = ResourceBundle.getBundle(
-                    "com.gargoylesoftware.css.parser.SACParserMessages",
-                    Locale.ENGLISH);
-            }
-            catch (final MissingResourceException e) {
-                e.printStackTrace();
-            }
+    protected String getParserMessage(final String key) {
+        final String msg = parserMessages_.get(key);
+        if (msg == null) {
+            return "[[" + key + "]]";
         }
-        return sacParserMessages_;
+        return msg;
     }
 
     protected Locator createLocator(final Token t) {
@@ -148,8 +184,8 @@ abstract class AbstractSACParser implements CSSParser {
     }
 
     protected CSSParseException toCSSParseException(final String key, final ParseException e) {
-        final String messagePattern1 = getSACParserMessages().getString("invalidExpectingOne");
-        final String messagePattern2 = getSACParserMessages().getString("invalidExpectingMore");
+        final String messagePattern1 = getParserMessage("invalidExpectingOne");
+        final String messagePattern2 = getParserMessage("invalidExpectingMore");
         int maxSize = 0;
         final StringBuilder expected = new StringBuilder();
         for (int i = 0; i < e.expectedTokenSequences.length; i++) {
@@ -176,14 +212,7 @@ abstract class AbstractSACParser implements CSSParser {
             invalid.append(add_escapes(tok.image));
             tok = tok.next;
         }
-        String s = null;
-        try {
-            s = getSACParserMessages().getString(key);
-        }
-        catch (final MissingResourceException ex) {
-            s = key;
-        }
-        final StringBuilder message = new StringBuilder(s);
+        final StringBuilder message = new StringBuilder(getParserMessage(key));
         message.append(" (");
         if (e.expectedTokenSequences.length == 1) {
             message.append(MessageFormat.format(messagePattern1, new Object[] {invalid, expected}));
@@ -198,31 +227,24 @@ abstract class AbstractSACParser implements CSSParser {
     }
 
     protected CSSParseException toCSSParseException(final DOMException e) {
-        final String messagePattern = getSACParserMessages().getString("domException");
+        final String messagePattern = getParserMessage("domException");
         return new CSSParseException(
                 MessageFormat.format(messagePattern, e.getMessage()), getInputSource().getURI(), 1, 1);
     }
 
     protected CSSParseException toCSSParseException(final TokenMgrError e) {
-        final String messagePattern = getSACParserMessages().getString("tokenMgrError");
+        final String messagePattern = getParserMessage("tokenMgrError");
         return new CSSParseException(messagePattern, getInputSource().getURI(), 1, 1);
     }
 
     protected CSSParseException toCSSParseException(final String messageKey,
             final Object[] msgParams, final Locator locator) {
-        final String messagePattern = getSACParserMessages().getString(messageKey);
+        final String messagePattern = getParserMessage(messageKey);
         return new CSSParseException(MessageFormat.format(messagePattern, msgParams), locator);
     }
 
     protected CSSParseException createSkipWarning(final String key, final CSSParseException e) {
-        String s = null;
-        try {
-            s = getSACParserMessages().getString(key);
-        }
-        catch (final MissingResourceException ex) {
-            s = key;
-        }
-        return new CSSParseException(s, e.getURI(), e.getLineNumber(), e.getColumnNumber());
+        return new CSSParseException(getParserMessage(key), e.getURI(), e.getLineNumber(), e.getColumnNumber());
     }
 
     @Override
@@ -499,7 +521,7 @@ abstract class AbstractSACParser implements CSSParser {
                 b = Integer.parseInt(t.image.substring(i + 4, i + 6), 16);
             }
             else {
-                final String pattern = getSACParserMessages().getString("invalidColor");
+                final String pattern = getParserMessage("invalidColor");
                 throw new CSSParseException(MessageFormat.format(
                     pattern, new Object[] {t}),
                     getInputSource().getURI(), t.beginLine,
@@ -516,7 +538,7 @@ abstract class AbstractSACParser implements CSSParser {
             return LexicalUnitImpl.createRgbColor(prev, lr);
         }
         catch (final NumberFormatException ex) {
-            final String pattern = getSACParserMessages().getString("invalidColor");
+            final String pattern = getParserMessage("invalidColor");
             throw new CSSParseException(MessageFormat.format(
                 pattern, new Object[] {t}),
                 getInputSource().getURI(), t.beginLine,

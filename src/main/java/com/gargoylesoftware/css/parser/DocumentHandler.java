@@ -65,17 +65,6 @@ public interface DocumentHandler {
     void comment(String text) throws CSSException;
 
     /**
-     * Receive notification of an unknown rule t-rule not supported by this
-     * parser.
-     *
-     * @param prefix <code>null</code> if this is the default namespace
-     * @param uri The URI for this namespace.
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *                         exception.
-     */
-    void namespaceDeclaration(String prefix, String uri) throws CSSException;
-
-    /**
      * Receive notification of the end of a media statement.
      *
      * @param media The intended destination media for style information.

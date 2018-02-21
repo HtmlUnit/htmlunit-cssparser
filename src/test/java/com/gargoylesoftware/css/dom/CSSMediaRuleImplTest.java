@@ -40,7 +40,7 @@ public class CSSMediaRuleImplTest {
     public void getCssText() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { body { font-size: 10pt } }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
         final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
 
         Assert.assertEquals("@media print {body { font-size: 10pt } }", mediaRule.getCssText());
@@ -54,7 +54,7 @@ public class CSSMediaRuleImplTest {
     public void insertRule() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
         final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
 
         mediaRule.insertRule(".testStyle { height: 42px; }", 0);
@@ -85,7 +85,7 @@ public class CSSMediaRuleImplTest {
     public void insertRuleWithLeadingWhitespace() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
         final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
 
         mediaRule.insertRule(" .testStyleDef { height: 42px; }", 0);
@@ -110,7 +110,7 @@ public class CSSMediaRuleImplTest {
     public void insertRuleWithoutDeclaration() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
         final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
 
         try {
@@ -132,7 +132,7 @@ public class CSSMediaRuleImplTest {
     public void insertRuleNot() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
         final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
 
         mediaRule.insertRule("li:not(.shiny) { height: 44px }", 0);
@@ -155,7 +155,7 @@ public class CSSMediaRuleImplTest {
     public void deleteRule() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { body { font-size: 10pt } }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
         final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
 
         mediaRule.deleteRule(0);
@@ -169,7 +169,7 @@ public class CSSMediaRuleImplTest {
     public void deleteRuleWrongIndex() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
         final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
 
         try {
@@ -189,7 +189,7 @@ public class CSSMediaRuleImplTest {
     public void asString() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { body { font-size: 10pt } }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
         final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().item(0);
 
         Assert.assertEquals("@media print {body { font-size: 10pt } }", mediaRule.toString());

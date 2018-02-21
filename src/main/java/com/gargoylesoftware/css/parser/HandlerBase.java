@@ -43,11 +43,6 @@ public class HandlerBase implements DocumentHandler, CSSErrorHandler {
     }
 
     @Override
-    public void namespaceDeclaration(final String prefix, final String uri) throws CSSException {
-        // empty default impl
-    }
-
-    @Override
     public void importStyle(final String uri, final MediaQueryList media,
             final String defaultNamespaceURI, final Locator locator) throws CSSException {
         // empty default impl

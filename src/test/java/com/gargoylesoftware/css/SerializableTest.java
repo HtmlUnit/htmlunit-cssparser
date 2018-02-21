@@ -49,7 +49,7 @@ public class SerializableTest {
         final Reader r = new InputStreamReader(is);
         final InputSource source = new InputSource(r);
 
-        final CSSStyleSheet stylesheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet stylesheet = parser.parseStyleSheet(source, null);
 
         // Serialize the style sheet
         final File temp = File.createTempFile("temp", "css");

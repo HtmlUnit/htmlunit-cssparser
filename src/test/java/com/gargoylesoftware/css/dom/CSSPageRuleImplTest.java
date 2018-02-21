@@ -120,7 +120,7 @@ public class CSSPageRuleImplTest {
 
     private CSSPageRuleImpl parsePageRule(final String pageRule) throws Exception {
         final InputSource is = new InputSource(new StringReader(pageRule));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null, null);
+        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
 
         final CSSPageRuleImpl value = (CSSPageRuleImpl) ss.getCssRules().item(0);
         return value;

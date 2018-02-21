@@ -224,8 +224,7 @@ public class CSSStyleSheetImplTest {
             + "}";
         final InputSource source = new InputSource(new StringReader(cssText));
         final CSSOMParser cssomParser = new CSSOMParser();
-        final CSSStyleSheet css = cssomParser.parseStyleSheet(source, null,
-            "http://www.example.org/css/style.css");
+        final CSSStyleSheet css = cssomParser.parseStyleSheet(source, "http://www.example.org/css/style.css");
 
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -241,7 +240,7 @@ public class CSSStyleSheetImplTest {
 
     private CSSStyleSheetImpl parseStyleSheet(final String rule) throws Exception {
         final InputSource is = new InputSource(new StringReader(rule));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null, null);
+        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
 
         return (CSSStyleSheetImpl) ss;
     }

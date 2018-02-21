@@ -132,7 +132,7 @@ public class LocatorTest {
         counts.put('V', 0);
         try {
             final CSSStyleSheet cssStyleSheet =
-                cssomParser.parseStyleSheet(source, null, null);
+                cssomParser.parseStyleSheet(source, null);
             final CSSRuleList cssRules = cssStyleSheet.getCssRules();
             cssRules(cssRules, positions, counts);
         }

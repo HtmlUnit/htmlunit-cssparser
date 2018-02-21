@@ -61,7 +61,7 @@ public class ImportantTest {
         final InputSource source = new InputSource(r);
 
         final CSSOMParser parser = new CSSOMParser();
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
         Assert.assertEquals(0, errorHandler.getErrorCount());

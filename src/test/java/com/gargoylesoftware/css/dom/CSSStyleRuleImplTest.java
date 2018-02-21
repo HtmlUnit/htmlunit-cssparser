@@ -86,7 +86,7 @@ public class CSSStyleRuleImplTest {
 
     private CSSStyleRuleImpl parseStyleRule(final String rule) throws Exception {
         final InputSource is = new InputSource(new StringReader(rule));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null, null);
+        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
 
         final CSSStyleRuleImpl value = (CSSStyleRuleImpl) ss.getCssRules().item(0);
         return value;

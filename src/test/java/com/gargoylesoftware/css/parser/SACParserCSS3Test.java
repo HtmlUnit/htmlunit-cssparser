@@ -42,18 +42,18 @@ import com.gargoylesoftware.css.dom.MediaListImpl;
 import com.gargoylesoftware.css.dom.Property;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 import com.gargoylesoftware.css.parser.condition.Condition;
+import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 import com.gargoylesoftware.css.parser.condition.LangCondition;
 import com.gargoylesoftware.css.parser.condition.PrefixAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.PseudoClassCondition;
 import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
-import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 import com.gargoylesoftware.css.parser.media.MediaQuery;
 import com.gargoylesoftware.css.parser.selector.ChildSelector;
 import com.gargoylesoftware.css.parser.selector.ConditionalSelector;
 import com.gargoylesoftware.css.parser.selector.Selector;
-import com.gargoylesoftware.css.parser.selector.SelectorList;
 import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
+import com.gargoylesoftware.css.parser.selector.SelectorList;
 
 /**
  * @author Ahmed Ashour
@@ -752,7 +752,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         final String expected = "@import rule must occur before all other rules, except the @charset rule."
@@ -798,7 +798,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         final String expected = "@import rule must occur before all other rules, except the @charset rule."
@@ -843,7 +843,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         final String expected = "@import rule must occur before all other rules, except the @charset rule."
@@ -1044,7 +1044,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         parser.setErrorHandler(errorHandler);
 
         final InputSource source = new InputSource(new StringReader(cssText));
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(0, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
@@ -1257,7 +1257,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(7, errorHandler.getErrorCount());
         final String expected = "Error in declaration. (Invalid token \"}\". Was expecting one of: <S>, \":\".)"
@@ -1325,7 +1325,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(3, errorHandler.getErrorCount());
         Assert.assertEquals("1 2 3", errorHandler.getErrorLines());
@@ -1365,7 +1365,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in style rule. "
@@ -1444,7 +1444,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in @media rule. (Invalid token \"<EOF>\". Was expecting one of: ";
@@ -1480,7 +1480,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in @media rule. (Invalid token \"<EOF>\". Was expecting one of: ";
@@ -1515,7 +1515,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in @page rule. "
@@ -1559,7 +1559,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in expression. "
@@ -1600,7 +1600,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in rule. (Invalid token \"0.75\".";
@@ -1633,7 +1633,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in rule. (Invalid token \"}\".";
@@ -1749,7 +1749,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        parser.parseStyleSheet(source, null, null);
+        parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
@@ -1776,7 +1776,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
@@ -1809,7 +1809,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
@@ -1839,7 +1839,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
@@ -1874,7 +1874,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(0, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
@@ -2116,7 +2116,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(0, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
@@ -2164,7 +2164,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
@@ -2914,7 +2914,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         cssParser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = cssParser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = cssParser.parseStyleSheet(source, null);
 
         Assert.assertEquals(0, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
@@ -2997,7 +2997,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
         final InputSource source = new InputSource(new StringReader(css));
         final CSSOMParser parser = parser();
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null, null);
+        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
         final CSSRuleList rules = sheet.getCssRules();
 
         Assert.assertEquals(1, rules.getLength());
