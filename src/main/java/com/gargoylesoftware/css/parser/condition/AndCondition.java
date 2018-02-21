@@ -17,7 +17,6 @@ package com.gargoylesoftware.css.parser.condition;
 import java.io.Serializable;
 
 import com.gargoylesoftware.css.parser.AbstractLocatable;
-import com.gargoylesoftware.css.parser.Locatable;
 
 /**
  * @author Ronald Brill
@@ -34,8 +33,8 @@ public class AndCondition extends AbstractLocatable implements Condition, Serial
      */
     public AndCondition(final Condition c1, final Condition c2) {
         firstCondition_ = c1;
-        if (c1 instanceof Locatable) {
-            setLocator(((Locatable) c1).getLocator());
+        if (firstCondition_ != null) {
+            setLocator(firstCondition_.getLocator());
         }
 
         secondCondition_ = c2;
