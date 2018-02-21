@@ -47,7 +47,6 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
 
     private boolean disabled_;
     private Node ownerNode_;
-    private StyleSheet parentStyleSheet_;
     private String href_;
     private String title_;
     private MediaList media_;
@@ -98,7 +97,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
 
     @Override
     public StyleSheet getParentStyleSheet() {
-        return parentStyleSheet_;
+        return null;
     }
 
     @Override
@@ -252,7 +251,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
     }
 
     public void setParentStyleSheet(final StyleSheet parentStyleSheet) {
-        parentStyleSheet_ = parentStyleSheet;
+        throw new RuntimeException("Method setParentStyleSheet not supported");
     }
 
     public void setHref(final String href) {
@@ -301,10 +300,6 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         eq = eq && (getDisabled() == css.getDisabled());
         eq = eq && LangUtils.equals(getHref(), css.getHref());
         eq = eq && LangUtils.equals(getMedia(), css.getMedia());
-        // TODO implement some reasonful equals method for ownerNode
-//        eq = eq && Utils.equals(getOwnerNode(), css.getOwnerNode());
-            // don't use ownerNode and parentStyleSheet in equals()
-            // recursive loop -> stack overflow!
         eq = eq && LangUtils.equals(getTitle(), css.getTitle());
         return eq;
     }
@@ -318,8 +313,6 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         hash = LangUtils.hashCode(hash, href_);
         hash = LangUtils.hashCode(hash, media_);
         hash = LangUtils.hashCode(hash, ownerNode_);
-        // don't use ownerNode and parentStyleSheet in hashCode()
-        // recursive loop -> stack overflow!
         hash = LangUtils.hashCode(hash, readOnly_);
         hash = LangUtils.hashCode(hash, title_);
         return hash;
@@ -331,8 +324,6 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         out.writeBoolean(disabled_);
         out.writeObject(href_);
         out.writeObject(media_);
-        // TODO ownerNode may not be serializable!
-//        out.writeObject(ownerNode);
         out.writeBoolean(readOnly_);
         out.writeObject(title_);
     }
@@ -351,8 +342,6 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         disabled_ = in.readBoolean();
         href_ = (String) in.readObject();
         media_ = (MediaList) in.readObject();
-        // TODO ownerNode may not be serializable!
-//        ownerNode = (Node) in.readObject();
         readOnly_ = in.readBoolean();
         title_ = (String) in.readObject();
     }
