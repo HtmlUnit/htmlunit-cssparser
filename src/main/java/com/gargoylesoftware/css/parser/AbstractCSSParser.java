@@ -31,7 +31,7 @@ import com.gargoylesoftware.css.parser.selector.SelectorList;
  *
  * @author Ronald Brill
  */
-abstract class AbstractSACParser implements CSSParser {
+abstract class AbstractCSSParser implements CSSParser {
     private DocumentHandler documentHandler_;
     private CSSErrorHandler errorHandler_;
     private InputSource source_;

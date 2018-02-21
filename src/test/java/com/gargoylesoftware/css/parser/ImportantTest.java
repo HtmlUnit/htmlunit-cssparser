@@ -44,7 +44,7 @@ public class ImportantTest {
      */
     @Test
     public void css3Error() throws Exception {
-        final ErrorHandler errorHandler = parserError(new SACParserCSS3());
+        final ErrorHandler errorHandler = parserError(new CSS3Parser());
 
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
         Assert.assertEquals(0, errorHandler.getErrorCount());
@@ -53,7 +53,7 @@ public class ImportantTest {
 
     private void css() throws Exception {
         final ErrorHandler errorHandler = new ErrorHandler();
-        new SACParserCSS3().setErrorHandler(errorHandler);
+        new CSS3Parser().setErrorHandler(errorHandler);
 
         final InputStream is = getClass().getClassLoader().getResourceAsStream("important.css");
         Assert.assertNotNull(is);
@@ -91,14 +91,14 @@ public class ImportantTest {
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
     }
 
-    private ErrorHandler parserError(final CSSParser sacParser) throws Exception {
+    private ErrorHandler parserError(final CSSParser cssParser) throws Exception {
         final ErrorHandler errorHandler = new ErrorHandler();
-        sacParser.setErrorHandler(errorHandler);
+        cssParser.setErrorHandler(errorHandler);
 
         final InputSource source = new InputSource(
                 new StringReader(".foo { font-weight: normal !/* comment */important; }"));
 
-        sacParser.parseStyleSheet(source);
+        cssParser.parseStyleSheet(source);
         return errorHandler;
     }
 }

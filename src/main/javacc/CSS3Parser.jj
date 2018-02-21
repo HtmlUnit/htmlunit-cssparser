@@ -27,7 +27,7 @@ options {
 //    JAVA_TEMPLATE_TYPE = "modern"
 }
 
-PARSER_BEGIN(SACParserCSS3)
+PARSER_BEGIN(CSS3Parser)
 
 package com.gargoylesoftware.css.parser;
 
@@ -71,9 +71,9 @@ import com.gargoylesoftware.css.util.LangUtils;
  * @author Ahmed Ashour
  * @author Ronald Brill
  */
-public class SACParserCSS3 extends AbstractSACParser {
+public class CSS3Parser extends AbstractCSSParser {
 
-    public SACParserCSS3() {
+    public CSS3Parser() {
         this((CharStream) null);
     }
 
@@ -87,7 +87,7 @@ public class SACParserCSS3 extends AbstractSACParser {
     }
 }
 
-PARSER_END(SACParserCSS3)
+PARSER_END(CSS3Parser)
 
 TOKEN_MGR_DECLS :
 {

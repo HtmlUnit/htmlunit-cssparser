@@ -117,10 +117,10 @@ public class LocatorTest {
         vPos.add(new Integer[] {15, 30});
         positions.put('V', vPos);
 
-        locations(new SACParserCSS3(), cssCode, positions);
+        locations(new CSS3Parser(), cssCode, positions);
     }
 
-    private void locations(final CSSParser sacParser, final String cssCode,
+    private void locations(final CSSParser cssParser, final String cssCode,
             final Map<Character, List<Integer[]>> positions) {
         final Reader r = new StringReader(cssCode);
         final InputSource source = new InputSource(r);

@@ -54,17 +54,6 @@ public interface DocumentHandler {
     void endDocument(InputSource source) throws CSSException;
 
     /**
-     * Receive notification of a comment.
-     * If the comment appears in a declaration (e.g. color: /* comment * / blue;),
-     * the parser notifies the comment before the declaration.
-     *
-     * @param text The comment.
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *                         exception.
-     */
-    void comment(String text) throws CSSException;
-
-    /**
      * Receive notification of the end of a media statement.
      *
      * @param media The intended destination media for style information.
@@ -104,7 +93,7 @@ public interface DocumentHandler {
      * Receive notification of a charset at-rule.
      *
      * @param characterEncoding the character encoding
-     * @param locator the SAC locator
+     * @param locator the locator
      * @throws CSSException Any CSS exception, possibly wrapping another
      *  exception.
      */
@@ -117,7 +106,7 @@ public interface DocumentHandler {
      * @param media The intended destination media for style information.
      * @param defaultNamespaceURI The default namespace URI for the imported
      *  style sheet.
-     * @param locator the SAC locator
+     * @param locator the locator
      * @exception CSSException Any CSS exception, possibly wrapping another
      *  exception.
      */
@@ -129,7 +118,7 @@ public interface DocumentHandler {
      * parser.
      *
      * @param atRule The complete ignored at-rule.
-     * @param locator the SAC locator
+     * @param locator the locator
      * @exception CSSException Any CSS exception, possibly wrapping another
      *  exception.
      */
@@ -142,7 +131,7 @@ public interface DocumentHandler {
      * statement in the style sheet. there will be a corresponding endFontFace()
      * event for every startFontFace() event.
      *
-     * @param locator the SAC locator
+     * @param locator the locator
      * @exception CSSException Any CSS exception, possibly wrapping another
      *  exception.
      */
@@ -157,7 +146,7 @@ public interface DocumentHandler {
      *
      * @param name the name of the page (if any, null otherwise)
      * @param pseudoPage the pseudo page (if any, null otherwise)
-     * @param locator the SAC locator
+     * @param locator the locator
      * @exception CSSException Any CSS exception, possibly wrapping another
      *  exception.
      */
@@ -171,7 +160,7 @@ public interface DocumentHandler {
      * event for every startElement() event.
      *
      * @param media The intended destination media for style information.
-     * @param locator the SAC locator
+     * @param locator the locator
      * @exception CSSException Any CSS exception, possibly wrapping another
      *  exception.
      */
@@ -181,7 +170,7 @@ public interface DocumentHandler {
      * Receive notification of the beginning of a rule statement.
      *
      * @param selectors All intended selectors for all declarations.
-     * @param locator the SAC locator
+     * @param locator the locator
      * @exception CSSException Any CSS exception, possibly wrapping another
      *  exception.
      */
@@ -193,7 +182,7 @@ public interface DocumentHandler {
      * @param name the name of the property.
      * @param value the value of the property. All whitespace are stripped.
      * @param important is this property important ?
-     * @param locator the SAC locator
+     * @param locator the locator
      */
     void property(String name, LexicalUnit value, boolean important, Locator locator);
 }

@@ -54,7 +54,7 @@ public class CSSOMParser {
 
     /** Creates new CSSOMParser */
     public CSSOMParser() {
-        parser_ = new SACParserCSS3();
+        parser_ = new CSS3Parser();
     }
 
     public void setErrorHandler(final CSSErrorHandler eh) {
@@ -127,8 +127,8 @@ public class CSSOMParser {
     public MediaQueryList parseMedia(final InputSource source) throws IOException {
         final HandlerBase handler = new HandlerBase();
         parser_.setDocumentHandler(handler);
-        if (parser_ instanceof AbstractSACParser) {
-            return ((AbstractSACParser) parser_).parseMedia(source);
+        if (parser_ instanceof AbstractCSSParser) {
+            return ((AbstractCSSParser) parser_).parseMedia(source);
         }
         return null;
     }
@@ -188,11 +188,6 @@ public class CSSOMParser {
             // Pop the rule list and style sheet nodes
             nodeStack_.pop();
             root_ = nodeStack_.pop();
-        }
-
-        @Override
-        public void comment(final String text) throws CSSException {
-            // empty default impl
         }
 
         @Override
@@ -359,8 +354,8 @@ public class CSSOMParser {
                 decl.addProperty(property);
             }
             catch (final DOMException e) {
-                if (parser_ instanceof AbstractSACParser) {
-                    final AbstractSACParser parser = (AbstractSACParser) parser_;
+                if (parser_ instanceof AbstractCSSParser) {
+                    final AbstractCSSParser parser = (AbstractCSSParser) parser_;
                     parser.getErrorHandler().error(parser.toCSSParseException(e));
 
                 }

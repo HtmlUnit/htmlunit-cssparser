@@ -37,16 +37,16 @@ public class XhtmlCssTest {
      */
     @Test
     public void xhtmlCssCSS3() throws Exception {
-        xhtmlCss(new SACParserCSS3());
+        xhtmlCss(new CSS3Parser());
     }
 
-    private void xhtmlCss(final CSSParser sacParser) throws Exception {
+    private void xhtmlCss(final CSSParser cssParser) throws Exception {
         final ErrorHandler errorHandler = new ErrorHandler();
-        sacParser.setErrorHandler(errorHandler);
+        cssParser.setErrorHandler(errorHandler);
 
         final InputSource source = new InputSource(new StringReader(CSS_CODE));
 
-        sacParser.parseStyleSheet(source);
+        cssParser.parseStyleSheet(source);
 
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
         Assert.assertEquals(0, errorHandler.getErrorCount());

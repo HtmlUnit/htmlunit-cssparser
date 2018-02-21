@@ -16,9 +16,7 @@ package com.gargoylesoftware.css.dom;
 
 import java.io.StringReader;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSStyleSheet;
@@ -32,24 +30,6 @@ import com.gargoylesoftware.css.parser.InputSource;
  * @author Ronald Brill
  */
 public class CSSFontFaceRuleImplTest {
-
-    private String stdParser_;
-
-    @Before
-    public void before() {
-        stdParser_ = System.getProperty("org.w3c.css.sac.parser");
-        System.setProperty("org.w3c.css.sac.parser", "com.gargoylesoftware.css.parser.SACParserCSS3");
-    }
-
-    @After
-    public void after() {
-        if (null == stdParser_) {
-            System.clearProperty("org.w3c.css.sac.parser");
-        }
-        else {
-            System.setProperty("org.w3c.css.sac.parser", stdParser_);
-        }
-    }
 
     /**
      * @throws Exception if any error occurs

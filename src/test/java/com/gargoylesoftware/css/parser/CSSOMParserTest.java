@@ -62,46 +62,6 @@ public class CSSOMParserTest {
      * @throws Exception if any error occurs
      */
     @Test
-    public void defineParserClass() throws Exception {
-        System.setProperty("org.w3c.css.sac.parser", "com.steadystate.css.parser.SACParserCSS21");
-        CSSOMParser parser = new CSSOMParser();
-        Assert.assertNotNull(parser);
-        Assert.assertEquals("com.steadystate.css.parser.SACParserCSS21", System.getProperty("org.w3c.css.sac.parser"));
-
-        System.setProperty("org.w3c.css.sac.parser", "com.steadystate.css.parser.SACParserCSS2");
-        parser = new CSSOMParser();
-        Assert.assertNotNull(parser);
-        Assert.assertEquals("com.steadystate.css.parser.SACParserCSS2", System.getProperty("org.w3c.css.sac.parser"));
-
-        System.setProperty("org.w3c.css.sac.parser", "com.steadystate.css.parser.SACParserCSS1");
-        parser = new CSSOMParser();
-        Assert.assertNotNull(parser);
-        Assert.assertEquals("com.steadystate.css.parser.SACParserCSS1", System.getProperty("org.w3c.css.sac.parser"));
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
-    public void defineParserClassWrongClass() throws Exception {
-        System.setProperty("org.w3c.css.sac.parser", "com.steadystate.css.parser.SACParserCSS0");
-        final CSSOMParser parser = new CSSOMParser();
-        Assert.assertNotNull(parser);
-        Assert.assertEquals("com.steadystate.css.parser.SACParserCSS0", System.getProperty("org.w3c.css.sac.parser"));
-
-        // this creates a working parser
-        final String test = "p { color:#123456; }";
-        final Reader r = new StringReader(test);
-        final InputSource is = new InputSource(r);
-        final CSSStyleSheet ss = parser.parseStyleSheet(is, null);
-        final CSSRuleList rl = ss.getCssRules();
-        Assert.assertEquals(1, rl.getLength());
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
     public void defineParserInstance() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         Assert.assertNotNull(parser);
@@ -311,18 +271,18 @@ public class CSSOMParserTest {
         Assert.assertEquals(
             "background: url(images/bottom-angle.png); background-image: url(background.png)",
             getCssTextFromDeclaration(
-                    new SACParserCSS3(),
+                    new CSS3Parser(),
                     "background:url('images/bottom-angle.png');background-image:url('background.png');"));
         Assert.assertEquals(
             "background: url(images/bottom-angle.png); background-image: url(background.png)",
             getCssTextFromDeclaration(
-                    new SACParserCSS3(),
+                    new CSS3Parser(),
                     "background:url(\"images/bottom-angle.png\");background-image:url(\"background.png\");"));
         Assert.assertEquals(
             "background: rgb(60, 90, 118) url(/images/status_bg.png?2) no-repeat center; "
             + "font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif",
             getCssTextFromDeclaration(
-                    new SACParserCSS3(),
+                    new CSS3Parser(),
                     "background:#3c5a76 url('/images/status_bg.png?2') no-repeat center;"
                     + "font-family:Arial,'Helvetica Neue',Helvetica,sans-serif"));
     }
@@ -337,11 +297,11 @@ public class CSSOMParserTest {
     public void commaList() throws Exception {
         Assert.assertEquals(
             "font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif",
-            getCssTextFromDeclaration(new SACParserCSS3(),
+            getCssTextFromDeclaration(new CSS3Parser(),
                     "font-family: Arial,'Helvetica Neue',Helvetica,sans-serif"));
         Assert.assertEquals(
             "font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif",
-            getCssTextFromDeclaration(new SACParserCSS3(),
+            getCssTextFromDeclaration(new CSS3Parser(),
                     "font-family: Arial, 'Helvetica Neue', Helvetica,  sans-serif"));
     }
 
@@ -355,14 +315,14 @@ public class CSSOMParserTest {
     public void colorFirst() throws Exception {
         Assert.assertEquals(
             "background: rgb(232, 239, 245) url(images/bottom-angle.png) no-repeat",
-            getCssTextFromDeclaration(new SACParserCSS3(),
+            getCssTextFromDeclaration(new CSS3Parser(),
                     "background: #e8eff5 url(images/bottom-angle.png) no-repeat"));
         Assert.assertEquals(
             "background: red url(images/bottom-angle.png) no-repeat",
-            getCssTextFromDeclaration(new SACParserCSS3(), "background: red url(images/bottom-angle.png) no-repeat"));
+            getCssTextFromDeclaration(new CSS3Parser(), "background: red url(images/bottom-angle.png) no-repeat"));
         Assert.assertEquals(
             "background: rgb(8, 3, 6) url(images/bottom-angle.png) no-repeat",
-            getCssTextFromDeclaration(new SACParserCSS3(),
+            getCssTextFromDeclaration(new CSS3Parser(),
                     "background: rgb(8, 3, 6) url(images/bottom-angle.png) no-repeat"));
     }
 
@@ -372,11 +332,11 @@ public class CSSOMParserTest {
     @Test
     public void speciaChars() throws Exception {
         Assert.assertEquals("content: \"�\"",
-                getCssTextFromDeclaration(new SACParserCSS3(), "content: '�';"));
+                getCssTextFromDeclaration(new CSS3Parser(), "content: '�';"));
         Assert.assertEquals("content: \"\u0122\"",
-            getCssTextFromDeclaration(new SACParserCSS3(), "content: '\u0122';"));
+            getCssTextFromDeclaration(new CSS3Parser(), "content: '\u0122';"));
         Assert.assertEquals("content: \"\u0422\"",
-            getCssTextFromDeclaration(new SACParserCSS3(), "content: '\u0422';"));
+            getCssTextFromDeclaration(new CSS3Parser(), "content: '\u0422';"));
     }
 
     /**
@@ -387,7 +347,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void doubleDotSelector() throws Exception {
-        doubleDotSelector(new SACParserCSS3());
+        doubleDotSelector(new CSS3Parser());
     }
 
     private void doubleDotSelector(final CSSParser p) throws Exception {
@@ -407,7 +367,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void importEOF() throws Exception {
-        importEOF(new SACParserCSS3());
+        importEOF(new CSS3Parser());
     }
 
     private void importEOF(final CSSParser p) throws Exception {
@@ -427,7 +387,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void importWithoutClosingSemicolon() throws Exception {
-        importWithoutClosingSemicolon(new SACParserCSS3());
+        importWithoutClosingSemicolon(new CSS3Parser());
     }
 
     private void importWithoutClosingSemicolon(final CSSParser p) throws Exception {
@@ -449,7 +409,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void escapedChars() throws Exception {
-        escapedChars(new SACParserCSS3());
+        escapedChars(new CSS3Parser());
     }
 
     private void escapedChars(final CSSParser p) throws Exception {

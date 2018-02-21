@@ -59,7 +59,7 @@ import com.gargoylesoftware.css.parser.selector.SelectorList;
  * @author Ahmed Ashour
  * @author Ronald Brill
  */
-public class SACParserCSS3Test  extends AbstractSACParserTest {
+public class CSS3ParserTest  extends AbstractCSSParserTest {
 
     /**
      * @throws Exception if any error occurs
@@ -2906,7 +2906,7 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
     @Test
     public void starHackSupport() throws Exception {
         final String css = "p { color: blue; *color: red; background: white; }";
-        final CSSParser parser = new SACParserCSS3();
+        final CSSParser parser = new CSS3Parser();
         parser.setIeStarHackAccepted(true);
 
         final InputSource source = new InputSource(new StringReader(css));
@@ -3010,9 +3010,9 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
      */
     @Test
     public void unescapeBackslash() throws Exception {
-        Assert.assertEquals("abuv", new SACParserCSS3().unescape("ab\\uv", false));
-        Assert.assertEquals("ab\\ab", new SACParserCSS3().unescape("ab\\\\ab", false));
-        Assert.assertEquals("ab\\", new SACParserCSS3().unescape("ab\\", false));
+        Assert.assertEquals("abuv", new CSS3Parser().unescape("ab\\uv", false));
+        Assert.assertEquals("ab\\ab", new CSS3Parser().unescape("ab\\\\ab", false));
+        Assert.assertEquals("ab\\", new CSS3Parser().unescape("ab\\", false));
     }
 
     /**
@@ -3020,8 +3020,8 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
      */
     @Test
     public void unescapeOneHexDigit() throws Exception {
-        Assert.assertEquals("ab\u0009x", new SACParserCSS3().unescape("ab\\9x", false));
-        Assert.assertEquals("ab\u0009", new SACParserCSS3().unescape("ab\\9", false));
+        Assert.assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\9x", false));
+        Assert.assertEquals("ab\u0009", new CSS3Parser().unescape("ab\\9", false));
     }
 
     /**
@@ -3029,9 +3029,9 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
      */
     @Test
     public void unescapeTwoHexDigits() throws Exception {
-        Assert.assertEquals("ab\u0009x", new SACParserCSS3().unescape("ab\\09x", false));
-        Assert.assertEquals("ab\u00e9x", new SACParserCSS3().unescape("ab\\e9x", false));
-        Assert.assertEquals("ab\u00e9", new SACParserCSS3().unescape("ab\\e9", false));
+        Assert.assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\09x", false));
+        Assert.assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\e9x", false));
+        Assert.assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9", false));
     }
 
     /**
@@ -3039,10 +3039,10 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
      */
     @Test
     public void unescapeThreeHexDigits() throws Exception {
-        Assert.assertEquals("ab\u0009x", new SACParserCSS3().unescape("ab\\009x", false));
-        Assert.assertEquals("ab\u00e9x", new SACParserCSS3().unescape("ab\\0e9x", false));
-        Assert.assertEquals("ab\u0ce9x", new SACParserCSS3().unescape("ab\\ce9x", false));
-        Assert.assertEquals("ab\u0ce9", new SACParserCSS3().unescape("ab\\ce9", false));
+        Assert.assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\009x", false));
+        Assert.assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\0e9x", false));
+        Assert.assertEquals("ab\u0ce9x", new CSS3Parser().unescape("ab\\ce9x", false));
+        Assert.assertEquals("ab\u0ce9", new CSS3Parser().unescape("ab\\ce9", false));
     }
 
     /**
@@ -3050,11 +3050,11 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
      */
     @Test
     public void unescapeFourHexDigits() throws Exception {
-        Assert.assertEquals("ab\u0009x", new SACParserCSS3().unescape("ab\\0009x", false));
-        Assert.assertEquals("ab\u00e9x", new SACParserCSS3().unescape("ab\\00e9x", false));
-        Assert.assertEquals("ab\u0ce9x", new SACParserCSS3().unescape("ab\\0ce9x", false));
-        Assert.assertEquals("ab\u1ce9x", new SACParserCSS3().unescape("ab\\1ce9x", false));
-        Assert.assertEquals("ab\u1ce9", new SACParserCSS3().unescape("ab\\1ce9", false));
+        Assert.assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\0009x", false));
+        Assert.assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\00e9x", false));
+        Assert.assertEquals("ab\u0ce9x", new CSS3Parser().unescape("ab\\0ce9x", false));
+        Assert.assertEquals("ab\u1ce9x", new CSS3Parser().unescape("ab\\1ce9x", false));
+        Assert.assertEquals("ab\u1ce9", new CSS3Parser().unescape("ab\\1ce9", false));
     }
 
     /**
@@ -3062,12 +3062,12 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
      */
     @Test
     public void unescapeFiveHexDigits() throws Exception {
-        Assert.assertEquals("ab\u0009x", new SACParserCSS3().unescape("ab\\00009x", false));
-        Assert.assertEquals("ab\u00e9x", new SACParserCSS3().unescape("ab\\000e9x", false));
-        Assert.assertEquals("ab\u0ce9x", new SACParserCSS3().unescape("ab\\00ce9x", false));
-        Assert.assertEquals("ab\u1ce9x", new SACParserCSS3().unescape("ab\\01ce9x", false));
-        Assert.assertEquals("ab\ufffdx", new SACParserCSS3().unescape("ab\\a1ce9x", false));
-        Assert.assertEquals("ab\ufffd", new SACParserCSS3().unescape("ab\\a1ce9", false));
+        Assert.assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\00009x", false));
+        Assert.assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\000e9x", false));
+        Assert.assertEquals("ab\u0ce9x", new CSS3Parser().unescape("ab\\00ce9x", false));
+        Assert.assertEquals("ab\u1ce9x", new CSS3Parser().unescape("ab\\01ce9x", false));
+        Assert.assertEquals("ab\ufffdx", new CSS3Parser().unescape("ab\\a1ce9x", false));
+        Assert.assertEquals("ab\ufffd", new CSS3Parser().unescape("ab\\a1ce9", false));
     }
 
     /**
@@ -3075,13 +3075,13 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
      */
     @Test
     public void unescapeSixHexDigits() throws Exception {
-        Assert.assertEquals("ab\u0009x", new SACParserCSS3().unescape("ab\\000009x", false));
-        Assert.assertEquals("ab\u00e9x", new SACParserCSS3().unescape("ab\\0000e9x", false));
-        Assert.assertEquals("ab\u0ce9x", new SACParserCSS3().unescape("ab\\000ce9x", false));
-        Assert.assertEquals("ab\u1ce9x", new SACParserCSS3().unescape("ab\\001ce9x", false));
-        Assert.assertEquals("ab\ufffdx", new SACParserCSS3().unescape("ab\\0a1ce9x", false));
-        Assert.assertEquals("ab\ufffdx", new SACParserCSS3().unescape("ab\\3a1ce9x", false));
-        Assert.assertEquals("ab\ufffd", new SACParserCSS3().unescape("ab\\3a1ce9", false));
+        Assert.assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\000009x", false));
+        Assert.assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\0000e9x", false));
+        Assert.assertEquals("ab\u0ce9x", new CSS3Parser().unescape("ab\\000ce9x", false));
+        Assert.assertEquals("ab\u1ce9x", new CSS3Parser().unescape("ab\\001ce9x", false));
+        Assert.assertEquals("ab\ufffdx", new CSS3Parser().unescape("ab\\0a1ce9x", false));
+        Assert.assertEquals("ab\ufffdx", new CSS3Parser().unescape("ab\\3a1ce9x", false));
+        Assert.assertEquals("ab\ufffd", new CSS3Parser().unescape("ab\\3a1ce9", false));
     }
 
     /**
@@ -3089,14 +3089,14 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
      */
     @Test
     public void unescapeSevenHexDigits() throws Exception {
-        Assert.assertEquals("ab\ufffd9x", new SACParserCSS3().unescape("ab\\0000009x", false));
-        Assert.assertEquals("ab\u000e9x", new SACParserCSS3().unescape("ab\\00000e9x", false));
-        Assert.assertEquals("ab\u00ce9x", new SACParserCSS3().unescape("ab\\0000ce9x", false));
-        Assert.assertEquals("ab\u01ce9x", new SACParserCSS3().unescape("ab\\0001ce9x", false));
-        Assert.assertEquals("ab\ua1ce9x", new SACParserCSS3().unescape("ab\\00a1ce9x", false));
-        Assert.assertEquals("ab\ufffd9x", new SACParserCSS3().unescape("ab\\03a1ce9x", false));
-        Assert.assertEquals("ab\ufffd9x", new SACParserCSS3().unescape("ab\\73a1ce9x", false));
-        Assert.assertEquals("ab\ufffd9", new SACParserCSS3().unescape("ab\\73a1ce9", false));
+        Assert.assertEquals("ab\ufffd9x", new CSS3Parser().unescape("ab\\0000009x", false));
+        Assert.assertEquals("ab\u000e9x", new CSS3Parser().unescape("ab\\00000e9x", false));
+        Assert.assertEquals("ab\u00ce9x", new CSS3Parser().unescape("ab\\0000ce9x", false));
+        Assert.assertEquals("ab\u01ce9x", new CSS3Parser().unescape("ab\\0001ce9x", false));
+        Assert.assertEquals("ab\ua1ce9x", new CSS3Parser().unescape("ab\\00a1ce9x", false));
+        Assert.assertEquals("ab\ufffd9x", new CSS3Parser().unescape("ab\\03a1ce9x", false));
+        Assert.assertEquals("ab\ufffd9x", new CSS3Parser().unescape("ab\\73a1ce9x", false));
+        Assert.assertEquals("ab\ufffd9", new CSS3Parser().unescape("ab\\73a1ce9", false));
     }
 
     /**
@@ -3104,33 +3104,33 @@ public class SACParserCSS3Test  extends AbstractSACParserTest {
      */
     @Test
     public void unescapeAutoterminate() throws Exception {
-        Assert.assertEquals("ab\uabcd", new SACParserCSS3().unescape("ab\\abcd", false));
+        Assert.assertEquals("ab\uabcd", new CSS3Parser().unescape("ab\\abcd", false));
 
-        Assert.assertEquals("ab\u00e9a", new SACParserCSS3().unescape("ab\\e9 a", false));
-        Assert.assertEquals("ab\u00e9", new SACParserCSS3().unescape("ab\\e9 ", false));
-        Assert.assertEquals("ab\u00e9 a", new SACParserCSS3().unescape("ab\\e9  a", false));
-        Assert.assertEquals("ab\u00e9 a", new SACParserCSS3().unescape("ab\\0000e9 a", false));
+        Assert.assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9 a", false));
+        Assert.assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9 ", false));
+        Assert.assertEquals("ab\u00e9 a", new CSS3Parser().unescape("ab\\e9  a", false));
+        Assert.assertEquals("ab\u00e9 a", new CSS3Parser().unescape("ab\\0000e9 a", false));
 
-        Assert.assertEquals("ab\u00e9a", new SACParserCSS3().unescape("ab\\e9\ta", false));
-        Assert.assertEquals("ab\u00e9", new SACParserCSS3().unescape("ab\\e9\t", false));
-        Assert.assertEquals("ab\u00e9\ta", new SACParserCSS3().unescape("ab\\e9\t\ta", false));
-        Assert.assertEquals("ab\u00e9\ta", new SACParserCSS3().unescape("ab\\0000e9\ta", false));
+        Assert.assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9\ta", false));
+        Assert.assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9\t", false));
+        Assert.assertEquals("ab\u00e9\ta", new CSS3Parser().unescape("ab\\e9\t\ta", false));
+        Assert.assertEquals("ab\u00e9\ta", new CSS3Parser().unescape("ab\\0000e9\ta", false));
 
-        Assert.assertEquals("ab\u00e9a", new SACParserCSS3().unescape("ab\\e9\ra", false));
-        Assert.assertEquals("ab\u00e9", new SACParserCSS3().unescape("ab\\e9\r", false));
-        Assert.assertEquals("ab\u00e9\ra", new SACParserCSS3().unescape("ab\\e9\r\ra", false));
-        Assert.assertEquals("ab\u00e9\ra", new SACParserCSS3().unescape("ab\\0000e9\ra", false));
-        Assert.assertEquals("ab\u00e9a", new SACParserCSS3().unescape("ab\\e9\r\na", false));
-        Assert.assertEquals("ab\u00e9", new SACParserCSS3().unescape("ab\\e9\r\n", false));
-        Assert.assertEquals("ab\u00e9\ra", new SACParserCSS3().unescape("ab\\e9\r\n\ra", false));
-        Assert.assertEquals("ab\u00e9\r", new SACParserCSS3().unescape("ab\\e9\r\n\r", false));
-        Assert.assertEquals("ab\u00e9\na", new SACParserCSS3().unescape("ab\\e9\r\n\na", false));
-        Assert.assertEquals("ab\u00e9\n", new SACParserCSS3().unescape("ab\\e9\r\n\n", false));
+        Assert.assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9\ra", false));
+        Assert.assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9\r", false));
+        Assert.assertEquals("ab\u00e9\ra", new CSS3Parser().unescape("ab\\e9\r\ra", false));
+        Assert.assertEquals("ab\u00e9\ra", new CSS3Parser().unescape("ab\\0000e9\ra", false));
+        Assert.assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9\r\na", false));
+        Assert.assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9\r\n", false));
+        Assert.assertEquals("ab\u00e9\ra", new CSS3Parser().unescape("ab\\e9\r\n\ra", false));
+        Assert.assertEquals("ab\u00e9\r", new CSS3Parser().unescape("ab\\e9\r\n\r", false));
+        Assert.assertEquals("ab\u00e9\na", new CSS3Parser().unescape("ab\\e9\r\n\na", false));
+        Assert.assertEquals("ab\u00e9\n", new CSS3Parser().unescape("ab\\e9\r\n\n", false));
 
-        Assert.assertEquals("ab\u00e9a", new SACParserCSS3().unescape("ab\\e9\na", false));
-        Assert.assertEquals("ab\u00e9", new SACParserCSS3().unescape("ab\\e9\n", false));
-        Assert.assertEquals("ab\u00e9\na", new SACParserCSS3().unescape("ab\\e9\n\na", false));
-        Assert.assertEquals("ab\u00e9\na", new SACParserCSS3().unescape("ab\\0000e9\na", false));
+        Assert.assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9\na", false));
+        Assert.assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9\n", false));
+        Assert.assertEquals("ab\u00e9\na", new CSS3Parser().unescape("ab\\e9\n\na", false));
+        Assert.assertEquals("ab\u00e9\na", new CSS3Parser().unescape("ab\\0000e9\na", false));
     }
 
     /**

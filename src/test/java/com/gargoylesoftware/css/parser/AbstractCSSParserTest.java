@@ -55,7 +55,7 @@ import com.gargoylesoftware.css.parser.selector.SimpleSelector;
 /**
  * @author Ronald Brill
  */
-public abstract class AbstractSACParserTest {
+public abstract class AbstractCSSParserTest {
 
     private Locale systemLocale_;
 

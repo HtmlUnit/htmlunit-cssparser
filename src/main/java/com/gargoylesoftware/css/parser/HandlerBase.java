@@ -33,11 +33,6 @@ public class HandlerBase implements DocumentHandler, CSSErrorHandler {
     }
 
     @Override
-    public void comment(final String text) throws CSSException {
-        // empty default impl
-    }
-
-    @Override
     public void ignorableAtRule(final String atRule, final Locator locator) throws CSSException {
         // empty default impl
     }

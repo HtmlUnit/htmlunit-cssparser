@@ -26,7 +26,7 @@ import com.gargoylesoftware.css.dom.CSSMediaRuleImpl;
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.MediaListImpl;
 import com.gargoylesoftware.css.dom.Property;
-import com.gargoylesoftware.css.parser.AbstractSACParserTest;
+import com.gargoylesoftware.css.parser.AbstractCSSParserTest;
 import com.gargoylesoftware.css.parser.LexicalUnit;
 import com.gargoylesoftware.css.parser.LexicalUnitImpl;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
@@ -34,7 +34,7 @@ import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 /**
  * @author Ronald Brill
  */
-public class CSS3MediaTest extends AbstractSACParserTest {
+public class CSS3MediaTest extends AbstractCSSParserTest {
 
     /**
      * @throws Exception if any error occurs
