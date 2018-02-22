@@ -1182,10 +1182,9 @@ Condition _class(Condition pred, boolean pseudoElementFound) :
 //   : IDENT | '*'
 //   ;
 //
-SimpleSelector elementName() :
+ElementSelector elementName() :
 {
     Token t;
-    SimpleSelector sel;
 }
 {
     try
