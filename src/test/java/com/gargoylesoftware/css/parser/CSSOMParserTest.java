@@ -134,7 +134,7 @@ public class CSSOMParserTest {
         final InputSource is = new InputSource(r);
         final SelectorList sl = new CSSOMParser().parseSelectors(is);
 
-        Assert.assertEquals("#id:withColon", sl.item(0).toString());
+        Assert.assertEquals("*#id:withColon", sl.item(0).toString());
     }
 
     /**

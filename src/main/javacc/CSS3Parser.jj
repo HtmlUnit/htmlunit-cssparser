@@ -62,7 +62,6 @@ import com.gargoylesoftware.css.parser.selector.Selector;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
 import com.gargoylesoftware.css.parser.selector.SelectorListImpl;
 import com.gargoylesoftware.css.parser.selector.SimpleSelector;
-import com.gargoylesoftware.css.parser.selector.SyntheticElementSelector;
 import com.gargoylesoftware.css.util.LangUtils;
 
 /**
@@ -1091,7 +1090,7 @@ Selector simpleSelector(Selector sel, char comb) :
                 )*
             )
             |
-            ( { simpleSel = new SyntheticElementSelector(); }
+            ( { simpleSel = new ElementSelector(null, createLocator(token)); }
                 ( c = hash(c, null != pseudoElementSel)
                 | c = _class(c, null != pseudoElementSel)
                 | c = attrib(c, null != pseudoElementSel)

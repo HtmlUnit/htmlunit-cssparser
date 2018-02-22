@@ -172,7 +172,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("de", ((LangCondition) selector.getCondition()).getLang());
 
         rule = rules.item(2);
-        Assert.assertEquals(":lang(fr) > Q { }", rule.getCssText());
+        Assert.assertEquals("*:lang(fr) > Q { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         ChildSelector childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
         selector = (ConditionalSelector) childSelector.getAncestorSelector();
@@ -180,7 +180,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("fr", ((LangCondition) selector.getCondition()).getLang());
 
         rule = rules.item(3);
-        Assert.assertEquals(":lang(de) > Q { }", rule.getCssText());
+        Assert.assertEquals("*:lang(de) > Q { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
         selector = (ConditionalSelector) childSelector.getAncestorSelector();
@@ -559,8 +559,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         Assert.assertEquals(1, rules.getLength());
         CSSRule cssRule = rules.item(0);
-        Assert.assertEquals("@media print {#navigation { display: none } "
-                + "@media all and (max-width: 12cm) {.note { float: none } } }", cssRule.getCssText());
+        Assert.assertEquals("@media print {*#navigation { display: none } "
+                + "@media all and (max-width: 12cm) {*.note { float: none } } }", cssRule.getCssText());
         Assert.assertEquals(CSSRule.MEDIA_RULE, cssRule.getType());
 
         MediaListImpl mediaList = (MediaListImpl) ((CSSMediaRuleImpl) cssRule).getMedia();
@@ -571,11 +571,11 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(2, innerRules.getLength());
 
         cssRule = innerRules.item(0);
-        Assert.assertEquals("#navigation { display: none }", cssRule.getCssText());
+        Assert.assertEquals("*#navigation { display: none }", cssRule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, cssRule.getType());
 
         cssRule = innerRules.item(1);
-        Assert.assertEquals("@media all and (max-width: 12cm) {.note { float: none } }", cssRule.getCssText());
+        Assert.assertEquals("@media all and (max-width: 12cm) {*.note { float: none } }", cssRule.getCssText());
         Assert.assertEquals(CSSRule.MEDIA_RULE, cssRule.getType());
 
         mediaList = (MediaListImpl) ((CSSMediaRuleImpl) cssRule).getMedia();
@@ -1615,9 +1615,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSRuleList rules = sheet.getCssRules();
 
         Assert.assertEquals(3, rules.getLength());
-        Assert.assertEquals(".red { color: red }", rules.item(0).getCssText());
-        Assert.assertEquals(".invalid { }", rules.item(1).getCssText());
-        Assert.assertEquals(".green { color: green }", rules.item(2).getCssText());
+        Assert.assertEquals("*.red { color: red }", rules.item(0).getCssText());
+        Assert.assertEquals("*.invalid { }", rules.item(1).getCssText());
+        Assert.assertEquals("*.green { color: green }", rules.item(2).getCssText());
     }
 
     /**
@@ -1648,7 +1648,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSRuleList rules = sheet.getCssRules();
 
         Assert.assertEquals(1, rules.getLength());
-        Assert.assertEquals(".red { color: red }", rules.item(0).getCssText());
+        Assert.assertEquals("*.red { color: red }", rules.item(0).getCssText());
     }
 
     /**
@@ -1664,7 +1664,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSRuleList rules = sheet.getCssRules();
 
         Assert.assertEquals(1, rules.getLength());
-        Assert.assertEquals(".red { color: red }", rules.item(0).getCssText());
+        Assert.assertEquals("*.red { color: red }", rules.item(0).getCssText());
     }
 
     /**
@@ -1790,7 +1790,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(2, rules.getLength());
 
         CSSRule rule = rules.item(0);
-        Assert.assertEquals(".a { }", rule.getCssText());
+        Assert.assertEquals("*.a { }", rule.getCssText());
 
         rule = rules.item(1);
         Assert.assertEquals("p { color: green }", rule.getCssText());
@@ -1823,7 +1823,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final CSSRule rule = rules.item(0);
-        Assert.assertEquals(".a { color: green }", rule.getCssText());
+        Assert.assertEquals("*.a { color: green }", rule.getCssText());
     }
 
     /**
@@ -1853,7 +1853,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final CSSRule rule = rules.item(0);
-        Assert.assertEquals(".a { color: blue; background: green }", rule.getCssText());
+        Assert.assertEquals("*.a { color: blue; background: green }", rule.getCssText());
     }
 
     /**
@@ -2058,10 +2058,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(2, rules.getLength());
 
         CSSRule rule = rules.item(0);
-        Assert.assertEquals(".a { top: 0\\9 }", rule.getCssText());
+        Assert.assertEquals("*.a { top: 0\\9 }", rule.getCssText());
 
         rule = rules.item(1);
-        Assert.assertEquals(".b { top: -1.234newDim }", rule.getCssText());
+        Assert.assertEquals("*.b { top: -1.234newDim }", rule.getCssText());
     }
 
     /**
@@ -2178,7 +2178,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final CSSRule rule = rules.item(0);
-        Assert.assertEquals(".a { color: green }", rule.getCssText());
+        Assert.assertEquals("*.a { color: green }", rule.getCssText());
     }
 
     /**
@@ -2459,7 +2459,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final CSSRule rule = rules.item(0);
-        Assert.assertEquals("#stageList li:not(.memberStage) { display: none }", rule.getCssText());
+        Assert.assertEquals("*#stageList li:not(.memberStage) { display: none }", rule.getCssText());
 
         final CSSStyleSheetImpl theOutputSheet = new CSSStyleSheetImpl();
         theOutputSheet.insertRule(rule.getCssText(), 0);
@@ -2730,49 +2730,49 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("OL { list-style-type: lower-alpha }", rule.getCssText());
 
         rule = rules.item(1);
-        Assert.assertEquals(".a { color: green; background: white none }", rule.getCssText());
+        Assert.assertEquals("*.a { color: green; background: white none }", rule.getCssText());
 
         rule = rules.item(1);
-        Assert.assertEquals(".a { color: green; background: white none }", rule.getCssText());
+        Assert.assertEquals("*.a { color: green; background: white none }", rule.getCssText());
 
         rule = rules.item(2);
-        Assert.assertEquals(".b { color: green; background: white none }", rule.getCssText());
+        Assert.assertEquals("*.b { color: green; background: white none }", rule.getCssText());
 
         rule = rules.item(3);
-        Assert.assertEquals(".c { color: green; background: white none }", rule.getCssText());
+        Assert.assertEquals("*.c { color: green; background: white none }", rule.getCssText());
 
         rule = rules.item(4);
-        Assert.assertEquals(".d { color: green; background: white none }", rule.getCssText());
+        Assert.assertEquals("*.d { color: green; background: white none }", rule.getCssText());
 
         rule = rules.item(5);
-        Assert.assertEquals(".e { color: green; background: white none }", rule.getCssText());
+        Assert.assertEquals("*.e { color: green; background: white none }", rule.getCssText());
 
         rule = rules.item(6);
-        Assert.assertEquals(".f { color: green; background: white none }", rule.getCssText());
+        Assert.assertEquals("*.f { color: green; background: white none }", rule.getCssText());
 
         rule = rules.item(7);
-        Assert.assertEquals(".g { color: green; background: white none }", rule.getCssText());
+        Assert.assertEquals("*.g { color: green; background: white none }", rule.getCssText());
 
         rule = rules.item(8);
-        Assert.assertEquals(".h { color: green; background: white none }", rule.getCssText());
+        Assert.assertEquals("*.h { color: green; background: white none }", rule.getCssText());
 
         rule = rules.item(9);
-        Assert.assertEquals(".i { color: green; background: white none }", rule.getCssText());
+        Assert.assertEquals("*.i { color: green; background: white none }", rule.getCssText());
 
         rule = rules.item(10);
-        Assert.assertEquals(".j { color: green; background: white none }", rule.getCssText());
+        Assert.assertEquals("*.j { color: green; background: white none }", rule.getCssText());
 
         rule = rules.item(11);
-        Assert.assertEquals(".k { color: green; background: white none }", rule.getCssText());
+        Assert.assertEquals("*.k { color: green; background: white none }", rule.getCssText());
 
         rule = rules.item(12);
 //         Assert.assertEquals(".xb { }", rule.getCssText());
 
         rule = rules.item(13);
-        Assert.assertEquals(".xc { }", rule.getCssText());
+        Assert.assertEquals("*.xc { }", rule.getCssText());
 
         rule = rules.item(14);
-        Assert.assertEquals(".xd { }", rule.getCssText());
+        Assert.assertEquals("*.xd { }", rule.getCssText());
     }
 
     /**
@@ -2987,10 +2987,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void unicodeEscaping() throws Exception {
         unicode("@media paper\\7b { }", "@media paper{ {}");
-        unicode(".class\\7b { color: blue }", ".class{ { color: blue }");
+        unicode(".class\\7b { color: blue }", "*.class{ { color: blue }");
         unicode("@page :pseu\\64o { color: blue }", "@page :pseudo {color: blue}");
         unicode("h1:first-l\\69ne { color: blue }", "h1:first-line { color: blue }");
-        unicode(".cls { color: blu\\65 }", ".cls { color: blue }");
+        unicode(".cls { color: blu\\65 }", "*.cls { color: blue }");
     }
 
     private void unicode(final String css, final String expected) throws IOException {

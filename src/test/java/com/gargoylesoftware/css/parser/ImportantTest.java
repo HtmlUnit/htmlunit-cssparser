@@ -71,23 +71,23 @@ public class ImportantTest {
         Assert.assertEquals(5, rules.getLength());
 
         CSSRule rule = rules.item(0);
-        Assert.assertEquals(".sel1 { padding: 0 !important }", rule.getCssText());
+        Assert.assertEquals("*.sel1 { padding: 0 !important }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
 
         rule = rules.item(1);
-        Assert.assertEquals(".sel2 { font-weight: normal !important }", rule.getCssText());
+        Assert.assertEquals("*.sel2 { font-weight: normal !important }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
 
         rule = rules.item(2);
-        Assert.assertEquals(".sel3 { font-weight: normal !important }", rule.getCssText());
+        Assert.assertEquals("*.sel3 { font-weight: normal !important }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
 
         rule = rules.item(3);
-        Assert.assertEquals(".sel4 { font-weight: normal !important }", rule.getCssText());
+        Assert.assertEquals("*.sel4 { font-weight: normal !important }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
 
         rule = rules.item(4);
-        Assert.assertEquals(".important { font-weight: bold }", rule.getCssText());
+        Assert.assertEquals("*.important { font-weight: bold }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
     }
 

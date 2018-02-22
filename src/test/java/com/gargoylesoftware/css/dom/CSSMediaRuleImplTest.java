@@ -58,22 +58,22 @@ public class CSSMediaRuleImplTest {
         final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
 
         mediaRule.insertRule(".testStyle { height: 42px; }", 0);
-        Assert.assertEquals(".testStyle { height: 42px }", mediaRule.getCssRules().item(0).getCssText());
+        Assert.assertEquals("*.testStyle { height: 42px }", mediaRule.getCssRules().item(0).getCssText());
 
         mediaRule.insertRule(".testStyle { height: 43px; }", 0);
-        Assert.assertEquals(".testStyle { height: 43px }", mediaRule.getCssRules().item(0).getCssText());
-        Assert.assertEquals(".testStyle { height: 42px }", mediaRule.getCssRules().item(1).getCssText());
+        Assert.assertEquals("*.testStyle { height: 43px }", mediaRule.getCssRules().item(0).getCssText());
+        Assert.assertEquals("*.testStyle { height: 42px }", mediaRule.getCssRules().item(1).getCssText());
 
         mediaRule.insertRule(".testStyle { height: 44px; }", 2);
-        Assert.assertEquals(".testStyle { height: 43px }", mediaRule.getCssRules().item(0).getCssText());
-        Assert.assertEquals(".testStyle { height: 42px }", mediaRule.getCssRules().item(1).getCssText());
-        Assert.assertEquals(".testStyle { height: 44px }", mediaRule.getCssRules().item(2).getCssText());
+        Assert.assertEquals("*.testStyle { height: 43px }", mediaRule.getCssRules().item(0).getCssText());
+        Assert.assertEquals("*.testStyle { height: 42px }", mediaRule.getCssRules().item(1).getCssText());
+        Assert.assertEquals("*.testStyle { height: 44px }", mediaRule.getCssRules().item(2).getCssText());
 
         mediaRule.insertRule(".testStyle { height: 45px; }", 2);
-        Assert.assertEquals(".testStyle { height: 43px }", mediaRule.getCssRules().item(0).getCssText());
-        Assert.assertEquals(".testStyle { height: 42px }", mediaRule.getCssRules().item(1).getCssText());
-        Assert.assertEquals(".testStyle { height: 45px }", mediaRule.getCssRules().item(2).getCssText());
-        Assert.assertEquals(".testStyle { height: 44px }", mediaRule.getCssRules().item(3).getCssText());
+        Assert.assertEquals("*.testStyle { height: 43px }", mediaRule.getCssRules().item(0).getCssText());
+        Assert.assertEquals("*.testStyle { height: 42px }", mediaRule.getCssRules().item(1).getCssText());
+        Assert.assertEquals("*.testStyle { height: 45px }", mediaRule.getCssRules().item(2).getCssText());
+        Assert.assertEquals("*.testStyle { height: 44px }", mediaRule.getCssRules().item(3).getCssText());
     }
 
     /**
@@ -89,16 +89,16 @@ public class CSSMediaRuleImplTest {
         final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
 
         mediaRule.insertRule(" .testStyleDef { height: 42px; }", 0);
-        Assert.assertEquals(".testStyleDef { height: 42px }", mediaRule.getCssRules().item(0).getCssText());
+        Assert.assertEquals("*.testStyleDef { height: 42px }", mediaRule.getCssRules().item(0).getCssText());
 
         mediaRule.insertRule("      .testStyleDef { height: 43px;}   ", 0);
-        Assert.assertEquals(".testStyleDef { height: 43px }", mediaRule.getCssRules().item(0).getCssText());
-        Assert.assertEquals(".testStyleDef { height: 42px }", mediaRule.getCssRules().item(1).getCssText());
+        Assert.assertEquals("*.testStyleDef { height: 43px }", mediaRule.getCssRules().item(0).getCssText());
+        Assert.assertEquals("*.testStyleDef { height: 42px }", mediaRule.getCssRules().item(1).getCssText());
 
         mediaRule.insertRule("\t.testStyleDef { height: 44px; }\r\n", 0);
-        Assert.assertEquals(".testStyleDef { height: 44px }", mediaRule.getCssRules().item(0).getCssText());
-        Assert.assertEquals(".testStyleDef { height: 43px }", mediaRule.getCssRules().item(1).getCssText());
-        Assert.assertEquals(".testStyleDef { height: 42px }", mediaRule.getCssRules().item(2).getCssText());
+        Assert.assertEquals("*.testStyleDef { height: 44px }", mediaRule.getCssRules().item(0).getCssText());
+        Assert.assertEquals("*.testStyleDef { height: 43px }", mediaRule.getCssRules().item(1).getCssText());
+        Assert.assertEquals("*.testStyleDef { height: 42px }", mediaRule.getCssRules().item(2).getCssText());
     }
 
     /**
