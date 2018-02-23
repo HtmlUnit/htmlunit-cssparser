@@ -2421,7 +2421,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         // hash
         selectors = createSelectors("input:not(#test)");
-        Assert.assertEquals("input:not(#test)", selectors.item(0).toString());
+        Assert.assertEquals("input:not(*#test)", selectors.item(0).toString());
 
         // class
         selectors = createSelectors("input:not(.home)");
@@ -2515,7 +2515,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void not_hash() throws Exception {
         final SelectorList selectors = createSelectors("p:not( #test)");
-        Assert.assertEquals("p:not(#test)", selectors.item(0).toString());
+        Assert.assertEquals("p:not(*#test)", selectors.item(0).toString());
 
         Assert.assertEquals(1, selectors.getLength());
         final Selector selector = selectors.item(0);
@@ -2528,7 +2528,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        Assert.assertEquals("not(#test)", pseudo.getValue());
+        Assert.assertEquals("not(*#test)", pseudo.getValue());
     }
 
     /**
@@ -2632,13 +2632,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("input:foo(test):before", selectors.item(0).toString());
 
         selectors = createSelectors("input:not(#test):not(#rest)");
-        Assert.assertEquals("input:not(#test):not(#rest)", selectors.item(0).toString());
+        Assert.assertEquals("input:not(*#test):not(*#rest)", selectors.item(0).toString());
 
         selectors = createSelectors("input:not(#test):nth-child(even)");
-        Assert.assertEquals("input:not(#test):nth-child(even)", selectors.item(0).toString());
+        Assert.assertEquals("input:not(*#test):nth-child(even)", selectors.item(0).toString());
 
         selectors = createSelectors("input:not(#test):before");
-        Assert.assertEquals("input:not(#test):before", selectors.item(0).toString());
+        Assert.assertEquals("input:not(*#test):before", selectors.item(0).toString());
     }
 
     /**
@@ -2662,7 +2662,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         // pseudo element not at end
         checkErrorSelector("input:before:not(#test)",
-                "Duplicate pseudo class \":not(#test)\" or pseudo class \":not(#test)\" not at end.");
+                "Duplicate pseudo class \":not(*#test)\" or pseudo class \":not(*#test)\" not at end.");
         checkErrorSelector("input:before[type='file']",
                 "Error in attribute selector. (Invalid token \"type\". Was expecting: <S>.)");
         checkErrorSelector("input:before.styleClass", "Error in class selector. (Invalid token \"\". "

@@ -1652,39 +1652,28 @@ Selector negation_arg() :
     Object o;
 }
 {
-        (
-          simpleSel = elementName()
-        |
-          c = hash(null, false)
-        |
-          c = _class(null, false)
-        |
-          c = attrib(null, false)
-        |
-          (
+    (
+      simpleSel = elementName() { return simpleSel; }
+      |
+      (
+        { simpleSel = new ElementSelector(null, createLocator(token)); }
+        c = hash(null, false)
+        | c = _class(null, false)
+        | c = attrib(null, false)
+        | (
             o = pseudo(null, false)
             {  if (o instanceof Condition)
                {   c = (Condition) o;
                } else {
-                   pseudoElementSel = (SimpleSelector) o;
-                   negationArg = new DescendantSelector(null, pseudoElementSel);
+                   return new DescendantSelector(null, (SimpleSelector) o);
                }
             }
           )
-        )
-
-        {
-            if (negationArg != null) {
-                return negationArg;
-            }
-
-            if (simpleSel != null) {
-                return simpleSel;
-            }
-
-            simpleSel = new ConditionalSelector(simpleSel, c);
-            return simpleSel;
-        }
+      )
+    )
+    {
+        return new ConditionalSelector(simpleSel, c);
+    }
 }
 
 //
