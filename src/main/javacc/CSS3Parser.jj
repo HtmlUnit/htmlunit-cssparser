@@ -1191,7 +1191,7 @@ ElementSelector elementName() :
     {
         t = <IDENT>
         {
-            return new ElementSelector(unescape(t.image, false), createLocator(token));
+            return new ElementSelector(unescape(t.image, false), createLocator(t));
         }
         | <ASTERISK>
         {
@@ -1302,6 +1302,7 @@ Object pseudo(Condition pred, boolean pseudoElementFound) :
     Condition c = null;
     Token t;
     String function;
+    String arg;
     Selector sel;
     boolean doubleColon = false;
     Locator locator;
@@ -1331,10 +1332,9 @@ Object pseudo(Condition pred, boolean pseudoElementFound) :
             (
                 t = <FUNCTION_NOT> { function = unescape(t.image, false); }
                 ( <S> )*
-                sel = negation_arg() {
-                        String arg = sel.toString();
-                        if ("".equals(arg)) { arg = "*"; }
-                      }
+                arg = negation_arg() {
+                    if ("".equals(arg)) { arg = "*"; }
+                }
                 ( <S> )*
                 <RROUND>
                 {
@@ -1394,7 +1394,7 @@ Condition hash(Condition pred, boolean pseudoElementFound) :
         t = <HASH>
         {
             if (pseudoElementFound) { throw pe; }
-            Condition c = new IdCondition(unescape(t.image.substring(1), false), createLocator(token));
+            Condition c = new IdCondition(unescape(t.image.substring(1), false), createLocator(t));
             return (pred == null) ? c : new AndCondition(pred, c);
         }
     }
@@ -1445,7 +1445,7 @@ void declaration() :
         // maybe there are strange characters at the end - create error and skip
         ( t = <UNKNOWN>
           {
-            locator = createLocator(token);
+            locator = createLocator(t);
             CSSParseException cpe = toCSSParseException("invalidDeclarationInvalidChar", new String[] {t.image}, locator);
             getErrorHandler().error(cpe);
             error_skipdecl();
@@ -1573,7 +1573,7 @@ LexicalUnit term(LexicalUnit prev) :
         | t = "progid:"         { value = LexicalUnitImpl.createIdent(prev, skipUnit().trim()); }
         |
             (                t = <IDENT>
-                ( <COLON> { throw toCSSParseException("invalidExprColon", new String[]{ unescape(t.image, false) }, createLocator(token)); } )?
+                ( <COLON> { throw toCSSParseException("invalidExprColon", new String[]{ unescape(t.image, false) }, createLocator(t)); } )?
             )
             { value = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
         | t = <URI>             { value = LexicalUnitImpl.createURI(prev, unescape(t.image, true)); }
@@ -1643,36 +1643,21 @@ LexicalUnit function(LexicalUnit prev) :
 //   : type_selector | universal | HASH | class | attrib | pseudo
 //   ;
 //
-Selector negation_arg() :
+String negation_arg() :
 {
-    Selector negationArg = null;
     Condition c = null;
     SimpleSelector simpleSel = null;
-    SimpleSelector pseudoElementSel = null;
     Object o;
 }
 {
-    (
-      simpleSel = elementName() { return simpleSel; }
-      |
-      (
-          c = hash(null, false)
-          | c = _class(null, false)
-          | c = attrib(null, false)
-          | (
-              o = pseudo(null, false)
-              {  if (o instanceof Condition)
-                 {   c = (Condition) o;
-                 } else {
-                   return new DescendantSelector(null, (SimpleSelector) o);
-                 }
-              }
-            )
-      )
-    )
-    {
-        return new ConditionalSelector(null, c);
-    }
+    simpleSel = elementName() { return simpleSel.toString(); }
+    | c = hash(null, false) { return c.toString(); }
+    | c = _class(null, false) { return c.toString(); }
+    | c = attrib(null, false) { return c.toString(); }
+    | o = pseudo(null, false)
+      {  if (o instanceof Condition) { return o.toString(); }
+         return new DescendantSelector(null, (SimpleSelector) o).toString();
+      }
 }
 
 //
