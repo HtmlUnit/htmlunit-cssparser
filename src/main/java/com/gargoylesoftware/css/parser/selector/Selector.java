@@ -24,7 +24,6 @@ public interface Selector extends Locatable {
     enum SelectorType {
         ANY_NODE_SELECTOR,
         CHILD_SELECTOR,
-        CONDITIONAL_SELECTOR,
         DESCENDANT_SELECTOR,
         DIRECT_ADJACENT_SELECTOR,
         ELEMENT_NODE_SELECTOR,

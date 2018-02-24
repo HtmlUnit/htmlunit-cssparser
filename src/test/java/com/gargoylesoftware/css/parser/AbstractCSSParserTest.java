@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.List;
 import java.util.Locale;
 
 import org.junit.After;
@@ -32,7 +33,6 @@ import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
 import com.gargoylesoftware.css.dom.CSSStyleRuleImpl;
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.Property;
-import com.gargoylesoftware.css.parser.condition.AndCondition;
 import com.gargoylesoftware.css.parser.condition.AttributeCondition;
 import com.gargoylesoftware.css.parser.condition.BeginHyphenAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.ClassCondition;
@@ -45,8 +45,8 @@ import com.gargoylesoftware.css.parser.condition.PseudoClassCondition;
 import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
 import com.gargoylesoftware.css.parser.media.MediaQueryList;
-import com.gargoylesoftware.css.parser.selector.ConditionalSelector;
 import com.gargoylesoftware.css.parser.selector.DescendantSelector;
+import com.gargoylesoftware.css.parser.selector.ElementSelector;
 import com.gargoylesoftware.css.parser.selector.Selector;
 import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
@@ -134,33 +134,28 @@ public abstract class AbstractCSSParserTest {
         return parser().parseSelectors(source);
     }
 
-    protected Condition createCondition(final String cssText) throws Exception {
+    protected List<Condition> createConditions(final String cssText) throws Exception {
         final SelectorList selectors = createSelectors(cssText);
         final Selector selector = selectors.item(0);
-        final ConditionalSelector conditionalSelector = (ConditionalSelector) selector;
-        return conditionalSelector.getCondition();
+        final ElementSelector elementSelector = (ElementSelector) selector;
+        return elementSelector.getConditions();
     }
 
     protected void conditionType(final String cssText, final ConditionType... conditionTypes) throws Exception {
-        final Condition condition = createCondition(cssText);
-        conditionType(condition, 0, conditionTypes);
-    }
+        final List<Condition> conditions = createConditions(cssText);
 
-    protected int conditionType(final Condition condition, int initial, final ConditionType... conditionTypes) {
-        Assert.assertEquals(conditionTypes[initial], condition.getConditionType());
-        if (conditionTypes[initial] == ConditionType.AND_CONDITION) {
-            final AndCondition combinatorCondition = (AndCondition) condition;
-            final Condition first = combinatorCondition.getFirstCondition();
-            final Condition second = combinatorCondition.getSecondCondition();
-            initial = conditionType(first, ++initial, conditionTypes);
-            initial = conditionType(second, ++initial, conditionTypes);
+        for (int i = 0; i < conditionTypes.length; i++) {
+            Assert.assertEquals(conditionTypes[i], conditions.get(i).getConditionType());
         }
-        return initial;
     }
 
     protected void conditionAssert(final String cssText, final String name,
             final String value, final boolean specified) throws Exception {
-        final Condition condition = createCondition(cssText);
+
+        final List<Condition> conditions = createConditions(cssText);
+        Assert.assertEquals(1, conditions.size());
+
+        final Condition condition = conditions.get(0);
         switch (condition.getConditionType()) {
             case ATTRIBUTE_CONDITION:
                 final AttributeCondition attributeCondition = (AttributeCondition) condition;

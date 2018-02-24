@@ -37,7 +37,6 @@ import java.util.Locale;
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.Property;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
-import com.gargoylesoftware.css.parser.condition.AndCondition;
 import com.gargoylesoftware.css.parser.condition.AttributeCondition;
 import com.gargoylesoftware.css.parser.condition.BeginHyphenAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.ClassCondition;
@@ -52,7 +51,6 @@ import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
 import com.gargoylesoftware.css.parser.media.MediaQuery;
 import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.ChildSelector;
-import com.gargoylesoftware.css.parser.selector.ConditionalSelector;
 import com.gargoylesoftware.css.parser.selector.DescendantSelector;
 import com.gargoylesoftware.css.parser.selector.DirectAdjacentSelector;
 import com.gargoylesoftware.css.parser.selector.ElementSelector;
@@ -1065,6 +1063,7 @@ Selector selector() :
 //
 Selector simpleSelector(Selector sel, char comb) :
 {
+    ElementSelector elemSel = null;
     SimpleSelector simpleSel = null;
     Condition c = null;
     SimpleSelector pseudoElementSel = null;
@@ -1074,33 +1073,33 @@ Selector simpleSelector(Selector sel, char comb) :
     try
     {
         (
-            ( simpleSel = elementName()
-                ( c = hash(c, null != pseudoElementSel)
-                | c = _class(c, null != pseudoElementSel)
-                | c = attrib(c, null != pseudoElementSel)
+            ( elemSel = elementName()
+                ( c = hash(null != pseudoElementSel) { elemSel.addCondition(c); }
+                | c = _class(null != pseudoElementSel) { elemSel.addCondition(c); }
+                | c = attrib(null != pseudoElementSel) { elemSel.addCondition(c); }
                 | (
-                    o = pseudo(c, null != pseudoElementSel)
-                    {  if (o instanceof Condition)
-                       {   c = (Condition) o;
-                       } else {
-                           pseudoElementSel = (SimpleSelector) o;
-                       }
+                    o = pseudo(null != pseudoElementSel)
+                    { if (o instanceof Condition)
+                      {  elemSel.addCondition((Condition) o);
+                      } else {
+                        pseudoElementSel = (SimpleSelector) o;
+                      }
                     }
                   )
                 )*
             )
             |
-            ( { simpleSel = new ElementSelector(null, createLocator(token)); }
-                ( c = hash(c, null != pseudoElementSel)
-                | c = _class(c, null != pseudoElementSel)
-                | c = attrib(c, null != pseudoElementSel)
+            ( { elemSel = new ElementSelector(null, createLocator(token)); }
+                ( c = hash(null != pseudoElementSel) { elemSel.addCondition(c); }
+                | c = _class(null != pseudoElementSel) { elemSel.addCondition(c); }
+                | c = attrib(null != pseudoElementSel) { elemSel.addCondition(c); }
                 | (
-                    o = pseudo(c, null != pseudoElementSel)
-                    {  if (o instanceof Condition)
-                       {   c = (Condition) o;
-                       } else {
-                           pseudoElementSel = (SimpleSelector) o;
-                       }
+                    o = pseudo(null != pseudoElementSel)
+                    { if (o instanceof Condition)
+                      { elemSel.addCondition((Condition) o);
+                      } else {
+                        pseudoElementSel = (SimpleSelector) o;
+                      }
                     }
                   )
                 )+
@@ -1108,10 +1107,7 @@ Selector simpleSelector(Selector sel, char comb) :
         )
 
         {
-            if (c != null) {
-                simpleSel = new ConditionalSelector(simpleSel, c);
-            }
-
+            simpleSel = elemSel;
             if (sel == null) {
                 sel = simpleSel;
             } else {
@@ -1149,7 +1145,7 @@ Selector simpleSelector(Selector sel, char comb) :
 //   : '.' IDENT
 //   ;
 //
-Condition _class(Condition pred, boolean pseudoElementFound) :
+Condition _class(boolean pseudoElementFound) :
 {
     Token t;
     Locator locator;
@@ -1167,8 +1163,7 @@ Condition _class(Condition pred, boolean pseudoElementFound) :
         t = <IDENT>
         {
             if (pseudoElementFound) { throw pe; }
-            Condition c = new ClassCondition(unescape(t.image, false), locator);
-            return (pred == null) ? c : new AndCondition(pred, c);
+            return new ClassCondition(unescape(t.image, false), locator);
         }
     }
     catch (ParseException e)
@@ -1210,7 +1205,7 @@ ElementSelector elementName() :
 //     [ IDENT | STRING ] S* ]? ']'
 //   ;
 //
-Condition attrib(Condition pred, boolean pseudoElementFound) :
+Condition attrib(boolean pseudoElementFound) :
 {
     Token t;
     String name = null;
@@ -1278,7 +1273,7 @@ Condition attrib(Condition pred, boolean pseudoElementFound) :
                 break;
             }
             c.setLocator(locator);
-            return (pred == null) ? c : new AndCondition(pred, c);
+            return c;
         }
     }
     catch (ParseException e)
@@ -1297,7 +1292,7 @@ Condition attrib(Condition pred, boolean pseudoElementFound) :
 //        ]
 //  ;
 //
-Object pseudo(Condition pred, boolean pseudoElementFound) :
+Object pseudo(boolean pseudoElementFound) :
 {
     Condition c = null;
     Token t;
@@ -1325,8 +1320,7 @@ Object pseudo(Condition pred, boolean pseudoElementFound) :
                 {
                     return new PseudoElementSelector(s, locator, doubleColon);
                 }
-                c = new PseudoClassCondition(s, locator, doubleColon);
-                return (pred == null) ? c : new AndCondition(pred, c);
+                return new PseudoClassCondition(s, locator, doubleColon);
             }
             |
             (
@@ -1339,8 +1333,7 @@ Object pseudo(Condition pred, boolean pseudoElementFound) :
                 <RROUND>
                 {
                     if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + arg + ")" }, locator); }
-                    c = new PseudoClassCondition(function + arg + ")", locator, doubleColon);
-                    return (pred == null) ? c : new AndCondition(pred, c);
+                    return new PseudoClassCondition(function + arg + ")", locator, doubleColon);
                 }
             )
             |
@@ -1352,8 +1345,7 @@ Object pseudo(Condition pred, boolean pseudoElementFound) :
                 <RROUND>
                 {
                     if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { "lang(" + lang + ")" }, locator); }
-                    c = new LangCondition(lang, locator);
-                    return (pred == null) ? c : new AndCondition(pred, c);
+                    return new LangCondition(lang, locator);
                 }
             )
             |
@@ -1370,8 +1362,7 @@ Object pseudo(Condition pred, boolean pseudoElementFound) :
                 <RROUND>
                 {
                     if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + args.toString().trim() + ")" }, locator); }
-                    c = new PseudoClassCondition(function + args.toString().trim() + ")", locator, doubleColon);
-                    return (pred == null) ? c : new AndCondition(pred, c);
+                    return new PseudoClassCondition(function + args.toString().trim() + ")", locator, doubleColon);
                 }
             )
         )
@@ -1382,7 +1373,7 @@ Object pseudo(Condition pred, boolean pseudoElementFound) :
     }
 }
 
-Condition hash(Condition pred, boolean pseudoElementFound) :
+Condition hash(boolean pseudoElementFound) :
 {
     Token t;
     ParseException pe = null;
@@ -1394,8 +1385,7 @@ Condition hash(Condition pred, boolean pseudoElementFound) :
         t = <HASH>
         {
             if (pseudoElementFound) { throw pe; }
-            Condition c = new IdCondition(unescape(t.image.substring(1), false), createLocator(t));
-            return (pred == null) ? c : new AndCondition(pred, c);
+            return new IdCondition(unescape(t.image.substring(1), false), createLocator(t));
         }
     }
     catch (ParseException e)
@@ -1651,10 +1641,10 @@ String negation_arg() :
 }
 {
     simpleSel = elementName() { return simpleSel.toString(); }
-    | c = hash(null, false) { return c.toString(); }
-    | c = _class(null, false) { return c.toString(); }
-    | c = attrib(null, false) { return c.toString(); }
-    | o = pseudo(null, false)
+    | c = hash(false) { return c.toString(); }
+    | c = _class(false) { return c.toString(); }
+    | c = attrib(false) { return c.toString(); }
+    | o = pseudo(false)
       {  if (o instanceof Condition) { return o.toString(); }
          return new DescendantSelector(null, (SimpleSelector) o).toString();
       }

@@ -50,7 +50,7 @@ import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
 import com.gargoylesoftware.css.parser.media.MediaQuery;
 import com.gargoylesoftware.css.parser.selector.ChildSelector;
-import com.gargoylesoftware.css.parser.selector.ConditionalSelector;
+import com.gargoylesoftware.css.parser.selector.ElementSelector;
 import com.gargoylesoftware.css.parser.selector.Selector;
 import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
@@ -81,23 +81,23 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void selector() throws Exception {
-        selectorType("a#id.class:link", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType("a#id.class", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType("a#id:link", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType("a#id", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType("a.class:link", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType("a.class", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType("a:link", SelectorType.CONDITIONAL_SELECTOR);
+        selectorType("a#id.class:link", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType("a#id.class", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType("a#id:link", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType("a#id", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType("a.class:link", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType("a.class", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType("a:link", SelectorType.ELEMENT_NODE_SELECTOR);
         selectorType("a", SelectorType.ELEMENT_NODE_SELECTOR);
-        selectorType("#id.class:link", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType("#id.class", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType("#id:link", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType("#id", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType(".class:link", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType(".class", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType(":link", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType("a:visited", SelectorType.CONDITIONAL_SELECTOR);
-        selectorType("a:active", SelectorType.CONDITIONAL_SELECTOR);
+        selectorType("#id.class:link", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType("#id.class", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType("#id:link", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType("#id", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType(".class:link", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType(".class", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType(":link", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType("a:visited", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType("a:active", SelectorType.ELEMENT_NODE_SELECTOR);
 
         selectorType("h1 a", SelectorType.DESCENDANT_SELECTOR, SelectorType.ELEMENT_NODE_SELECTOR,
                 SelectorType.ELEMENT_NODE_SELECTOR);
@@ -119,8 +119,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         selectorType("a:after", SelectorType.DESCENDANT_SELECTOR, SelectorType.ELEMENT_NODE_SELECTOR,
                 SelectorType.PSEUDO_ELEMENT_SELECTOR);
 
-        selectorType("h1:lang(en)", SelectorType.CONDITIONAL_SELECTOR, SelectorType.ELEMENT_NODE_SELECTOR,
-                SelectorType.PSEUDO_ELEMENT_SELECTOR);
+        selectorType("h1:lang(en)", SelectorType.ELEMENT_NODE_SELECTOR, SelectorType.PSEUDO_ELEMENT_SELECTOR);
     }
 
     /**
@@ -137,8 +136,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         selectorType("a::after", SelectorType.DESCENDANT_SELECTOR, SelectorType.ELEMENT_NODE_SELECTOR,
                 SelectorType.PSEUDO_ELEMENT_SELECTOR);
 
-        selectorType("h1::lang(en)", SelectorType.CONDITIONAL_SELECTOR, SelectorType.ELEMENT_NODE_SELECTOR,
-                SelectorType.PSEUDO_ELEMENT_SELECTOR);
+        selectorType("h1::lang(en)", SelectorType.ELEMENT_NODE_SELECTOR, SelectorType.PSEUDO_ELEMENT_SELECTOR);
     }
 
     /**
@@ -160,32 +158,32 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         CSSRule rule = rules.item(0);
         Assert.assertEquals("html:lang(fr-ca) { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
-        ConditionalSelector selector = (ConditionalSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
-        Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getCondition().getConditionType());
-        Assert.assertEquals("fr-ca", ((LangCondition) selector.getCondition()).getLang());
+        ElementSelector selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
+        Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
+        Assert.assertEquals("fr-ca", ((LangCondition) selector.getConditions().get(0)).getLang());
 
         rule = rules.item(1);
         Assert.assertEquals("html:lang(de) { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
-        selector = (ConditionalSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
-        Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getCondition().getConditionType());
-        Assert.assertEquals("de", ((LangCondition) selector.getCondition()).getLang());
+        selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
+        Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
+        Assert.assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getLang());
 
         rule = rules.item(2);
         Assert.assertEquals("*:lang(fr) > Q { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         ChildSelector childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
-        selector = (ConditionalSelector) childSelector.getAncestorSelector();
-        Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getCondition().getConditionType());
-        Assert.assertEquals("fr", ((LangCondition) selector.getCondition()).getLang());
+        selector = (ElementSelector) childSelector.getAncestorSelector();
+        Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
+        Assert.assertEquals("fr", ((LangCondition) selector.getConditions().get(0)).getLang());
 
         rule = rules.item(3);
         Assert.assertEquals("*:lang(de) > Q { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
-        selector = (ConditionalSelector) childSelector.getAncestorSelector();
-        Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getCondition().getConditionType());
-        Assert.assertEquals("de", ((LangCondition) selector.getCondition()).getLang());
+        selector = (ElementSelector) childSelector.getAncestorSelector();
+        Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
+        Assert.assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getLang());
     }
 
     /**
@@ -209,26 +207,20 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void condition() throws Exception {
-        conditionType("a#id.class:link", ConditionType.AND_CONDITION, ConditionType.AND_CONDITION,
-                ConditionType.ID_CONDITION, ConditionType.CLASS_CONDITION, ConditionType.PSEUDO_CLASS_CONDITION);
-        conditionType("a#id.class", ConditionType.AND_CONDITION, ConditionType.ID_CONDITION,
-                ConditionType.CLASS_CONDITION);
-        conditionType("a#id:link", ConditionType.AND_CONDITION, ConditionType.ID_CONDITION,
+        conditionType("a#id.class:link", ConditionType.ID_CONDITION, ConditionType.CLASS_CONDITION,
                 ConditionType.PSEUDO_CLASS_CONDITION);
+        conditionType("a#id.class", ConditionType.ID_CONDITION, ConditionType.CLASS_CONDITION);
+        conditionType("a#id:link", ConditionType.ID_CONDITION, ConditionType.PSEUDO_CLASS_CONDITION);
         conditionType("a#id", ConditionType.ID_CONDITION);
-        conditionType("a.class:link", ConditionType.AND_CONDITION, ConditionType.CLASS_CONDITION,
-                ConditionType.PSEUDO_CLASS_CONDITION);
+        conditionType("a.class:link", ConditionType.CLASS_CONDITION, ConditionType.PSEUDO_CLASS_CONDITION);
         conditionType("a.class", ConditionType.CLASS_CONDITION);
         conditionType("a:link", ConditionType.PSEUDO_CLASS_CONDITION);
-        conditionType("#id.class:link", ConditionType.AND_CONDITION, ConditionType.AND_CONDITION,
-                ConditionType.ID_CONDITION, ConditionType.CLASS_CONDITION, ConditionType.PSEUDO_CLASS_CONDITION);
-        conditionType("#id.class", ConditionType.AND_CONDITION, ConditionType.ID_CONDITION,
-                ConditionType.CLASS_CONDITION);
-        conditionType("#id:link", ConditionType.AND_CONDITION, ConditionType.ID_CONDITION,
+        conditionType("#id.class:link", ConditionType.ID_CONDITION, ConditionType.CLASS_CONDITION,
                 ConditionType.PSEUDO_CLASS_CONDITION);
+        conditionType("#id.class", ConditionType.ID_CONDITION, ConditionType.CLASS_CONDITION);
+        conditionType("#id:link", ConditionType.ID_CONDITION, ConditionType.PSEUDO_CLASS_CONDITION);
         conditionType("#id", ConditionType.ID_CONDITION);
-        conditionType(".class:link", ConditionType.AND_CONDITION, ConditionType.CLASS_CONDITION,
-                ConditionType.PSEUDO_CLASS_CONDITION);
+        conditionType(".class:link", ConditionType.CLASS_CONDITION, ConditionType.PSEUDO_CLASS_CONDITION);
         conditionType(".class", ConditionType.CLASS_CONDITION);
         conditionType(":link", ConditionType.PSEUDO_CLASS_CONDITION);
     }
@@ -2288,8 +2280,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void prefixAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel^=val]");
-        final ConditionalSelector selector = (ConditionalSelector) selectors.item(0);
-        Assert.assertTrue(selector.getCondition() instanceof PrefixAttributeCondition);
+        final ElementSelector selector = (ElementSelector) selectors.item(0);
+        Assert.assertTrue(selector.getConditions().get(0) instanceof PrefixAttributeCondition);
     }
 
     /**
@@ -2298,8 +2290,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void suffixAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel$=val]");
-        final ConditionalSelector selector = (ConditionalSelector) selectors.item(0);
-        Assert.assertTrue(selector.getCondition() instanceof SuffixAttributeCondition);
+        final ElementSelector selector = (ElementSelector) selectors.item(0);
+        Assert.assertTrue(selector.getConditions().get(0) instanceof SuffixAttributeCondition);
     }
 
     /**
@@ -2308,8 +2300,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void substringAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel*=val]");
-        final ConditionalSelector selector = (ConditionalSelector) selectors.item(0);
-        Assert.assertTrue(selector.getCondition() instanceof SubstringAttributeCondition);
+        final ElementSelector selector = (ElementSelector) selectors.item(0);
+        Assert.assertTrue(selector.getConditions().get(0) instanceof SubstringAttributeCondition);
     }
 
     /**
@@ -2476,11 +2468,12 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, selectors.getLength());
         final Selector selector = selectors.item(0);
 
-        Assert.assertEquals(SelectorType.CONDITIONAL_SELECTOR, selector.getSelectorType());
+        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
-        final ConditionalSelector condSel = (ConditionalSelector) selector;
-        final Condition condition = condSel.getCondition();
+        final ElementSelector elemSel = (ElementSelector) selector;
+        Assert.assertEquals(1, elemSel.getConditions().size());
 
+        final Condition condition = elemSel.getConditions().get(0);
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
@@ -2498,11 +2491,12 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, selectors.getLength());
         final Selector selector = selectors.item(0);
 
-        Assert.assertEquals(SelectorType.CONDITIONAL_SELECTOR, selector.getSelectorType());
+        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
-        final ConditionalSelector condSel = (ConditionalSelector) selector;
-        final Condition condition = condSel.getCondition();
+        final ElementSelector elemSel = (ElementSelector) selector;
+        Assert.assertEquals(1, elemSel.getConditions().size());
 
+        final Condition condition = elemSel.getConditions().get(0);
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
@@ -2520,11 +2514,12 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, selectors.getLength());
         final Selector selector = selectors.item(0);
 
-        Assert.assertEquals(SelectorType.CONDITIONAL_SELECTOR, selector.getSelectorType());
+        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
-        final ConditionalSelector condSel = (ConditionalSelector) selector;
-        final Condition condition = condSel.getCondition();
+        final ElementSelector elemSel = (ElementSelector) selector;
+        Assert.assertEquals(1, elemSel.getConditions().size());
 
+        final Condition condition = elemSel.getConditions().get(0);
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
@@ -2543,11 +2538,12 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, selectors.getLength());
         final Selector selector = selectors.item(0);
 
-        Assert.assertEquals(SelectorType.CONDITIONAL_SELECTOR, selector.getSelectorType());
+        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
-        final ConditionalSelector condSel = (ConditionalSelector) selector;
-        final Condition condition = condSel.getCondition();
+        final ElementSelector elemSel = (ElementSelector) selector;
+        Assert.assertEquals(1, elemSel.getConditions().size());
 
+        final Condition condition = elemSel.getConditions().get(0);
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
@@ -2565,11 +2561,12 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, selectors.getLength());
         final Selector selector = selectors.item(0);
 
-        Assert.assertEquals(SelectorType.CONDITIONAL_SELECTOR, selector.getSelectorType());
+        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
-        final ConditionalSelector condSel = (ConditionalSelector) selector;
-        final Condition condition = condSel.getCondition();
+        final ElementSelector elemSel = (ElementSelector) selector;
+        Assert.assertEquals(1, elemSel.getConditions().size());
 
+        final Condition condition = elemSel.getConditions().get(0);
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
@@ -2587,11 +2584,12 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, selectors.getLength());
         final Selector selector = selectors.item(0);
 
-        Assert.assertEquals(SelectorType.CONDITIONAL_SELECTOR, selector.getSelectorType());
+        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
-        final ConditionalSelector condSel = (ConditionalSelector) selector;
-        final Condition condition = condSel.getCondition();
+        final ElementSelector elemSel = (ElementSelector) selector;
+        Assert.assertEquals(1, elemSel.getConditions().size());
 
+        final Condition condition = elemSel.getConditions().get(0);
         Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;

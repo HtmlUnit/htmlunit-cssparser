@@ -15,9 +15,12 @@
 package com.gargoylesoftware.css.parser.selector;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.gargoylesoftware.css.parser.AbstractLocatable;
 import com.gargoylesoftware.css.parser.Locator;
+import com.gargoylesoftware.css.parser.condition.Condition;
 
 /**
  * @author Ronald Brill
@@ -25,6 +28,7 @@ import com.gargoylesoftware.css.parser.Locator;
 public class ElementSelector extends AbstractLocatable implements SimpleSelector, Serializable {
 
     private final String localName_;
+    private List<Condition> conditions_;
 
     public ElementSelector(final String localName, final Locator locator) {
         localName_ = localName;
@@ -40,11 +44,29 @@ public class ElementSelector extends AbstractLocatable implements SimpleSelector
         return localName_;
     }
 
+    public List<Condition> getConditions() {
+        return conditions_;
+    }
+
+    public void addCondition(final Condition condition) {
+        if (conditions_ == null) {
+            conditions_ = new ArrayList<Condition>();
+        }
+        conditions_.add(condition);
+    }
+
     @Override
     public String toString() {
-        final String localeName = getLocalName();
+        String localeName = getLocalName();
         if (localeName == null) {
-            return "*";
+            localeName = "*";
+        }
+
+        // TODO use StringBuilder
+        if (conditions_ != null) {
+            for (Condition condition : conditions_) {
+                localeName += condition.toString();
+            }
         }
         return localeName;
     }

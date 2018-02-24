@@ -25,7 +25,6 @@ public interface Condition extends Locatable {
      * ConditionType enum.
      */
     enum ConditionType {
-        AND_CONDITION,
         ATTRIBUTE_CONDITION,
         ID_CONDITION,
         LANG_CONDITION,
