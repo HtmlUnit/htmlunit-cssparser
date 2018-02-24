@@ -1656,23 +1656,22 @@ Selector negation_arg() :
       simpleSel = elementName() { return simpleSel; }
       |
       (
-        { simpleSel = new ElementSelector(null, createLocator(token)); }
-        c = hash(null, false)
-        | c = _class(null, false)
-        | c = attrib(null, false)
-        | (
-            o = pseudo(null, false)
-            {  if (o instanceof Condition)
-               {   c = (Condition) o;
-               } else {
+          c = hash(null, false)
+          | c = _class(null, false)
+          | c = attrib(null, false)
+          | (
+              o = pseudo(null, false)
+              {  if (o instanceof Condition)
+                 {   c = (Condition) o;
+                 } else {
                    return new DescendantSelector(null, (SimpleSelector) o);
-               }
-            }
-          )
+                 }
+              }
+            )
       )
     )
     {
-        return new ConditionalSelector(simpleSel, c);
+        return new ConditionalSelector(null, c);
     }
 }
 
