@@ -17,8 +17,6 @@ package com.gargoylesoftware.css.parser.selector;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
-
 /**
  * Test cases for {@link GeneralAdjacentSelector}.
  * @author Ronald Brill
@@ -27,8 +25,7 @@ public class GeneralAdjacentSelectorTest {
 
     @Test
     public void withoutParentDescendant() {
-        final GeneralAdjacentSelector selector =
-                new GeneralAdjacentSelector(SelectorType.ANY_NODE_SELECTOR, null, null);
+        final GeneralAdjacentSelector selector = new GeneralAdjacentSelector(null, null);
         Assert.assertNull(selector.getSelector());
         Assert.assertNull(selector.getSiblingSelector());
 
@@ -38,8 +35,7 @@ public class GeneralAdjacentSelectorTest {
     @Test
     public void withoutParent() {
         final ElementSelector descendant = new ElementSelector("a", null);
-        final GeneralAdjacentSelector selector =
-                new GeneralAdjacentSelector(SelectorType.ANY_NODE_SELECTOR, null, descendant);
+        final GeneralAdjacentSelector selector = new GeneralAdjacentSelector(null, descendant);
         Assert.assertNull(selector.getSelector());
         Assert.assertEquals(descendant, selector.getSiblingSelector());
 
@@ -49,8 +45,7 @@ public class GeneralAdjacentSelectorTest {
     @Test
     public void withoutDescendant() {
         final ElementSelector parent = new ElementSelector("p", null);
-        final GeneralAdjacentSelector selector =
-                new GeneralAdjacentSelector(SelectorType.ANY_NODE_SELECTOR, parent, null);
+        final GeneralAdjacentSelector selector = new GeneralAdjacentSelector(parent, null);
         Assert.assertEquals(parent, selector.getSelector());
         Assert.assertNull(null, selector.getSiblingSelector());
 
@@ -61,8 +56,7 @@ public class GeneralAdjacentSelectorTest {
     public void both() {
         final ElementSelector parent = new ElementSelector("p", null);
         final ElementSelector descendant = new ElementSelector("a", null);
-        final GeneralAdjacentSelector selector =
-                new GeneralAdjacentSelector(SelectorType.ANY_NODE_SELECTOR, parent, descendant);
+        final GeneralAdjacentSelector selector = new GeneralAdjacentSelector(parent, descendant);
         Assert.assertEquals(parent, selector.getSelector());
         Assert.assertEquals(descendant, selector.getSiblingSelector());
 

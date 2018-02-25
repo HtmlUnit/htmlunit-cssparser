@@ -1116,13 +1116,13 @@ Selector simpleSelector(Selector sel, char comb) :
                     sel = new DescendantSelector(sel, simpleSel);
                     break;
                 case '+':
-                    sel = new DirectAdjacentSelector(sel.getSelectorType(), sel, simpleSel);
+                    sel = new DirectAdjacentSelector(sel, simpleSel);
                     break;
                 case '>':
                     sel = new ChildSelector(sel, simpleSel);
                     break;
                 case '~':
-                    sel = new GeneralAdjacentSelector(sel.getSelectorType(), sel, simpleSel);
+                    sel = new GeneralAdjacentSelector(sel, simpleSel);
                     break;
                 }
             }

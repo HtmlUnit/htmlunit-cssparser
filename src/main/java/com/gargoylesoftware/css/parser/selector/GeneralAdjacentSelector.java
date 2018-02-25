@@ -23,22 +23,15 @@ import com.gargoylesoftware.css.parser.AbstractLocatable;
  */
 public class GeneralAdjacentSelector extends AbstractLocatable implements Selector, Serializable {
 
-    private final SelectorType nodeType_;
     private final Selector selector_;
     private final SimpleSelector siblingSelector_;
 
-    public GeneralAdjacentSelector(final SelectorType nodeType,
-            final Selector child, final SimpleSelector directAdjacent) {
-        nodeType_ = nodeType;
+    public GeneralAdjacentSelector(final Selector child, final SimpleSelector directAdjacent) {
         selector_ = child;
         if (child != null) {
             setLocator(child.getLocator());
         }
         siblingSelector_ = directAdjacent;
-    }
-
-    public SelectorType getNodeType() {
-        return nodeType_;
     }
 
     @Override

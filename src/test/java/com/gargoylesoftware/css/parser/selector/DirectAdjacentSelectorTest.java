@@ -30,9 +30,8 @@ public class DirectAdjacentSelectorTest {
      */
     @Test
     public void withoutParentSimple() throws Exception {
-        final DirectAdjacentSelector s = new DirectAdjacentSelector(SelectorType.ANY_NODE_SELECTOR, null, null);
+        final DirectAdjacentSelector s = new DirectAdjacentSelector(null, null);
         Assert.assertEquals(SelectorType.DIRECT_ADJACENT_SELECTOR, s.getSelectorType());
-        Assert.assertEquals(SelectorType.ANY_NODE_SELECTOR, s.getNodeType());
         Assert.assertNull(s.getSelector());
         Assert.assertNull(s.getSiblingSelector());
 
@@ -45,9 +44,8 @@ public class DirectAdjacentSelectorTest {
     @Test
     public void selectorOnly() throws Exception {
         final ElementSelector selector = new ElementSelector("p", null);
-        final DirectAdjacentSelector s = new DirectAdjacentSelector(selector.getSelectorType(), selector, null);
+        final DirectAdjacentSelector s = new DirectAdjacentSelector(selector, null);
         Assert.assertEquals(SelectorType.DIRECT_ADJACENT_SELECTOR, s.getSelectorType());
-        Assert.assertEquals(selector.getSelectorType(), s.getNodeType());
         Assert.assertEquals(selector, s.getSelector());
         Assert.assertNull(s.getSiblingSelector());
 
@@ -60,10 +58,8 @@ public class DirectAdjacentSelectorTest {
     @Test
     public void simpleOnly() throws Exception {
         final ElementSelector simple = new ElementSelector("c", null);
-        final DirectAdjacentSelector s =
-                new DirectAdjacentSelector(SelectorType.ANY_NODE_SELECTOR, null, simple);
+        final DirectAdjacentSelector s = new DirectAdjacentSelector(null, simple);
         Assert.assertEquals(SelectorType.DIRECT_ADJACENT_SELECTOR, s.getSelectorType());
-        Assert.assertEquals(SelectorType.ANY_NODE_SELECTOR, s.getNodeType());
         Assert.assertNull(s.getSelector());
         Assert.assertEquals(simple, s.getSiblingSelector());
 
@@ -77,10 +73,8 @@ public class DirectAdjacentSelectorTest {
     public void both() throws Exception {
         final ElementSelector selector = new ElementSelector("p", null);
         final ElementSelector simple = new ElementSelector("c", null);
-        final DirectAdjacentSelector s =
-                    new DirectAdjacentSelector(selector.getSelectorType(), selector, simple);
+        final DirectAdjacentSelector s = new DirectAdjacentSelector(selector, simple);
         Assert.assertEquals(SelectorType.DIRECT_ADJACENT_SELECTOR, s.getSelectorType());
-        Assert.assertEquals(selector.getSelectorType(), s.getNodeType());
         Assert.assertEquals(selector, s.getSelector());
         Assert.assertEquals(simple, s.getSiblingSelector());
 
