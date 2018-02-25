@@ -158,21 +158,21 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         CSSRule rule = rules.item(0);
         Assert.assertEquals("html:lang(fr-ca) { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
-        ElementSelector selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
+        ElementSelector selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
         Assert.assertEquals("fr-ca", ((LangCondition) selector.getConditions().get(0)).getLang());
 
         rule = rules.item(1);
         Assert.assertEquals("html:lang(de) { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
-        selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
+        selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
         Assert.assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getLang());
 
         rule = rules.item(2);
         Assert.assertEquals("*:lang(fr) > Q { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
-        ChildSelector childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
+        ChildSelector childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         selector = (ElementSelector) childSelector.getAncestorSelector();
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
         Assert.assertEquals("fr", ((LangCondition) selector.getConditions().get(0)).getLang());
@@ -180,7 +180,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         rule = rules.item(3);
         Assert.assertEquals("*:lang(de) > Q { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
-        childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().item(0);
+        childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         selector = (ElementSelector) childSelector.getAncestorSelector();
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
         Assert.assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getLang());
@@ -2280,7 +2280,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void prefixAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel^=val]");
-        final ElementSelector selector = (ElementSelector) selectors.item(0);
+        final ElementSelector selector = (ElementSelector) selectors.get(0);
         Assert.assertTrue(selector.getConditions().get(0) instanceof PrefixAttributeCondition);
     }
 
@@ -2290,7 +2290,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void suffixAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel$=val]");
-        final ElementSelector selector = (ElementSelector) selectors.item(0);
+        final ElementSelector selector = (ElementSelector) selectors.get(0);
         Assert.assertTrue(selector.getConditions().get(0) instanceof SuffixAttributeCondition);
     }
 
@@ -2300,7 +2300,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void substringAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel*=val]");
-        final ElementSelector selector = (ElementSelector) selectors.item(0);
+        final ElementSelector selector = (ElementSelector) selectors.get(0);
         Assert.assertTrue(selector.getConditions().get(0) instanceof SubstringAttributeCondition);
     }
 
@@ -2311,23 +2311,23 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void nth_child() throws Exception {
         String cssText = "div:nth-child(0)";
         SelectorList selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.item(0).toString());
+        Assert.assertEquals(cssText, selectors.get(0).toString());
 
         cssText = "div:nth-child(2n+1)";
         selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.item(0).toString());
+        Assert.assertEquals(cssText, selectors.get(0).toString());
 
         cssText = "div:nth-child(2n-1)";
         selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.item(0).toString());
+        Assert.assertEquals(cssText, selectors.get(0).toString());
 
         cssText = "div:nth-child(odd)";
         selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.item(0).toString());
+        Assert.assertEquals(cssText, selectors.get(0).toString());
 
         cssText = "div:nth-child(even)";
         selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.item(0).toString());
+        Assert.assertEquals(cssText, selectors.get(0).toString());
     }
 
     /**
@@ -2337,11 +2337,11 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void nth_last_child() throws Exception {
         String cssText = "div:nth-last-child(-n+2)";
         SelectorList selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.item(0).toString());
+        Assert.assertEquals(cssText, selectors.get(0).toString());
 
         cssText = "div:nth-last-child(odd)";
         selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.item(0).toString());
+        Assert.assertEquals(cssText, selectors.get(0).toString());
     }
 
     /**
@@ -2351,11 +2351,11 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void nth_of_type() throws Exception {
         String cssText = "div:nth-of-type(2n+1)";
         SelectorList selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.item(0).toString());
+        Assert.assertEquals(cssText, selectors.get(0).toString());
 
         cssText = "div:nth-of-type(2n)";
         selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.item(0).toString());
+        Assert.assertEquals(cssText, selectors.get(0).toString());
     }
 
     /**
@@ -2364,19 +2364,19 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void nth_preserveInnerWhitespace() throws Exception {
         SelectorList selectors = createSelectors("div:nth-child( 0 )");
-        Assert.assertEquals("div:nth-child(0)", selectors.item(0).toString());
+        Assert.assertEquals("div:nth-child(0)", selectors.get(0).toString());
 
         selectors = createSelectors("div:nth-child( + 4 n )");
-        Assert.assertEquals("div:nth-child(+ 4 n)", selectors.item(0).toString());
+        Assert.assertEquals("div:nth-child(+ 4 n)", selectors.get(0).toString());
 
         selectors = createSelectors("div:nth-child( - 5 n + 2 )");
-        Assert.assertEquals("div:nth-child(- 5 n + 2)", selectors.item(0).toString());
+        Assert.assertEquals("div:nth-child(- 5 n + 2)", selectors.get(0).toString());
 
         selectors = createSelectors("div:nth-child( - 5     n\t\t+ \t 2 )");
-        Assert.assertEquals("div:nth-child(- 5     n\t\t+ \t 2)", selectors.item(0).toString());
+        Assert.assertEquals("div:nth-child(- 5     n\t\t+ \t 2)", selectors.get(0).toString());
 
         selectors = createSelectors("div:nth-child( odd )");
-        Assert.assertEquals("div:nth-child(odd)", selectors.item(0).toString());
+        Assert.assertEquals("div:nth-child(odd)", selectors.get(0).toString());
     }
 
     /**
@@ -2386,7 +2386,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void generalAdjacentSelector() throws Exception {
         final String cssText = "div ~ hi";
         final SelectorList selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.item(0).toString());
+        Assert.assertEquals(cssText, selectors.get(0).toString());
     }
 
     /**
@@ -2396,7 +2396,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void selectorTrimWhitespace() throws Exception {
         final String cssText = "  \t\r\n  div > hi  \t\r\n  ";
         final SelectorList selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText.trim(), selectors.item(0).toString());
+        Assert.assertEquals(cssText.trim(), selectors.get(0).toString());
     }
 
     /**
@@ -2406,36 +2406,36 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void not() throws Exception {
         // element name
         SelectorList selectors = createSelectors("input:not(abc)");
-        Assert.assertEquals("input:not(abc)", selectors.item(0).toString());
+        Assert.assertEquals("input:not(abc)", selectors.get(0).toString());
 
         selectors = createSelectors("input:not(*)");
-        Assert.assertEquals("input:not(*)", selectors.item(0).toString());
+        Assert.assertEquals("input:not(*)", selectors.get(0).toString());
 
         // hash
         selectors = createSelectors("input:not(#test)");
-        Assert.assertEquals("input:not(#test)", selectors.item(0).toString());
+        Assert.assertEquals("input:not(#test)", selectors.get(0).toString());
 
         // class
         selectors = createSelectors("input:not(.home)");
-        Assert.assertEquals("input:not(.home)", selectors.item(0).toString());
+        Assert.assertEquals("input:not(.home)", selectors.get(0).toString());
 
         // attrib
         selectors = createSelectors("input:not([title])");
-        Assert.assertEquals("input:not([title])", selectors.item(0).toString());
+        Assert.assertEquals("input:not([title])", selectors.get(0).toString());
 
         selectors = createSelectors("input:not([type = 'file'])");
-        Assert.assertEquals("input:not([type=\"file\"])", selectors.item(0).toString());
+        Assert.assertEquals("input:not([type=\"file\"])", selectors.get(0).toString());
 
         selectors = createSelectors("input:not([type ~= 'file'])");
-        Assert.assertEquals("input:not([type~=\"file\"])", selectors.item(0).toString());
+        Assert.assertEquals("input:not([type~=\"file\"])", selectors.get(0).toString());
 
         // pseudo
         selectors = createSelectors("input:not(:last)");
-        Assert.assertEquals("input:not(:last)", selectors.item(0).toString());
+        Assert.assertEquals("input:not(:last)", selectors.get(0).toString());
 
         // whitespace
         selectors = createSelectors("input:not( .hi \t)");
-        Assert.assertEquals("input:not(.hi)", selectors.item(0).toString());
+        Assert.assertEquals("input:not(.hi)", selectors.get(0).toString());
     }
 
     /**
@@ -2463,10 +2463,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void not_elementName() throws Exception {
         final SelectorList selectors = createSelectors("p:not(abc)");
-        Assert.assertEquals("p:not(abc)", selectors.item(0).toString());
+        Assert.assertEquals("p:not(abc)", selectors.get(0).toString());
 
-        Assert.assertEquals(1, selectors.getLength());
-        final Selector selector = selectors.item(0);
+        Assert.assertEquals(1, selectors.size());
+        final Selector selector = selectors.get(0);
 
         Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
@@ -2486,10 +2486,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void not_universal() throws Exception {
         final SelectorList selectors = createSelectors("p:not(*)");
-        Assert.assertEquals("p:not(*)", selectors.item(0).toString());
+        Assert.assertEquals("p:not(*)", selectors.get(0).toString());
 
-        Assert.assertEquals(1, selectors.getLength());
-        final Selector selector = selectors.item(0);
+        Assert.assertEquals(1, selectors.size());
+        final Selector selector = selectors.get(0);
 
         Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
@@ -2509,10 +2509,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void not_hash() throws Exception {
         final SelectorList selectors = createSelectors("p:not( #test)");
-        Assert.assertEquals("p:not(#test)", selectors.item(0).toString());
+        Assert.assertEquals("p:not(#test)", selectors.get(0).toString());
 
-        Assert.assertEquals(1, selectors.getLength());
-        final Selector selector = selectors.item(0);
+        Assert.assertEquals(1, selectors.size());
+        final Selector selector = selectors.get(0);
 
         Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
@@ -2533,10 +2533,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void not_class() throws Exception {
         // element name
         final SelectorList selectors = createSelectors("p:not(.klass)");
-        Assert.assertEquals("p:not(.klass)", selectors.item(0).toString());
+        Assert.assertEquals("p:not(.klass)", selectors.get(0).toString());
 
-        Assert.assertEquals(1, selectors.getLength());
-        final Selector selector = selectors.item(0);
+        Assert.assertEquals(1, selectors.size());
+        final Selector selector = selectors.get(0);
 
         Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
@@ -2556,10 +2556,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void not_attrib() throws Exception {
         final SelectorList selectors = createSelectors("p:not([type='file'])");
-        Assert.assertEquals("p:not([type=\"file\"])", selectors.item(0).toString());
+        Assert.assertEquals("p:not([type=\"file\"])", selectors.get(0).toString());
 
-        Assert.assertEquals(1, selectors.getLength());
-        final Selector selector = selectors.item(0);
+        Assert.assertEquals(1, selectors.size());
+        final Selector selector = selectors.get(0);
 
         Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
@@ -2579,10 +2579,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void not_pseudo() throws Exception {
         final SelectorList selectors = createSelectors("p:not(:first)");
-        Assert.assertEquals("p:not(:first)", selectors.item(0).toString());
+        Assert.assertEquals("p:not(:first)", selectors.get(0).toString());
 
-        Assert.assertEquals(1, selectors.getLength());
-        final Selector selector = selectors.item(0);
+        Assert.assertEquals(1, selectors.size());
+        final Selector selector = selectors.get(0);
 
         Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
@@ -2621,22 +2621,22 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void twoPseudo() throws Exception {
         SelectorList selectors = createSelectors("input:lang(en):lang(de)");
-        Assert.assertEquals("input:lang(en):lang(de)", selectors.item(0).toString());
+        Assert.assertEquals("input:lang(en):lang(de)", selectors.get(0).toString());
 
         selectors = createSelectors("input:foo(test):foo(rest)");
-        Assert.assertEquals("input:foo(test):foo(rest)", selectors.item(0).toString());
+        Assert.assertEquals("input:foo(test):foo(rest)", selectors.get(0).toString());
 
         selectors = createSelectors("input:foo(test):before");
-        Assert.assertEquals("input:foo(test):before", selectors.item(0).toString());
+        Assert.assertEquals("input:foo(test):before", selectors.get(0).toString());
 
         selectors = createSelectors("input:not(#test):not(#rest)");
-        Assert.assertEquals("input:not(#test):not(#rest)", selectors.item(0).toString());
+        Assert.assertEquals("input:not(#test):not(#rest)", selectors.get(0).toString());
 
         selectors = createSelectors("input:not(#test):nth-child(even)");
-        Assert.assertEquals("input:not(#test):nth-child(even)", selectors.item(0).toString());
+        Assert.assertEquals("input:not(#test):nth-child(even)", selectors.get(0).toString());
 
         selectors = createSelectors("input:not(#test):before");
-        Assert.assertEquals("input:not(#test):before", selectors.item(0).toString());
+        Assert.assertEquals("input:not(#test):before", selectors.get(0).toString());
     }
 
     /**

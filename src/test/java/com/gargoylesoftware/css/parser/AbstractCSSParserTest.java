@@ -136,7 +136,7 @@ public abstract class AbstractCSSParserTest {
 
     protected List<Condition> createConditions(final String cssText) throws Exception {
         final SelectorList selectors = createSelectors(cssText);
-        final Selector selector = selectors.item(0);
+        final Selector selector = selectors.get(0);
         final ElementSelector elementSelector = (ElementSelector) selector;
         return elementSelector.getConditions();
     }
@@ -212,12 +212,12 @@ public abstract class AbstractCSSParserTest {
 
     protected void selectorList(final String cssText, final int length) throws Exception {
         final SelectorList selectors = createSelectors(cssText);
-        Assert.assertEquals(length, selectors.getLength());
+        Assert.assertEquals(length, selectors.size());
     }
 
     protected void selectorType(final String cssText, final SelectorType... selectorTypes) throws Exception {
         final SelectorList selectors = createSelectors(cssText);
-        final Selector selector = selectors.item(0);
+        final Selector selector = selectors.get(0);
         Assert.assertEquals(selectorTypes[0], selector.getSelectorType());
         if (selectorTypes[0] == SelectorType.DESCENDANT_SELECTOR) {
             final DescendantSelector descendantSelector = (DescendantSelector) selector;

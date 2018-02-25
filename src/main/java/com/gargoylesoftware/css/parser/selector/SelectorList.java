@@ -14,6 +14,8 @@
  */
 package com.gargoylesoftware.css.parser.selector;
 
+import java.util.List;
+
 /**
  * The SelectorList interface provides the abstraction of an ordered collection
  * of selectors, without defining or constraining how this collection is
@@ -21,17 +23,6 @@ package com.gargoylesoftware.css.parser.selector;
  *
  * @author Ronald Brill
  */
-public interface SelectorList {
-
-    /**
-     * Returns the length of this selector list
-     */
-    int getLength();
-
-    /**
-     * Returns the selector at the specified index, or <code>null</code> if this
-     * is not a valid index.
-     */
-    Selector item(int index);
+public interface SelectorList extends List<Selector> {
 }
 
