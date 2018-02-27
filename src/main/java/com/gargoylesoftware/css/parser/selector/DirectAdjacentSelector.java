@@ -24,14 +24,14 @@ import com.gargoylesoftware.css.parser.AbstractLocatable;
 public class DirectAdjacentSelector extends AbstractLocatable implements Selector, Serializable {
 
     private final Selector selector_;  // child
-    private final SimpleSelector siblingSelector_; // direct adjacent
+    private final SimpleSelector simpleSelector_;
 
-    public DirectAdjacentSelector(final Selector child, final SimpleSelector directAdjacent) {
+    public DirectAdjacentSelector(final Selector child, final SimpleSelector simpleSelector) {
         selector_ = child;
         if (child != null) {
             setLocator(child.getLocator());
         }
-        siblingSelector_ = directAdjacent;
+        simpleSelector_ = simpleSelector;
     }
 
     @Override
@@ -43,8 +43,9 @@ public class DirectAdjacentSelector extends AbstractLocatable implements Selecto
         return selector_;
     }
 
-    public SimpleSelector getSiblingSelector() {
-        return siblingSelector_;
+    @Override
+    public SimpleSelector getSimpleSelector() {
+        return simpleSelector_;
     }
 
     @Override
@@ -57,8 +58,8 @@ public class DirectAdjacentSelector extends AbstractLocatable implements Selecto
 
         sb.append(" + ");
 
-        if (null != siblingSelector_) {
-            sb.append(siblingSelector_.toString());
+        if (null != simpleSelector_) {
+            sb.append(simpleSelector_.toString());
         }
 
         return sb.toString();

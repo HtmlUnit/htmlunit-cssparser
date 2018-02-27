@@ -34,4 +34,9 @@ public interface Selector extends Locatable {
      * @return the associated selector type
      */
     SelectorType getSelectorType();
+
+    /**
+     * @return the simple selector part
+     */
+    SimpleSelector getSimpleSelector();
 }

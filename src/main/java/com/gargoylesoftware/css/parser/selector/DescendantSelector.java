@@ -44,6 +44,7 @@ public class DescendantSelector extends AbstractLocatable implements Selector, S
         return ancestorSelector_;
     }
 
+    @Override
     public SimpleSelector getSimpleSelector() {
         return simpleSelector_;
     }

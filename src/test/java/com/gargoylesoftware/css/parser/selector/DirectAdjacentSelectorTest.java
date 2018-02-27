@@ -33,7 +33,7 @@ public class DirectAdjacentSelectorTest {
         final DirectAdjacentSelector s = new DirectAdjacentSelector(null, null);
         Assert.assertEquals(SelectorType.DIRECT_ADJACENT_SELECTOR, s.getSelectorType());
         Assert.assertNull(s.getSelector());
-        Assert.assertNull(s.getSiblingSelector());
+        Assert.assertNull(s.getSimpleSelector());
 
         Assert.assertEquals(" + ", s.toString());
     }
@@ -47,7 +47,7 @@ public class DirectAdjacentSelectorTest {
         final DirectAdjacentSelector s = new DirectAdjacentSelector(selector, null);
         Assert.assertEquals(SelectorType.DIRECT_ADJACENT_SELECTOR, s.getSelectorType());
         Assert.assertEquals(selector, s.getSelector());
-        Assert.assertNull(s.getSiblingSelector());
+        Assert.assertNull(s.getSimpleSelector());
 
         Assert.assertEquals("p + ", s.toString());
     }
@@ -61,7 +61,7 @@ public class DirectAdjacentSelectorTest {
         final DirectAdjacentSelector s = new DirectAdjacentSelector(null, simple);
         Assert.assertEquals(SelectorType.DIRECT_ADJACENT_SELECTOR, s.getSelectorType());
         Assert.assertNull(s.getSelector());
-        Assert.assertEquals(simple, s.getSiblingSelector());
+        Assert.assertEquals(simple, s.getSimpleSelector());
 
         Assert.assertEquals(" + c", s.toString());
     }
@@ -76,7 +76,7 @@ public class DirectAdjacentSelectorTest {
         final DirectAdjacentSelector s = new DirectAdjacentSelector(selector, simple);
         Assert.assertEquals(SelectorType.DIRECT_ADJACENT_SELECTOR, s.getSelectorType());
         Assert.assertEquals(selector, s.getSelector());
-        Assert.assertEquals(simple, s.getSiblingSelector());
+        Assert.assertEquals(simple, s.getSimpleSelector());
 
         Assert.assertEquals("p + c", s.toString());
     }

@@ -40,6 +40,11 @@ public class ElementSelector extends AbstractLocatable implements SimpleSelector
         return SelectorType.ELEMENT_NODE_SELECTOR;
     }
 
+    @Override
+    public SimpleSelector getSimpleSelector() {
+        return this;
+    }
+
     public String getLocalName() {
         return localName_;
     }

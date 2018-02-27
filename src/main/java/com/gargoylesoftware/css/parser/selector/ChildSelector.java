@@ -44,6 +44,7 @@ public class ChildSelector extends AbstractLocatable implements Selector, Serial
         return ancestorSelector_;
     }
 
+    @Override
     public SimpleSelector getSimpleSelector() {
         return simpleSelector_;
     }

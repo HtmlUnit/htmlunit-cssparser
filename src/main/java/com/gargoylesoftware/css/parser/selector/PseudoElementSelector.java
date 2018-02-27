@@ -39,6 +39,11 @@ public class PseudoElementSelector extends AbstractLocatable implements SimpleSe
         return SelectorType.PSEUDO_ELEMENT_SELECTOR;
     }
 
+    @Override
+    public SimpleSelector getSimpleSelector() {
+        return this;
+    }
+
     public String getLocalName() {
         return localName_;
     }

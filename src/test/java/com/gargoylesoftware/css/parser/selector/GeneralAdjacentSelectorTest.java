@@ -27,7 +27,7 @@ public class GeneralAdjacentSelectorTest {
     public void withoutParentDescendant() {
         final GeneralAdjacentSelector selector = new GeneralAdjacentSelector(null, null);
         Assert.assertNull(selector.getSelector());
-        Assert.assertNull(selector.getSiblingSelector());
+        Assert.assertNull(selector.getSimpleSelector());
 
         Assert.assertEquals(" ~ ", selector.toString());
     }
@@ -37,7 +37,7 @@ public class GeneralAdjacentSelectorTest {
         final ElementSelector descendant = new ElementSelector("a", null);
         final GeneralAdjacentSelector selector = new GeneralAdjacentSelector(null, descendant);
         Assert.assertNull(selector.getSelector());
-        Assert.assertEquals(descendant, selector.getSiblingSelector());
+        Assert.assertEquals(descendant, selector.getSimpleSelector());
 
         Assert.assertEquals(" ~ a", selector.toString());
     }
@@ -47,7 +47,7 @@ public class GeneralAdjacentSelectorTest {
         final ElementSelector parent = new ElementSelector("p", null);
         final GeneralAdjacentSelector selector = new GeneralAdjacentSelector(parent, null);
         Assert.assertEquals(parent, selector.getSelector());
-        Assert.assertNull(null, selector.getSiblingSelector());
+        Assert.assertNull(null, selector.getSimpleSelector());
 
         Assert.assertEquals("p ~ ", selector.toString());
     }
@@ -58,7 +58,7 @@ public class GeneralAdjacentSelectorTest {
         final ElementSelector descendant = new ElementSelector("a", null);
         final GeneralAdjacentSelector selector = new GeneralAdjacentSelector(parent, descendant);
         Assert.assertEquals(parent, selector.getSelector());
-        Assert.assertEquals(descendant, selector.getSiblingSelector());
+        Assert.assertEquals(descendant, selector.getSimpleSelector());
 
         Assert.assertEquals("p ~ a", selector.toString());
     }
