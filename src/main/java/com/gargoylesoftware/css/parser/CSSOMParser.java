@@ -20,7 +20,6 @@ import java.util.Stack;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSStyleDeclaration;
-import org.w3c.dom.css.CSSStyleSheet;
 import org.w3c.dom.css.CSSValue;
 
 import com.gargoylesoftware.css.dom.CSSCharsetRuleImpl;
@@ -68,14 +67,14 @@ public class CSSOMParser {
      * @return the CSSOM style sheet
      * @throws IOException if the underlying SAC parser throws an IOException
      */
-    public CSSStyleSheet parseStyleSheet(final InputSource source, final String href) throws IOException {
+    public CSSStyleSheetImpl parseStyleSheet(final InputSource source, final String href) throws IOException {
         final CSSOMHandler handler = new CSSOMHandler();
         handler.setHref(href);
         parser_.setDocumentHandler(handler);
         parser_.parseStyleSheet(source);
         final Object o = handler.getRoot();
-        if (o instanceof CSSStyleSheet) {
-            return (CSSStyleSheet) o;
+        if (o instanceof CSSStyleSheetImpl) {
+            return (CSSStyleSheetImpl) o;
         }
         return null;
     }

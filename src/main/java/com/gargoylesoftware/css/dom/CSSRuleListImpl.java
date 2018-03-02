@@ -30,17 +30,10 @@ import com.gargoylesoftware.css.util.LangUtils;
  */
 public class CSSRuleListImpl implements CSSRuleList, Serializable {
 
-    private List<CSSRule> rules_;
+    private List<CSSRule> rules_ = new ArrayList<CSSRule>();
 
     public List<CSSRule> getRules() {
-        if (rules_ == null) {
-            rules_ = new ArrayList<CSSRule>();
-        }
         return rules_;
-    }
-
-    public void setRules(final List<CSSRule> rules) {
-        rules_ = rules;
     }
 
     public CSSRuleListImpl() {
