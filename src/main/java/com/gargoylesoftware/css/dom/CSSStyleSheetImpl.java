@@ -19,12 +19,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.StringReader;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
-import org.w3c.dom.css.CSSImportRule;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSRuleList;
 import org.w3c.dom.css.CSSStyleSheet;
@@ -35,6 +37,7 @@ import com.gargoylesoftware.css.parser.CSSException;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.parser.media.MediaQueryList;
+import com.gargoylesoftware.css.parser.selector.Selector;
 import com.gargoylesoftware.css.util.LangUtils;
 import com.gargoylesoftware.css.util.ThrowCssExceptionErrorHandler;
 
@@ -53,18 +56,10 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
     private CSSRule ownerRule_;
     private boolean readOnly_;
     private CSSRuleList cssRules_;
-    private String baseUri_;
+    private CSSStyleSheetRuleIndex index_;
 
     public void setMedia(final MediaList media) {
         media_ = media;
-    }
-
-    private String getBaseUri() {
-        return baseUri_;
-    }
-
-    public void setBaseUri(final String baseUri) {
-        baseUri_ = baseUri;
     }
 
     public CSSStyleSheetImpl() {
@@ -307,7 +302,6 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
     @Override
     public int hashCode() {
         int hash = LangUtils.HASH_SEED;
-        hash = LangUtils.hashCode(hash, baseUri_);
         hash = LangUtils.hashCode(hash, cssRules_);
         hash = LangUtils.hashCode(hash, disabled_);
         hash = LangUtils.hashCode(hash, href_);
@@ -319,7 +313,6 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
     }
 
     private void writeObject(final ObjectOutputStream out) throws IOException {
-        out.writeObject(baseUri_);
         out.writeObject(cssRules_);
         out.writeBoolean(disabled_);
         out.writeObject(href_);
@@ -329,7 +322,6 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
     }
 
     private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
-        baseUri_ = (String) in.readObject();
         cssRules_ = (CSSRuleList) in.readObject();
         if (cssRules_ != null) {
             for (int i = 0; i < cssRules_.getLength(); i++) {
@@ -346,41 +338,156 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         title_ = (String) in.readObject();
     }
 
-    /**
-     * Imports referenced CSSStyleSheets.
-     *
-     * @param recursive <code>true</code> if the import should be done
-     *   recursively, <code>false</code> otherwise
-     */
-    public void importImports(final boolean recursive) throws DOMException {
-        for (int i = 0; i < getCssRules().getLength(); i++) {
-            final CSSRule cssRule = getCssRules().item(i);
-            if (cssRule.getType() == CSSRule.IMPORT_RULE) {
-                final CSSImportRule cssImportRule = (CSSImportRule) cssRule;
-                try {
-                    final URI importURI = new URI(getBaseUri()).resolve(cssImportRule.getHref());
-                    final CSSStyleSheetImpl importedCSS = (CSSStyleSheetImpl)
-                        new CSSOMParser().parseStyleSheet(
-                                new InputSource(importURI.toString()), importURI.toString());
-                    if (recursive) {
-                        importedCSS.importImports(recursive);
-                    }
-                    final MediaList mediaList = cssImportRule.getMedia();
-                    if (mediaList.getLength() == 0) {
-                        mediaList.appendMedium("all");
-                    }
-                    final CSSMediaRuleImpl cssMediaRule = new CSSMediaRuleImpl(this, null, mediaList);
-                    cssMediaRule.setRuleList((CSSRuleListImpl) importedCSS.getCssRules());
-                    deleteRule(i);
-                    ((CSSRuleListImpl) getCssRules()).insert(cssMediaRule, i);
-                }
-                catch (final URISyntaxException e) {
-                    throw new DOMException(DOMException.SYNTAX_ERR, e.getLocalizedMessage());
-                }
-                catch (final IOException e) {
-                    // TODO handle exception
-                }
+    public CSSStyleSheetRuleIndex getRuleIndex() {
+        return index_;
+    }
+
+    public void setRuleIndex(final CSSStyleSheetRuleIndex index) {
+        index_ = index;
+    }
+
+    public void resetRuleIndex() {
+        index_ = null;
+    }
+
+    public static final class SelectorEntry {
+        private Selector selector_;
+        private CSSStyleRuleImpl rule_;
+
+        SelectorEntry(final Selector selector, final CSSStyleRuleImpl rule) {
+            selector_ = selector;
+            rule_ = rule;
+        }
+
+        public Selector getSelector() {
+            return selector_;
+        }
+
+        public CSSStyleRuleImpl getRule() {
+            return rule_;
+        }
+    }
+
+    public static class CSSStyleSheetRuleIndex {
+
+        private static final MediaList DEFAULT_MEDIA_LIST = new MediaListImpl(null);
+
+        private final List<CSSStyleSheetRuleIndex> children_ = new ArrayList<>();
+
+        private MediaList mediaList_ = DEFAULT_MEDIA_LIST;
+        private final Map<String, List<SelectorEntry>> elementSelectors_ = new HashMap<>();
+        private final List<SelectorEntry> otherSelectors_ = new ArrayList<>();
+
+        public void addElementSelector(final String name, final Selector s, final CSSStyleRuleImpl styleRule) {
+            List<SelectorEntry> entries = elementSelectors_.get(name);
+            if (entries == null) {
+                entries = new ArrayList<SelectorEntry>();
+                elementSelectors_.put(name, entries);
             }
+            final SelectorEntry selectorEntry = new SelectorEntry(s, styleRule);
+            entries.add(selectorEntry);
+        }
+
+        public void addOtherSelector(final Selector s, final CSSStyleRuleImpl styleRule) {
+            final SelectorEntry selectorEntry = new SelectorEntry(s, styleRule);
+            otherSelectors_.add(selectorEntry);
+        }
+
+        public CSSStyleSheetRuleIndex addMedia(final MediaList mediaList) {
+            final CSSStyleSheetRuleIndex index = new CSSStyleSheetRuleIndex();
+            index.mediaList_ = mediaList;
+
+            children_.add(index);
+            return index;
+        }
+
+        public MediaList getMediaList() {
+            return mediaList_;
+        }
+
+        public List<CSSStyleSheetRuleIndex> getChildren() {
+            return children_;
+        }
+
+        public Iterator<SelectorEntry> getSelectorEntriesIteratorFor(final String elementName) {
+            return new SelectorEntriesIterator(this, elementName);
+        }
+    }
+
+    static final class SelectorEntriesIterator implements Iterator<SelectorEntry> {
+        private Iterator<SelectorEntry> anyElementSelectors_;
+        private Iterator<SelectorEntry> elementSelectors_;
+        private Iterator<SelectorEntry> otherSelectors_;
+
+        SelectorEntriesIterator(final CSSStyleSheetRuleIndex index, final String elementName) {
+            List<SelectorEntry> sel = index.elementSelectors_.get("*");
+            if (sel != null && !sel.isEmpty()) {
+                anyElementSelectors_ = sel.iterator();
+            }
+            else {
+                anyElementSelectors_ = null;
+            }
+
+            sel = index.elementSelectors_.get(elementName);
+            if (sel != null && !sel.isEmpty()) {
+                elementSelectors_ = sel.iterator();
+            }
+            else {
+                elementSelectors_ = null;
+            }
+
+            if (index.otherSelectors_ != null && !index.otherSelectors_.isEmpty()) {
+                otherSelectors_ = index.otherSelectors_.iterator();
+            }
+            else {
+                otherSelectors_ = null;
+            }
+        }
+
+        @Override
+        public SelectorEntry next() {
+            if (anyElementSelectors_ != null) {
+                if (anyElementSelectors_.hasNext()) {
+                    return anyElementSelectors_.next();
+                }
+                anyElementSelectors_ = null;
+            }
+            if (elementSelectors_ != null) {
+                if (elementSelectors_.hasNext()) {
+                    return elementSelectors_.next();
+                }
+                elementSelectors_ = null;
+            }
+            if (otherSelectors_ != null) {
+                if (otherSelectors_.hasNext()) {
+                    return otherSelectors_.next();
+                }
+                otherSelectors_ = null;
+            }
+            return null;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (anyElementSelectors_ != null) {
+                if (anyElementSelectors_.hasNext()) {
+                    return true;
+                }
+                anyElementSelectors_ = null;
+            }
+            if (elementSelectors_ != null) {
+                if (elementSelectors_.hasNext()) {
+                    return true;
+                }
+                elementSelectors_ = null;
+            }
+            if (otherSelectors_ != null) {
+                if (otherSelectors_.hasNext()) {
+                    return true;
+                }
+                otherSelectors_ = null;
+            }
+            return false;
         }
     }
 }

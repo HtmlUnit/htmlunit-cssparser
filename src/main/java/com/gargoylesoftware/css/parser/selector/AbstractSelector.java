@@ -14,34 +14,22 @@
  */
 package com.gargoylesoftware.css.parser.selector;
 
-import com.gargoylesoftware.css.parser.Locatable;
+import java.io.Serializable;
+
+import com.gargoylesoftware.css.parser.AbstractLocatable;
 
 /**
  * @author Ronald Brill
  */
-public interface Selector extends Locatable {
+public abstract class AbstractSelector extends AbstractLocatable implements Selector, Serializable {
 
-    enum SelectorType {
-        CHILD_SELECTOR,
-        DESCENDANT_SELECTOR,
-        DIRECT_ADJACENT_SELECTOR,
-        ELEMENT_NODE_SELECTOR,
-        GENERAL_ADJACENT_SELECTOR,
-        PSEUDO_ELEMENT_SELECTOR
+    private SelectorSpecificity specificity_;
+
+    @Override
+    public SelectorSpecificity getSelectorSpecificity() {
+        if (specificity_ == null) {
+            specificity_ = new SelectorSpecificity(this);
+        }
+        return specificity_;
     }
-
-    /**
-     * @return the associated selector type
-     */
-    SelectorType getSelectorType();
-
-    /**
-     * @return the simple selector part
-     */
-    SimpleSelector getSimpleSelector();
-
-    /**
-     * @return the selector specificity
-     */
-    SelectorSpecificity getSelectorSpecificity();
 }

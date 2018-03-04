@@ -16,14 +16,13 @@ package com.gargoylesoftware.css.parser.selector;
 
 import java.io.Serializable;
 
-import com.gargoylesoftware.css.parser.AbstractLocatable;
 import com.gargoylesoftware.css.parser.Locator;
 
 /**
  *
  * @author Ronald Brill
  */
-public class PseudoElementSelector extends AbstractLocatable implements SimpleSelector, Serializable {
+public class PseudoElementSelector extends AbstractSelector implements SimpleSelector, Serializable {
 
     private final String localName_;
     private final boolean doubleColon_;

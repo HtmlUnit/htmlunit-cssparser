@@ -170,7 +170,6 @@ public class CSSOMParser {
             if (nodeStack_.empty()) {
                 final CSSStyleSheetImpl ss = new CSSStyleSheetImpl();
                 CSSOMParser.this.setParentStyleSheet(ss);
-                ss.setBaseUri(source.getURI());
                 ss.setHref(getHref());
                 ss.setMediaText(source.getMedia());
                 ss.setTitle(source.getTitle());
