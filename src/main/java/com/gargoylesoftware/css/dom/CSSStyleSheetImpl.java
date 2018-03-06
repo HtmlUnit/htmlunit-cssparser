@@ -19,6 +19,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -415,79 +416,53 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
     }
 
     static final class SelectorEntriesIterator implements Iterator<SelectorEntry> {
-        private Iterator<SelectorEntry> anyElementSelectors_;
-        private Iterator<SelectorEntry> elementSelectors_;
-        private Iterator<SelectorEntry> otherSelectors_;
+        private ArrayDeque<Iterator<SelectorEntry>> iterators_;
 
         SelectorEntriesIterator(final CSSStyleSheetRuleIndex index, final String elementName) {
+            iterators_ = new ArrayDeque<Iterator<SelectorEntry>>();
             List<SelectorEntry> sel = index.elementSelectors_.get("*");
             if (sel != null && !sel.isEmpty()) {
-                anyElementSelectors_ = sel.iterator();
-            }
-            else {
-                anyElementSelectors_ = null;
+                iterators_.add(sel.iterator());
             }
 
             sel = index.elementSelectors_.get(elementName);
             if (sel != null && !sel.isEmpty()) {
-                elementSelectors_ = sel.iterator();
-            }
-            else {
-                elementSelectors_ = null;
+                iterators_.add(sel.iterator());
             }
 
             if (index.otherSelectors_ != null && !index.otherSelectors_.isEmpty()) {
-                otherSelectors_ = index.otherSelectors_.iterator();
-            }
-            else {
-                otherSelectors_ = null;
+                iterators_.add(index.otherSelectors_.iterator());
             }
         }
 
         @Override
         public SelectorEntry next() {
-            if (anyElementSelectors_ != null) {
-                if (anyElementSelectors_.hasNext()) {
-                    return anyElementSelectors_.next();
-                }
-                anyElementSelectors_ = null;
+            if (iterators_.isEmpty()) {
+                return null;
             }
-            if (elementSelectors_ != null) {
-                if (elementSelectors_.hasNext()) {
-                    return elementSelectors_.next();
-                }
-                elementSelectors_ = null;
+
+            final Iterator<SelectorEntry> iter = iterators_.peek();
+            if (iter.hasNext()) {
+                return iter.next();
             }
-            if (otherSelectors_ != null) {
-                if (otherSelectors_.hasNext()) {
-                    return otherSelectors_.next();
-                }
-                otherSelectors_ = null;
-            }
-            return null;
+
+            iterators_.pop();
+            return next();
         }
 
         @Override
         public boolean hasNext() {
-            if (anyElementSelectors_ != null) {
-                if (anyElementSelectors_.hasNext()) {
-                    return true;
-                }
-                anyElementSelectors_ = null;
+            if (iterators_.isEmpty()) {
+                return false;
             }
-            if (elementSelectors_ != null) {
-                if (elementSelectors_.hasNext()) {
-                    return true;
-                }
-                elementSelectors_ = null;
+
+            final Iterator<SelectorEntry> iter = iterators_.peek();
+            if (iter.hasNext()) {
+                return true;
             }
-            if (otherSelectors_ != null) {
-                if (otherSelectors_.hasNext()) {
-                    return true;
-                }
-                otherSelectors_ = null;
-            }
-            return false;
+
+            iterators_.pop();
+            return hasNext();
         }
     }
 }
