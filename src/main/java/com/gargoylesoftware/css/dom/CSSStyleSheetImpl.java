@@ -390,14 +390,26 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
             entries.add(selectorEntry);
         }
 
-        public void addClassSelector(final String name, final Selector s, final CSSStyleRuleImpl styleRule) {
-            List<SelectorEntry> entries = classSelectors_.get(name);
+        public void addClassSelector(final String elementName, final String className,
+                final Selector s, final CSSStyleRuleImpl styleRule) {
+            List<SelectorEntry> entries = classSelectors_.get(className);
             if (entries == null) {
                 entries = new ArrayList<SelectorEntry>();
-                classSelectors_.put(name, entries);
+                classSelectors_.put(className, entries);
             }
-            final SelectorEntry selectorEntry = new SelectorEntry(s, styleRule);
+            SelectorEntry selectorEntry = new SelectorEntry(s, styleRule);
             entries.add(selectorEntry);
+
+            if (elementName != null) {
+                final String key = elementName + "." + className;
+                entries = classSelectors_.get(key);
+                if (entries == null) {
+                    entries = new ArrayList<SelectorEntry>();
+                    classSelectors_.put(key, entries);
+                }
+                selectorEntry = new SelectorEntry(s, styleRule);
+                entries.add(selectorEntry);
+            }
         }
 
         public void addOtherSelector(final Selector s, final CSSStyleRuleImpl styleRule) {
@@ -439,7 +451,12 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         SelectorEntriesIterator(final CSSStyleSheetRuleIndex index,
                 final String elementName, final String[] classes) {
             iterators_ = new LinkedList<Iterator<SelectorEntry>>();
+
             List<SelectorEntry> sel = index.elementSelectors_.get("*");
+            if (sel != null && !sel.isEmpty()) {
+                iterators_.add(sel.iterator());
+            }
+            sel = index.elementSelectors_.get(elementName);
             if (sel != null && !sel.isEmpty()) {
                 iterators_.add(sel.iterator());
             }
@@ -451,11 +468,11 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
                         iterators_.add(sel.iterator());
                     }
 
+                    sel = index.classSelectors_.get(elementName + "." + clazz);
+                    if (sel != null && !sel.isEmpty()) {
+                        iterators_.add(sel.iterator());
+                    }
                 }
-            }
-            sel = index.elementSelectors_.get(elementName);
-            if (sel != null && !sel.isEmpty()) {
-                iterators_.add(sel.iterator());
             }
 
             if (index.otherSelectors_ != null && !index.otherSelectors_.isEmpty()) {
