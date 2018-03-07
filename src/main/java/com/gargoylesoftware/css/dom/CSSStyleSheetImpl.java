@@ -19,10 +19,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.StringReader;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -377,6 +377,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
 
         private MediaList mediaList_ = DEFAULT_MEDIA_LIST;
         private final Map<String, List<SelectorEntry>> elementSelectors_ = new HashMap<>();
+        private final Map<String, List<SelectorEntry>> classSelectors_ = new HashMap<>();
         private final List<SelectorEntry> otherSelectors_ = new ArrayList<>();
 
         public void addElementSelector(final String name, final Selector s, final CSSStyleRuleImpl styleRule) {
@@ -389,12 +390,29 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
             entries.add(selectorEntry);
         }
 
+        public void addClassSelector(final String name, final Selector s, final CSSStyleRuleImpl styleRule) {
+            List<SelectorEntry> entries = classSelectors_.get(name);
+            if (entries == null) {
+                entries = new ArrayList<SelectorEntry>();
+                classSelectors_.put(name, entries);
+            }
+            final SelectorEntry selectorEntry = new SelectorEntry(s, styleRule);
+            entries.add(selectorEntry);
+        }
+
         public void addOtherSelector(final Selector s, final CSSStyleRuleImpl styleRule) {
             final SelectorEntry selectorEntry = new SelectorEntry(s, styleRule);
             otherSelectors_.add(selectorEntry);
         }
 
         public CSSStyleSheetRuleIndex addMedia(final MediaList mediaList) {
+            final String media = mediaList.getMediaText();
+            for (CSSStyleSheetRuleIndex cssStyleSheetRuleIndex : children_) {
+                if (media.equals(cssStyleSheetRuleIndex.getMediaList().getMediaText())) {
+                    return cssStyleSheetRuleIndex;
+                }
+            }
+
             final CSSStyleSheetRuleIndex index = new CSSStyleSheetRuleIndex();
             index.mediaList_ = mediaList;
 
@@ -410,21 +428,31 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
             return children_;
         }
 
-        public Iterator<SelectorEntry> getSelectorEntriesIteratorFor(final String elementName) {
-            return new SelectorEntriesIterator(this, elementName);
+        public Iterator<SelectorEntry> getSelectorEntriesIteratorFor(final String elementName, final String[] classes) {
+            return new SelectorEntriesIterator(this, elementName, classes);
         }
     }
 
     static final class SelectorEntriesIterator implements Iterator<SelectorEntry> {
-        private ArrayDeque<Iterator<SelectorEntry>> iterators_;
+        private LinkedList<Iterator<SelectorEntry>> iterators_;
 
-        SelectorEntriesIterator(final CSSStyleSheetRuleIndex index, final String elementName) {
-            iterators_ = new ArrayDeque<Iterator<SelectorEntry>>();
+        SelectorEntriesIterator(final CSSStyleSheetRuleIndex index,
+                final String elementName, final String[] classes) {
+            iterators_ = new LinkedList<Iterator<SelectorEntry>>();
             List<SelectorEntry> sel = index.elementSelectors_.get("*");
             if (sel != null && !sel.isEmpty()) {
                 iterators_.add(sel.iterator());
             }
 
+            if (classes != null) {
+                for (String clazz : classes) {
+                    sel = index.classSelectors_.get(clazz);
+                    if (sel != null && !sel.isEmpty()) {
+                        iterators_.add(sel.iterator());
+                    }
+
+                }
+            }
             sel = index.elementSelectors_.get(elementName);
             if (sel != null && !sel.isEmpty()) {
                 iterators_.add(sel.iterator());
@@ -446,7 +474,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
                 return iter.next();
             }
 
-            iterators_.pop();
+            iterators_.removeFirst();
             return next();
         }
 
