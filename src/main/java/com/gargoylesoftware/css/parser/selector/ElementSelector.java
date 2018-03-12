@@ -17,6 +17,7 @@ package com.gargoylesoftware.css.parser.selector;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.gargoylesoftware.css.parser.Locator;
 import com.gargoylesoftware.css.parser.condition.Condition;
@@ -30,7 +31,12 @@ public class ElementSelector extends AbstractSelector implements SimpleSelector,
     private List<Condition> conditions_;
 
     public ElementSelector(final String localName, final Locator locator) {
-        localName_ = localName;
+        if (localName != null) {
+            localName_ = localName.toLowerCase(Locale.ROOT);
+        }
+        else {
+            localName_ = null;
+        }
         setLocator(locator);
     }
 
@@ -44,6 +50,9 @@ public class ElementSelector extends AbstractSelector implements SimpleSelector,
         return this;
     }
 
+    /**
+     * @return the local name in lower case.
+     */
     public String getLocalName() {
         return localName_;
     }

@@ -38,6 +38,7 @@ import com.gargoylesoftware.css.parser.CSSException;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.parser.media.MediaQueryList;
+import com.gargoylesoftware.css.parser.selector.ElementSelector;
 import com.gargoylesoftware.css.parser.selector.Selector;
 import com.gargoylesoftware.css.util.LangUtils;
 import com.gargoylesoftware.css.util.ThrowCssExceptionErrorHandler;
@@ -380,17 +381,19 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         private final Map<String, List<SelectorEntry>> classSelectors_ = new HashMap<>();
         private final List<SelectorEntry> otherSelectors_ = new ArrayList<>();
 
-        public void addElementSelector(final String name, final Selector s, final CSSStyleRuleImpl styleRule) {
-            List<SelectorEntry> entries = elementSelectors_.get(name);
+        public void addElementSelector(final ElementSelector elementSelector,
+                                        final Selector s, final CSSStyleRuleImpl styleRule) {
+            final String elementName = elementSelector.getLocalName();
+            List<SelectorEntry> entries = elementSelectors_.get(elementName);
             if (entries == null) {
                 entries = new ArrayList<SelectorEntry>();
-                elementSelectors_.put(name, entries);
+                elementSelectors_.put(elementName, entries);
             }
             final SelectorEntry selectorEntry = new SelectorEntry(s, styleRule);
             entries.add(selectorEntry);
         }
 
-        public void addClassSelector(final String elementName, final String className,
+        public void addClassSelector(final ElementSelector elementSelector, final String className,
                 final Selector s, final CSSStyleRuleImpl styleRule) {
             List<SelectorEntry> entries = classSelectors_.get(className);
             if (entries == null) {
@@ -400,6 +403,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
             SelectorEntry selectorEntry = new SelectorEntry(s, styleRule);
             entries.add(selectorEntry);
 
+            final String elementName = elementSelector.getLocalName();
             if (elementName != null) {
                 final String key = elementName + "." + className;
                 entries = classSelectors_.get(key);
