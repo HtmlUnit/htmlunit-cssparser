@@ -170,7 +170,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getLang());
 
         rule = rules.item(2);
-        Assert.assertEquals("*:lang(fr) > q { }", rule.getCssText());
+        Assert.assertEquals("*:lang(fr) > Q { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         ChildSelector childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         selector = (ElementSelector) childSelector.getAncestorSelector();
@@ -178,7 +178,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("fr", ((LangCondition) selector.getConditions().get(0)).getLang());
 
         rule = rules.item(3);
-        Assert.assertEquals("*:lang(de) > q { }", rule.getCssText());
+        Assert.assertEquals("*:lang(de) > Q { }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         selector = (ElementSelector) childSelector.getAncestorSelector();
@@ -1124,32 +1124,32 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(5, rules.getLength());
 
         CSSRule rule = rules.item(0);
-        Assert.assertEquals("h1:before { content: counter(chno, upper-latin) \". \" }", rule.getCssText());
+        Assert.assertEquals("H1:before { content: counter(chno, upper-latin) \". \" }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         CSSValueImpl value = (CSSValueImpl) ((CSSStyleRule) rule).getStyle().getPropertyCSSValue("content");
         Assert.assertEquals("counter(chno, upper-latin)", ((CSSValueImpl) value.item(0)).getCounterValue().toString());
 
         rule = rules.item(1);
-        Assert.assertEquals("h2:before { content: counter(section, upper-roman) \" - \" }", rule.getCssText());
+        Assert.assertEquals("H2:before { content: counter(section, upper-roman) \" - \" }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         value = (CSSValueImpl) ((CSSStyleRule) rule).getStyle().getPropertyCSSValue("content");
         Assert.assertEquals("counter(section, upper-roman)",
                 ((CSSValueImpl) value.item(0)).getCounterValue().toString());
 
         rule = rules.item(2);
-        Assert.assertEquals("blockquote:after { content: \" [\" counter(bq, lower-greek) \"]\" }", rule.getCssText());
+        Assert.assertEquals("BLOCKQUOTE:after { content: \" [\" counter(bq, lower-greek) \"]\" }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         value = (CSSValueImpl) ((CSSStyleRule) rule).getStyle().getPropertyCSSValue("content");
         Assert.assertEquals("counter(bq, lower-greek)", ((CSSValueImpl) value.item(1)).getCounterValue().toString());
 
         rule = rules.item(3);
-        Assert.assertEquals("div.note:before { content: counter(notecntr, disc) \" \" }", rule.getCssText());
+        Assert.assertEquals("DIV.note:before { content: counter(notecntr, disc) \" \" }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         value = (CSSValueImpl) ((CSSStyleRule) rule).getStyle().getPropertyCSSValue("content");
         Assert.assertEquals("counter(notecntr, disc)", ((CSSValueImpl) value.item(0)).getCounterValue().toString());
 
         rule = rules.item(4);
-        Assert.assertEquals("p:before { content: counter(p, none) }", rule.getCssText());
+        Assert.assertEquals("P:before { content: counter(p, none) }", rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         value = (CSSValueImpl) ((CSSStyleRule) rule).getStyle().getPropertyCSSValue("content");
         Assert.assertEquals("counter(p, none)", value.getCounterValue().toString());
@@ -1170,7 +1170,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final CSSRule rule = rules.item(0);
-        Assert.assertEquals("li:before { content: counters(item, \".\") \" \"; counter-increment: item }",
+        Assert.assertEquals("LI:before { content: counters(item, \".\") \" \"; counter-increment: item }",
                 rule.getCssText());
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
         final CSSValueImpl value = (CSSValueImpl) ((CSSStyleRule) rule).getStyle().getPropertyCSSValue("content");
@@ -2725,7 +2725,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(15, rules.getLength());
 
         CSSRule rule = rules.item(0);
-        Assert.assertEquals("ol { list-style-type: lower-alpha }", rule.getCssText());
+        Assert.assertEquals("OL { list-style-type: lower-alpha }", rule.getCssText());
 
         rule = rules.item(1);
         Assert.assertEquals("*.a { color: green; background: white none }", rule.getCssText());

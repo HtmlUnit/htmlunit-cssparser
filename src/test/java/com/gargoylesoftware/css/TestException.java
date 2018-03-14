@@ -57,13 +57,13 @@ public class TestException {
 
         Assert.assertEquals("@charset \"US-ASCII\";", rules.item(0).getCssText());
         Assert.assertEquals("@import url(http://www.steadystate.com/primary.css);", rules.item(1).getCssText());
-        Assert.assertEquals("p { color: blue }", rules.item(2).getCssText());
+        Assert.assertEquals("P { color: blue }", rules.item(2).getCssText());
 
         stylesheet.deleteRule(1);
 
         Assert.assertEquals(2, rules.getLength());
         Assert.assertEquals("@charset \"US-ASCII\";", rules.item(0).getCssText());
-        Assert.assertEquals("p { color: blue }", rules.item(1).getCssText());
+        Assert.assertEquals("P { color: blue }", rules.item(1).getCssText());
 
         CSSRule rule = rules.item(1);
         rule.setCssText("h2 { smell: strong }");

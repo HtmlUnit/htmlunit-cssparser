@@ -383,7 +383,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
 
         public void addElementSelector(final ElementSelector elementSelector,
                                         final Selector s, final CSSStyleRuleImpl styleRule) {
-            final String elementName = elementSelector.getLocalName();
+            final String elementName = elementSelector.getLocalNameLowerCase();
             List<SelectorEntry> entries = elementSelectors_.get(elementName);
             if (entries == null) {
                 entries = new ArrayList<SelectorEntry>();
@@ -395,7 +395,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
 
         public void addClassSelector(final ElementSelector elementSelector, final String className,
                 final Selector s, final CSSStyleRuleImpl styleRule) {
-            final String elementName = elementSelector.getLocalName();
+            final String elementName = elementSelector.getLocalNameLowerCase();
             final String key;
             if (elementName == null) {
                 key = "." + className;

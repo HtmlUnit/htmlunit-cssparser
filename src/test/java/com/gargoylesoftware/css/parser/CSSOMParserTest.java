@@ -16,7 +16,6 @@ package com.gargoylesoftware.css.parser;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Locale;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -83,7 +82,7 @@ public class CSSOMParserTest {
         Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
 
         final CSSStyleRule sr = (CSSStyleRule) rule;
-        Assert.assertEquals(testSelector_.toLowerCase(Locale.ROOT), sr.getSelectorText());
+        Assert.assertEquals(testSelector_, sr.getSelectorText());
 
         final CSSStyleDeclaration style = sr.getStyle();
         Assert.assertEquals(testItem_, style.item(0));
@@ -123,7 +122,7 @@ public class CSSOMParserTest {
         final InputSource is = new InputSource(r);
         final SelectorList sl = new CSSOMParser().parseSelectors(is);
 
-        Assert.assertEquals(testSelector_.toLowerCase(Locale.ROOT), sl.get(0).toString());
+        Assert.assertEquals(testSelector_, sl.get(0).toString());
     }
 
     /**

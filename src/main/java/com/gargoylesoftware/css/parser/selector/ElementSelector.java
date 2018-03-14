@@ -28,15 +28,18 @@ import com.gargoylesoftware.css.parser.condition.Condition;
 public class ElementSelector extends AbstractSelector implements SimpleSelector, Serializable {
 
     private final String localName_;
+    private final String localNameLC_;
     private List<Condition> conditions_;
 
     public ElementSelector(final String localName, final Locator locator) {
+        localName_ = localName;
         if (localName != null) {
-            localName_ = localName.toLowerCase(Locale.ROOT);
+            localNameLC_ = localName.toLowerCase(Locale.ROOT);
         }
         else {
-            localName_ = null;
+            localNameLC_ = null;
         }
+
         setLocator(locator);
     }
 
@@ -50,11 +53,12 @@ public class ElementSelector extends AbstractSelector implements SimpleSelector,
         return this;
     }
 
-    /**
-     * @return the local name in lower case.
-     */
     public String getLocalName() {
         return localName_;
+    }
+
+    public String getLocalNameLowerCase() {
+        return localNameLC_;
     }
 
     public String getElementName() {
