@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.gargoylesoftware.css.ErrorHandler;
+import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
 
 /**
  * @author Ronald Brill

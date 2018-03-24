@@ -59,6 +59,9 @@ public abstract class AbstractCSSParserTest {
 
     private Locale systemLocale_;
 
+    /**
+     * {@inheritDoc}
+     */
     @Before
     public void setUp() {
         systemLocale_ = Locale.getDefault();

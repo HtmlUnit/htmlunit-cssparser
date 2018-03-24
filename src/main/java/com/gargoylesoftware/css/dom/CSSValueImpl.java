@@ -33,7 +33,6 @@ import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.parser.LexicalUnit;
 import com.gargoylesoftware.css.parser.LexicalUnitImpl;
-import com.gargoylesoftware.css.parser.Locatable;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 import com.gargoylesoftware.css.util.LangUtils;
 
@@ -52,16 +51,17 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
 
     private Object value_;
 
+    /**
+     * @return the value
+     */
     public Object getValue() {
         return value_;
     }
 
-    public void setValue(final Object value) {
-        value_ = value;
-    }
-
     /**
-     * Constructor
+     * Constructor.
+     * @param value the lexical unit value
+     * @param forcePrimitive true or false
      */
     public CSSValueImpl(final LexicalUnit value, final boolean forcePrimitive) {
         LexicalUnit parameters = null;
@@ -98,8 +98,8 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
             value_ = value;
         }
 
-        if (value instanceof Locatable) {
-            setLocator(((Locatable) value).getLocator());
+        if (value != null) {
+            setLocator(value.getLocator());
         }
     }
 
@@ -113,6 +113,10 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
         return values;
     }
 
+    /**
+     * Ctor.
+     * @param value the value
+     */
     public CSSValueImpl(final LexicalUnit value) {
         this(value, false);
     }
@@ -304,7 +308,7 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
     }
 
     /**
-     * TODO: return a value for a list type
+     * {@inheritDoc}
      */
     @Override
     public String getStringValue() throws DOMException {

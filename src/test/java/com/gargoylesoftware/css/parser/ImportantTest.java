@@ -26,6 +26,7 @@ import org.w3c.dom.css.CSSRuleList;
 import org.w3c.dom.css.CSSStyleSheet;
 
 import com.gargoylesoftware.css.ErrorHandler;
+import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
 
 /**
  * Testcases.

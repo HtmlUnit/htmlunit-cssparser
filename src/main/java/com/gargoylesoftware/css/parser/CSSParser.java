@@ -113,7 +113,7 @@ public interface CSSParser {
     /**
      * Parse a CSS style declaration (without '{' and '}').
      *
-     * @param styleValue The declaration.
+     * @param source source to be parsed
      * @exception CSSException Any CSS exception, possibly
      *            wrapping another exception.
      * @exception java.io.IOException An IO exception from the parser,
@@ -125,6 +125,7 @@ public interface CSSParser {
     /**
      * Parse a CSS rule.
      *
+     * @param source source to be parsed
      * @exception CSSException Any CSS exception, possibly
      *            wrapping another exception.
      * @exception java.io.IOException An IO exception from the parser,
@@ -134,7 +135,7 @@ public interface CSSParser {
     void parseRule(InputSource source) throws CSSException, IOException;
 
     /**
-     * Returns a string about which CSS language is supported by this
+     * @return a string about which CSS language is supported by this
      * parser. For CSS Level 1, it returns "http://www.w3.org/TR/REC-CSS1", for
      * CSS Level 2, it returns "http://www.w3.org/TR/REC-CSS2". Note that a
      * "CSSx" parser can return lexical unit other than those allowed by CSS
@@ -145,6 +146,8 @@ public interface CSSParser {
     /**
      * Parse a comma separated list of selectors.
      *
+     * @param source source to be parsed
+     * @return a selector list
      * @exception CSSException Any CSS exception, possibly
      *            wrapping another exception.
      * @exception java.io.IOException An IO exception from the parser,
@@ -156,6 +159,8 @@ public interface CSSParser {
     /**
      * Parse a CSS property value.
      *
+     * @param source source to be parsed
+     * @return a lexical unit
      * @exception CSSException Any CSS exception, possibly
      *            wrapping another exception.
      * @exception java.io.IOException An IO exception from the parser,
@@ -167,6 +172,8 @@ public interface CSSParser {
     /**
      * Parse a CSS priority value (e.g. "!important").
      *
+     * @param source source to be parsed
+     * @return true or flase
      * @exception CSSException Any CSS exception, possibly
      *            wrapping another exception.
      * @exception java.io.IOException An IO exception from the parser,
@@ -175,6 +182,13 @@ public interface CSSParser {
      */
     boolean parsePriority(InputSource source) throws CSSException, IOException;
 
+    /**
+     * @param accepted trur if the parser should accept ie star hack
+     */
     void setIeStarHackAccepted(boolean accepted);
+
+    /**
+     * @return accepted trur if the parser should accept ie star hack
+     */
     boolean isIeStarHackAccepted();
 }

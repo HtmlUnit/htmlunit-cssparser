@@ -29,13 +29,14 @@ public class CSSException extends RuntimeException {
     private ErrorCode code_;
 
     /**
-     * Creates a new CSSException
+     * Creates a new CSSException.
      */
     public CSSException() {
     }
 
     /**
-     * Creates a new CSSException
+     * Creates a new CSSException.
+     * @param message the message
      */
     public CSSException(final String message) {
         code_ = ErrorCode.UNSPECIFIED_ERR;
@@ -44,7 +45,7 @@ public class CSSException extends RuntimeException {
 
     /**
      * Creates a new CSSException with an embeded exception.
-     * @param a the embeded exception.
+     * @param e the embeded exception.
      */
     public CSSException(final Exception e) {
         code_ = ErrorCode.UNSPECIFIED_ERR;
@@ -53,7 +54,7 @@ public class CSSException extends RuntimeException {
 
     /**
      * Creates a new CSSException with a specific code.
-     * @param a the embeded exception.
+     * @param code a the embeded exception.
      */
     public CSSException(final ErrorCode code) {
         code_ = code;
@@ -62,8 +63,9 @@ public class CSSException extends RuntimeException {
     /**
      * Creates a new CSSException with an embeded exception and a specified
      * message.
-     * @param code the specified code.
-     * @param e the embeded exception.
+     * @param code the specified code
+     * @param message the message
+     * @param e the embeded exception
      */
     public CSSException(final ErrorCode code, final String message, final Exception e) {
         code_ = code;

@@ -29,14 +29,21 @@ options {
 
 PARSER_BEGIN(CSS3Parser)
 
-package com.gargoylesoftware.css.parser;
+package com.gargoylesoftware.css.parser.javacc;
 
 import java.util.LinkedList;
 import java.util.Locale;
 
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.Property;
+import com.gargoylesoftware.css.parser.AbstractCSSParser;
+import com.gargoylesoftware.css.parser.CSSParseException;
+import com.gargoylesoftware.css.parser.LexicalUnit;
+import com.gargoylesoftware.css.parser.LexicalUnitImpl;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
+import com.gargoylesoftware.css.parser.Locatable;
+import com.gargoylesoftware.css.parser.Locator;
+import com.gargoylesoftware.css.parser.ParserUtils;
 import com.gargoylesoftware.css.parser.condition.AttributeCondition;
 import com.gargoylesoftware.css.parser.condition.BeginHyphenAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.ClassCondition;
@@ -1559,7 +1566,7 @@ LexicalUnit term(LexicalUnit prev) :
             | t = <RESOLUTION_DPCM>   { value = LexicalUnitImpl.createDimension(prev, floatValue(op, t.image), "dpcm"); }
             | value = function(prev)
         )
-        | t = <STRING>          { value = LexicalUnitImpl.createString(prev, unescape(t.image, false), t.image); }
+        | t = <STRING>          { value = LexicalUnitImpl.createString(prev, unescape(t.image, false)); }
         | t = "progid:"         { value = LexicalUnitImpl.createIdent(prev, skipUnit().trim()); }
         |
             (                t = <IDENT>
@@ -1587,9 +1594,9 @@ LexicalUnit term(LexicalUnit prev) :
         }
     ( <S> )*
         {
-            if (value instanceof Locatable)
+            if(value != null)
             {
-                ((Locatable) value).setLocator(locator);
+              value.setLocator(locator);
             }
             return value;
         }

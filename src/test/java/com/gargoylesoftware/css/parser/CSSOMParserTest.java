@@ -30,6 +30,7 @@ import org.w3c.dom.css.CSSValue;
 import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
 import com.gargoylesoftware.css.dom.CSSStyleRuleImpl;
 import com.gargoylesoftware.css.dom.Property;
+import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
 import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
 

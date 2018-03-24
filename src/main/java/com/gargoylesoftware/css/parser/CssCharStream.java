@@ -2,6 +2,8 @@
 /* JavaCCOptions:STATIC=false,SUPPORT_CLASS_VISIBILITY_PUBLIC=true */
 package com.gargoylesoftware.css.parser;
 
+import com.gargoylesoftware.css.parser.javacc.CharStream;
+
 /**
  * An implementation of interface CharStream.
  * There is no processing of escaping in this class because the escaping is

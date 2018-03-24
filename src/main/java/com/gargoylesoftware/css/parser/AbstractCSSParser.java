@@ -23,6 +23,10 @@ import java.util.HashMap;
 
 import org.w3c.dom.DOMException;
 
+import com.gargoylesoftware.css.parser.javacc.CharStream;
+import com.gargoylesoftware.css.parser.javacc.ParseException;
+import com.gargoylesoftware.css.parser.javacc.Token;
+import com.gargoylesoftware.css.parser.javacc.TokenMgrError;
 import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
 
@@ -31,7 +35,7 @@ import com.gargoylesoftware.css.parser.selector.SelectorList;
  *
  * @author Ronald Brill
  */
-abstract class AbstractCSSParser implements CSSParser {
+public abstract class AbstractCSSParser implements CSSParser {
     private DocumentHandler documentHandler_;
     private CSSErrorHandler errorHandler_;
     private InputSource source_;
@@ -546,7 +550,7 @@ abstract class AbstractCSSParser implements CSSParser {
         }
     }
 
-    int intValue(final char op, final String s) {
+    protected int intValue(final char op, final String s) {
         final int result = Integer.parseInt(s);
         if (op == '-') {
             return -1 * result;
@@ -554,7 +558,7 @@ abstract class AbstractCSSParser implements CSSParser {
         return result;
     }
 
-    float floatValue(final char op, final String s) {
+    protected float floatValue(final char op, final String s) {
         final float result = Float.parseFloat(s);
         if (op == '-') {
             return -1 * result;
@@ -562,7 +566,7 @@ abstract class AbstractCSSParser implements CSSParser {
         return result;
     }
 
-    int getLastNumPos(final String s) {
+    protected int getLastNumPos(final String s) {
         int i = 0;
         for ( ; i < s.length(); i++) {
             if (NUM_CHARS.indexOf(s.charAt(i)) < 0) {

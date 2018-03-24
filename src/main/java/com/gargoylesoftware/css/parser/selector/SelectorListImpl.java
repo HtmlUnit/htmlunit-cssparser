@@ -33,6 +33,9 @@ public class SelectorListImpl extends AbstractLocatable implements SelectorList,
 
     private List<Selector> selectors_ = new ArrayList<Selector>();
 
+    /**
+     * @return the list of selectors.
+     */
     public List<Selector> getSelectors() {
         return selectors_;
     }

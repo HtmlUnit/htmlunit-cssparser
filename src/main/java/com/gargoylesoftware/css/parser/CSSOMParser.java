@@ -35,6 +35,7 @@ import com.gargoylesoftware.css.dom.CSSUnknownRuleImpl;
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.MediaListImpl;
 import com.gargoylesoftware.css.dom.Property;
+import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
 import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
 
@@ -46,12 +47,17 @@ public class CSSOMParser {
     private CSSParser parser_;
     private CSSStyleSheetImpl parentStyleSheet_;
 
-    /** Creates new CSSOMParser */
+    /**
+     * Creates new CSSOMParser.
+     * @param parser the parser
+     */
     public CSSOMParser(final CSSParser parser) {
         parser_ = parser;
     }
 
-    /** Creates new CSSOMParser */
+    /**
+     * Creates new CSSOMParser.
+     */
     public CSSOMParser() {
         parser_ = new CSS3Parser();
     }
@@ -64,6 +70,7 @@ public class CSSOMParser {
      * Parses a SAC input source into a CSSOM style sheet.
      *
      * @param source the SAC input source
+     * @param href the href
      * @return the CSSOM style sheet
      * @throws IOException if the underlying SAC parser throws an IOException
      */

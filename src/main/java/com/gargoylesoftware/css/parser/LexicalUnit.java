@@ -21,6 +21,9 @@ package com.gargoylesoftware.css.parser;
  */
 public interface LexicalUnit {
 
+    /**
+     * Enum for the various unit types.
+     */
     enum LexicalUnitType {
         OPERATOR_COMMA,
         OPERATOR_PLUS,
@@ -68,52 +71,62 @@ public interface LexicalUnit {
     }
 
     /**
-     * An integer indicating the type of <code>LexicalUnit</code>.
+     * @return an integer indicating the type of <code>LexicalUnit</code>.
      */
     LexicalUnitType getLexicalUnitType();
 
     /**
-     * Returns the next value or <code>null</code> if any.
+     * @return the next value or <code>null</code> if any.
      */
     LexicalUnit getNextLexicalUnit();
 
     /**
-     * Returns the previous value or <code>null</code> if any.
+     * @return the previous value or <code>null</code> if any.
      */
     LexicalUnit getPreviousLexicalUnit();
 
     /**
-     * Returns the integer value.
+     * @return the integer value.
      */
     int getIntegerValue();
 
     /**
-     * Returns the float value.
+     * @return the float value.
      */
     float getFloatValue();
 
     /**
-     * Returns the string representation of the unit.
+     * @return the string representation of the unit.
      */
     String getDimensionUnitText();
 
     /**
-     * Returns the name of the function.
+     * @return the name of the function.
      */
     String getFunctionName();
 
     /**
-     * The function parameters including operators (like the comma).
+     * @return the function parameters including operators (like the comma).
      */
     LexicalUnit getParameters();
 
     /**
-     * Returns the string value.
+     * @return the string value.
      */
     String getStringValue();
 
     /**
-     * Returns a list of values inside the sub expression.
+     * @return a list of values inside the sub expression.
      */
     LexicalUnit getSubValues();
+
+    /**
+     * @return the locator
+     */
+    Locator getLocator();
+
+    /**
+     * @param locator the new locator
+     */
+    void setLocator(Locator locator);
 }

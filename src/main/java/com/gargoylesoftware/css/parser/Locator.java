@@ -42,7 +42,7 @@ public class Locator implements Serializable {
     }
 
     /**
-     * @return @see #getURI()
+     * @return the uri
      */
     public String getUri() {
         return uri_;
@@ -50,7 +50,6 @@ public class Locator implements Serializable {
 
     /**
      * Set the uri to a new value.
-     * @see #getURI()
      * @param uri the new uri
      */
     public void setUri(final String uri) {

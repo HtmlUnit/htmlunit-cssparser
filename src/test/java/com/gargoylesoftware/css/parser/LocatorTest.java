@@ -47,9 +47,12 @@ import org.w3c.dom.stylesheets.MediaList;
 import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.Property;
+import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
 
 /**
  * Testcases for correct error location reporting.
+ *
+ * @author Ronald Brill
  */
 public class LocatorTest {
 
@@ -72,6 +75,9 @@ public class LocatorTest {
         + "  border-right: medium solid #00f\n"
         + "}\n";
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void locationsCSS3() {
         final String cssCode = CHARSET_RULE

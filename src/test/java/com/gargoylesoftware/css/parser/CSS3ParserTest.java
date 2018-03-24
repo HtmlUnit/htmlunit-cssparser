@@ -48,6 +48,7 @@ import com.gargoylesoftware.css.parser.condition.PrefixAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.PseudoClassCondition;
 import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
+import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
 import com.gargoylesoftware.css.parser.media.MediaQuery;
 import com.gargoylesoftware.css.parser.selector.ChildSelector;
 import com.gargoylesoftware.css.parser.selector.ElementSelector;
@@ -595,6 +596,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 rule.getCssText());
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void atRuleFontFaceUnicodeRangeSingleCodepoint() throws Exception {
         final String css = "@font-face { font-family: Gentium; unicode-range: U+26 }\n";
@@ -610,6 +614,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 rule.getCssText());
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void atRuleFontFaceUnicodeRangeWildcard() throws Exception {
         final String css = "@font-face { font-family: Gentium; unicode-range: U+4? }\n";
@@ -625,6 +632,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 rule.getCssText());
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void atRuleFontFaceUnicodeRangeRange() throws Exception {
         final String css = "@font-face { font-family: Gentium; unicode-range: U+0-7F }\n";
@@ -640,6 +650,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 rule.getCssText());
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void atRuleFontFaceUnicodeRangeRange2() throws Exception {
         final String css = "@font-face { font-family: Gentium; unicode-range: u+0025-00FF }\n";
@@ -655,6 +668,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 rule.getCssText());
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void atRuleFontFaceUnicodeRangeMultipleValues() throws Exception {
         final String css = "@font-face { font-family: Gentium; unicode-range: U+0025-0??F, U+4?? }\n";
@@ -817,7 +833,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Test for {@literal @}import after a rule
+     * Test for {@literal @}import after a rule.
      * @throws Exception if the test fails
      */
     @Test
@@ -861,6 +877,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("h1 { color: blue }", rule.getCssText());
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void hexColor() throws Exception {
         final String cssText = "color: #ccc; background: #1c1d00;";
@@ -888,6 +907,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("background : rgb(28, 29, 0)", name + " : " + style.getPropertyValue(name));
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void rgb() throws Exception {
         final String cssText = "foreground: rgb( 10, 20, 30 )";
@@ -911,6 +933,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("foreground : rgb(10, 20, 30)", name + " : " + style.getPropertyValue(name));
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void rgbInsideFunction() throws Exception {
         final String cssText = "color: foo(#cd4);";
@@ -934,6 +959,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("color: foo(rgb(204, 221, 68))", name + ": " + style.getPropertyValue(name));
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void funct() throws Exception {
         final String cssText = "clip: foo(rect( 10px, 20em, 30px, max(40, blue(rgb(1,2,3))) ) )";
@@ -1027,6 +1055,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertNull(unit.getNextLexicalUnit());
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void beforeAfter() throws Exception {
         final String cssText = "heading:before { content: attr(test) \"testData\" }";
@@ -1058,6 +1089,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("content : attr(test) \"testData\"", name + " : " + style.getPropertyValue(name));
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void rect() throws Exception {
         final String cssText = "clip: rect( 10px, 20px, 30px, 40px )";
@@ -1081,6 +1115,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("clip : rect(10px, 20px, 30px, 40px)", name + " : " + style.getPropertyValue(name));
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void attr() throws Exception {
         final String cssText = "content: attr( data-foo )";
@@ -1849,7 +1886,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * see https://issues.jboss.org/browse/RF-11741
+     * See https://issues.jboss.org/browse/RF-11741.
      * @throws Exception if any error occurs
      */
     @Test
@@ -2206,6 +2243,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
             + "progid:DXImageTransform.Microsoft.BasicImage(mirror=1)\"", value.getCssText());
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void transformRotate() throws Exception {
         final String css = ".flipped {\n"
@@ -2223,6 +2263,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("rotateY(180deg)", value.getCssText());
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void rgba() throws Exception {
         final String css = "p {\n"
@@ -2245,6 +2288,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("rgba(0, 0, 0, 0.2)", value.getStringValue());
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
     @Test
     public void linearGradient() throws Exception {
         final String css = "h1 { background: linear-gradient(top, #fff, #f2f2f2); }\n"
@@ -2439,7 +2485,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Testcase for issue #56
+     * Testcase for issue #56.
      * @throws Exception if any error occurs
      */
     @Test
@@ -2774,7 +2820,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Comments
+     * Comments.
      * @throws Exception if any error occurs
      */
     @Test
@@ -2790,7 +2836,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Empty declaration
+     * Empty declaration.
      * @throws Exception if any error occurs
      */
     @Test
@@ -2806,7 +2852,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Empty declaration only semicolon
+     * Empty declaration only semicolon.
      * @throws Exception if any error occurs
      */
     @Test
@@ -2822,7 +2868,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Empty declaration only some semicolon
+     * Empty declaration only some semicolon.
      * @throws Exception if any error occurs
      */
     @Test
@@ -2838,7 +2884,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Empty declaration only comment
+     * Empty declaration only comment.
      * @throws Exception if any error occurs
      */
     @Test
@@ -2854,7 +2900,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Comments
+     * Comments.
      * @throws Exception if any error occurs
      */
     @Test
@@ -2898,7 +2944,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Star Hack support
+     * Star Hack support.
      * @throws Exception if any error occurs
      */
     @Test
@@ -2926,7 +2972,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Testcase for the backslash zero ie hack
+     * Testcase for the backslash zero ie hack.
      * @throws Exception if any error occurs
      */
     @Test
@@ -3383,7 +3429,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Test unicode input based on a byte stream
+     * Test unicode input based on a byte stream.
      *
      * @throws Exception in case of failure
      */
@@ -3398,7 +3444,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Test unicode input based on a byte stream
+     * Test unicode input based on a byte stream.
      *
      * @throws Exception in case of failure
      */
@@ -3438,7 +3484,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Test page selectors
+     * Test page selectors.
      *
      * @throws IOException in case of failure
      */
@@ -3483,7 +3529,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Test keyframes at rule
+     * Test keyframes at rule.
      *
      * @throws IOException in case of failure
      */

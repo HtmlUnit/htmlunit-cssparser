@@ -31,49 +31,78 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     private String functionName_;
     private LexicalUnit parameters_;
     private String stringValue_;
-    private String sourceStringValue_;
 
     /** cache */
     private transient String toString_;
 
+    /**
+     * @param next next LexicalUnit
+     */
     public void setNextLexicalUnit(final LexicalUnit next) {
         nextLexicalUnit_ = next;
     }
 
+    /**
+     * @param prev previous LexicalUnit
+     */
     public void setPreviousLexicalUnit(final LexicalUnit prev) {
         previousLexicalUnit_ = prev;
     }
 
+    /**
+     * @param floatVal the float value
+     */
     public void setFloatValue(final float floatVal) {
         floatValue_ = floatVal;
         toString_ = null;
     }
 
+    /**
+     * @return the dimension
+     */
     public String getDimension() {
         return dimension_;
     }
 
+    /**
+     * @param dimension the new dimension
+     */
     public void setDimension(final String dimension) {
         dimension_ = dimension;
         toString_ = null;
     }
 
+    /**
+     * @param function the function name
+     */
     public void setFunctionName(final String function) {
         functionName_ = function;
         toString_ = null;
     }
 
+    /**
+     * @param params the parameter LexicalUnit
+     */
     public void setParameters(final LexicalUnit params) {
         parameters_ = params;
         toString_ = null;
     }
 
+    /**
+     * @param stringVal the string value
+     */
     public void setStringValue(final String stringVal) {
         stringValue_ = stringVal;
         toString_ = null;
     }
 
-    protected LexicalUnitImpl(final LexicalUnit previous, final LexicalUnitType type) {
+    /**
+     * Ctor.
+     *
+     * @param previous the previous LexicalUnit
+     * @param type the LexicalUnitType
+     */
+    public LexicalUnitImpl(final LexicalUnit previous, final LexicalUnitType type) {
         lexicalUnitType_ = type;
         previousLexicalUnit_ = previous;
         if (previousLexicalUnit_ != null) {
@@ -82,7 +111,10 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * Integer
+     * Integer.
+     *
+     * @param previous the previous LexicalUnit
+     * @param value the int value
      */
     protected LexicalUnitImpl(final LexicalUnit previous, final int value) {
         this(previous, LexicalUnitType.INTEGER);
@@ -90,7 +122,11 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * Dimension
+     * Dimension.
+     *
+     * @param previous the previous LexicalUnit
+     * @param type the LexicalUnitType
+     * @param value the float value
      */
     protected LexicalUnitImpl(final LexicalUnit previous, final LexicalUnitType type, final float value) {
         this(previous, type);
@@ -98,7 +134,12 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * Unknown dimension
+     * Unknown dimension.
+     *
+     * @param previous the previous LexicalUnit
+     * @param type the LexicalUnitType
+     * @param dimension the dimension
+     * @param value the float value
      */
     protected LexicalUnitImpl(
             final LexicalUnit previous,
@@ -111,15 +152,23 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * String
+     * String.
+     *
+     * @param previous the previous LexicalUnit
+     * @param type the LexicalUnitType
+     * @param value the string value
      */
-    protected LexicalUnitImpl(final LexicalUnit previous, final LexicalUnitType type, final String value) {
+    public LexicalUnitImpl(final LexicalUnit previous, final LexicalUnitType type, final String value) {
         this(previous, type);
         stringValue_ = value;
     }
 
     /**
-     * Function
+     * Function.
+     * @param previous the previous LexicalUnit
+     * @param type the LexicalUnitType
+     * @param name the name
+     * @param params the parameter LexicalUnit
      */
     protected LexicalUnitImpl(
             final LexicalUnit previous,
@@ -131,6 +180,13 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         parameters_ = params;
     }
 
+    /**
+     * Function.
+     * @param previous the previous LexicalUnit
+     * @param type the LexicalUnitType
+     * @param name the name
+     * @param stringValue the string value
+     */
     protected LexicalUnitImpl(final LexicalUnit previous, final LexicalUnitType type, final String name,
             final String stringValue) {
         this(previous, type);
@@ -218,10 +274,6 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     @Override
     public String getStringValue() {
         return stringValue_;
-    }
-
-    public String getSourceStringValue() {
-        return sourceStringValue_;
     }
 
     @Override
@@ -381,6 +433,9 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         return getCssText();
     }
 
+    /**
+     * @return a string helping to debug
+     */
     public String toDebugString() {
         final StringBuilder sb = new StringBuilder();
         switch (lexicalUnitType_) {
@@ -627,126 +682,266 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         return Float.toString(f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param i the integer value
+     * @return lexical unit with type integer
+     */
     public static LexicalUnit createNumber(final LexicalUnit prev, final int i) {
-        return new LexicalUnitImpl(prev, i);
+        return new LexicalUnitImpl(prev, LexicalUnitType.INTEGER, i);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type real
+     */
     public static LexicalUnit createNumber(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.REAL, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type percent
+     */
     public static LexicalUnit createPercentage(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.PERCENTAGE, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type pixel
+     */
     public static LexicalUnit createPixel(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.PIXEL, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type centimeter
+     */
     public static LexicalUnit createCentimeter(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.CENTIMETER, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type millimeter
+     */
     public static LexicalUnit createMillimeter(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.MILLIMETER, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type inch
+     */
     public static LexicalUnit createInch(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.INCH, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type point
+     */
     public static LexicalUnit createPoint(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.POINT, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type pica
+     */
     public static LexicalUnit createPica(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.PICA, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type em
+     */
     public static LexicalUnit createEm(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.EM, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type ex
+     */
     public static LexicalUnit createEx(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.EX, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type degree
+     */
     public static LexicalUnit createDegree(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.DEGREE, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type radian
+     */
     public static LexicalUnit createRadian(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.RADIAN, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type gradian
+     */
     public static LexicalUnit createGradian(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.GRADIAN, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type millisecond
+     */
     public static LexicalUnit createMillisecond(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.MILLISECOND, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type second
+     */
     public static LexicalUnit createSecond(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.SECOND, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type hertz
+     */
     public static LexicalUnit createHertz(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.HERTZ, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type dimension
+     * @param dim the dimension
+     */
     public static LexicalUnit createDimension(final LexicalUnit prev, final float f, final String dim) {
         return new LexicalUnitImpl(prev, LexicalUnitType.DIMENSION, dim, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type kilohertz
+     */
     public static LexicalUnit createKiloHertz(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.KILOHERTZ, f);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param params the params
+     * @return lexical unit with type counter
+     */
     public static LexicalUnit createCounter(final LexicalUnit prev, final LexicalUnit params) {
         return new LexicalUnitImpl(prev, LexicalUnitType.COUNTER_FUNCTION, "counter", params);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param params the params
+     * @return lexical unit with type counters
+     */
     public static LexicalUnit createCounters(final LexicalUnit prev, final LexicalUnit params) {
         return new LexicalUnitImpl(prev, LexicalUnitType.COUNTERS_FUNCTION, "counters", params);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param value the value
+     * @return lexical unit with type attr
+     */
     public static LexicalUnit createAttr(final LexicalUnit prev, final String value) {
         // according to LexicalUnit.ATTR, LexicalUnit.getStringValue(), not
         // LexicalUnit.getParameters() is applicable
         return new LexicalUnitImpl(prev, LexicalUnitType.ATTR, "name", value);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param params the params
+     * @return lexical unit with type rect
+     */
     public static LexicalUnit createRect(final LexicalUnit prev, final LexicalUnit params) {
         return new LexicalUnitImpl(prev, LexicalUnitType.RECT_FUNCTION, "rect", params);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param params the params
+     * @return lexical unit with type rgb color
+     */
     public static LexicalUnit createRgbColor(final LexicalUnit prev, final LexicalUnit params) {
         return new LexicalUnitImpl(prev, LexicalUnitType.RGBCOLOR, "rgb", params);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param name the name
+     * @param params the params
+     * @return lexical unit with type function
+     */
     public static LexicalUnit createFunction(final LexicalUnit prev, final String name, final LexicalUnit params) {
         return new LexicalUnitImpl(prev, LexicalUnitType.FUNCTION, name, params);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param value the value
+     * @return lexical unit with type string
+     */
     public static LexicalUnit createString(final LexicalUnit prev, final String value) {
         return new LexicalUnitImpl(prev, LexicalUnitType.STRING_VALUE, value);
     }
 
-    public static LexicalUnit createString(final LexicalUnit prev, final String value, final String sourceStringValue) {
-        final LexicalUnitImpl unit = new LexicalUnitImpl(prev, LexicalUnitType.STRING_VALUE, value);
-        unit.sourceStringValue_ = sourceStringValue;
-        return unit;
-    }
-
+    /**
+     * @param prev the previous LexicalUnit
+     * @param value the value
+     * @return lexical unit with type ident
+     */
     public static LexicalUnit createIdent(final LexicalUnit prev, final String value) {
         return new LexicalUnitImpl(prev, LexicalUnitType.IDENT, value);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @param value the value
+     * @return lexical unit with type uri
+     */
     public static LexicalUnit createURI(final LexicalUnit prev, final String value) {
         return new LexicalUnitImpl(prev, LexicalUnitType.URI, value);
     }
 
+    /**
+     * @param prev the previous LexicalUnit
+     * @return lexical unit with type comma
+     */
     public static LexicalUnit createComma(final LexicalUnit prev) {
         return new LexicalUnitImpl(prev, LexicalUnitType.OPERATOR_COMMA);
     }
