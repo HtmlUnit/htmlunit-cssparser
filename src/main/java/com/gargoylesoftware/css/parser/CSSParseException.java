@@ -35,7 +35,6 @@ public class CSSParseException extends CSSException {
      * @param message The error or warning message.
      * @param locator The locator object for the error or warning.
      * @see Locator
-     * @see CSSParser#setLocale
      */
     public CSSParseException(final String message, final Locator locator) {
         this(message, locator, null);
@@ -55,7 +54,6 @@ public class CSSParseException extends CSSException {
      * @param locator The locator object for the error or warning.
      * @param e Any exception
      * @see Locator
-     * @see CSSParser#setLocale
      */
     public CSSParseException(final String message, final Locator locator, final Exception e) {
         this(message, locator.getUri(), locator.getLineNumber(), locator.getColumnNumber(), e);
@@ -74,7 +72,6 @@ public class CSSParseException extends CSSException {
      *                   caused the error or warning.
      * @param columnNumber The column number of the end of the text that
      *                     cause the error or warning.
-     * @see CSSParser#setLocale
      */
     public CSSParseException(final String message, final String uri, final int lineNumber, final int columnNumber) {
         this(message, uri, lineNumber, columnNumber, null);
@@ -99,7 +96,6 @@ public class CSSParseException extends CSSException {
      * @param columnNumber The column number of the end of the text that
      *                     cause the error or warning.
      * @param e Another exception to embed in this one.
-     * @see CSSParser#setLocale
      */
     public CSSParseException(final String message, final String uri,
             final int lineNumber, final int columnNumber, final Exception e) {
@@ -116,7 +112,6 @@ public class CSSParseException extends CSSException {
      *
      * @return A string containing the URI, or null
      *         if none is available.
-     * @see Locator#getURI
      */
     public String getURI() {
         return uri_;
