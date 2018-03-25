@@ -21,6 +21,7 @@ import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 
 /**
  * Test cases for {@link SubstringAttributeCondition}.
+ * @author Ronald Brill
  */
 public class SubstringAttributeConditionTest {
 

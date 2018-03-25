@@ -21,6 +21,7 @@ import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
 /**
  * Testcases for {@link PseudoElementSelector}.
+ * @author Ronald Brill
  */
 public class PseudoElementSelectorTest {
 

@@ -19,6 +19,7 @@ import org.junit.Test;
 
 /**
  * Testcases for {@link PseudoClassCondition}.
+ * @author Ronald Brill
  */
 public class PseudoClassConditionTest {
 

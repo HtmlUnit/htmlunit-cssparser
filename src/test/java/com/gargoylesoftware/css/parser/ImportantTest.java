@@ -30,6 +30,7 @@ import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
 
 /**
  * Testcases.
+ * @author Ronald Brill
  */
 public class ImportantTest {
     /**

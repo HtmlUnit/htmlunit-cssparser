@@ -33,6 +33,9 @@ import com.gargoylesoftware.css.util.LangUtils;
 public class CSSStyleSheetListImpl implements StyleSheetList {
     private List<CSSStyleSheet> cssStyleSheets_;
 
+    /**
+     * @return the list of style sheets
+     */
     public List<CSSStyleSheet> getCSSStyleSheets() {
         if (cssStyleSheets_ == null) {
             cssStyleSheets_ = new ArrayList<CSSStyleSheet>();
@@ -40,18 +43,7 @@ public class CSSStyleSheetListImpl implements StyleSheetList {
         return cssStyleSheets_;
     }
 
-    public void setCSSStyleSheets(final List<CSSStyleSheet> cssStyleSheets) {
-        cssStyleSheets_ = cssStyleSheets;
-    }
-
-    /**
-     * Creates a new instance of CSSStyleSheetListImpl
-     */
-    public CSSStyleSheetListImpl() {
-        super();
-    }
-
-    // start StyleSheetList
+   // start StyleSheetList
     @Override
     public int getLength() {
         return getCSSStyleSheets().size();

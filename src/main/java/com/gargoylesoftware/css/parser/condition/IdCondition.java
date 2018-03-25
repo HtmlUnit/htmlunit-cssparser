@@ -26,6 +26,11 @@ public class IdCondition extends AbstractLocatable implements Condition, Seriali
 
     private final String value_;
 
+    /**
+     * Ctor.
+     * @param value the value
+     * @param locator the locator
+     */
     public IdCondition(final String value, final Locator locator) {
         value_ = value;
         setLocator(locator);
@@ -36,10 +41,16 @@ public class IdCondition extends AbstractLocatable implements Condition, Seriali
         return ConditionType.ID_CONDITION;
     }
 
+    /**
+     * @return the local name
+     */
     public String getLocalName() {
         return null;
     }
 
+    /**
+     * @return the value
+     */
     public String getValue() {
         return value_;
     }

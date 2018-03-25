@@ -19,9 +19,13 @@ package com.gargoylesoftware.css.parser;
  */
 public class CSSException extends RuntimeException {
 
-    public enum ErrorCode {
+    /** Enum for error codes. */
+    protected enum ErrorCode {
+        /** Unspecified. */
         UNSPECIFIED_ERR,
+        /** Not supported. */
         NOT_SUPPORTED_ERR,
+        /** Syntax error. */
         SYNTAX_ERR,
     }
 
@@ -102,7 +106,7 @@ public class CSSException extends RuntimeException {
     }
 
     /**
-     * returns the error code for this exception.
+     * @return the error code for this exception.
      */
     public ErrorCode getCode() {
         return code_;

@@ -25,6 +25,9 @@ import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
  */
 public class DescendantSelectorImplTest {
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void ancestorSelector() {
         final ElementSelector parent = new ElementSelector("p", null);
@@ -35,6 +38,9 @@ public class DescendantSelectorImplTest {
         Assert.assertEquals("p a", selector.toString());
     }
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void simpleSelector() {
         final ElementSelector parent = new ElementSelector("p", null);
@@ -45,6 +51,9 @@ public class DescendantSelectorImplTest {
         Assert.assertEquals("p a", selector.toString());
     }
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void selectorType() {
         final ElementSelector parent = new ElementSelector("p", null);
@@ -55,6 +64,9 @@ public class DescendantSelectorImplTest {
         Assert.assertEquals("p a", selector.toString());
     }
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void elementDescendant() {
         final ElementSelector parent = new ElementSelector("p", null);
@@ -63,6 +75,9 @@ public class DescendantSelectorImplTest {
         Assert.assertEquals("p a", selector.toString());
     }
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void pseudoElementDescendant() {
         final ElementSelector parent = new ElementSelector("a", null);

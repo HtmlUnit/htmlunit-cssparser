@@ -41,7 +41,7 @@ public final class ParserUtils {
      * Helper that removes the leading "url(", the trailing ")"
      * and surrounding quotes from the given string builder.
      * @param s the StringBuilder
-     * @return
+     * @return the trimmed string
      */
     public static String trimUrl(final StringBuilder s) {
         final String s1 = trimBy(s, 4, 1).trim();

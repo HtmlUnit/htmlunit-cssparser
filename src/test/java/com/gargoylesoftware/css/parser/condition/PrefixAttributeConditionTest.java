@@ -21,6 +21,7 @@ import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 
 /**
  * Test cases for {@link PrefixAttributeCondition}.
+ * @author Ronald Brill
  */
 public class PrefixAttributeConditionTest {
 

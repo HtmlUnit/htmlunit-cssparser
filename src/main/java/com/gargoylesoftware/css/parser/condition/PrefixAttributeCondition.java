@@ -26,6 +26,11 @@ public class PrefixAttributeCondition extends AbstractLocatable implements Condi
     private final String localName_;
     private final String value_;
 
+    /**
+     * Ctor.
+     * @param localName the loacl value
+     * @param value the value
+     */
     public PrefixAttributeCondition(final String localName, final String value) {
         localName_ = localName;
         value_ = value;
@@ -36,10 +41,16 @@ public class PrefixAttributeCondition extends AbstractLocatable implements Condi
         return ConditionType.PREFIX_ATTRIBUTE_CONDITION; //for now
     }
 
+    /**
+     * @return the local name
+     */
     public String getLocalName() {
         return localName_;
     }
 
+    /**
+     * @return the value
+     */
     public String getValue() {
         return value_;
     }

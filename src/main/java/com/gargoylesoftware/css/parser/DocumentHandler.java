@@ -33,7 +33,7 @@ public interface DocumentHandler {
      * The CSS parser will invoke this method only once, before any other
      * methods in this interface.
      *
-     * @param uri The URI of the style sheet. @@TODO can be NULL ! (inline style sheet)
+     * @param source the input source to parse
      * @exception CSSException Any CSS exception, possibly wrapping another
      *                         exception.
      */
@@ -47,7 +47,7 @@ public interface DocumentHandler {
      * method until it has either abandoned parsing (because of an
      * unrecoverable error) or reached the end of input.
      *
-     * @param uri The URI of the style sheet.
+     * @param source the input source to parse
      * @exception CSSException Any CSS exception, possibly wrapping another
      *                         exception.
      */
@@ -65,8 +65,8 @@ public interface DocumentHandler {
     /**
      * Receive notification of the end of a media statement.
      *
-     * @param media The intended destination medium for style information.
-     * @param pseudo_page the pseudo page (if any, null otherwise)
+     * @param name the name
+     * @param pseudoPage the pseudo page (if any, null otherwise)
      * @exception CSSException Any CSS exception, possibly wrapping another
      *                         exception.
      */

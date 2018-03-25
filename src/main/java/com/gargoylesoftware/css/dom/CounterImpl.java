@@ -34,7 +34,10 @@ public class CounterImpl implements Counter, Serializable {
     private String separator_;
 
     /**
-     * Creates new CounterImpl
+     * Creates new CounterImpl.
+     * @param separatorSpecified true if the separator is specified
+     * @param lu the lexical unit
+     * @throws DOMException in case of error
      */
     public CounterImpl(final boolean separatorSpecified, final LexicalUnit lu) throws DOMException {
         LexicalUnit next = lu;

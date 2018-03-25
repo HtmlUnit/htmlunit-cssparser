@@ -30,7 +30,7 @@ public class Locator implements Serializable {
     private int columnNumber_;
 
     /**
-     * Creates new LocatorImpl
+     * Creates new LocatorImpl.
      * @param uri the uri
      * @param line the lineNumber
      * @param column the columnNumber

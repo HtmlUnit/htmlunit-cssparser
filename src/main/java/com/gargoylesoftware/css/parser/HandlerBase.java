@@ -19,6 +19,8 @@ import com.gargoylesoftware.css.parser.selector.SelectorList;
 
 /**
  * Empty implementation of the DocumentHandlerExt interface.
+ *
+ * @author Ronald Brill
  */
 public class HandlerBase implements DocumentHandler, CSSErrorHandler {
 

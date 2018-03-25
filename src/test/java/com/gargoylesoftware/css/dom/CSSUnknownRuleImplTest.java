@@ -65,15 +65,6 @@ public class CSSUnknownRuleImplTest {
      * @throws Exception if any error occurs
      */
     @Test
-    public void getText() throws Exception {
-        final CSSUnknownRuleImpl value = parseUnknownRule("@foo \"text\";");
-        Assert.assertEquals("@foo text;", value.getText());
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
     public void type() throws Exception {
         final CSSUnknownRuleImpl value = new CSSUnknownRuleImpl(null, null, null);
 

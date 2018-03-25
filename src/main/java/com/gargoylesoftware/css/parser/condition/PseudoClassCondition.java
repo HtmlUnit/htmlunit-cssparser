@@ -28,6 +28,12 @@ public class PseudoClassCondition extends AbstractLocatable implements Condition
     private final String value_;
     private final boolean doubleColon_;
 
+    /**
+     * Ctor.
+     * @param value the value
+     * @param locator the locator
+     * @param doubleColon true if was prefixed by double colon
+     */
     public PseudoClassCondition(final String value, final Locator locator, final boolean doubleColon) {
         value_ = value;
         setLocator(locator);
@@ -39,10 +45,16 @@ public class PseudoClassCondition extends AbstractLocatable implements Condition
         return ConditionType.PSEUDO_CLASS_CONDITION;
     }
 
+    /**
+     * @return the local name
+     */
     public String getLocalName() {
         return null;
     }
 
+    /**
+     * @return the value
+     */
     public String getValue() {
         return value_;
     }

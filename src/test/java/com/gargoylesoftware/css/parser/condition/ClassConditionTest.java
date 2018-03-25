@@ -19,6 +19,7 @@ import org.junit.Test;
 
 /**
  * Testcases for {@link ClassCondition}.
+ * @author Ronald Brill
  */
 public class ClassConditionTest {
 

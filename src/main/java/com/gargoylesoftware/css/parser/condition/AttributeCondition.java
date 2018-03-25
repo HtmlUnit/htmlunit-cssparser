@@ -26,6 +26,11 @@ public class AttributeCondition extends AbstractLocatable implements Condition, 
     private final String localName_;
     private final String value_;
 
+    /**
+     * Ctor.
+     * @param localName the local value
+     * @param value the value
+     */
     public AttributeCondition(final String localName, final String value) {
         localName_ = localName;
         value_ = value;
@@ -36,10 +41,16 @@ public class AttributeCondition extends AbstractLocatable implements Condition, 
         return ConditionType.ATTRIBUTE_CONDITION;
     }
 
+    /**
+     * @return the local name
+     */
     public String getLocalName() {
         return localName_;
     }
 
+    /**
+     * @return the value
+     */
     public String getValue() {
         return value_;
     }

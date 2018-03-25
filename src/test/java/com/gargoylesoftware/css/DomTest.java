@@ -35,6 +35,9 @@ import com.gargoylesoftware.css.parser.InputSource;
  */
 public class DomTest {
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void test() throws Exception {
         final String cssText =
@@ -129,6 +132,9 @@ public class DomTest {
         Assert.assertEquals("beta: 100; delta: 1mm; omega: 1 !important; list-test: bogus", style.getCssText());
     }
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void inheritGetStringValue() throws Exception {
         final String cssText = "p { font-size: 2em } p a:link { font-size: inherit }";

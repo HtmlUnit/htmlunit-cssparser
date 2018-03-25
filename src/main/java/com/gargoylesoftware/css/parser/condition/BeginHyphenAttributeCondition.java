@@ -26,6 +26,11 @@ public class BeginHyphenAttributeCondition extends AbstractLocatable implements 
     private final String localName_;
     private final String value_;
 
+    /**
+     * Ctor.
+     * @param localName the local name
+     * @param value the value
+     */
     public BeginHyphenAttributeCondition(final String localName, final String value) {
         localName_ = localName;
         value_ = value;
@@ -36,10 +41,16 @@ public class BeginHyphenAttributeCondition extends AbstractLocatable implements 
         return ConditionType.BEGIN_HYPHEN_ATTRIBUTE_CONDITION;
     }
 
+    /**
+     * @return the local name
+     */
     public String getLocalName() {
         return localName_;
     }
 
+    /**
+     * @return the value
+     */
     public String getValue() {
         return value_;
     }

@@ -27,6 +27,11 @@ public class LangCondition extends AbstractLocatable implements Condition, Seria
 
     private String lang_;
 
+    /**
+     * Ctor.
+     * @param lang the language
+     * @param locator the locato
+     */
     public LangCondition(final String lang, final Locator locator) {
         lang_ = lang;
         setLocator(locator);
@@ -37,6 +42,9 @@ public class LangCondition extends AbstractLocatable implements Condition, Seria
         return ConditionType.LANG_CONDITION;
     }
 
+    /**
+     * @return the language
+     */
     public String getLang() {
         return lang_;
     }

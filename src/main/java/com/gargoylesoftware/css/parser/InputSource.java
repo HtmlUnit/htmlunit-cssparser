@@ -38,6 +38,7 @@ public class InputSource implements Closeable {
     /**
      * Create a new input source backed by byteStream.
      * @param byteStream the byte stream
+     * @param encoding the encoding
      * @throws UnsupportedEncodingException if the encoding is not supported
      */
     public InputSource(final InputStream byteStream, final String encoding) throws UnsupportedEncodingException {
@@ -51,6 +52,7 @@ public class InputSource implements Closeable {
 
     /**
      * Create a new input source backed by a reader.
+     * @param reader the reader
      */
     public InputSource(final Reader reader) {
         reader_ = reader;
@@ -58,6 +60,7 @@ public class InputSource implements Closeable {
 
     /**
      * Create a new input source backed by a reader.
+     * @param uri the uri to read from
      * @throws IOException in case of error
      * @throws MalformedURLException in case of error
      */

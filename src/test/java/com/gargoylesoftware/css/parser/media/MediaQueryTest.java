@@ -23,6 +23,7 @@ import com.gargoylesoftware.css.dom.Property;
 
 /**
  * Testcases for {@link MediaQuery}.
+ * @author Ronald Brill
  */
 public class MediaQueryTest {
 

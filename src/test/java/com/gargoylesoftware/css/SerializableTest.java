@@ -39,6 +39,9 @@ import com.gargoylesoftware.css.parser.InputSource;
  */
 public class SerializableTest {
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void test() throws Exception {
         final InputStream is = getClass().getClassLoader().getResourceAsStream("html40.css");

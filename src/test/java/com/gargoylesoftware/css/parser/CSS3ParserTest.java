@@ -755,7 +755,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
             + "h2 { color: red }\n";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -801,7 +801,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
             + "h1 {color: blue }\n";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -846,7 +846,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
             + "h1 {color: blue }\n";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -884,7 +884,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void hexColor() throws Exception {
         final String cssText = "color: #ccc; background: #1c1d00;";
 
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
@@ -914,7 +914,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void rgb() throws Exception {
         final String cssText = "foreground: rgb( 10, 20, 30 )";
 
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
@@ -940,7 +940,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void rgbInsideFunction() throws Exception {
         final String cssText = "color: foo(#cd4);";
 
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
@@ -966,7 +966,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void funct() throws Exception {
         final String cssText = "clip: foo(rect( 10px, 20em, 30px, max(40, blue(rgb(1,2,3))) ) )";
 
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
@@ -1062,7 +1062,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void beforeAfter() throws Exception {
         final String cssText = "heading:before { content: attr(test) \"testData\" }";
 
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
@@ -1096,7 +1096,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void rect() throws Exception {
         final String cssText = "clip: rect( 10px, 20px, 30px, 40px )";
 
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
@@ -1122,7 +1122,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void attr() throws Exception {
         final String cssText = "content: attr( data-foo )";
 
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
@@ -1281,7 +1281,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                     + "p { color:red;   background{;visibility:hidden}; display:block } /* same with recovery */\n";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1349,7 +1349,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                             + "h3 { color: red& }\n";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1389,7 +1389,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                     + "p { color:blue; }\n";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1468,7 +1468,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                             + "  p:before { content: Hello";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1504,7 +1504,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                             + "  p:before { content: Hello }";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1539,7 +1539,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final String css = "@page :pageStyle { size: 21.0cm 29.7cm;";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1583,7 +1583,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                             + "}";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1624,7 +1624,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                             + ".green { color: green }\n";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1657,7 +1657,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final String css = ".red { color: red }\n}";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1773,7 +1773,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final String css = ".a, .b, { test: 1; }";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1800,7 +1800,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                            + "p { color: green }";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1833,7 +1833,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final String css = ".a { test; color: green }";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1863,7 +1863,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final String css = ".a { color: blue; test; background: green }";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1898,7 +1898,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 + "}";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -2140,7 +2140,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                             + ".h1 {filter: progid: }\n";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -2188,7 +2188,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                             + "}";
 
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -3039,7 +3039,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
     private void unicode(final String css, final String expected) throws IOException {
         final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
 
         final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
         final CSSRuleList rules = sheet.getCssRules();

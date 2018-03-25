@@ -21,6 +21,7 @@ import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 
 /**
  * Testcases for {@link OneOfAttributeCondition}.
+ * @author Ronald Brill
  */
 public class OneOfAttributeConditionTest {
 

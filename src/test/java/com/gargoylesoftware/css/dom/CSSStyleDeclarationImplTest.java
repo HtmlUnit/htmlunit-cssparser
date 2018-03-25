@@ -34,11 +34,7 @@ import com.gargoylesoftware.css.parser.InputSource;
 
 /**
  * Unit tests for {@link CSSStyleDeclarationImpl}.
- *
- * @author Daniel Gredler
- * @author waldbaer
  * @author Ronald Brill
- * @author Ahmed Ashour
  */
 public class CSSStyleDeclarationImplTest {
 

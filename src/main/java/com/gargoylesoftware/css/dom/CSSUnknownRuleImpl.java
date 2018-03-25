@@ -35,14 +35,12 @@ public class CSSUnknownRuleImpl extends AbstractCSSRuleImpl implements CSSUnknow
 
     private String text_;
 
-    public String getText() {
-        return text_;
-    }
-
-    public void setText(final String text) {
-        text_ = text;
-    }
-
+    /**
+     * Ctor.
+     * @param parentStyleSheet the parent style sheet
+     * @param parentRule the parent rule
+     * @param text the text
+     */
     public CSSUnknownRuleImpl(
             final CSSStyleSheetImpl parentStyleSheet,
             final CSSRule parentRule,

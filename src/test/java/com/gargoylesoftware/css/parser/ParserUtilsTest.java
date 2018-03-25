@@ -22,6 +22,9 @@ import org.junit.Test;
  */
 public class ParserUtilsTest {
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void trimBy() {
         Assert.assertEquals("test", ParserUtils.trimBy(new StringBuilder("test"), 0, 0));
@@ -35,6 +38,9 @@ public class ParserUtilsTest {
         Assert.assertEquals("e", ParserUtils.trimBy(new StringBuilder("test"), 1, 2));
     }
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void trimUrl() {
         Assert.assertEquals("test", ParserUtils.trimUrl(new StringBuilder("url(test)")));

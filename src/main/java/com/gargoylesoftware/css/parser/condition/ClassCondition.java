@@ -27,6 +27,11 @@ public class ClassCondition extends AbstractLocatable implements Condition, Seri
 
     private final String value_;
 
+    /**
+     * Ctor.
+     * @param value the value
+     * @param locator the locato
+     */
     public ClassCondition(final String value, final Locator locator) {
         value_ = value;
         setLocator(locator);
@@ -37,10 +42,16 @@ public class ClassCondition extends AbstractLocatable implements Condition, Seri
         return ConditionType.CLASS_CONDITION;
     }
 
+    /**
+     * @return the local name
+     */
     public String getLocalName() {
         return null;
     }
 
+    /**
+     * @return the value
+     */
     public String getValue() {
         return value_;
     }

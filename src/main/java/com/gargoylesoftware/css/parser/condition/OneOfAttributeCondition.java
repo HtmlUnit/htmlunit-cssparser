@@ -26,6 +26,11 @@ public class OneOfAttributeCondition extends AbstractLocatable implements Condit
     private final String localName_;
     private final String value_;
 
+    /**
+     * Ctor.
+     * @param localName the local value
+     * @param value the value
+     */
     public OneOfAttributeCondition(final String localName, final String value) {
         localName_ = localName;
         value_ = value;
@@ -36,10 +41,16 @@ public class OneOfAttributeCondition extends AbstractLocatable implements Condit
         return ConditionType.ONE_OF_ATTRIBUTE_CONDITION;
     }
 
+    /**
+     * @return the local name
+     */
     public String getLocalName() {
         return localName_;
     }
 
+    /**
+     * @return the value
+     */
     public String getValue() {
         return value_;
     }

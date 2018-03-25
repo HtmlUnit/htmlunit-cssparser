@@ -62,6 +62,9 @@ public class CSSOMParser {
         parser_ = new CSS3Parser();
     }
 
+    /**
+     * @param eh the error handler to be used
+     */
     public void setErrorHandler(final CSSErrorHandler eh) {
         parser_.setErrorHandler(eh);
     }
@@ -99,6 +102,13 @@ public class CSSOMParser {
         return sd;
     }
 
+    /**
+     * Parses a SAC input source into a CSSOM style declaration.
+     *
+     * @param source the SAC input source
+     * @param sd the CSSOM style declaration
+     * @throws IOException if the underlying SAC parser throws an IOException
+     */
     public void parseStyleDeclaration(final CSSStyleDeclaration sd, final InputSource source) throws IOException {
         final Stack<Object> nodeStack = new Stack<Object>();
         nodeStack.push(sd);
@@ -107,6 +117,13 @@ public class CSSOMParser {
         parser_.parseStyleDeclaration(source);
     }
 
+    /**
+     * Parses a SAC input source into a CSSValue.
+     *
+     * @param source the SAC input source
+     * @return the css value
+     * @throws IOException if the underlying SAC parser throws an IOException
+     */
     public CSSValue parsePropertyValue(final InputSource source) throws IOException {
         final CSSOMHandler handler = new CSSOMHandler();
         parser_.setDocumentHandler(handler);
@@ -117,6 +134,13 @@ public class CSSOMParser {
         return new CSSValueImpl(lu);
     }
 
+    /**
+     * Parses a SAC input source into a CSSRule.
+     *
+     * @param source the SAC input source
+     * @return the css rule
+     * @throws IOException if the underlying SAC parser throws an IOException
+     */
     public CSSRule parseRule(final InputSource source) throws IOException {
         final CSSOMHandler handler = new CSSOMHandler();
         parser_.setDocumentHandler(handler);
@@ -124,12 +148,26 @@ public class CSSOMParser {
         return (CSSRule) handler.getRoot();
     }
 
+    /**
+     * Parses a SAC input source into a CSSSelectorList.
+     *
+     * @param source the SAC input source
+     * @return the css selector list
+     * @throws IOException if the underlying SAC parser throws an IOException
+     */
     public SelectorList parseSelectors(final InputSource source) throws IOException {
         final HandlerBase handler = new HandlerBase();
         parser_.setDocumentHandler(handler);
         return parser_.parseSelectors(source);
     }
 
+    /**
+     * Parses a SAC input source into a MediaQueryList.
+     *
+     * @param source the SAC input source
+     * @return the css media query list
+     * @throws IOException if the underlying SAC parser throws an IOException
+     */
     public MediaQueryList parseMedia(final InputSource source) throws IOException {
         final HandlerBase handler = new HandlerBase();
         parser_.setDocumentHandler(handler);
@@ -139,10 +177,16 @@ public class CSSOMParser {
         return null;
     }
 
+    /**
+     * @param parentStyleSheet the new parent stylesheet
+     */
     public void setParentStyleSheet(final CSSStyleSheetImpl parentStyleSheet) {
         parentStyleSheet_ = parentStyleSheet;
     }
 
+    /**
+     * @return the parent style sheet
+     */
     protected CSSStyleSheetImpl getParentStyleSheet() {
         return parentStyleSheet_;
     }

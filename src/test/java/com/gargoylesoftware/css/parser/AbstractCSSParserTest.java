@@ -68,28 +68,61 @@ public abstract class AbstractCSSParserTest {
         Locale.setDefault(Locale.ENGLISH);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @After
     public void tearDown() {
         Locale.setDefault(systemLocale_);
     }
 
-    protected CSSOMParser parser() {
-        return new CSSOMParser();
-    }
-
+    /**
+     * Helper.
+     *
+     * @param css the css string to parse
+     * @return the style sheet
+     * @throws IOException if any error occurs
+     */
     protected CSSStyleSheet parse(final String css) throws IOException {
         return parse(css, 0, 0, 0);
     }
 
+    /**
+     * Helper.
+     *
+     * @param css the css input stream to parse
+     * @return the style sheet
+     * @throws IOException if any error occurs
+     */
     protected CSSStyleSheet parse(final InputStream css) throws IOException {
         return parse(css, 0, 0, 0);
     }
 
+    /**
+     * Helper.
+     *
+     * @param css the css string to parse
+     * @param err the number of expected errors
+     * @param fatal the number of expected fatal errors
+     * @param warn the number of expected warnings
+     * @return the style sheet
+     * @throws IOException if any error occurs
+     */
     protected CSSStyleSheet parse(final String css, final int err, final int fatal, final int warn) throws IOException {
         final InputSource source = new InputSource(new StringReader(css));
         return parse(source, err, fatal, warn);
     }
 
+    /**
+     * Helper.
+     *
+     * @param css the css input stream to parse
+     * @param err the number of expected errors
+     * @param fatal the number of expected fatal errors
+     * @param warn the number of expected warnings
+     * @return the style sheet
+     * @throws IOException if any error occurs
+     */
     protected CSSStyleSheet parse(final InputStream css,
             final int err, final int fatal, final int warn) throws IOException {
         final InputSource source = new InputSource(new InputStreamReader(css));
@@ -98,7 +131,7 @@ public abstract class AbstractCSSParserTest {
 
     protected CSSStyleSheet parse(final InputSource source,
             final int err, final int fatal, final int warn) throws IOException {
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
@@ -119,7 +152,7 @@ public abstract class AbstractCSSParserTest {
 
     protected MediaQueryList parseMedia(final InputSource source,
             final int err, final int fatal, final int warn) throws IOException {
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
@@ -134,7 +167,7 @@ public abstract class AbstractCSSParserTest {
 
     protected SelectorList createSelectors(final String cssText) throws Exception {
         final InputSource source = new InputSource(new StringReader(cssText));
-        return parser().parseSelectors(source);
+        return new CSSOMParser().parseSelectors(source);
     }
 
     protected List<Condition> createConditions(final String cssText) throws Exception {
@@ -232,7 +265,7 @@ public abstract class AbstractCSSParserTest {
     }
 
     protected void checkErrorSelector(final String input, final String errorMsg) throws IOException {
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
@@ -248,7 +281,7 @@ public abstract class AbstractCSSParserTest {
     }
 
     protected CSSStyleSheet checkErrorSheet(final String input, final String errorMsg) throws IOException {
-        final CSSOMParser parser = parser();
+        final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 

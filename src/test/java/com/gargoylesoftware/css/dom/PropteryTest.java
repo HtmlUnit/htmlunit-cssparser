@@ -91,29 +91,4 @@ public class PropteryTest {
         Assert.assertEquals("13.2cm", prop.getValue().toString());
         Assert.assertFalse(prop.isImportant());
     }
-
-    public void equals() throws Exception {
-        LexicalUnit lu = LexicalUnitImpl.createCentimeter(null, 13.2f);
-        final Property prop = new Property("MyName", new CSSValueImpl(lu, true), false);
-
-        lu = LexicalUnitImpl.createCentimeter(null, 13.2f);
-        Property prop2 = new Property("MyName", new CSSValueImpl(lu, true), false);
-
-        Assert.assertEquals(prop, prop2);
-
-        // different name
-        lu = LexicalUnitImpl.createCentimeter(null, 13.2f);
-        prop2 = new Property("MyName2", new CSSValueImpl(lu, true), false);
-        Assert.assertFalse(prop.equals(prop2));
-
-        // different value
-        lu = LexicalUnitImpl.createMillimeter(null, 13.2f);
-        prop2 = new Property("MyName", new CSSValueImpl(lu, true), false);
-        Assert.assertFalse(prop.equals(prop2));
-
-        // different importance
-        lu = LexicalUnitImpl.createCentimeter(null, 13.2f);
-        prop2 = new Property("MyName", new CSSValueImpl(lu, true), true);
-        Assert.assertFalse(prop.equals(prop2));
-    }
 }

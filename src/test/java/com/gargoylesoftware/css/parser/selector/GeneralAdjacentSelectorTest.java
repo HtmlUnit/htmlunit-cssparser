@@ -23,6 +23,9 @@ import org.junit.Test;
  */
 public class GeneralAdjacentSelectorTest {
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void withoutParentDescendant() {
         final GeneralAdjacentSelector selector = new GeneralAdjacentSelector(null, null);
@@ -32,6 +35,9 @@ public class GeneralAdjacentSelectorTest {
         Assert.assertEquals(" ~ ", selector.toString());
     }
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void withoutParent() {
         final ElementSelector descendant = new ElementSelector("a", null);
@@ -42,6 +48,9 @@ public class GeneralAdjacentSelectorTest {
         Assert.assertEquals(" ~ a", selector.toString());
     }
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void withoutDescendant() {
         final ElementSelector parent = new ElementSelector("p", null);
@@ -52,6 +61,9 @@ public class GeneralAdjacentSelectorTest {
         Assert.assertEquals("p ~ ", selector.toString());
     }
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void both() {
         final ElementSelector parent = new ElementSelector("p", null);

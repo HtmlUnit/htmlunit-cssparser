@@ -61,50 +61,86 @@ public class ErrorHandler implements com.gargoylesoftware.css.parser.CSSErrorHan
         warningColumns_.append(e.getColumnNumber()).append(" ");
     }
 
+    /**
+     * @return the error count
+     */
     public int getErrorCount() {
         return errorCount_;
     }
 
+    /**
+     * @return the error message
+     */
     public String getErrorMessage() {
         return errorMsg_.toString().trim();
     }
 
+    /**
+     * @return the error lines
+     */
     public String getErrorLines() {
         return errorLines_.toString().trim();
     }
 
+    /**
+     * @return the error columns
+     */
     public String getErrorColumns() {
         return errorColumns_.toString().trim();
     }
 
+    /**
+     * @return the fatal error count
+     */
     public int getFatalErrorCount() {
         return fatalErrorCount_;
     }
 
+    /**
+     * @return the fatal error message
+     */
     public String getFatalErrorMessage() {
         return fatalErrorMsg_.toString().trim();
     }
 
+    /**
+     * @return the fatal error lines
+     */
     public String getFatalErrorLines() {
         return fatalErrorLines_.toString().trim();
     }
 
+    /**
+     * @return the fatal error columns
+     */
     public String getFatalErrorColumns() {
         return fatalErrorColumns_.toString().trim();
     }
 
+    /**
+     * @return the warning count
+     */
     public int getWarningCount() {
         return warningCount_;
     }
 
+    /**
+     * @return the warning message
+     */
     public String getWarningMessage() {
         return warningMsg_.toString().trim();
     }
 
+    /**
+     * @return the warning lines
+     */
     public String getWarningLines() {
         return warningLines_.toString().trim();
     }
 
+    /**
+     * @return the warning columns
+     */
     public String getWarningColumns() {
         return warningColumns_.toString().trim();
     }

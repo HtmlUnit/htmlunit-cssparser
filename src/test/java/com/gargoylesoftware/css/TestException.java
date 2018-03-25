@@ -34,6 +34,9 @@ import com.gargoylesoftware.css.parser.InputSource;
  */
 public class TestException {
 
+    /**
+     * @throws Exception on failure
+     */
     @Test
     public void test() throws Exception {
         final CSSOMParser parser = new CSSOMParser();

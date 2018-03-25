@@ -19,6 +19,7 @@ import org.junit.Test;
 
 /**
  * Testcases for {@link IdCondition}.
+ * @author Ronald Brill
  */
 public class IdConditionTest {
 
