@@ -16,6 +16,7 @@ package com.gargoylesoftware.css.parser.selector;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -29,6 +30,7 @@ import com.gargoylesoftware.css.parser.InputSource;
  * Tests for {@link SelectorSpecificity}.
  *
  * @author Marc Guillemot
+ * @author Ronald Brill
  */
 public class SelectorSpecificityTest {
 
@@ -92,6 +94,38 @@ public class SelectorSpecificityTest {
         selectorSpecifity("li:lang(en)", "0,0,1,1");
     }
 
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void selectorSpecifityPseudo() throws Exception {
+        selectorSpecifity("#id div:hover > div", "0,1,1,2");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void selectorSpecifityCondition() throws Exception {
+        selectorSpecifity("a[target=_blank]", "0,0,1,1");
+        selectorSpecifity("a[id=xy]", "0,0,1,1");
+
+        selectorSpecifity("a[target*='ank']", "0,0,1,1");
+        selectorSpecifity("a[id*='xy']", "0,0,1,1");
+
+        selectorSpecifity("a[target$='ank']", "0,0,1,1");
+        selectorSpecifity("a[id$='xy']", "0,0,1,1");
+
+        selectorSpecifity("a[target^='ank']", "0,0,1,1");
+        selectorSpecifity("a[id^='xy']", "0,0,1,1");
+
+        selectorSpecifity("a[target~='ank']", "0,0,1,1");
+        selectorSpecifity("a[id~='xy']", "0,0,1,1");
+
+        selectorSpecifity("a[target|='ank']", "0,0,1,1");
+        selectorSpecifity("a[id|='xy']", "0,0,1,1");
+    }
+
     private SelectorSpecificity selectorSpecifity(final String selector, final String expectedSpecificity)
         throws Exception {
         final Reader r = new StringReader(selector);
@@ -101,5 +135,37 @@ public class SelectorSpecificityTest {
         final SelectorSpecificity specificity = new SelectorSpecificity(sl.get(0));
         assertEquals(expectedSpecificity, specificity.toString());
         return specificity;
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void hashCodeTest() throws Exception {
+        final SelectorSpecificity specificy = selectorSpecifity("*", "0,0,0,0");
+        assertTrue(specificy.hashCode() != 0);
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void equalsTest() throws Exception {
+        final SelectorSpecificity specificy0 = selectorSpecifity("*", "0,0,0,0");
+        assertFalse(specificy0.equals(null));
+        assertFalse(specificy0.equals(""));
+        assertTrue(specificy0.equals(specificy0));
+
+        final SelectorSpecificity spec0 = selectorSpecifity("*", "0,0,0,0");
+        assertTrue(specificy0.equals(spec0));
+
+        final SelectorSpecificity specificy100 = selectorSpecifity("#x34y", "0,1,0,0");
+        assertFalse(specificy0.equals(specificy100));
+
+        final SelectorSpecificity specificy11 = selectorSpecifity("h1 + *[rel=up]", "0,0,1,1");
+        assertFalse(specificy0.equals(specificy11));
+
+        final SelectorSpecificity specificy1 = selectorSpecifity("li", "0,0,0,1");
+        assertFalse(specificy0.equals(specificy1));
     }
 }

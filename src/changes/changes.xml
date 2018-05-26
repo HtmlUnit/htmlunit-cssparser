@@ -7,7 +7,13 @@
   </properties>
 
   <body>
-    <release version="1.0.06" date="xx.xx.2018" description="Initial fork based on CSSParser">
+    <release version="1.1.0" date="xx.xx.2018" description="Bugfixes">
+      <action type="fix" dev="rbri">
+        Various fixes for the selector specifity calculation and same more test cases added.
+      </action>
+    </release>
+
+    <release version="1.0.0" date="25.03.2018" description="Initial fork based on CSSParser">
     </release>
   </body>
 </document>

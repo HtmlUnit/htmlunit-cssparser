@@ -16,13 +16,7 @@ package com.gargoylesoftware.css.parser.selector;
 
 import java.io.Serializable;
 
-import com.gargoylesoftware.css.parser.condition.AttributeCondition;
-import com.gargoylesoftware.css.parser.condition.BeginHyphenAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.Condition;
-import com.gargoylesoftware.css.parser.condition.OneOfAttributeCondition;
-import com.gargoylesoftware.css.parser.condition.PrefixAttributeCondition;
-import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;
-import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
 
 /**
  * Calculates a selector's specificity.
@@ -117,55 +111,25 @@ public class SelectorSpecificity implements Comparable<SelectorSpecificity>, Ser
                 fieldC_++;
                 return;
             case ATTRIBUTE_CONDITION:
-                if ("id".equalsIgnoreCase(((AttributeCondition) condition).getLocalName())) {
-                    fieldB_++;
-                }
-                else {
-                    fieldC_++;
-                }
+                fieldC_++;
                 return;
             case SUBSTRING_ATTRIBUTE_CONDITION:
-                if ("id".equalsIgnoreCase(((SubstringAttributeCondition) condition).getLocalName())) {
-                    fieldB_++;
-                }
-                else {
-                    fieldC_++;
-                }
+                fieldC_++;
                 return;
             case SUFFIX_ATTRIBUTE_CONDITION:
-                if ("id".equalsIgnoreCase(((SuffixAttributeCondition) condition).getLocalName())) {
-                    fieldB_++;
-                }
-                else {
-                    fieldC_++;
-                }
+                fieldC_++;
                 return;
             case PREFIX_ATTRIBUTE_CONDITION:
-                if ("id".equalsIgnoreCase(((PrefixAttributeCondition) condition).getLocalName())) {
-                    fieldB_++;
-                }
-                else {
-                    fieldC_++;
-                }
+                fieldC_++;
                 return;
             case BEGIN_HYPHEN_ATTRIBUTE_CONDITION:
-                if ("id".equalsIgnoreCase(((BeginHyphenAttributeCondition) condition).getLocalName())) {
-                    fieldB_++;
-                }
-                else {
-                    fieldC_++;
-                }
+                fieldC_++;
                 return;
             case ONE_OF_ATTRIBUTE_CONDITION:
-                if ("id".equalsIgnoreCase(((OneOfAttributeCondition) condition).getLocalName())) {
-                    fieldB_++;
-                }
-                else {
-                    fieldC_++;
-                }
+                fieldC_++;
                 return;
             case PSEUDO_CLASS_CONDITION:
-                fieldD_++;
+                fieldC_++;
                 return;
             case LANG_CONDITION:
                 fieldC_++;
