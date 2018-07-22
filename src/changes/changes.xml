@@ -7,9 +7,9 @@
   </properties>
 
   <body>
-    <release version="1.1.0" date="xx.xx.2018" description="Bugfixes">
+    <release version="1.1.0" date="22.07.2018" description="Bugfixes">
       <action type="fix" dev="rbri">
-        Various fixes for the selector specifity calculation and same more test cases added.
+        Various fixes for the selector specificity calculation and same more test cases added.
       </action>
     </release>
 
