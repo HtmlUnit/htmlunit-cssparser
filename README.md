@@ -33,19 +33,46 @@ mvn compile
 mvn test
 ```
 
-## Deployment
-
-TODO
-
 ## Contributing
 
 TODO
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## Versioning
+## Deployment and Versioning
 
-TODO
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+This part is intended for committers who are packaging a release.
+
+* Check all your files are checked in
+* Execute "mvn clean test" to be sure all tests are passing
+* Update the version number in pom.xml
+* Update the release date in src/changes/changes.xml
+* Execute "mvn clean test" to be sure all tests are passing
+* Commit the changes
+
+
+* Build and deploy the artifacts 
+
+```
+   mvn -up clean deploy
+```
+
+* Go to [Sonatype staging repositories](https://oss.sonatype.org/index.html#stagingRepositories) and process the deploy
+  - select the repository and close it - wait until the close is processed
+  - release the package and wait until it is processed
+
+* Create the version on Github
+    * login to Github and open project https://github.com/HtmlUnit/htmlunit-cssparser
+    * click Releases > Draft new release
+    * fill the tag and title field with the release number (e.g. 1.1.0)
+    * append 
+        * htmlunit-cssparser-1.x.x.jar
+        * htmlunit-cssparser-1.x.x.jar.asc 
+        * htmlunit-cssparser-1.x.x-javadoc.jar
+        * htmlunit-cssparser-1.x.x-javadoc.jar.asc
+    * and publish the release 
+
+* Update the version number in pom.xml to start next snapshot development
+* Update the htmlunit pom to use the new release
 
 ## Authors
 
