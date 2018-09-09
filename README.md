@@ -45,7 +45,6 @@ This part is intended for committer who are packaging a release.
 * Check all your files are checked in
 * Execute "mvn clean test" to be sure all tests are passing
 * Update the version number in pom.xml
-* Update the release date in src/changes/changes.xml
 * Execute "mvn clean test" to be sure all tests are passing
 * Commit the changes
 
