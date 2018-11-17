@@ -224,6 +224,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         switch (lexicalUnitType_) {
             case EM:
                 return "em";
+            case REM:
+                return "rem";
             case EX:
                 return "ex";
             case PIXEL:
@@ -337,6 +339,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 sb.append(getTrimedFloatValue());
                 break;
             case EM:
+            case REM:
             case EX:
             case PIXEL:
             case INCH:
@@ -490,6 +493,12 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 break;
             case EM:
                 sb.append("EM(")
+                    .append(getTrimedFloatValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case REM:
+                sb.append("REM(")
                     .append(getTrimedFloatValue())
                     .append(getDimensionUnitText())
                     .append(")");
@@ -770,6 +779,15 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
      */
     public static LexicalUnit createEm(final LexicalUnit prev, final float f) {
         return new LexicalUnitImpl(prev, LexicalUnitType.EM, f);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param f the float value
+     * @return lexical unit with type rem
+     */
+    public static LexicalUnit createRem(final LexicalUnit prev, final float f) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.REM, f);
     }
 
     /**

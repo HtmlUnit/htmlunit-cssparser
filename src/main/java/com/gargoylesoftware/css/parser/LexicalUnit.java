@@ -41,6 +41,7 @@ public interface LexicalUnit {
         INTEGER,
         REAL,
         EM,
+        REM,
         EX,
         PIXEL,
         INCH,

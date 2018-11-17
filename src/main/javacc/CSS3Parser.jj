@@ -323,6 +323,9 @@ TOKEN_MGR_DECLS :
 // {num}{E}{M}          {return EMS;}
 | < EMS: <NUM> <E_LETTER> <M_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
+// {num}{R}{E}{M}       {return REM;}
+| < REM: <NUM> <R_LETTER> <E_LETTER> <M_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+
 // {num}{E}{X}          {return EXS;}
 | < EXS: <NUM> <E_LETTER> <X_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
@@ -438,7 +441,9 @@ void styleSheetRuleList() :
         ( <S> | <CDO> | <CDC> )*
     )?
     (
-      (        (            importRule(ruleFound)
+      (
+        (
+            importRule(ruleFound)
             |
             (
                 styleRule() | mediaRule() | pageRule() | fontFaceRule() | unknownAtRule()
@@ -451,7 +456,8 @@ void styleSheetRuleList() :
         (
             // skip until the next RBRACE
             { ParseException e = generateParseException(); }
-            invalidRule()            {
+            invalidRule()
+            {
                 Token t = getNextToken();
 
                 boolean charsetProcessed = false;
@@ -692,9 +698,12 @@ MediaQuery mediaQuery() :
     boolean not = false;
 }
 {
-  (    (      (
+  (
+    (
+      (
         (
-          <ONLY> { only = true; }          |
+          <ONLY> { only = true; }
+          |
           <NOT> { not = true; }
         ) ( <S> )*
       )?
@@ -703,13 +712,29 @@ MediaQuery mediaQuery() :
       (
         <AND> ( <S> )*
         p = mediaExpression()
-        {            mq.addMediaProperty(p);
+        {
+            mq.addMediaProperty(p);
         }
       )*
     )
-    |    (      p = mediaExpression()
-      {          s = "all";          handleMedium(s, null);          mq = new MediaQuery(s, only, not);
-          mq.setLocator(createLocator(token));          mq.addMediaProperty(p);      }      (        <AND> ( <S> )*        p = mediaExpression()        {            mq.addMediaProperty(p);        }      )*    )
+    |
+    (
+      p = mediaExpression()
+      {
+          s = "all";
+          handleMedium(s, null);
+          mq = new MediaQuery(s, only, not);
+          mq.setLocator(createLocator(token));
+          mq.addMediaProperty(p);
+      }
+      (
+        <AND> ( <S> )*
+        p = mediaExpression()
+        {
+            mq.addMediaProperty(p);
+        }
+      )*
+    )
   )
   { return mq; }
 }
@@ -729,16 +754,20 @@ Property mediaExpression() :
     <LROUND>
     ( <S> )*
     p = property()
-    (      <COLON> ( <S> )*
+    (
+      <COLON> ( <S> )*
       e = expr()
     )?
     <RROUND>
     ( <S> )*
     {
         if(e==null)
-        {          prop = new Property(p, null, false);
+        {
+          prop = new Property(p, null, false);
         }
-        else        {          prop = new Property(p, new CSSValueImpl(e), false);
+        else
+        {
+          prop = new Property(p, new CSSValueImpl(e), false);
         }
         return prop;
     }
@@ -831,7 +860,8 @@ String pageSelectorList() :
 }
 {
   sel = pageSelector() { selectors.add(sel); }
-  (    <COMMA> ( <S> )* sel = pageSelector() { selectors.add(sel); }
+  (
+    <COMMA> ( <S> )* sel = pageSelector() { selectors.add(sel); }
   )*
 
   { return String.join(", ", selectors); }
@@ -1450,7 +1480,9 @@ void declaration() :
         )?
 
         {
-            if (starHack != null)            {                if (isIeStarHackAccepted()) {
+            if (starHack != null)
+            {
+                if (isIeStarHackAccepted()) {
                     handleProperty("*" + p, e, priority, locator);
                     return;
                 }
@@ -1514,7 +1546,7 @@ LexicalUnit expr() :
 //
 // term
 //  : unary_operator?
-//    [ NUMBER | PERCENTAGE | LENGTH | EMS | EXS | ANGLE | TIME | FREQ | function ]
+//    [ NUMBER | PERCENTAGE | LENGTH | EMS | REM | EXS | ANGLE | TIME | FREQ | function ]
 //  | STRING | IDENT | URI | hexcolor | DIMENSION
 //  S*
 //  ;
@@ -1554,6 +1586,7 @@ LexicalUnit term(LexicalUnit prev) :
             | t = <LENGTH_PT>         { value = LexicalUnitImpl.createPoint(prev, floatValue(op, t.image)); }
             | t = <LENGTH_PC>         { value = LexicalUnitImpl.createPica(prev, floatValue(op, t.image)); }
             | t = <EMS>               { value = LexicalUnitImpl.createEm(prev, floatValue(op, t.image)); }
+            | t = <REM>               { value = LexicalUnitImpl.createRem(prev, floatValue(op, t.image)); }
             | t = <EXS>               { value = LexicalUnitImpl.createEx(prev, floatValue(op, t.image)); }
             | t = <ANGLE_DEG>         { value = LexicalUnitImpl.createDegree(prev, floatValue(op, t.image)); }
             | t = <ANGLE_RAD>         { value = LexicalUnitImpl.createRadian(prev, floatValue(op, t.image)); }
@@ -1569,7 +1602,8 @@ LexicalUnit term(LexicalUnit prev) :
         | t = <STRING>          { value = LexicalUnitImpl.createString(prev, unescape(t.image, false)); }
         | t = "progid:"         { value = LexicalUnitImpl.createIdent(prev, skipUnit().trim()); }
         |
-            (                t = <IDENT>
+            (
+                t = <IDENT>
                 ( <COLON> { throw toCSSParseException("invalidExprColon", new String[]{ unescape(t.image, false) }, createLocator(t)); } )?
             )
             { value = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
@@ -1621,7 +1655,8 @@ LexicalUnit function(LexicalUnit prev) :
         param = term(null) { body = param; }
         (
             (
-                (                  t = <COMMA>    { body = LexicalUnitImpl.createComma(body); }
+                (
+                  t = <COMMA>    { body = LexicalUnitImpl.createComma(body); }
                   | t = <EQUALS>   { body = LexicalUnitImpl.createIdent(body, t.image); }
                 )
                 ( <S> )*
@@ -1741,6 +1776,10 @@ JAVACODE
 void appendUnit(Token t, StringBuilder sb) {
     if (t.kind == EMS) {
       sb.append("ems");
+      return;
+    }
+    if (t.kind == REM) {
+      sb.append("rem");
       return;
     }
     if (t.kind == EXS) {

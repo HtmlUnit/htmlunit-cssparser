@@ -271,6 +271,9 @@ public class LexicalUnitImplTest {
         LexicalUnitImpl unit = new LexicalUnitImpl(null, LexicalUnitType.EM);
         Assert.assertEquals("em", unit.getDimensionUnitText());
 
+        unit = new LexicalUnitImpl(null, LexicalUnitType.REM);
+        Assert.assertEquals("rem", unit.getDimensionUnitText());
+
         unit = new LexicalUnitImpl(null, LexicalUnitType.EX);
         Assert.assertEquals("ex", unit.getDimensionUnitText());
 
@@ -561,6 +564,28 @@ public class LexicalUnitImplTest {
 
         Assert.assertEquals("1.7em", unit.toString());
         Assert.assertEquals("EM(1.7em)", ((LexicalUnitImpl) unit).toDebugString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void createRem() throws Exception {
+        final LexicalUnit unit = LexicalUnitImpl.createRem(null, 1.7f);
+
+        Assert.assertEquals(LexicalUnitType.REM, unit.getLexicalUnitType());
+        Assert.assertEquals(1.7f, unit.getFloatValue(), 0.0001f);
+        Assert.assertEquals(1, unit.getIntegerValue());
+        Assert.assertEquals("rem", unit.getDimensionUnitText());
+        Assert.assertNull(unit.getFunctionName());
+        Assert.assertNull(unit.getParameters());
+        Assert.assertNull(unit.getStringValue());
+
+        Assert.assertNull(unit.getNextLexicalUnit());
+        Assert.assertNull(unit.getPreviousLexicalUnit());
+
+        Assert.assertEquals("1.7rem", unit.toString());
+        Assert.assertEquals("REM(1.7rem)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**

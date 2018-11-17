@@ -196,6 +196,8 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
                     return CSS_NUMBER;
                 case EM:
                     return CSS_EMS;
+                case REM:
+                    return CSS_UNKNOWN;
                 case EX:
                     return CSS_EXS;
                 case PIXEL:
