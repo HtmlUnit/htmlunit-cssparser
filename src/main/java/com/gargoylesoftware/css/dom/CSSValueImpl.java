@@ -265,6 +265,13 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
         return CSS_UNKNOWN;
     }
 
+    public LexicalUnit.LexicalUnitType getLexicalUnitType() {
+        if (value_ instanceof LexicalUnit) {
+            return ((LexicalUnit) value_).getLexicalUnitType();
+        }
+        return null;
+    }
+
     @Override
     public void setFloatValue(final short unitType, final float floatValue) throws DOMException {
         value_ = LexicalUnitImpl.createNumber(null, floatValue);

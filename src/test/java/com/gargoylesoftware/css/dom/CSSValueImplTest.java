@@ -39,6 +39,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("attr(attrValue)", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_ATTR, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.ATTR, value.getLexicalUnitType());
         Assert.assertEquals(0.0, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         Assert.assertEquals("attrValue", value.getStringValue());
     }
@@ -53,6 +54,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2cm", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_CM, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.CENTIMETER, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -73,6 +75,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("counter()", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_COUNTER, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.COUNTER_FUNCTION, value.getLexicalUnitType());
         Assert.assertEquals(0.0, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -93,6 +96,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2deg", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_DEG, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.DEGREE, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -113,6 +117,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2lumen", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_DIMENSION, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.DIMENSION, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -133,6 +138,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2em", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_EMS, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.EM, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -153,6 +159,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2ex", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_EXS, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.EX, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -173,6 +180,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("foo(\"param\")", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_STRING, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.FUNCTION, value.getLexicalUnitType());
         Assert.assertEquals("foo(\"param\")", value.getStringValue());
     }
 
@@ -190,6 +198,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("foo(10, 11)", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_STRING, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.FUNCTION, value.getLexicalUnitType());
         Assert.assertEquals("foo(10, 11)", value.getStringValue());
     }
 
@@ -203,6 +212,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2grad", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_GRAD, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.GRADIAN, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -223,6 +233,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2Hz", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_HZ, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.HERTZ, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -243,6 +254,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("id", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_IDENT, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.IDENT, value.getLexicalUnitType());
         Assert.assertEquals(0, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         Assert.assertEquals("id", value.getStringValue());
     }
@@ -257,6 +269,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2in", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_IN, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.INCH, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -277,6 +290,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2kHz", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_KHZ, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.KILOHERTZ, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -297,6 +311,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2mm", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_MM, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.MILLIMETER, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -317,6 +332,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2ms", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_MS, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.MILLISECOND, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -337,6 +353,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_NUMBER, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.REAL, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -357,6 +374,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("12", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_NUMBER, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.INTEGER, value.getLexicalUnitType());
         Assert.assertEquals(12, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -377,6 +395,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2pc", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_PC, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.PICA, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -397,6 +416,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2%", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_PERCENTAGE, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.PERCENTAGE, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -417,6 +437,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2pt", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_PT, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.POINT, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -437,6 +458,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2px", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_PX, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.PIXEL, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -457,6 +479,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2rad", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_RAD, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.RADIAN, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -485,6 +508,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("rect(1, 2, 3, 4)", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_RECT, value.getPrimitiveType());
+        Assert.assertEquals(null, value.getLexicalUnitType());
         try {
             value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
             Assert.fail("DomException expected");
@@ -492,6 +516,27 @@ public class CSSValueImplTest {
         catch (final DOMException e) {
             // expected
         }
+        try {
+            value.getStringValue();
+            Assert.fail("DomException expected");
+        }
+        catch (final DOMException e) {
+            // expected
+        }
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void rem() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createRem(null, 1.2f);
+        final CSSValueImpl value = new CSSValueImpl(lu, false);
+
+        Assert.assertEquals("1.2rem", value.getCssText());
+        Assert.assertEquals(CSSPrimitiveValue.CSS_UNKNOWN, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.REM, value.getLexicalUnitType());
+        Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
             Assert.fail("DomException expected");
@@ -517,6 +562,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("rgb(255, 128, 0)", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_RGBCOLOR, value.getPrimitiveType());
+        Assert.assertEquals(null, value.getLexicalUnitType());
         try {
             value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER);
             Assert.fail("DomException expected");
@@ -543,6 +589,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("1.2s", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_S, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.SECOND, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         try {
             value.getStringValue();
@@ -563,6 +610,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("\"value\"", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_STRING, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.STRING_VALUE, value.getLexicalUnitType());
         Assert.assertEquals(0.0, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001); // TODO is this correct?
         Assert.assertEquals("value", value.getStringValue());
     }
@@ -577,6 +625,7 @@ public class CSSValueImplTest {
 
         Assert.assertEquals("url(cssparser)", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValue.CSS_URI, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.URI, value.getLexicalUnitType());
         Assert.assertEquals(0.0, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.00001);
         Assert.assertEquals("cssparser", value.getStringValue());
     }
