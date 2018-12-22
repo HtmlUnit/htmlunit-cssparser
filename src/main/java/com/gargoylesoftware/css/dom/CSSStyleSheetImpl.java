@@ -41,7 +41,7 @@ import com.gargoylesoftware.css.util.LangUtils;
 import com.gargoylesoftware.css.util.ThrowCssExceptionErrorHandler;
 
 /**
- * Implementation of {@link CSSStyleSheet}.
+ * Implementation of CSSStyleSheet.
  *
  * @author Ronald Brill
  */
@@ -69,6 +69,9 @@ public class CSSStyleSheetImpl implements Serializable {
         return "text/css";
     }
 
+    /**
+     * @return the disable state
+     */
     public boolean getDisabled() {
         return disabled_;
     }
@@ -76,6 +79,7 @@ public class CSSStyleSheetImpl implements Serializable {
     /**
      * We will need to respond more fully if a stylesheet is disabled, probably
      * by generating an event for the main application.
+     * @param disabled the new disabled
      */
     public void setDisabled(final boolean disabled) {
         disabled_ = disabled;
@@ -248,10 +252,16 @@ public class CSSStyleSheetImpl implements Serializable {
         }
     }
 
+    /**
+     * @param ownerRule the new ownerRule
+     */
     public void setOwnerRule(final AbstractCSSRuleImpl ownerRule) {
         ownerRule_ = ownerRule;
     }
 
+    /**
+     * @param rules the new rules
+     */
     public void setCssRules(final CSSRuleListImpl rules) {
         cssRules_ = rules;
     }

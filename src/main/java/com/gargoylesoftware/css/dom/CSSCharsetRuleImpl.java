@@ -25,7 +25,7 @@ import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.util.LangUtils;
 
 /**
- * Implementation of {@link AbstractCSSRuleImpl}.
+ * Implementation of CSSCharsetRule.
  *
  * @author Ronald Brill
  */

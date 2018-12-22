@@ -22,7 +22,7 @@ import com.gargoylesoftware.css.parser.LexicalUnit;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 
 /**
- * Implementation of {@link RGBColor}.
+ * Implementation of RGBColor.
  *
  * @author Ronald Brill
  */
@@ -72,7 +72,7 @@ public class RGBColorImpl implements Serializable {
     }
 
     /**
-     * Returns the red part.
+     * @return the red part.
      */
     public CSSValueImpl getRed() {
         return red_;
@@ -87,7 +87,7 @@ public class RGBColorImpl implements Serializable {
     }
 
     /**
-     * Returns the green part.
+     * @return the green part.
      */
     public CSSValueImpl getGreen() {
         return green_;
@@ -102,7 +102,7 @@ public class RGBColorImpl implements Serializable {
     }
 
     /**
-     * Returns the blue part.
+     * @return the blue part.
      */
     public CSSValueImpl getBlue() {
         return blue_;

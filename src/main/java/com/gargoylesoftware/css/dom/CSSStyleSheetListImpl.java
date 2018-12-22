@@ -21,7 +21,7 @@ import java.util.List;
 import com.gargoylesoftware.css.util.LangUtils;
 
 /**
- * Implementation of {@link StyleSheetList}.
+ * Implementation of StyleSheetList.
  *
  * @author Ronald Brill
  */

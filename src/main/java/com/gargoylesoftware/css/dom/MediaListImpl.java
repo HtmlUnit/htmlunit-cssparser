@@ -32,7 +32,7 @@ import com.gargoylesoftware.css.util.LangUtils;
 import com.gargoylesoftware.css.util.ThrowCssExceptionErrorHandler;
 
 /**
- * Implements {@link MediaList}.
+ * Implementation of MediaList.
  *
  * @author Ronald Brill
  */

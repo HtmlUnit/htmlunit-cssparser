@@ -28,7 +28,7 @@ import com.gargoylesoftware.css.util.LangUtils;
 import com.gargoylesoftware.css.util.ThrowCssExceptionErrorHandler;
 
 /**
- * Implementation of {@link CSSMediaRule}.
+ * Implementation of CSSMediaRule.
  *
  * @author Ronald Brill
  */

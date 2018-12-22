@@ -26,7 +26,7 @@ import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.util.LangUtils;
 
 /**
- * Implementation of {@link CSSStyleDeclaration}.
+ * Implementation of CSSStyleDeclaration.
  *
  * @author Ronald Brill
  */

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import com.gargoylesoftware.css.parser.AbstractLocatable;
 
 /**
- * Implementation of {@link SelectorList}.
+ * Implementation of SelectorList.
  *
  * @author Ronald Brill
  */

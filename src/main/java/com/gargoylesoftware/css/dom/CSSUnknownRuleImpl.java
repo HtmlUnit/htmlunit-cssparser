@@ -25,7 +25,7 @@ import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.util.LangUtils;
 
 /**
- * Implementation of {@link CSSUnknownRule}.
+ * Implementation of CSSUnknownRule.
  *
  * @author Ronald Brill
  */

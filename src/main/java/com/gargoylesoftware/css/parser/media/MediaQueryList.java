@@ -20,7 +20,7 @@ import java.util.List;
 import com.gargoylesoftware.css.parser.AbstractLocatable;
 
 /**
- * Implementation of {@link MediaQueryList}.
+ * Implementation of MediaQueryList.
  *
  * @author Ronald Brill
  */

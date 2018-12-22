@@ -26,7 +26,7 @@ import com.gargoylesoftware.css.parser.selector.SelectorList;
 import com.gargoylesoftware.css.util.LangUtils;
 
 /**
- * Implementation of {@link CSSStyleRule}.
+ * Implementation of CSSStyleRule.
  *
  * @author Ronald Brill
  */

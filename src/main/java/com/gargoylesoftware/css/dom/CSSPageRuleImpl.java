@@ -25,9 +25,7 @@ import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.util.LangUtils;
 
 /**
- * Implementation of {@link CSSPageRule}.
- *
- * TODO: Implement setSelectorText()
+ * Implementation of CSSPageRule.
  *
  * @author Ronald Brill
  */
@@ -113,9 +111,6 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
             return "";
         }
         return pseudoPage_;
-    }
-
-    public void setSelectorText(final String selectorText) throws DOMException {
     }
 
     public CSSStyleDeclarationImpl getStyle() {

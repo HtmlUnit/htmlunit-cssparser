@@ -22,7 +22,7 @@ import com.gargoylesoftware.css.parser.LexicalUnit;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 
 /**
- * Implementation of {@link Rect}.
+ * Implementation of Rect.
  *
  * @author Ronald Brill
  */
@@ -116,7 +116,7 @@ public class RectImpl implements Serializable {
     }
 
     /**
-     * Returns the top part.
+     * @return the top part.
      */
     public CSSValueImpl getTop() {
         return top_;
@@ -131,7 +131,7 @@ public class RectImpl implements Serializable {
     }
 
     /**
-     * Returns the right part.
+     * @return the right part.
      */
     public CSSValueImpl getRight() {
         return right_;
@@ -146,7 +146,7 @@ public class RectImpl implements Serializable {
     }
 
     /**
-     * Returns the bottom part.
+     * @return the bottom part.
      */
     public CSSValueImpl getBottom() {
         return bottom_;
@@ -161,7 +161,7 @@ public class RectImpl implements Serializable {
     }
 
     /**
-     * Returns the left part.
+     * @return the left part.
      */
     public CSSValueImpl getLeft() {
         return left_;

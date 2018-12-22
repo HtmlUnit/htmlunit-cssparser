@@ -583,6 +583,10 @@ public abstract class AbstractCSSParser implements CSSParser {
      * This could be done directly in the parser, but portions of the lexer would have to be moved
      * to the parser, meaning that the grammar would no longer match the standard grammar specified
      * by the W3C. This would make the parser and lexer much less maintainable.
+     *
+     * @param s the string to unescape
+     * @param unescapeDoubleQuotes if true unescape double quotes also
+     * @return the unescaped string
      */
     public String unescape(final String s, final boolean unescapeDoubleQuotes) {
         if (s == null) {

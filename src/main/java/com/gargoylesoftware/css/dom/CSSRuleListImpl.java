@@ -21,7 +21,7 @@ import java.util.List;
 import com.gargoylesoftware.css.util.LangUtils;
 
 /**
- * Implementation of {@link CSSRuleList}.
+ * Implementation of CSSRuleList.
  *
  * @author Ronald Brill
  */

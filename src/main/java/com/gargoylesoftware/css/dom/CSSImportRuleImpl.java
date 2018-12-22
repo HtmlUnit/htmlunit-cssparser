@@ -25,9 +25,7 @@ import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.util.LangUtils;
 
 /**
- * Implementation of {@link CSSImportRule}.
- *
- * TODO: Implement getStyleSheet()
+ * Implementation of CSSImportRule.
  *
  * @author Ronald Brill
  */
@@ -125,7 +123,7 @@ public class CSSImportRuleImpl extends AbstractCSSRuleImpl {
     }
 
     public CSSStyleSheetImpl getStyleSheet() {
-        return null;
+        return getParentStyleSheet();
     }
 
     @Override

@@ -22,7 +22,7 @@ import com.gargoylesoftware.css.parser.LexicalUnit;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 
 /**
- * Implementation of {@link Counter}.
+ * Implementation of Counter.
  *
  * @author Ronald Brill
  */
