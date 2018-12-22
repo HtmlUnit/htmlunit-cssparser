@@ -29,23 +29,21 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSCharsetRule;
-import org.w3c.dom.css.CSSFontFaceRule;
-import org.w3c.dom.css.CSSImportRule;
-import org.w3c.dom.css.CSSMediaRule;
-import org.w3c.dom.css.CSSPageRule;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSRuleList;
-import org.w3c.dom.css.CSSStyleDeclaration;
-import org.w3c.dom.css.CSSStyleRule;
-import org.w3c.dom.css.CSSStyleSheet;
-import org.w3c.dom.css.CSSUnknownRule;
-import org.w3c.dom.css.CSSValue;
-import org.w3c.dom.css.CSSValueList;
-import org.w3c.dom.stylesheets.MediaList;
 
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
+import com.gargoylesoftware.css.dom.CSSCharsetRuleImpl;
+import com.gargoylesoftware.css.dom.CSSFontFaceRuleImpl;
+import com.gargoylesoftware.css.dom.CSSImportRuleImpl;
+import com.gargoylesoftware.css.dom.CSSMediaRuleImpl;
+import com.gargoylesoftware.css.dom.CSSPageRuleImpl;
+import com.gargoylesoftware.css.dom.CSSRuleListImpl;
 import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
+import com.gargoylesoftware.css.dom.CSSStyleRuleImpl;
+import com.gargoylesoftware.css.dom.CSSStyleSheetImpl;
+import com.gargoylesoftware.css.dom.CSSUnknownRuleImpl;
 import com.gargoylesoftware.css.dom.CSSValueImpl;
+import com.gargoylesoftware.css.dom.CSSValueImpl.CSSValueType;
+import com.gargoylesoftware.css.dom.MediaListImpl;
 import com.gargoylesoftware.css.dom.Property;
 import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
 
@@ -137,9 +135,8 @@ public class LocatorTest {
         counts.put('P', 0);
         counts.put('V', 0);
         try {
-            final CSSStyleSheet cssStyleSheet =
-                cssomParser.parseStyleSheet(source, null);
-            final CSSRuleList cssRules = cssStyleSheet.getCssRules();
+            final CSSStyleSheetImpl cssStyleSheet = cssomParser.parseStyleSheet(source, null);
+            final CSSRuleListImpl cssRules = cssStyleSheet.getCssRules();
             cssRules(cssRules, positions, counts);
         }
         catch (final IOException e) {
@@ -147,53 +144,52 @@ public class LocatorTest {
         }
     }
 
-    private void cssRules(final CSSRuleList cssRules, final Map<Character, List<Integer[]>> positions,
+    private void cssRules(final CSSRuleListImpl cssRules, final Map<Character, List<Integer[]>> positions,
             final Map<Character, Integer> counts) {
         for (int i = 0; i < cssRules.getLength(); i++) {
             cssRule(cssRules.item(i), positions, counts);
         }
     }
 
-    private void cssRule(final CSSRule cssRule, final Map<Character, List<Integer[]>> positions,
+    private void cssRule(final AbstractCSSRuleImpl cssRule, final Map<Character, List<Integer[]>> positions,
             final Map<Character, Integer> counts) {
-        if (cssRule instanceof Locatable) {
-            final Locator locator = ((Locatable) cssRule).getLocator();
-            final Integer[] expected = positions.get('R').get(counts.get('R'));
-            final int expectedLine = expected[0];
-            final int expectedColumn = expected[1];
+        final Locator locator = ((Locatable) cssRule).getLocator();
+        final Integer[] expected = positions.get('R').get(counts.get('R'));
+        final int expectedLine = expected[0];
+        final int expectedColumn = expected[1];
 
-            Assert.assertEquals(expectedLine, locator.getLineNumber());
-            Assert.assertEquals(expectedColumn, locator.getColumnNumber());
-            counts.put('R', counts.get('R') + 1);
-        }
+        Assert.assertEquals(expectedLine, locator.getLineNumber());
+        Assert.assertEquals(expectedColumn, locator.getColumnNumber());
+        counts.put('R', counts.get('R') + 1);
+
         switch (cssRule.getType()) {
-            case CSSRule.UNKNOWN_RULE:
-                final CSSUnknownRule cssUnknownRule = (CSSUnknownRule) cssRule;
+            case UNKNOWN_RULE:
+                final CSSUnknownRuleImpl cssUnknownRule = (CSSUnknownRuleImpl) cssRule;
                 // TODO
                 break;
-            case CSSRule.CHARSET_RULE:
-                final CSSCharsetRule cssCharsetRule = (CSSCharsetRule) cssRule;
+            case CHARSET_RULE:
+                final CSSCharsetRuleImpl cssCharsetRule = (CSSCharsetRuleImpl) cssRule;
                 // TODO
                 break;
-            case CSSRule.IMPORT_RULE:
-                final CSSImportRule cssImportRule = (CSSImportRule) cssRule;
+            case IMPORT_RULE:
+                final CSSImportRuleImpl cssImportRule = (CSSImportRuleImpl) cssRule;
                 mediaList(cssImportRule.getMedia(), positions, counts);
                 break;
-            case CSSRule.MEDIA_RULE:
-                final CSSMediaRule cssMediaRule = (CSSMediaRule) cssRule;
+            case MEDIA_RULE:
+                final CSSMediaRuleImpl cssMediaRule = (CSSMediaRuleImpl) cssRule;
                 mediaList(cssMediaRule.getMedia(), positions, counts);
                 cssRules(cssMediaRule.getCssRules(), positions, counts);
                 break;
-            case CSSRule.PAGE_RULE:
-                final CSSPageRule cssPageRule = (CSSPageRule) cssRule;
+            case PAGE_RULE:
+                final CSSPageRuleImpl cssPageRule = (CSSPageRuleImpl) cssRule;
                 cssStyleDeclaration(cssPageRule.getStyle(), positions, counts);
                 break;
-            case CSSRule.FONT_FACE_RULE:
-                final CSSFontFaceRule cssFontFaceRule = (CSSFontFaceRule) cssRule;
+            case FONT_FACE_RULE:
+                final CSSFontFaceRuleImpl cssFontFaceRule = (CSSFontFaceRuleImpl) cssRule;
                 cssStyleDeclaration(cssFontFaceRule.getStyle(), positions, counts);
                 break;
-            case CSSRule.STYLE_RULE:
-                final CSSStyleRule cssStyleRule = (CSSStyleRule) cssRule;
+            case STYLE_RULE:
+                final CSSStyleRuleImpl cssStyleRule = (CSSStyleRuleImpl) cssRule;
                 cssStyleDeclaration(cssStyleRule.getStyle(), positions, counts);
                 break;
             default:
@@ -201,22 +197,19 @@ public class LocatorTest {
         }
     }
 
-    private void cssStyleDeclaration(final CSSStyleDeclaration style,
+    private void cssStyleDeclaration(final CSSStyleDeclarationImpl style,
             final Map<Character, List<Integer[]>> positions,
             final Map<Character, Integer> counts)    {
-        if (style instanceof CSSStyleDeclarationImpl) {
-            final CSSStyleDeclarationImpl csdi = (CSSStyleDeclarationImpl) style;
-            final Iterator<Property> it = csdi.getProperties().iterator();
-            while (it.hasNext()) {
-                property(it.next(), positions, counts);
-            }
+        final Iterator<Property> it = style.getProperties().iterator();
+        while (it.hasNext()) {
+            property(it.next(), positions, counts);
         }
     }
 
-    private void mediaList(final MediaList mediaList,
+    private void mediaList(final MediaListImpl mediaList,
             final Map<Character, List<Integer[]>> positions,
             final Map<Character, Integer> counts) {
-        if ((mediaList.getLength() > 0) && (mediaList instanceof Locatable)) {
+        if ((mediaList.getLength() > 0) ) {
             final Locator locator = ((Locatable) mediaList).getLocator();
             final Integer[] expected = positions.get('M').get(counts.get('M'));
             final int expectedLine = expected[0];
@@ -242,24 +235,23 @@ public class LocatorTest {
         cssValue(property.getValue(), positions, counts);
     }
 
-    private void cssValue(final CSSValue cssValue,
+    private void cssValue(final CSSValueImpl cssValue,
             final Map<Character, List<Integer[]>> positions,
             final Map<Character, Integer> counts) {
-        if (cssValue instanceof CSSValueImpl) {
-            final Locator locator = ((CSSValueImpl) cssValue).getLocator();
-            final Integer[] expected = positions.get('V').get(counts.get('V'));
-            final int expectedLine = expected[0];
-            final int expectedColumn = expected[1];
+        final Locator locator = cssValue.getLocator();
+        final Integer[] expected = positions.get('V').get(counts.get('V'));
+        final int expectedLine = expected[0];
+        final int expectedColumn = expected[1];
 
-            if (locator == null) {
-                System.out.println("#");
-            }
-            Assert.assertEquals(expectedLine, locator.getLineNumber());
-            Assert.assertEquals(expectedColumn, locator.getColumnNumber());
-            counts.put('V', counts.get('V') + 1);
+        if (locator == null) {
+            System.out.println("#");
         }
-        if (cssValue.getCssValueType() == CSSValue.CSS_VALUE_LIST) {
-            final CSSValueList cssValueList = (CSSValueList) cssValue;
+        Assert.assertEquals(expectedLine, locator.getLineNumber());
+        Assert.assertEquals(expectedColumn, locator.getColumnNumber());
+        counts.put('V', counts.get('V') + 1);
+
+        if (cssValue.getCssValueType() == CSSValueType.CSS_VALUE_LIST) {
+            final CSSValueImpl cssValueList = cssValue;
             for (int i = 0; i < cssValueList.getLength(); i++) {
                 cssValue(cssValueList.item(i), positions, counts);
             }

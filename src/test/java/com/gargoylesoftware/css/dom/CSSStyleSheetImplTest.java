@@ -23,7 +23,6 @@ import java.io.StringReader;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSStyleSheet;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
@@ -90,7 +89,7 @@ public class CSSStyleSheetImplTest {
      */
     @Test
     public void insertRuleWithoutDeclaration() throws Exception {
-        final CSSStyleSheet ss = parseStyleSheet("");
+        final CSSStyleSheetImpl ss = parseStyleSheet("");
 
         try {
             ss.insertRule(".testStyleDef", 0);
@@ -126,7 +125,7 @@ public class CSSStyleSheetImplTest {
      */
     @Test
     public void insertRuleRuleOrderCharset() throws Exception {
-        final CSSStyleSheet ss = parseStyleSheet("");
+        final CSSStyleSheetImpl ss = parseStyleSheet("");
 
         ss.insertRule("@charset \"US-ASCII\";", 0);
         try {
@@ -143,7 +142,7 @@ public class CSSStyleSheetImplTest {
      */
     @Test
     public void insertRuleRuleImport() throws Exception {
-        final CSSStyleSheet ss = parseStyleSheet("");
+        final CSSStyleSheetImpl ss = parseStyleSheet("");
 
         ss.insertRule("@import \"great.css\";", 0);
 
@@ -165,7 +164,7 @@ public class CSSStyleSheetImplTest {
      */
     @Test
     public void deleteRule() throws Exception {
-        final CSSStyleSheet ss = parseStyleSheet("test { height: 42px }");
+        final CSSStyleSheetImpl ss = parseStyleSheet("test { height: 42px }");
 
         ss.deleteRule(0);
     }
@@ -175,7 +174,7 @@ public class CSSStyleSheetImplTest {
      */
     @Test
     public void deleteRuleWrongIndex() throws Exception {
-        final CSSStyleSheet ss = parseStyleSheet("");
+        final CSSStyleSheetImpl ss = parseStyleSheet("");
 
         try {
             ss.deleteRule(7);
@@ -224,7 +223,7 @@ public class CSSStyleSheetImplTest {
             + "}";
         final InputSource source = new InputSource(new StringReader(cssText));
         final CSSOMParser cssomParser = new CSSOMParser();
-        final CSSStyleSheet css = cssomParser.parseStyleSheet(source, "http://www.example.org/css/style.css");
+        final CSSStyleSheetImpl css = cssomParser.parseStyleSheet(source, "http://www.example.org/css/style.css");
 
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final ObjectOutputStream oos = new ObjectOutputStream(baos);
@@ -240,9 +239,9 @@ public class CSSStyleSheetImplTest {
 
     private CSSStyleSheetImpl parseStyleSheet(final String rule) throws Exception {
         final InputSource is = new InputSource(new StringReader(rule));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
+        final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        return (CSSStyleSheetImpl) ss;
+        return ss;
     }
 
     /**

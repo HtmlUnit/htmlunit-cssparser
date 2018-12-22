@@ -29,12 +29,8 @@ import java.util.Map;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSRuleList;
-import org.w3c.dom.css.CSSStyleSheet;
-import org.w3c.dom.stylesheets.MediaList;
-import org.w3c.dom.stylesheets.StyleSheet;
 
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.parser.CSSException;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
@@ -49,19 +45,19 @@ import com.gargoylesoftware.css.util.ThrowCssExceptionErrorHandler;
  *
  * @author Ronald Brill
  */
-public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
+public class CSSStyleSheetImpl implements Serializable {
 
     private boolean disabled_;
     private Node ownerNode_;
     private String href_;
     private String title_;
-    private MediaList media_;
-    private CSSRule ownerRule_;
+    private MediaListImpl media_;
+    private AbstractCSSRuleImpl ownerRule_;
     private boolean readOnly_;
-    private CSSRuleList cssRules_;
+    private CSSRuleListImpl cssRules_;
     private CSSStyleSheetRuleIndex index_;
 
-    public void setMedia(final MediaList media) {
+    public void setMedia(final MediaListImpl media) {
         media_ = media;
     }
 
@@ -69,12 +65,10 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         super();
     }
 
-    @Override
     public String getType() {
         return "text/css";
     }
 
-    @Override
     public boolean getDisabled() {
         return disabled_;
     }
@@ -83,50 +77,37 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
      * We will need to respond more fully if a stylesheet is disabled, probably
      * by generating an event for the main application.
      */
-    @Override
     public void setDisabled(final boolean disabled) {
         disabled_ = disabled;
     }
 
-    @Override
     public Node getOwnerNode() {
         return ownerNode_;
     }
 
-    @Override
-    public StyleSheet getParentStyleSheet() {
-        return null;
-    }
-
-    @Override
     public String getHref() {
         return href_;
     }
 
-    @Override
     public String getTitle() {
         return title_;
     }
 
-    @Override
-    public MediaList getMedia() {
+    public MediaListImpl getMedia() {
         return media_;
     }
 
-    @Override
-    public CSSRule getOwnerRule() {
+    public AbstractCSSRuleImpl getOwnerRule() {
         return ownerRule_;
     }
 
-    @Override
-    public CSSRuleList getCssRules() {
+    public CSSRuleListImpl getCssRules() {
         if (cssRules_ == null) {
             cssRules_ = new CSSRuleListImpl();
         }
         return cssRules_;
     }
 
-    @Override
     public int insertRule(final String rule, final int index) throws DOMException {
         if (readOnly_) {
             throw new DOMExceptionImpl(
@@ -139,7 +120,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
             final CSSOMParser parser = new CSSOMParser();
             parser.setParentStyleSheet(this);
             parser.setErrorHandler(ThrowCssExceptionErrorHandler.INSTANCE);
-            final CSSRule r = parser.parseRule(is);
+            final AbstractCSSRuleImpl r = parser.parseRule(is);
 
             if (r == null) {
                 // this should neven happen because of the ThrowCssExceptionErrorHandler
@@ -153,23 +134,23 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
                 // We need to check that this type of rule can legally go into
                 // the requested position.
                 int msg = -1;
-                if (r.getType() == CSSRule.CHARSET_RULE) {
+                if (r.getType() == CSSRuleType.CHARSET_RULE) {
 
                     // Index must be 0, and there can be only one charset rule
                     if (index != 0) {
                         msg = DOMExceptionImpl.CHARSET_NOT_FIRST;
                     }
-                    else if (getCssRules().item(0).getType() == CSSRule.CHARSET_RULE) {
+                    else if (getCssRules().item(0).getType() == CSSRuleType.CHARSET_RULE) {
                         msg = DOMExceptionImpl.CHARSET_NOT_UNIQUE;
                     }
                 }
-                else if (r.getType() == CSSRule.IMPORT_RULE) {
+                else if (r.getType() == CSSRuleType.IMPORT_RULE) {
                     // Import rules must preceed all other rules (except
                     // charset rules)
                     if (index <= getCssRules().getLength()) {
                         for (int i = 0; i < index; i++) {
-                            final int rt = getCssRules().item(i).getType();
-                            if ((rt != CSSRule.CHARSET_RULE) && (rt != CSSRule.IMPORT_RULE)) {
+                            final CSSRuleType rt = getCssRules().item(i).getType();
+                            if ((rt != CSSRuleType.CHARSET_RULE) && (rt != CSSRuleType.IMPORT_RULE)) {
                                 msg = DOMExceptionImpl.IMPORT_NOT_FIRST;
                                 break;
                             }
@@ -179,8 +160,8 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
                 else {
                     if (index <= getCssRules().getLength()) {
                         for (int i = index; i < getCssRules().getLength(); i++) {
-                            final int rt = getCssRules().item(i).getType();
-                            if ((rt == CSSRule.CHARSET_RULE) || (rt == CSSRule.IMPORT_RULE)) {
+                            final CSSRuleType rt = getCssRules().item(i).getType();
+                            if ((rt == CSSRuleType.CHARSET_RULE) || (rt == CSSRuleType.IMPORT_RULE)) {
                                 msg = DOMExceptionImpl.INSERT_BEFORE_IMPORT;
                                 break;
                             }
@@ -193,7 +174,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
             }
 
             // Insert the rule into the list of rules
-            ((CSSRuleListImpl) getCssRules()).insert(r, index);
+            getCssRules().insert(r, index);
 
         }
         catch (final IndexOutOfBoundsException e) {
@@ -217,7 +198,6 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         return index;
     }
 
-    @Override
     public void deleteRule(final int index) throws DOMException {
         if (readOnly_) {
             throw new DOMExceptionImpl(
@@ -226,7 +206,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         }
 
         try {
-            ((CSSRuleListImpl) getCssRules()).delete(index);
+            getCssRules().delete(index);
         }
         catch (final IndexOutOfBoundsException e) {
             throw new DOMExceptionImpl(
@@ -246,10 +226,6 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
 
     public void setOwnerNode(final Node ownerNode) {
         ownerNode_ = ownerNode;
-    }
-
-    public void setParentStyleSheet(final StyleSheet parentStyleSheet) {
-        throw new RuntimeException("Method setParentStyleSheet not supported");
     }
 
     public void setHref(final String href) {
@@ -272,11 +248,11 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         }
     }
 
-    public void setOwnerRule(final CSSRule ownerRule) {
+    public void setOwnerRule(final AbstractCSSRuleImpl ownerRule) {
         ownerRule_ = ownerRule;
     }
 
-    public void setCssRules(final CSSRuleList rules) {
+    public void setCssRules(final CSSRuleListImpl rules) {
         cssRules_ = rules;
     }
 
@@ -290,10 +266,10 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSStyleSheet)) {
+        if (!(obj instanceof CSSStyleSheetImpl)) {
             return false;
         }
-        final CSSStyleSheet css = (CSSStyleSheet) obj;
+        final CSSStyleSheetImpl css = (CSSStyleSheetImpl) obj;
         boolean eq = LangUtils.equals(getCssRules(), css.getCssRules());
         eq = eq && (getDisabled() == css.getDisabled());
         eq = eq && LangUtils.equals(getHref(), css.getHref());
@@ -325,18 +301,16 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
     }
 
     private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
-        cssRules_ = (CSSRuleList) in.readObject();
+        cssRules_ = (CSSRuleListImpl) in.readObject();
         if (cssRules_ != null) {
             for (int i = 0; i < cssRules_.getLength(); i++) {
-                final CSSRule cssRule = cssRules_.item(i);
-                if (cssRule instanceof AbstractCSSRuleImpl) {
-                    ((AbstractCSSRuleImpl) cssRule).setParentStyleSheet(this);
-                }
+                final AbstractCSSRuleImpl cssRule = cssRules_.item(i);
+                cssRule.setParentStyleSheet(this);
             }
         }
         disabled_ = in.readBoolean();
         href_ = (String) in.readObject();
-        media_ = (MediaList) in.readObject();
+        media_ = (MediaListImpl) in.readObject();
         readOnly_ = in.readBoolean();
         title_ = (String) in.readObject();
     }
@@ -396,11 +370,11 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
         }
 
 
-        private static final MediaList DEFAULT_MEDIA_LIST = new MediaListImpl(null);
+        private static final MediaListImpl DEFAULT_MEDIA_LIST = new MediaListImpl(null);
 
         private final List<CSSStyleSheetRuleIndex> children_ = new ArrayList<>();
 
-        private MediaList mediaList_ = DEFAULT_MEDIA_LIST;
+        private MediaListImpl mediaList_ = DEFAULT_MEDIA_LIST;
         private final SelectorIndex elementSelectors_ = new SelectorIndex();
         private final SelectorIndex classSelectors_ = new SelectorIndex();
         private final List<SelectorEntry> otherSelectors_ = new ArrayList<>();
@@ -429,7 +403,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
             otherSelectors_.add(selectorEntry);
         }
 
-        public CSSStyleSheetRuleIndex addMedia(final MediaList mediaList) {
+        public CSSStyleSheetRuleIndex addMedia(final MediaListImpl mediaList) {
             final String media = mediaList.getMediaText();
             for (CSSStyleSheetRuleIndex cssStyleSheetRuleIndex : children_) {
                 if (media.equals(cssStyleSheetRuleIndex.getMediaList().getMediaText())) {
@@ -444,7 +418,7 @@ public class CSSStyleSheetImpl implements CSSStyleSheet, Serializable {
             return index;
         }
 
-        public MediaList getMediaList() {
+        public MediaListImpl getMediaList() {
             return mediaList_;
         }
 

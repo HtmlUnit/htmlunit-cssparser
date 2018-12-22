@@ -18,9 +18,8 @@ import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSStyleSheet;
 
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
@@ -39,7 +38,7 @@ public class CSSFontFaceRuleImplTest {
         final CSSFontFaceRuleImpl value = parseFontFaceRule("@font-face { font-family: 'Scarface' }");
 
         Assert.assertEquals("@font-face {font-family: \"Scarface\"}", value.getCssText());
-        Assert.assertEquals(CSSRule.FONT_FACE_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.FONT_FACE_RULE, value.getType());
         Assert.assertEquals("@font-face {font-family: \"Scarface\"}", value.toString());
     }
 
@@ -51,12 +50,12 @@ public class CSSFontFaceRuleImplTest {
         final CSSFontFaceRuleImpl value = parseFontFaceRule("@font-face { font-family: 'Scarface' }");
 
         Assert.assertEquals("@font-face {font-family: \"Scarface\"}", value.getCssText());
-        Assert.assertEquals(CSSRule.FONT_FACE_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.FONT_FACE_RULE, value.getType());
         Assert.assertEquals("@font-face {font-family: \"Scarface\"}", value.toString());
 
         value.setCssText("@font-face { font-family: 'Ariel'; font-style: 'cute'; }");
         Assert.assertEquals("@font-face {font-family: \"Ariel\"; font-style: \"cute\"}", value.getCssText());
-        Assert.assertEquals(CSSRule.FONT_FACE_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.FONT_FACE_RULE, value.getType());
         Assert.assertEquals("@font-face {font-family: \"Ariel\"; font-style: \"cute\"}", value.toString());
 
     }
@@ -80,13 +79,13 @@ public class CSSFontFaceRuleImplTest {
     public void type() throws Exception {
         final CSSFontFaceRuleImpl value = new CSSFontFaceRuleImpl(null, null);
 
-        Assert.assertEquals(CSSRule.FONT_FACE_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.FONT_FACE_RULE, value.getType());
         Assert.assertEquals("@font-face {}", value.toString());
     }
 
     private CSSFontFaceRuleImpl parseFontFaceRule(final String rule) throws Exception {
         final InputSource is = new InputSource(new StringReader(rule));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
+        final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
         final CSSFontFaceRuleImpl value = (CSSFontFaceRuleImpl) ss.getCssRules().item(0);
         return value;

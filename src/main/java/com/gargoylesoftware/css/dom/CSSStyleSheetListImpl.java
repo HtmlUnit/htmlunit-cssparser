@@ -18,11 +18,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.w3c.dom.css.CSSStyleSheet;
-
-import org.w3c.dom.stylesheets.StyleSheet;
-import org.w3c.dom.stylesheets.StyleSheetList;
-
 import com.gargoylesoftware.css.util.LangUtils;
 
 /**
@@ -30,27 +25,24 @@ import com.gargoylesoftware.css.util.LangUtils;
  *
  * @author Ronald Brill
  */
-public class CSSStyleSheetListImpl implements StyleSheetList {
-    private List<CSSStyleSheet> cssStyleSheets_;
+public class CSSStyleSheetListImpl {
+    private List<CSSStyleSheetImpl> cssStyleSheets_;
 
     /**
      * @return the list of style sheets
      */
-    public List<CSSStyleSheet> getCSSStyleSheets() {
+    public List<CSSStyleSheetImpl> getCSSStyleSheets() {
         if (cssStyleSheets_ == null) {
-            cssStyleSheets_ = new ArrayList<CSSStyleSheet>();
+            cssStyleSheets_ = new ArrayList<CSSStyleSheetImpl>();
         }
         return cssStyleSheets_;
     }
 
-   // start StyleSheetList
-    @Override
     public int getLength() {
         return getCSSStyleSheets().size();
     }
 
-    @Override
-    public StyleSheet item(final int index) {
+    public CSSStyleSheetImpl item(final int index) {
         return getCSSStyleSheets().get(index);
     }
 
@@ -59,7 +51,7 @@ public class CSSStyleSheetListImpl implements StyleSheetList {
      *
      * @param cssStyleSheet the CSSStyleSheet
      */
-    public void add(final CSSStyleSheet cssStyleSheet) {
+    public void add(final CSSStyleSheetImpl cssStyleSheet) {
         getCSSStyleSheets().add(cssStyleSheet);
     }
     // end StyleSheetList
@@ -69,14 +61,14 @@ public class CSSStyleSheetListImpl implements StyleSheetList {
      *
      * @return the new (merged) StyleSheet
      */
-    public StyleSheet merge() {
+    public CSSStyleSheetImpl merge() {
         final CSSStyleSheetImpl merged = new CSSStyleSheetImpl();
         final CSSRuleListImpl cssRuleList = new CSSRuleListImpl();
-        final Iterator<CSSStyleSheet> it = getCSSStyleSheets().iterator();
+        final Iterator<CSSStyleSheetImpl> it = getCSSStyleSheets().iterator();
         while (it.hasNext()) {
-            final CSSStyleSheetImpl cssStyleSheet = (CSSStyleSheetImpl) it.next();
+            final CSSStyleSheetImpl cssStyleSheet = it.next();
             final CSSMediaRuleImpl cssMediaRule = new CSSMediaRuleImpl(merged, null, cssStyleSheet.getMedia());
-            cssMediaRule.setRuleList((CSSRuleListImpl) cssStyleSheet.getCssRules());
+            cssMediaRule.setRuleList(cssStyleSheet.getCssRules());
             cssRuleList.add(cssMediaRule);
         }
         merged.setCssRules(cssRuleList);
@@ -89,20 +81,20 @@ public class CSSStyleSheetListImpl implements StyleSheetList {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof StyleSheetList)) {
+        if (!(obj instanceof CSSStyleSheetListImpl)) {
             return false;
         }
-        final StyleSheetList ssl = (StyleSheetList) obj;
+        final CSSStyleSheetListImpl ssl = (CSSStyleSheetListImpl) obj;
         return equalsStyleSheets(ssl);
     }
 
-    private boolean equalsStyleSheets(final StyleSheetList ssl) {
+    private boolean equalsStyleSheets(final CSSStyleSheetListImpl ssl) {
         if ((ssl == null) || (getLength() != ssl.getLength())) {
             return false;
         }
         for (int i = 0; i < getLength(); i++) {
-            final StyleSheet styleSheet1 = item(i);
-            final StyleSheet styleSheet2 = ssl.item(i);
+            final CSSStyleSheetImpl styleSheet1 = item(i);
+            final CSSStyleSheetImpl styleSheet2 = ssl.item(i);
             if (!LangUtils.equals(styleSheet1, styleSheet2)) {
                 return false;
             }

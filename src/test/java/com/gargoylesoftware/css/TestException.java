@@ -19,11 +19,11 @@ import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSMediaRule;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSRuleList;
-import org.w3c.dom.css.CSSStyleSheet;
 
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
+import com.gargoylesoftware.css.dom.CSSMediaRuleImpl;
+import com.gargoylesoftware.css.dom.CSSRuleListImpl;
+import com.gargoylesoftware.css.dom.CSSStyleSheetImpl;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
@@ -45,7 +45,7 @@ public class TestException {
 
         final Reader r = new StringReader("");
         final InputSource source = new InputSource(r);
-        final CSSStyleSheet stylesheet = parser.parseStyleSheet(source, null);
+        final CSSStyleSheetImpl stylesheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(0, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
@@ -55,7 +55,7 @@ public class TestException {
         stylesheet.insertRule("@import url(http://www.steadystate.com/primary.css);", 0);
         stylesheet.insertRule("@charset \"US-ASCII\";", 0);
 
-        final CSSRuleList rules = stylesheet.getCssRules();
+        final CSSRuleListImpl rules = stylesheet.getCssRules();
         Assert.assertEquals(3, rules.getLength());
 
         Assert.assertEquals("@charset \"US-ASCII\";", rules.item(0).getCssText());
@@ -68,7 +68,7 @@ public class TestException {
         Assert.assertEquals("@charset \"US-ASCII\";", rules.item(0).getCssText());
         Assert.assertEquals("P { color: blue }", rules.item(1).getCssText());
 
-        CSSRule rule = rules.item(1);
+        AbstractCSSRuleImpl rule = rules.item(1);
         rule.setCssText("h2 { smell: strong }");
         Assert.assertEquals("h2 { smell: strong }", rules.item(1).getCssText());
 
@@ -81,17 +81,17 @@ public class TestException {
         Assert.assertEquals("h2 { smell: strong }", rules.item(2).getCssText());
 
         rule = rules.item(1);
-        ((CSSMediaRule) rule).insertRule("p { voice: female }", 1);
-        Assert.assertEquals("speech", ((CSSMediaRule) rule).getMedia().getMediaText());
+        ((CSSMediaRuleImpl) rule).insertRule("p { voice: female }", 1);
+        Assert.assertEquals("speech", ((CSSMediaRuleImpl) rule).getMedia().getMediaText());
 
         // TODO
-        ((CSSMediaRule) rule).getMedia().setMediaText("speech, signlanguage");
-        Assert.assertEquals("speech, speech, signlanguage", ((CSSMediaRule) rule).getMedia().getMediaText());
+        ((CSSMediaRuleImpl) rule).getMedia().setMediaText("speech, signlanguage");
+        Assert.assertEquals("speech, speech, signlanguage", ((CSSMediaRuleImpl) rule).getMedia().getMediaText());
 
-        ((CSSMediaRule) rule).getMedia().deleteMedium("signlanguage");
-        Assert.assertEquals("speech, speech", ((CSSMediaRule) rule).getMedia().getMediaText());
+        ((CSSMediaRuleImpl) rule).getMedia().deleteMedium("signlanguage");
+        Assert.assertEquals("speech, speech", ((CSSMediaRuleImpl) rule).getMedia().getMediaText());
 
-        ((CSSMediaRule) rule).getMedia().appendMedium("semaphore");
-        Assert.assertEquals("speech, speech, semaphore", ((CSSMediaRule) rule).getMedia().getMediaText());
+        ((CSSMediaRuleImpl) rule).getMedia().appendMedium("semaphore");
+        Assert.assertEquals("speech, speech, semaphore", ((CSSMediaRuleImpl) rule).getMedia().getMediaText());
     }
 }

@@ -20,9 +20,6 @@ import java.io.StringReader;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSStyleDeclaration;
-import org.w3c.dom.css.Rect;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
@@ -174,13 +171,13 @@ public class RectImplTest {
         final String testRule = "img { clip: rect(1px, 2px, -3px, 4px) }";
         final Reader r = new StringReader(testRule);
         final InputSource is = new InputSource(r);
-        final CSSRule rule = new CSSOMParser().parseRule(is);
+        final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule(is);
 
         Assert.assertEquals(testRule, rule.getCssText());
 
-        final CSSStyleDeclaration style = ((CSSStyleRuleImpl) rule).getStyle();
-        final Property prop = ((CSSStyleDeclarationImpl) style).getPropertyDeclaration("clip");
-        final Rect rect = ((CSSValueImpl) prop.getValue()).getRectValue();
+        final CSSStyleDeclarationImpl style = ((CSSStyleRuleImpl) rule).getStyle();
+        final Property prop = style.getPropertyDeclaration("clip");
+        final RectImpl rect = prop.getValue().getRectValue();
 
         Assert.assertEquals("1px", rect.getTop().toString());
         Assert.assertEquals("2px", rect.getRight().toString());

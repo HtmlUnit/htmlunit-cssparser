@@ -18,13 +18,12 @@ import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSPrimitiveValue;
-import org.w3c.dom.css.CSSRuleList;
-import org.w3c.dom.css.CSSStyleDeclaration;
-import org.w3c.dom.css.CSSStyleSheet;
-import org.w3c.dom.css.CSSValue;
-import org.w3c.dom.css.CSSValueList;
 
+import com.gargoylesoftware.css.dom.CSSRuleListImpl;
+import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
+import com.gargoylesoftware.css.dom.CSSStyleSheetImpl;
+import com.gargoylesoftware.css.dom.CSSValueImpl;
+import com.gargoylesoftware.css.dom.CSSValueImpl.CSSValueType;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
@@ -48,7 +47,7 @@ public class DomTest {
         parser.setErrorHandler(errorHandler);
 
         final InputSource source = new InputSource(new StringReader(cssText));
-        final CSSStyleDeclaration style = parser.parseStyleDeclaration(source);
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(source);
 
         Assert.assertEquals(0, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
@@ -98,37 +97,37 @@ public class DomTest {
         Assert.assertEquals("beta: 40px; delta: 1mm; omega: 1 !important", style.getCssText());
 
         // Work with CSSValues
-        CSSPrimitiveValue value = (CSSPrimitiveValue) style.getPropertyCSSValue("beta");
+        CSSValueImpl value = style.getPropertyCSSValue("beta");
         Assert.assertEquals("40px", value.getCssText());
-        Assert.assertEquals(40f, value.getFloatValue(CSSPrimitiveValue.CSS_PX), 0.000000f);
+        Assert.assertEquals(40f, value.getFloatValue(), 0.000000f);
 
-        value.setFloatValue(CSSPrimitiveValue.CSS_PX, 100);
+        value.setFloatValue(100);
         Assert.assertEquals("100", value.getCssText());
 
         style.setProperty("list-test", "100 200 300", null);
         Assert.assertEquals("beta: 100; delta: 1mm; omega: 1 !important; list-test: 100 200 300", style.getCssText());
 
-        value = (CSSPrimitiveValue) style.getPropertyCSSValue("list-test");
-        Assert.assertEquals(CSSValue.CSS_VALUE_LIST, value.getCssValueType());
+        value = style.getPropertyCSSValue("list-test");
+        Assert.assertEquals(CSSValueType.CSS_VALUE_LIST, value.getCssValueType());
 
-        final CSSValueList vl = (CSSValueList) style.getPropertyCSSValue("list-test");
+        final CSSValueImpl vl = style.getPropertyCSSValue("list-test");
         Assert.assertEquals(3, vl.getLength());
 
-        value = (CSSPrimitiveValue) vl.item(0);
-        Assert.assertEquals(100, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.000000f);
+        value = vl.item(0);
+        Assert.assertEquals(100, value.getFloatValue(), 0.000000f);
 
-        value = (CSSPrimitiveValue) vl.item(1);
-        Assert.assertEquals(200, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.000000f);
+        value = vl.item(1);
+        Assert.assertEquals(200, value.getFloatValue(), 0.000000f);
 
-        value = (CSSPrimitiveValue) vl.item(2);
-        Assert.assertEquals(300, value.getFloatValue(CSSPrimitiveValue.CSS_NUMBER), 0.000000f);
+        value = vl.item(2);
+        Assert.assertEquals(300, value.getFloatValue(), 0.000000f);
 
         // When a CSSValue is modified, it modifies the declaration
         Assert.assertEquals("beta: 100; delta: 1mm; omega: 1 !important; list-test: 100 200 300", style.getCssText());
 
         // Using the setCssText method, we can change the type of value
         vl.setCssText("bogus");
-        Assert.assertEquals(CSSValue.CSS_PRIMITIVE_VALUE, value.getCssValueType());
+        Assert.assertEquals(CSSValueType.CSS_PRIMITIVE_VALUE, value.getCssValueType());
         Assert.assertEquals("beta: 100; delta: 1mm; omega: 1 !important; list-test: bogus", style.getCssText());
     }
 
@@ -141,9 +140,9 @@ public class DomTest {
         final InputSource source = new InputSource(new StringReader(cssText));
         final CSSOMParser cssomParser = new CSSOMParser();
 
-        final CSSStyleSheet css = cssomParser.parseStyleSheet(source, "http://www.example.org/css/style.css");
+        final CSSStyleSheetImpl css = cssomParser.parseStyleSheet(source, "http://www.example.org/css/style.css");
 
-        final CSSRuleList rules = css.getCssRules();
+        final CSSRuleListImpl rules = css.getCssRules();
         Assert.assertEquals(2, rules.getLength());
 
         Assert.assertEquals("p { font-size: 2em }", rules.item(0).getCssText());

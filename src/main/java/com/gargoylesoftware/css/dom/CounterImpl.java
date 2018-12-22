@@ -17,7 +17,6 @@ package com.gargoylesoftware.css.dom;
 import java.io.Serializable;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.Counter;
 
 import com.gargoylesoftware.css.parser.LexicalUnit;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
@@ -27,7 +26,7 @@ import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
  *
  * @author Ronald Brill
  */
-public class CounterImpl implements Counter, Serializable {
+public class CounterImpl implements Serializable {
 
     private String identifier_;
     private String listStyle_;
@@ -74,17 +73,14 @@ public class CounterImpl implements Counter, Serializable {
         }
     }
 
-    @Override
     public String getIdentifier() {
         return identifier_;
     }
 
-    @Override
     public String getListStyle() {
         return listStyle_;
     }
 
-    @Override
     public String getSeparator() {
         return separator_;
     }

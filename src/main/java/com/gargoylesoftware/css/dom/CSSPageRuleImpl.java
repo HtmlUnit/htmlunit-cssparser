@@ -18,9 +18,6 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSPageRule;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSStyleDeclaration;
 
 import com.gargoylesoftware.css.parser.CSSException;
 import com.gargoylesoftware.css.parser.CSSOMParser;
@@ -34,28 +31,26 @@ import com.gargoylesoftware.css.util.LangUtils;
  *
  * @author Ronald Brill
  */
-public class CSSPageRuleImpl extends AbstractCSSRuleImpl implements CSSPageRule {
+public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
 
     private String pseudoPage_;
-    private CSSStyleDeclaration style_;
+    private CSSStyleDeclarationImpl style_;
 
     public CSSPageRuleImpl(
             final CSSStyleSheetImpl parentStyleSheet,
-            final CSSRule parentRule,
+            final AbstractCSSRuleImpl parentRule,
             final String pseudoPage) {
         super(parentStyleSheet, parentRule);
         pseudoPage_ = pseudoPage;
     }
 
-    @Override
-    public short getType() {
-        return PAGE_RULE;
+    public CSSRuleType getType() {
+        return CSSRuleType.PAGE_RULE;
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
     public String getCssText() {
         final StringBuilder sb = new StringBuilder();
 
@@ -67,7 +62,7 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl implements CSSPageRule 
         }
         sb.append("{");
 
-        final CSSStyleDeclaration style = getStyle();
+        final CSSStyleDeclarationImpl style = getStyle();
         if (null != style) {
             sb.append(style.getCssText());
         }
@@ -75,7 +70,6 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl implements CSSPageRule 
         return sb.toString();
     }
 
-    @Override
     public void setCssText(final String cssText) throws DOMException {
         final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheetImpl();
         if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
@@ -87,10 +81,10 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl implements CSSPageRule 
         try {
             final InputSource is = new InputSource(new StringReader(cssText));
             final CSSOMParser parser = new CSSOMParser();
-            final CSSRule r = parser.parseRule(is);
+            final AbstractCSSRuleImpl r = parser.parseRule(is);
 
             // The rule must be a page rule
-            if (r.getType() == CSSRule.PAGE_RULE) {
+            if (r.getType() == CSSRuleType.PAGE_RULE) {
                 pseudoPage_ = ((CSSPageRuleImpl) r).pseudoPage_;
                 style_ = ((CSSPageRuleImpl) r).style_;
             }
@@ -114,7 +108,6 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl implements CSSPageRule 
         }
     }
 
-    @Override
     public String getSelectorText() {
         if (null == pseudoPage_) {
             return "";
@@ -122,12 +115,10 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl implements CSSPageRule 
         return pseudoPage_;
     }
 
-    @Override
     public void setSelectorText(final String selectorText) throws DOMException {
     }
 
-    @Override
-    public CSSStyleDeclaration getStyle() {
+    public CSSStyleDeclarationImpl getStyle() {
         return style_;
     }
 
@@ -144,10 +135,10 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl implements CSSPageRule 
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSPageRule)) {
+        if (!(obj instanceof CSSPageRuleImpl)) {
             return false;
         }
-        final CSSPageRule cpr = (CSSPageRule) obj;
+        final CSSPageRuleImpl cpr = (CSSPageRuleImpl) obj;
         return super.equals(obj)
             && LangUtils.equals(getSelectorText(), cpr.getSelectorText())
             && LangUtils.equals(getStyle(), cpr.getStyle());

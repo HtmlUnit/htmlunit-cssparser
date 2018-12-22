@@ -18,9 +18,8 @@ import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSStyleSheet;
 
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
@@ -39,7 +38,7 @@ public class CSSStyleRuleImplTest {
         final CSSStyleRuleImpl value = parseStyleRule("h1 { color: blue }");
 
         Assert.assertEquals("h1 { color: blue }", value.getCssText());
-        Assert.assertEquals(CSSRule.STYLE_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.STYLE_RULE, value.getType());
         Assert.assertEquals("h1 { color: blue }", value.toString());
     }
 
@@ -51,12 +50,12 @@ public class CSSStyleRuleImplTest {
         final CSSStyleRuleImpl value = parseStyleRule("h1 { color: blue }");
 
         Assert.assertEquals("h1 { color: blue }", value.getCssText());
-        Assert.assertEquals(CSSRule.STYLE_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.STYLE_RULE, value.getType());
         Assert.assertEquals("h1 { color: blue }", value.toString());
 
         value.setCssText("p { width: 10px };");
         Assert.assertEquals("p { width: 10px }", value.getCssText());
-        Assert.assertEquals(CSSRule.STYLE_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.STYLE_RULE, value.getType());
         Assert.assertEquals("p { width: 10px }", value.toString());
 
     }
@@ -80,13 +79,13 @@ public class CSSStyleRuleImplTest {
     public void type() throws Exception {
         final CSSStyleRuleImpl value = new CSSStyleRuleImpl(null, null, null);
 
-        Assert.assertEquals(CSSRule.STYLE_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.STYLE_RULE, value.getType());
         Assert.assertEquals("", value.toString());
     }
 
     private CSSStyleRuleImpl parseStyleRule(final String rule) throws Exception {
         final InputSource is = new InputSource(new StringReader(rule));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
+        final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
         final CSSStyleRuleImpl value = (CSSStyleRuleImpl) ss.getCssRules().item(0);
         return value;

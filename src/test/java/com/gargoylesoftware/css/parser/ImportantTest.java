@@ -21,11 +21,12 @@ import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSRuleList;
-import org.w3c.dom.css.CSSStyleSheet;
 
 import com.gargoylesoftware.css.ErrorHandler;
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
+import com.gargoylesoftware.css.dom.CSSRuleListImpl;
+import com.gargoylesoftware.css.dom.CSSStyleSheetImpl;
 import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
 
 /**
@@ -63,34 +64,34 @@ public class ImportantTest {
         final InputSource source = new InputSource(r);
 
         final CSSOMParser parser = new CSSOMParser();
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
+        final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
         Assert.assertEquals(0, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getWarningCount());
 
-        final CSSRuleList rules = ss.getCssRules();
+        final CSSRuleListImpl rules = ss.getCssRules();
         Assert.assertEquals(5, rules.getLength());
 
-        CSSRule rule = rules.item(0);
+        AbstractCSSRuleImpl rule = rules.item(0);
         Assert.assertEquals("*.sel1 { padding: 0 !important }", rule.getCssText());
-        Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
+        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
 
         rule = rules.item(1);
         Assert.assertEquals("*.sel2 { font-weight: normal !important }", rule.getCssText());
-        Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
+        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
 
         rule = rules.item(2);
         Assert.assertEquals("*.sel3 { font-weight: normal !important }", rule.getCssText());
-        Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
+        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
 
         rule = rules.item(3);
         Assert.assertEquals("*.sel4 { font-weight: normal !important }", rule.getCssText());
-        Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
+        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
 
         rule = rules.item(4);
         Assert.assertEquals("*.important { font-weight: bold }", rule.getCssText());
-        Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
+        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
     }
 
     private ErrorHandler parserError(final CSSParser cssParser) throws Exception {

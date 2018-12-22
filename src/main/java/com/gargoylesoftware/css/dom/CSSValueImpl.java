@@ -21,12 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSPrimitiveValue;
-import org.w3c.dom.css.CSSValue;
-import org.w3c.dom.css.CSSValueList;
-import org.w3c.dom.css.Counter;
-import org.w3c.dom.css.RGBColor;
-import org.w3c.dom.css.Rect;
 
 import com.gargoylesoftware.css.parser.AbstractLocatable;
 import com.gargoylesoftware.css.parser.CSSOMParser;
@@ -47,7 +41,43 @@ import com.gargoylesoftware.css.util.LangUtils;
  *
  * @author Ronald Brill
  */
-public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue, CSSValueList, Serializable {
+public class CSSValueImpl extends AbstractLocatable implements Serializable {
+    public enum CSSValueType {
+        CSS_VALUE_LIST,
+        CSS_INHERIT,
+        CSS_PRIMITIVE_VALUE;
+    }
+
+    public enum CSSPrimitiveValueType {
+        CSS_IDENT,
+        CSS_NUMBER,
+        CSS_EMS,
+        CSS_EXS,
+        CSS_PX,
+        CSS_IN,
+        CSS_CM,
+        CSS_MM,
+        CSS_PT,
+        CSS_PC,
+        CSS_PERCENTAGE,
+        CSS_URI,
+        COUNTERS_FUNCTION,
+        CSS_RGBCOLOR,
+        CSS_DEG,
+        CSS_GRAD,
+        CSS_RAD,
+        CSS_MS,
+        CSS_S,
+        CSS_HZ,
+        CSS_KHZ,
+        CSS_ATTR,
+        CSS_RECT,
+        CSS_STRING,
+        CSS_DIMENSION,
+        CSS_COUNTER,
+        CSS_UNKNOWN
+    }
+
 
     private Object value_;
 
@@ -121,9 +151,8 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
         this(value, false);
     }
 
-    @Override
     public String getCssText() {
-        if (getCssValueType() == CSS_VALUE_LIST) {
+        if (getCssValueType() == CSSValueType.CSS_VALUE_LIST) {
 
             // Create the string from the LexicalUnits so we include the correct
             // operators in the string
@@ -156,12 +185,11 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
         return value_ != null ? value_.toString() : "";
     }
 
-    @Override
     public void setCssText(final String cssText) throws DOMException {
         try {
             final InputSource is = new InputSource(new StringReader(cssText));
             final CSSOMParser parser = new CSSOMParser();
-            final CSSValueImpl v2 = (CSSValueImpl) parser.parsePropertyValue(is);
+            final CSSValueImpl v2 = parser.parsePropertyValue(is);
             value_ = v2.value_;
         }
         catch (final Exception e) {
@@ -172,97 +200,95 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
         }
     }
 
-    @Override
-    public short getCssValueType() {
+    public CSSValueType getCssValueType() {
         if (value_ instanceof List) {
-            return CSS_VALUE_LIST;
+            return CSSValueType.CSS_VALUE_LIST;
         }
         if ((value_ instanceof LexicalUnit)
                 && (((LexicalUnit) value_).getLexicalUnitType() == LexicalUnitType.INHERIT)) {
-            return CSS_INHERIT;
+            return CSSValueType.CSS_INHERIT;
         }
-        return CSS_PRIMITIVE_VALUE;
+        return CSSValueType.CSS_PRIMITIVE_VALUE;
     }
 
-    @Override
-    public short getPrimitiveType() {
+    public CSSPrimitiveValueType getPrimitiveType() {
         if (value_ instanceof LexicalUnit) {
             final LexicalUnit lu = (LexicalUnit) value_;
             switch (lu.getLexicalUnitType()) {
                 case INHERIT:
-                    return CSS_IDENT;
+                    return CSSPrimitiveValueType.CSS_IDENT;
                 case INTEGER:
                 case REAL:
-                    return CSS_NUMBER;
+                    return CSSPrimitiveValueType.CSS_NUMBER;
                 case EM:
-                    return CSS_EMS;
+                    return CSSPrimitiveValueType.CSS_EMS;
                 case REM:
-                    return CSS_UNKNOWN;
+                    return CSSPrimitiveValueType.CSS_UNKNOWN;
                 case EX:
-                    return CSS_EXS;
+                    return CSSPrimitiveValueType.CSS_EXS;
                 case PIXEL:
-                    return CSS_PX;
+                    return CSSPrimitiveValueType.CSS_PX;
                 case INCH:
-                    return CSS_IN;
+                    return CSSPrimitiveValueType.CSS_IN;
                 case CENTIMETER:
-                    return CSS_CM;
+                    return CSSPrimitiveValueType.CSS_CM;
                 case MILLIMETER:
-                    return CSS_MM;
+                    return CSSPrimitiveValueType.CSS_MM;
                 case POINT:
-                    return CSS_PT;
+                    return CSSPrimitiveValueType.CSS_PT;
                 case PICA:
-                    return CSS_PC;
+                    return CSSPrimitiveValueType.CSS_PC;
                 case PERCENTAGE:
-                    return CSS_PERCENTAGE;
+                    return CSSPrimitiveValueType.CSS_PERCENTAGE;
                 case URI:
-                    return CSS_URI;
+                    return CSSPrimitiveValueType.CSS_URI;
                 case COUNTER_FUNCTION:
     //            case COUNTERS_FUNCTION:
-                    return CSS_COUNTER;
+                    return CSSPrimitiveValueType.CSS_COUNTER;
     //            case RGBCOLOR:
     //                return CSS_RGBCOLOR;
                 case DEGREE:
-                    return CSS_DEG;
+                    return CSSPrimitiveValueType.CSS_DEG;
                 case GRADIAN:
-                    return CSS_GRAD;
+                    return CSSPrimitiveValueType.CSS_GRAD;
                 case RADIAN:
-                    return CSS_RAD;
+                    return CSSPrimitiveValueType.CSS_RAD;
                 case MILLISECOND:
-                    return CSS_MS;
+                    return CSSPrimitiveValueType.CSS_MS;
                 case SECOND:
-                    return CSS_S;
+                    return CSSPrimitiveValueType.CSS_S;
                 case HERTZ:
-                    return CSS_HZ;
+                    return CSSPrimitiveValueType.CSS_HZ;
                 case KILOHERTZ:
-                    return CSS_KHZ;
+                    return CSSPrimitiveValueType.CSS_KHZ;
                 case IDENT:
-                    return CSS_IDENT;
+                    return CSSPrimitiveValueType.CSS_IDENT;
                 case STRING_VALUE:
-                    return CSS_STRING;
+                    return CSSPrimitiveValueType.CSS_STRING;
                 case ATTR:
-                    return CSS_ATTR;
+                    return CSSPrimitiveValueType.CSS_ATTR;
     //            case RECT_FUNCTION:
-    //                return CSS_RECT;
+    //                return CSSPrimitiveValueType.CSS_RECT;
                 case UNICODERANGE:
                 case SUB_EXPRESSION:
                 case FUNCTION:
-                    return CSS_STRING;
+                    return CSSPrimitiveValueType.CSS_STRING;
                 case DIMENSION:
-                    return CSS_DIMENSION;
+                    return CSSPrimitiveValueType.CSS_DIMENSION;
                 default:
-                    return CSS_UNKNOWN;
+                    return CSSPrimitiveValueType.CSS_UNKNOWN;
             }
         }
         else if (value_ instanceof RectImpl) {
-            return CSS_RECT;
+            return CSSPrimitiveValueType.CSS_RECT;
         }
         else if (value_ instanceof RGBColorImpl) {
-            return CSS_RGBCOLOR;
+            return CSSPrimitiveValueType.CSS_RGBCOLOR;
         }
         else if (value_ instanceof CounterImpl) {
-            return CSS_COUNTER;
+            return CSSPrimitiveValueType.CSS_COUNTER;
         }
-        return CSS_UNKNOWN;
+        return CSSPrimitiveValueType.CSS_UNKNOWN;
     }
 
     public LexicalUnit.LexicalUnitType getLexicalUnitType() {
@@ -272,13 +298,11 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
         return null;
     }
 
-    @Override
-    public void setFloatValue(final short unitType, final float floatValue) throws DOMException {
+    public void setFloatValue(final float floatValue) throws DOMException {
         value_ = LexicalUnitImpl.createNumber(null, floatValue);
     }
 
-    @Override
-    public float getFloatValue(final short unitType) throws DOMException {
+    public float getFloatValue() throws DOMException {
         if (value_ instanceof LexicalUnit) {
             final LexicalUnit lu = (LexicalUnit) value_;
             return lu.getFloatValue();
@@ -291,35 +315,9 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
         // return 0;
     }
 
-    @Override
-    public void setStringValue(final short stringType, final String stringValue) throws DOMException {
-        switch (stringType) {
-            case CSS_STRING:
-                value_ = LexicalUnitImpl.createString(null, stringValue);
-                break;
-            case CSS_URI:
-                value_ = LexicalUnitImpl.createURI(null, stringValue);
-                break;
-            case CSS_IDENT:
-                value_ = LexicalUnitImpl.createIdent(null, stringValue);
-                break;
-            case CSS_ATTR:
-    //            _value = LexicalUnitImpl.createAttr(null, stringValue);
-    //            break;
-                throw new DOMExceptionImpl(
-                    DOMException.NOT_SUPPORTED_ERR,
-                    DOMExceptionImpl.NOT_IMPLEMENTED);
-            default:
-                throw new DOMExceptionImpl(
-                    DOMException.INVALID_ACCESS_ERR,
-                    DOMExceptionImpl.STRING_ERROR);
-        }
-    }
-
     /**
      * {@inheritDoc}
      */
-    @Override
     public String getStringValue() throws DOMException {
         if (value_ instanceof LexicalUnit) {
             final LexicalUnit lu = (LexicalUnit) value_;
@@ -345,10 +343,9 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
             DOMExceptionImpl.STRING_ERROR);
     }
 
-    @Override
-    public Counter getCounterValue() throws DOMException {
-        if (value_ instanceof Counter) {
-            return (Counter) value_;
+    public CounterImpl getCounterValue() throws DOMException {
+        if (value_ instanceof CounterImpl) {
+            return (CounterImpl) value_;
         }
 
         throw new DOMExceptionImpl(
@@ -356,10 +353,9 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
                 DOMExceptionImpl.COUNTER_ERROR);
     }
 
-    @Override
-    public Rect getRectValue() throws DOMException {
-        if (value_ instanceof Rect) {
-            return (Rect) value_;
+    public RectImpl getRectValue() throws DOMException {
+        if (value_ instanceof RectImpl) {
+            return (RectImpl) value_;
         }
 
         throw new DOMExceptionImpl(
@@ -367,10 +363,9 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
                 DOMExceptionImpl.RECT_ERROR);
     }
 
-    @Override
-    public RGBColor getRGBColorValue() throws DOMException {
-        if (value_ instanceof RGBColor) {
-            return (RGBColor) value_;
+    public RGBColorImpl getRGBColorValue() throws DOMException {
+        if (value_ instanceof RGBColorImpl) {
+            return (RGBColorImpl) value_;
         }
 
         throw new DOMExceptionImpl(
@@ -378,20 +373,18 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
             DOMExceptionImpl.RGBCOLOR_ERROR);
     }
 
-    @Override
     @SuppressWarnings("unchecked")
     public int getLength() {
         if (value_ instanceof List) {
-            return ((List<CSSValue>) value_).size();
+            return ((List<CSSValueImpl>) value_).size();
         }
         return 0;
     }
 
-    @Override
     @SuppressWarnings("unchecked")
-    public CSSValue item(final int index) {
+    public CSSValueImpl item(final int index) {
         if (value_ instanceof List) {
-            final List<CSSValue> list = (List<CSSValue>) value_;
+            final List<CSSValueImpl> list = (List<CSSValueImpl>) value_;
             return list.get(index);
         }
         return null;
@@ -407,10 +400,10 @@ public class CSSValueImpl extends AbstractLocatable implements CSSPrimitiveValue
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSValue)) {
+        if (!(obj instanceof CSSValueImpl)) {
             return false;
         }
-        final CSSValue cv = (CSSValue) obj;
+        final CSSValueImpl cv = (CSSValueImpl) obj;
         // TODO to be improved!
         return super.equals(obj)
             && (getCssValueType() == cv.getCssValueType())

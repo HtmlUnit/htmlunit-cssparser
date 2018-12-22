@@ -18,9 +18,8 @@ import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSStyleSheet;
 
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
@@ -39,7 +38,7 @@ public class CSSImportRuleImplTest {
         final CSSImportRuleImpl value = parseImportRule("@import \"ext.css\";");
 
         Assert.assertEquals("@import url(ext.css);", value.getCssText());
-        Assert.assertEquals(CSSRule.IMPORT_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.IMPORT_RULE, value.getType());
         Assert.assertEquals("@import url(ext.css);", value.toString());
     }
 
@@ -51,12 +50,12 @@ public class CSSImportRuleImplTest {
         final CSSImportRuleImpl value = parseImportRule("@import \"ext.css\";");
 
         Assert.assertEquals("@import url(ext.css);", value.getCssText());
-        Assert.assertEquals(CSSRule.IMPORT_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.IMPORT_RULE, value.getType());
         Assert.assertEquals("@import url(ext.css);", value.toString());
 
         value.setCssText("@import url(cool.css);");
         Assert.assertEquals("@import url(cool.css);", value.getCssText());
-        Assert.assertEquals(CSSRule.IMPORT_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.IMPORT_RULE, value.getType());
         Assert.assertEquals("@import url(cool.css);", value.toString());
 
     }
@@ -91,13 +90,13 @@ public class CSSImportRuleImplTest {
     public void type() throws Exception {
         final CSSImportRuleImpl value = new CSSImportRuleImpl(null, null, null, null);
 
-        Assert.assertEquals(CSSRule.IMPORT_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.IMPORT_RULE, value.getType());
         Assert.assertEquals("@import;", value.toString());
     }
 
     private CSSImportRuleImpl parseImportRule(final String rule) throws Exception {
         final InputSource is = new InputSource(new StringReader(rule));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
+        final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
         final CSSImportRuleImpl value = (CSSImportRuleImpl) ss.getCssRules().item(0);
         return value;

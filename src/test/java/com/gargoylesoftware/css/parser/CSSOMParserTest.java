@@ -19,16 +19,15 @@ import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSPageRule;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSRuleList;
-import org.w3c.dom.css.CSSStyleDeclaration;
-import org.w3c.dom.css.CSSStyleRule;
-import org.w3c.dom.css.CSSStyleSheet;
-import org.w3c.dom.css.CSSValue;
 
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
+import com.gargoylesoftware.css.dom.CSSPageRuleImpl;
+import com.gargoylesoftware.css.dom.CSSRuleListImpl;
 import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
 import com.gargoylesoftware.css.dom.CSSStyleRuleImpl;
+import com.gargoylesoftware.css.dom.CSSStyleSheetImpl;
+import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.Property;
 import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
 import com.gargoylesoftware.css.parser.media.MediaQueryList;
@@ -74,20 +73,20 @@ public class CSSOMParserTest {
     public void parseStyleSheet() throws Exception {
         final Reader r = new StringReader(testString_);
         final InputSource is = new InputSource(r);
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
+        final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        final CSSRuleList rl = ss.getCssRules();
-        final CSSRule rule = rl.item(0);
+        final CSSRuleListImpl rl = ss.getCssRules();
+        final AbstractCSSRuleImpl rule = rl.item(0);
 
-        Assert.assertEquals(CSSRule.STYLE_RULE, rule.getType());
+        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
 
-        final CSSStyleRule sr = (CSSStyleRule) rule;
+        final CSSStyleRuleImpl sr = (CSSStyleRuleImpl) rule;
         Assert.assertEquals(testSelector_, sr.getSelectorText());
 
-        final CSSStyleDeclaration style = sr.getStyle();
+        final CSSStyleDeclarationImpl style = sr.getStyle();
         Assert.assertEquals(testItem_, style.item(0));
 
-        final CSSValue value = style.getPropertyCSSValue(style.item(0));
+        final CSSValueImpl value = style.getPropertyCSSValue(style.item(0));
         Assert.assertEquals(testValue_, value.getCssText());
     }
 
@@ -100,16 +99,16 @@ public class CSSOMParserTest {
 
         final Reader r = new StringReader(test);
         final InputSource is = new InputSource(r);
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
-        final CSSRuleList rl = ss.getCssRules();
+        final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
+        final CSSRuleListImpl rl = ss.getCssRules();
         Assert.assertEquals(2, rl.getLength());
 
-        CSSRule rule = rl.item(0);
-        CSSStyleRule sr = (CSSStyleRule) rule;
+        AbstractCSSRuleImpl rule = rl.item(0);
+        CSSStyleRuleImpl sr = (CSSStyleRuleImpl) rule;
         Assert.assertEquals("p { filter: alpha(opacity = 33.3); opacity: 0.333 }", sr.getCssText());
 
         rule = rl.item(1);
-        sr = (CSSStyleRule) rule;
+        sr = (CSSStyleRuleImpl) rule;
         Assert.assertEquals("a { color: rgb(18, 52, 86) }", sr.getCssText());
     }
 
@@ -156,7 +155,7 @@ public class CSSOMParserTest {
     public void parsePropertyValue() throws Exception {
         final Reader r = new StringReader(testPropertyValue_);
         final InputSource is = new InputSource(r);
-        final CSSValue pv = new CSSOMParser().parsePropertyValue(is);
+        final CSSValueImpl pv = new CSSOMParser().parsePropertyValue(is);
 
         Assert.assertEquals(testPropertyValue_, pv.toString());
     }
@@ -168,7 +167,7 @@ public class CSSOMParserTest {
     public void parsePropertyValueParseException() throws Exception {
         final Reader r = new StringReader("@a");
         final InputSource is = new InputSource(r);
-        final CSSValue pv = new CSSOMParser().parsePropertyValue(is);
+        final CSSValueImpl pv = new CSSOMParser().parsePropertyValue(is);
 
         Assert.assertNull(pv);
     }
@@ -204,7 +203,7 @@ public class CSSOMParserTest {
     public void parseRule() throws Exception {
         final Reader r = new StringReader(testParseRule_);
         final InputSource is = new InputSource(r);
-        final CSSRule rule = new CSSOMParser().parseRule(is);
+        final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule(is);
 
         Assert.assertEquals(testParseRule_, rule.getCssText());
     }
@@ -216,7 +215,7 @@ public class CSSOMParserTest {
     public void parseRuleParseException() throws Exception {
         final Reader r = new StringReader("~xx");
         final InputSource is = new InputSource(r);
-        final CSSRule rule = new CSSOMParser().parseRule(is);
+        final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule(is);
 
         Assert.assertNull(rule);
     }
@@ -228,7 +227,7 @@ public class CSSOMParserTest {
     public void parseStyleDeclaration() throws Exception {
         final Reader r = new StringReader(testStyleDeclaration_);
         final InputSource is = new InputSource(r);
-        final CSSStyleDeclaration sd = new CSSOMParser().parseStyleDeclaration(is);
+        final CSSStyleDeclarationImpl sd = new CSSOMParser().parseStyleDeclaration(is);
 
         Assert.assertEquals(testStyleDeclaration_, sd.toString());
     }
@@ -240,7 +239,7 @@ public class CSSOMParserTest {
     public void parseStyleDeclarationParseException() throws Exception {
         final Reader r = new StringReader("@abc");
         final InputSource is = new InputSource(r);
-        final CSSStyleDeclaration sd = new CSSOMParser().parseStyleDeclaration(is);
+        final CSSStyleDeclarationImpl sd = new CSSOMParser().parseStyleDeclaration(is);
 
         Assert.assertEquals(sd.getLength(), 0);
     }
@@ -255,7 +254,7 @@ public class CSSOMParserTest {
     public void parseStyleDeclarationWithoutBrace() throws Exception {
         final Reader r = new StringReader("background-color: white");
         final InputSource is = new InputSource(r);
-        final CSSStyleDeclaration declaration = new CSSOMParser().parseStyleDeclaration(is);
+        final CSSStyleDeclarationImpl declaration = new CSSOMParser().parseStyleDeclaration(is);
 
         Assert.assertEquals(1, declaration.getLength());
     }
@@ -354,7 +353,7 @@ public class CSSOMParserTest {
         final Reader r = new StringReader("..nieuwsframedatum{ font-size : 8pt;}");
         final InputSource source = new InputSource(r);
         final CSSOMParser parser = new CSSOMParser();
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
+        final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(0, ss.getCssRules().getLength());
     }
@@ -374,7 +373,7 @@ public class CSSOMParserTest {
         final Reader r = new StringReader("@import http://www.wetator.org");
         final InputSource source = new InputSource(r);
         final CSSOMParser parser = new CSSOMParser();
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
+        final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(0, ss.getCssRules().getLength());
     }
@@ -394,7 +393,7 @@ public class CSSOMParserTest {
         final Reader r = new StringReader("@import url('a.css'); @import url('c.css')");
         final InputSource source = new InputSource(r);
         final CSSOMParser parser = new CSSOMParser();
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
+        final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
 
         // second rule is not detected, because the closing semicolon is missed
         Assert.assertEquals(1, ss.getCssRules().getLength());
@@ -450,7 +449,7 @@ public class CSSOMParserTest {
         final CSSOMParser parser = new CSSOMParser();
         final Reader r = new StringReader(s);
         final InputSource is = new InputSource(r);
-        final CSSStyleDeclaration d = parser.parseStyleDeclaration(is);
+        final CSSStyleDeclarationImpl d = parser.parseStyleDeclaration(is);
         return d.getCssText();
     }
 
@@ -461,19 +460,19 @@ public class CSSOMParserTest {
     public void parsePageDeclaration() throws Exception {
         final Reader r = new StringReader("@page :pageStyle { size: 21.0cm 29.7cm; }");
         final InputSource is = new InputSource(r);
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
+        final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
         Assert.assertEquals("@page :pageStyle {size: 21cm 29.7cm}", ss.toString().trim());
 
-        final CSSRuleList rules = ss.getCssRules();
+        final CSSRuleListImpl rules = ss.getCssRules();
         Assert.assertEquals(1, rules.getLength());
 
-        final CSSRule rule = rules.item(0);
-        Assert.assertEquals(CSSRule.PAGE_RULE, rule.getType());
+        final AbstractCSSRuleImpl rule = rules.item(0);
+        Assert.assertEquals(CSSRuleType.PAGE_RULE, rule.getType());
 
         Assert.assertEquals("@page :pageStyle {size: 21cm 29.7cm}", rule.getCssText());
 
-        final CSSPageRule pageRule = (CSSPageRule) rule;
+        final CSSPageRuleImpl pageRule = (CSSPageRuleImpl) rule;
         Assert.assertEquals(":pageStyle", pageRule.getSelectorText());
         Assert.assertEquals("size: 21cm 29.7cm", pageRule.getStyle().getCssText());
     }
@@ -485,19 +484,19 @@ public class CSSOMParserTest {
     public void parsePageDeclaration2() throws Exception {
         final Reader r = new StringReader("@page { size: 21.0cm 29.7cm; }");
         final InputSource is = new InputSource(r);
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
+        final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
         Assert.assertEquals("@page {size: 21cm 29.7cm}", ss.toString().trim());
 
-        final CSSRuleList rules = ss.getCssRules();
+        final CSSRuleListImpl rules = ss.getCssRules();
         Assert.assertEquals(1, rules.getLength());
 
-        final CSSRule rule = rules.item(0);
-        Assert.assertEquals(CSSRule.PAGE_RULE, rule.getType());
+        final AbstractCSSRuleImpl rule = rules.item(0);
+        Assert.assertEquals(CSSRuleType.PAGE_RULE, rule.getType());
 
         Assert.assertEquals("@page {size: 21cm 29.7cm}", rule.getCssText());
 
-        final CSSPageRule pageRule = (CSSPageRule) rule;
+        final CSSPageRuleImpl pageRule = (CSSPageRuleImpl) rule;
         Assert.assertEquals("", pageRule.getSelectorText());
         Assert.assertEquals("size: 21cm 29.7cm", pageRule.getStyle().getCssText());
     }
@@ -515,7 +514,7 @@ public class CSSOMParserTest {
                 + "background-size: 190px 48px;"
                 + "}");
         final InputSource is = new InputSource(r);
-        final CSSStyleSheet sheet = new CSSOMParser().parseStyleSheet(is, null);
+        final CSSStyleSheetImpl sheet = new CSSOMParser().parseStyleSheet(is, null);
 
         Assert.assertEquals("p { background: rgb(0, 0, 0); "
                 + "background-repeat: repeat-y; "
@@ -523,12 +522,12 @@ public class CSSOMParserTest {
                 + "background-size: 190px 48px }",
                 sheet.toString().trim());
 
-        final CSSRuleList rules = sheet.getCssRules();
+        final CSSRuleListImpl rules = sheet.getCssRules();
         Assert.assertEquals(1, rules.getLength());
 
-        final CSSRule rule = rules.item(0);
+        final AbstractCSSRuleImpl rule = rules.item(0);
         final CSSStyleRuleImpl ruleImpl = (CSSStyleRuleImpl) rule;
-        final CSSStyleDeclarationImpl declImpl = (CSSStyleDeclarationImpl) ruleImpl.getStyle();
+        final CSSStyleDeclarationImpl declImpl = ruleImpl.getStyle();
 
         Assert.assertEquals(4, declImpl.getLength());
 

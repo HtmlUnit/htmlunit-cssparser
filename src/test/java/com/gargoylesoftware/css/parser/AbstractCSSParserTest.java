@@ -24,13 +24,13 @@ import java.util.Locale;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSRuleList;
-import org.w3c.dom.css.CSSStyleSheet;
 
 import com.gargoylesoftware.css.ErrorHandler;
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
+import com.gargoylesoftware.css.dom.CSSRuleListImpl;
 import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
 import com.gargoylesoftware.css.dom.CSSStyleRuleImpl;
+import com.gargoylesoftware.css.dom.CSSStyleSheetImpl;
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.Property;
 import com.gargoylesoftware.css.parser.condition.AttributeCondition;
@@ -83,7 +83,7 @@ public abstract class AbstractCSSParserTest {
      * @return the style sheet
      * @throws IOException if any error occurs
      */
-    protected CSSStyleSheet parse(final String css) throws IOException {
+    protected CSSStyleSheetImpl parse(final String css) throws IOException {
         return parse(css, 0, 0, 0);
     }
 
@@ -94,7 +94,7 @@ public abstract class AbstractCSSParserTest {
      * @return the style sheet
      * @throws IOException if any error occurs
      */
-    protected CSSStyleSheet parse(final InputStream css) throws IOException {
+    protected CSSStyleSheetImpl parse(final InputStream css) throws IOException {
         return parse(css, 0, 0, 0);
     }
 
@@ -108,7 +108,7 @@ public abstract class AbstractCSSParserTest {
      * @return the style sheet
      * @throws IOException if any error occurs
      */
-    protected CSSStyleSheet parse(final String css, final int err, final int fatal, final int warn) throws IOException {
+    protected CSSStyleSheetImpl parse(final String css, final int err, final int fatal, final int warn) throws IOException {
         final InputSource source = new InputSource(new StringReader(css));
         return parse(source, err, fatal, warn);
     }
@@ -123,19 +123,19 @@ public abstract class AbstractCSSParserTest {
      * @return the style sheet
      * @throws IOException if any error occurs
      */
-    protected CSSStyleSheet parse(final InputStream css,
+    protected CSSStyleSheetImpl parse(final InputStream css,
             final int err, final int fatal, final int warn) throws IOException {
         final InputSource source = new InputSource(new InputStreamReader(css));
         return parse(source, err, fatal, warn);
     }
 
-    protected CSSStyleSheet parse(final InputSource source,
+    protected CSSStyleSheetImpl parse(final InputSource source,
             final int err, final int fatal, final int warn) throws IOException {
         final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
+        final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(err, errorHandler.getErrorCount());
         Assert.assertEquals(fatal, errorHandler.getFatalErrorCount());
@@ -280,13 +280,13 @@ public abstract class AbstractCSSParserTest {
         Assert.assertNull(selectors);
     }
 
-    protected CSSStyleSheet checkErrorSheet(final String input, final String errorMsg) throws IOException {
+    protected CSSStyleSheetImpl checkErrorSheet(final String input, final String errorMsg) throws IOException {
         final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
         final InputSource source = new InputSource(new StringReader(input));
-        final CSSStyleSheet sheet = parser.parseStyleSheet(source, null);
+        final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());
@@ -299,17 +299,17 @@ public abstract class AbstractCSSParserTest {
     protected CSSValueImpl dimension(final String dim) throws Exception {
         final String css = "*.dim { top: " + dim + " }";
 
-        final CSSStyleSheet sheet = parse(css);
-        final CSSRuleList rules = sheet.getCssRules();
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
 
         Assert.assertEquals(1, rules.getLength());
-        final CSSRule rule = rules.item(0);
+        final AbstractCSSRuleImpl rule = rules.item(0);
         Assert.assertEquals(css, rule.getCssText());
 
         final CSSStyleRuleImpl ruleImpl = (CSSStyleRuleImpl) rule;
-        final CSSStyleDeclarationImpl declImpl = (CSSStyleDeclarationImpl) ruleImpl.getStyle();
+        final CSSStyleDeclarationImpl declImpl = ruleImpl.getStyle();
         final Property prop = declImpl.getPropertyDeclaration("top");
-        final CSSValueImpl valueImpl = (CSSValueImpl) prop.getValue();
+        final CSSValueImpl valueImpl = prop.getValue();
 
         return valueImpl;
     }

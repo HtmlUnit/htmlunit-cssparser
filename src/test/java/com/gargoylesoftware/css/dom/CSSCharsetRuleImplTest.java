@@ -18,9 +18,8 @@ import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSStyleSheet;
 
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
@@ -39,7 +38,7 @@ public class CSSCharsetRuleImplTest {
         final CSSCharsetRuleImpl value = parseCharsetRule("@charset \"utf-8\";");
 
         Assert.assertEquals("@charset \"utf-8\";", value.getCssText());
-        Assert.assertEquals(CSSRule.CHARSET_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.CHARSET_RULE, value.getType());
         Assert.assertEquals("@charset \"utf-8\";", value.toString());
     }
 
@@ -51,12 +50,12 @@ public class CSSCharsetRuleImplTest {
         final CSSCharsetRuleImpl value = parseCharsetRule("@charset \"utf-8\";");
 
         Assert.assertEquals("@charset \"utf-8\";", value.getCssText());
-        Assert.assertEquals(CSSRule.CHARSET_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.CHARSET_RULE, value.getType());
         Assert.assertEquals("@charset \"utf-8\";", value.toString());
 
         value.setCssText("@charset \"ASCII\";");
         Assert.assertEquals("@charset \"ASCII\";", value.getCssText());
-        Assert.assertEquals(CSSRule.CHARSET_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.CHARSET_RULE, value.getType());
         Assert.assertEquals("@charset \"ASCII\";", value.toString());
 
     }
@@ -91,13 +90,13 @@ public class CSSCharsetRuleImplTest {
     public void type() throws Exception {
         final CSSCharsetRuleImpl value = new CSSCharsetRuleImpl(null, null, null);
 
-        Assert.assertEquals(CSSRule.CHARSET_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.CHARSET_RULE, value.getType());
         Assert.assertEquals("@charset \"\";", value.toString());
     }
 
     private CSSCharsetRuleImpl parseCharsetRule(final String rule) throws Exception {
         final InputSource is = new InputSource(new StringReader(rule));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
+        final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
         final CSSCharsetRuleImpl value = (CSSCharsetRuleImpl) ss.getCssRules().item(0);
         return value;

@@ -18,10 +18,8 @@ import java.io.IOException;
 import java.util.Stack;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSStyleDeclaration;
-import org.w3c.dom.css.CSSValue;
 
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
 import com.gargoylesoftware.css.dom.CSSCharsetRuleImpl;
 import com.gargoylesoftware.css.dom.CSSFontFaceRuleImpl;
 import com.gargoylesoftware.css.dom.CSSImportRuleImpl;
@@ -96,7 +94,7 @@ public class CSSOMParser {
      * @return the CSSOM style declaration
      * @throws IOException if the underlying SAC parser throws an IOException
      */
-    public CSSStyleDeclaration parseStyleDeclaration(final InputSource source) throws IOException {
+    public CSSStyleDeclarationImpl parseStyleDeclaration(final InputSource source) throws IOException {
         final CSSStyleDeclarationImpl sd = new CSSStyleDeclarationImpl(null);
         parseStyleDeclaration(sd, source);
         return sd;
@@ -109,7 +107,7 @@ public class CSSOMParser {
      * @param sd the CSSOM style declaration
      * @throws IOException if the underlying SAC parser throws an IOException
      */
-    public void parseStyleDeclaration(final CSSStyleDeclaration sd, final InputSource source) throws IOException {
+    public void parseStyleDeclaration(final CSSStyleDeclarationImpl sd, final InputSource source) throws IOException {
         final Stack<Object> nodeStack = new Stack<Object>();
         nodeStack.push(sd);
         final CSSOMHandler handler = new CSSOMHandler(nodeStack);
@@ -124,7 +122,7 @@ public class CSSOMParser {
      * @return the css value
      * @throws IOException if the underlying SAC parser throws an IOException
      */
-    public CSSValue parsePropertyValue(final InputSource source) throws IOException {
+    public CSSValueImpl parsePropertyValue(final InputSource source) throws IOException {
         final CSSOMHandler handler = new CSSOMHandler();
         parser_.setDocumentHandler(handler);
         final LexicalUnit lu = parser_.parsePropertyValue(source);
@@ -141,11 +139,11 @@ public class CSSOMParser {
      * @return the css rule
      * @throws IOException if the underlying SAC parser throws an IOException
      */
-    public CSSRule parseRule(final InputSource source) throws IOException {
+    public AbstractCSSRuleImpl parseRule(final InputSource source) throws IOException {
         final CSSOMHandler handler = new CSSOMHandler();
         parser_.setDocumentHandler(handler);
         parser_.parseRule(source);
-        return (CSSRule) handler.getRoot();
+        return (AbstractCSSRuleImpl) handler.getRoot();
     }
 
     /**
@@ -412,11 +410,11 @@ public class CSSOMParser {
             }
         }
 
-        private CSSRule getParentRule() {
+        private AbstractCSSRuleImpl getParentRule() {
             if (!nodeStack_.empty() && nodeStack_.size() > 1) {
                 final Object node = nodeStack_.get(nodeStack_.size() - 2);
-                if (node instanceof CSSRule) {
-                    return (CSSRule) node;
+                if (node instanceof AbstractCSSRuleImpl) {
+                    return (AbstractCSSRuleImpl) node;
                 }
             }
             return null;

@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.stylesheets.MediaList;
 
 import com.gargoylesoftware.css.parser.AbstractLocatable;
 import com.gargoylesoftware.css.parser.CSSOMParser;
@@ -37,7 +36,7 @@ import com.gargoylesoftware.css.util.ThrowCssExceptionErrorHandler;
  *
  * @author Ronald Brill
  */
-public class MediaListImpl extends AbstractLocatable implements MediaList, Serializable {
+public class MediaListImpl extends AbstractLocatable implements Serializable {
 
     private List<MediaQuery> mediaQueries_;
 
@@ -54,7 +53,6 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
         }
     }
 
-    @Override
     public String getMediaText() {
         final StringBuilder sb = new StringBuilder("");
         boolean isNotFirst = false;
@@ -70,7 +68,6 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
         return sb.toString();
     }
 
-    @Override
     public void setMediaText(final String mediaText) throws DOMException {
         final InputSource source = new InputSource(new StringReader(mediaText));
         try {
@@ -87,12 +84,10 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
         }
     }
 
-    @Override
     public int getLength() {
         return mediaQueries_.size();
     }
 
-    @Override
     public String item(final int index) {
         final MediaQuery mq = mediaQuery(index);
         if (null == mq) {
@@ -113,7 +108,6 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
         return mediaQueries_.get(index);
     }
 
-    @Override
     public void deleteMedium(final String oldMedium) throws DOMException {
         for (MediaQuery mediaQuery : mediaQueries_) {
             final String str = mediaQuery.getMedia();
@@ -125,7 +119,6 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
         throw new DOMExceptionImpl(DOMException.NOT_FOUND_ERR, DOMExceptionImpl.NOT_FOUND);
     }
 
-    @Override
     public void appendMedium(final String newMedium) throws DOMException {
         mediaQueries_.add(new MediaQuery(newMedium));
     }
@@ -150,7 +143,7 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
         }
     }
 
-    private boolean equalsMedia(final MediaList ml) {
+    private boolean equalsMedia(final MediaListImpl ml) {
         if ((ml == null) || (getLength() != ml.getLength())) {
             return false;
         }
@@ -169,10 +162,10 @@ public class MediaListImpl extends AbstractLocatable implements MediaList, Seria
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof MediaList)) {
+        if (!(obj instanceof MediaListImpl)) {
             return false;
         }
-        final MediaList ml = (MediaList) obj;
+        final MediaListImpl ml = (MediaListImpl) obj;
         return super.equals(obj) && equalsMedia(ml);
     }
 

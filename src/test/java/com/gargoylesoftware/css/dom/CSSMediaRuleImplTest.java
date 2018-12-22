@@ -19,10 +19,8 @@ import java.io.StringReader;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSMediaRule;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSStyleSheet;
 
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
@@ -40,11 +38,11 @@ public class CSSMediaRuleImplTest {
     public void getCssText() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { body { font-size: 10pt } }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
-        final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
+        final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
+        final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().item(0);
 
         Assert.assertEquals("@media print {body { font-size: 10pt } }", mediaRule.getCssText());
-        Assert.assertEquals(CSSRule.MEDIA_RULE, mediaRule.getType());
+        Assert.assertEquals(CSSRuleType.MEDIA_RULE, mediaRule.getType());
     }
 
     /**
@@ -54,8 +52,8 @@ public class CSSMediaRuleImplTest {
     public void insertRule() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
-        final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
+        final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
+        final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().item(0);
 
         mediaRule.insertRule(".testStyle { height: 42px; }", 0);
         Assert.assertEquals("*.testStyle { height: 42px }", mediaRule.getCssRules().item(0).getCssText());
@@ -85,8 +83,8 @@ public class CSSMediaRuleImplTest {
     public void insertRuleWithLeadingWhitespace() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
-        final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
+        final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
+        final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().item(0);
 
         mediaRule.insertRule(" .testStyleDef { height: 42px; }", 0);
         Assert.assertEquals("*.testStyleDef { height: 42px }", mediaRule.getCssRules().item(0).getCssText());
@@ -110,8 +108,8 @@ public class CSSMediaRuleImplTest {
     public void insertRuleWithoutDeclaration() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
-        final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
+        final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
+        final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().item(0);
 
         try {
             mediaRule.insertRule(".testStyleDef", 0);
@@ -132,8 +130,8 @@ public class CSSMediaRuleImplTest {
     public void insertRuleNot() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
-        final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
+        final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
+        final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().item(0);
 
         mediaRule.insertRule("li:not(.shiny) { height: 44px }", 0);
         Assert.assertEquals("li:not(.shiny) { height: 44px }", mediaRule.getCssRules().item(0).getCssText());
@@ -155,8 +153,8 @@ public class CSSMediaRuleImplTest {
     public void deleteRule() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { body { font-size: 10pt } }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
-        final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
+        final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
+        final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().item(0);
 
         mediaRule.deleteRule(0);
         Assert.assertEquals(0, mediaRule.getCssRules().getLength());
@@ -169,8 +167,8 @@ public class CSSMediaRuleImplTest {
     public void deleteRuleWrongIndex() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
-        final CSSMediaRule mediaRule = (CSSMediaRule) ss.getCssRules().item(0);
+        final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
+        final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().item(0);
 
         try {
             mediaRule.deleteRule(7);
@@ -189,7 +187,7 @@ public class CSSMediaRuleImplTest {
     public void asString() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final InputSource source = new InputSource(new StringReader("@media print { body { font-size: 10pt } }"));
-        final CSSStyleSheet ss = parser.parseStyleSheet(source, null);
+        final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
         final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().item(0);
 
         Assert.assertEquals("@media print {body { font-size: 10pt } }", mediaRule.toString());

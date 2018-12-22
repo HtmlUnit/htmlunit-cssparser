@@ -18,9 +18,6 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.css.CSSFontFaceRule;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSStyleDeclaration;
 
 import com.gargoylesoftware.css.parser.CSSException;
 import com.gargoylesoftware.css.parser.CSSOMParser;
@@ -32,28 +29,26 @@ import com.gargoylesoftware.css.util.LangUtils;
  *
  * @author Ronald Brill
  */
-public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl implements CSSFontFaceRule {
+public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl {
 
     private CSSStyleDeclarationImpl style_;
 
-    public CSSFontFaceRuleImpl(final CSSStyleSheetImpl parentStyleSheet, final CSSRule parentRule) {
+    public CSSFontFaceRuleImpl(final CSSStyleSheetImpl parentStyleSheet, final AbstractCSSRuleImpl parentRule) {
         super(parentStyleSheet, parentRule);
     }
 
-    @Override
-    public short getType() {
-        return FONT_FACE_RULE;
+    public CSSRuleType getType() {
+        return CSSRuleType.FONT_FACE_RULE;
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
     public String getCssText() {
         final StringBuilder sb = new StringBuilder();
         sb.append("@font-face {");
 
-        final CSSStyleDeclaration style = getStyle();
+        final CSSStyleDeclarationImpl style = getStyle();
         if (null != style) {
             sb.append(style.getCssText());
         }
@@ -61,7 +56,6 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl implements CSSFontF
         return sb.toString();
     }
 
-    @Override
     public void setCssText(final String cssText) throws DOMException {
         final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheetImpl();
         if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
@@ -73,10 +67,10 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl implements CSSFontF
         try {
             final InputSource is = new InputSource(new StringReader(cssText));
             final CSSOMParser parser = new CSSOMParser();
-            final CSSRule r = parser.parseRule(is);
+            final AbstractCSSRuleImpl r = parser.parseRule(is);
 
             // The rule must be a font face rule
-            if (r.getType() == CSSRule.FONT_FACE_RULE) {
+            if (r.getType() == CSSRuleType.FONT_FACE_RULE) {
                 style_ = ((CSSFontFaceRuleImpl) r).style_;
             }
             else {
@@ -99,8 +93,7 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl implements CSSFontF
         }
     }
 
-    @Override
-    public CSSStyleDeclaration getStyle() {
+    public CSSStyleDeclarationImpl getStyle() {
         return style_;
     }
 
@@ -113,10 +106,10 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl implements CSSFontF
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSFontFaceRule)) {
+        if (!(obj instanceof CSSFontFaceRuleImpl)) {
             return false;
         }
-        final CSSFontFaceRule cffr = (CSSFontFaceRule) obj;
+        final CSSFontFaceRuleImpl cffr = (CSSFontFaceRuleImpl) obj;
         return super.equals(obj)
             && LangUtils.equals(getStyle(), cffr.getStyle());
     }

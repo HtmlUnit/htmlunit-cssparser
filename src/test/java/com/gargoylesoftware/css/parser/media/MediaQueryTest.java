@@ -16,7 +16,6 @@ package com.gargoylesoftware.css.parser.media;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSValue;
 
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.Property;
@@ -55,7 +54,7 @@ public class MediaQueryTest {
         mq.addMediaProperty(prop);
         Assert.assertEquals("test and (prop: )", mq.toString());
 
-        final CSSValue value = new CSSValueImpl(null);
+        final CSSValueImpl value = new CSSValueImpl(null);
         value.setCssText("10dpi");
         prop = new Property("prop", value, false);
         mq = new MediaQuery("test", true, false);

@@ -20,7 +20,6 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.stylesheets.MediaList;
 
 /**
  * Unit tests for {@link MediaListImpl}.
@@ -34,7 +33,7 @@ public class MediaListTest {
      */
     @Test
     public void defaultConstructor() throws Exception {
-        final MediaList ml = new MediaListImpl(null);
+        final MediaListImpl ml = new MediaListImpl(null);
         Assert.assertEquals("", ml.toString());
         Assert.assertEquals("", ml.getMediaText());
         Assert.assertEquals(0, ml.getLength());
@@ -46,7 +45,7 @@ public class MediaListTest {
      */
     @Test
     public void getMediaText() throws Exception {
-        final MediaList ml = new MediaListImpl(null);
+        final MediaListImpl ml = new MediaListImpl(null);
         Assert.assertEquals("", ml.getMediaText());
 
         ml.appendMedium("newMedium");
@@ -64,7 +63,7 @@ public class MediaListTest {
      */
     @Test
     public void getLength() throws Exception {
-        final MediaList ml = new MediaListImpl(null);
+        final MediaListImpl ml = new MediaListImpl(null);
         Assert.assertEquals(0, ml.getLength());
 
         ml.appendMedium("newMedium");
@@ -82,7 +81,7 @@ public class MediaListTest {
      */
     @Test
     public void item() throws Exception {
-        final MediaList ml = new MediaListImpl(null);
+        final MediaListImpl ml = new MediaListImpl(null);
         Assert.assertEquals(null, ml.item(-1));
         Assert.assertEquals(null, ml.item(0));
         Assert.assertEquals(null, ml.item(1));
@@ -115,7 +114,7 @@ public class MediaListTest {
      */
     @Test
     public void deleteMedium() throws Exception {
-        MediaList ml = new MediaListImpl(null);
+        MediaListImpl ml = new MediaListImpl(null);
         ml.appendMedium("newMedium");
         ml.appendMedium("anotherMedium");
         ml.appendMedium("lastMedium");
@@ -184,7 +183,7 @@ public class MediaListTest {
      */
     @Test
     public void setMediaText() throws Exception {
-        final MediaList ml = new MediaListImpl(null);
+        final MediaListImpl ml = new MediaListImpl(null);
 
         ml.setMediaText("MyMediaText");
         Assert.assertEquals("MyMediaText", ml.toString());

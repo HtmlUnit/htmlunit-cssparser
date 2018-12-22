@@ -18,9 +18,8 @@ import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSStyleSheet;
 
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
@@ -39,7 +38,7 @@ public class CSSUnknownRuleImplTest {
         final CSSUnknownRuleImpl value = parseUnknownRule("@foo \"text\";");
 
         Assert.assertEquals("@foo text;", value.getCssText());
-        Assert.assertEquals(CSSRule.UNKNOWN_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.UNKNOWN_RULE, value.getType());
         Assert.assertEquals("@foo text;", value.toString());
     }
 
@@ -51,12 +50,12 @@ public class CSSUnknownRuleImplTest {
         final CSSUnknownRuleImpl value = parseUnknownRule("@foo \"text\";");
 
         Assert.assertEquals("@foo text;", value.getCssText());
-        Assert.assertEquals(CSSRule.UNKNOWN_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.UNKNOWN_RULE, value.getType());
         Assert.assertEquals("@foo text;", value.toString());
 
         value.setCssText("@foo { key: 'value' };");
         Assert.assertEquals("@foo { key: value }", value.getCssText());
-        Assert.assertEquals(CSSRule.UNKNOWN_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.UNKNOWN_RULE, value.getType());
         Assert.assertEquals("@foo { key: value }", value.toString());
 
     }
@@ -68,13 +67,13 @@ public class CSSUnknownRuleImplTest {
     public void type() throws Exception {
         final CSSUnknownRuleImpl value = new CSSUnknownRuleImpl(null, null, null);
 
-        Assert.assertEquals(CSSRule.UNKNOWN_RULE, value.getType());
+        Assert.assertEquals(CSSRuleType.UNKNOWN_RULE, value.getType());
         Assert.assertEquals("", value.toString());
     }
 
     private CSSUnknownRuleImpl parseUnknownRule(final String rule) throws Exception {
         final InputSource is = new InputSource(new StringReader(rule));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
+        final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
         final CSSUnknownRuleImpl value = (CSSUnknownRuleImpl) ss.getCssRules().item(0);
         return value;

@@ -18,7 +18,6 @@ import java.io.StringReader;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSStyleSheet;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
@@ -95,9 +94,9 @@ public class CSSRuleListImplTest {
 
     private CSSRuleListImpl parseRuleList(final String rules) throws Exception {
         final InputSource is = new InputSource(new StringReader(rules));
-        final CSSStyleSheet ss = new CSSOMParser().parseStyleSheet(is, null);
+        final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        return (CSSRuleListImpl) ss.getCssRules();
+        return ss.getCssRules();
     }
 
     /**

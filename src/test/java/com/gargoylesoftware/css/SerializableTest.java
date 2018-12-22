@@ -27,10 +27,10 @@ import java.io.Reader;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.css.CSSRule;
-import org.w3c.dom.css.CSSRuleList;
-import org.w3c.dom.css.CSSStyleSheet;
 
+import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
+import com.gargoylesoftware.css.dom.CSSRuleListImpl;
+import com.gargoylesoftware.css.dom.CSSStyleSheetImpl;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
@@ -52,7 +52,7 @@ public class SerializableTest {
         final Reader r = new InputStreamReader(is);
         final InputSource source = new InputSource(r);
 
-        final CSSStyleSheet stylesheet = parser.parseStyleSheet(source, null);
+        final CSSStyleSheetImpl stylesheet = parser.parseStyleSheet(source, null);
 
         // Serialize the style sheet
         final File temp = File.createTempFile("temp", "css");
@@ -65,14 +65,14 @@ public class SerializableTest {
         // Read it back in
         final FileInputStream fi = new FileInputStream(temp);
         final ObjectInput oi = new ObjectInputStream(fi);
-        final CSSStyleSheet stylesheet2 = (CSSStyleSheet) oi.readObject();
+        final CSSStyleSheetImpl stylesheet2 = (CSSStyleSheetImpl) oi.readObject();
         oi.close();
 
-        final CSSRuleList rules = stylesheet2.getCssRules();
+        final CSSRuleListImpl rules = stylesheet2.getCssRules();
 
         // TODO
         for (int i = 0; i < rules.getLength(); i++) {
-            final CSSRule rule = rules.item(i);
+            final AbstractCSSRuleImpl rule = rules.item(i);
             System.out.println(rule.getCssText());
         }
     }
