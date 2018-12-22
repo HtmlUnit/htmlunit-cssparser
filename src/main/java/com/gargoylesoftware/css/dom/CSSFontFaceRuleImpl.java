@@ -37,10 +37,6 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl {
         super(parentStyleSheet, parentRule);
     }
 
-    public CSSRuleType getType() {
-        return CSSRuleType.FONT_FACE_RULE;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -70,7 +66,7 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl {
             final AbstractCSSRuleImpl r = parser.parseRule(is);
 
             // The rule must be a font face rule
-            if (r.getType() == CSSRuleType.FONT_FACE_RULE) {
+            if (r instanceof CSSFontFaceRuleImpl) {
                 style_ = ((CSSFontFaceRuleImpl) r).style_;
             }
             else {

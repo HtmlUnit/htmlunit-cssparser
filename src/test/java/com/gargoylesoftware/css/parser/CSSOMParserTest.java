@@ -21,7 +21,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
-import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.dom.CSSPageRuleImpl;
 import com.gargoylesoftware.css.dom.CSSRuleListImpl;
 import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
@@ -77,8 +76,6 @@ public class CSSOMParserTest {
 
         final CSSRuleListImpl rl = ss.getCssRules();
         final AbstractCSSRuleImpl rule = rl.item(0);
-
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
 
         final CSSStyleRuleImpl sr = (CSSStyleRuleImpl) rule;
         Assert.assertEquals(testSelector_, sr.getSelectorText());
@@ -468,7 +465,6 @@ public class CSSOMParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.item(0);
-        Assert.assertEquals(CSSRuleType.PAGE_RULE, rule.getType());
 
         Assert.assertEquals("@page :pageStyle {size: 21cm 29.7cm}", rule.getCssText());
 
@@ -492,7 +488,6 @@ public class CSSOMParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.item(0);
-        Assert.assertEquals(CSSRuleType.PAGE_RULE, rule.getType());
 
         Assert.assertEquals("@page {size: 21cm 29.7cm}", rule.getCssText());
 

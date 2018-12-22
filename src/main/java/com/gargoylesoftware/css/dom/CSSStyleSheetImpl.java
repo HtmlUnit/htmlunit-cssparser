@@ -30,7 +30,6 @@ import java.util.Map;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 
-import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.parser.CSSException;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
@@ -63,10 +62,6 @@ public class CSSStyleSheetImpl implements Serializable {
 
     public CSSStyleSheetImpl() {
         super();
-    }
-
-    public String getType() {
-        return "text/css";
     }
 
     /**
@@ -138,23 +133,23 @@ public class CSSStyleSheetImpl implements Serializable {
                 // We need to check that this type of rule can legally go into
                 // the requested position.
                 int msg = -1;
-                if (r.getType() == CSSRuleType.CHARSET_RULE) {
+                if (r instanceof CSSCharsetRuleImpl) {
 
                     // Index must be 0, and there can be only one charset rule
                     if (index != 0) {
                         msg = DOMExceptionImpl.CHARSET_NOT_FIRST;
                     }
-                    else if (getCssRules().item(0).getType() == CSSRuleType.CHARSET_RULE) {
+                    else if (getCssRules().item(0) instanceof CSSCharsetRuleImpl) {
                         msg = DOMExceptionImpl.CHARSET_NOT_UNIQUE;
                     }
                 }
-                else if (r.getType() == CSSRuleType.IMPORT_RULE) {
+                else if (r instanceof CSSImportRuleImpl) {
                     // Import rules must preceed all other rules (except
                     // charset rules)
                     if (index <= getCssRules().getLength()) {
                         for (int i = 0; i < index; i++) {
-                            final CSSRuleType rt = getCssRules().item(i).getType();
-                            if ((rt != CSSRuleType.CHARSET_RULE) && (rt != CSSRuleType.IMPORT_RULE)) {
+                            final AbstractCSSRuleImpl ri = getCssRules().item(i);
+                            if (!(ri instanceof CSSCharsetRuleImpl) && !(ri instanceof CSSImportRuleImpl)) {
                                 msg = DOMExceptionImpl.IMPORT_NOT_FIRST;
                                 break;
                             }
@@ -164,8 +159,8 @@ public class CSSStyleSheetImpl implements Serializable {
                 else {
                     if (index <= getCssRules().getLength()) {
                         for (int i = index; i < getCssRules().getLength(); i++) {
-                            final CSSRuleType rt = getCssRules().item(i).getType();
-                            if ((rt == CSSRuleType.CHARSET_RULE) || (rt == CSSRuleType.IMPORT_RULE)) {
+                            final AbstractCSSRuleImpl ri = getCssRules().item(i);
+                            if ((ri instanceof CSSCharsetRuleImpl) || (ri instanceof CSSImportRuleImpl)) {
                                 msg = DOMExceptionImpl.INSERT_BEFORE_IMPORT;
                                 break;
                             }

@@ -19,7 +19,6 @@ import java.io.StringReader;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
@@ -38,7 +37,6 @@ public class CSSPageRuleImplTest {
         final CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
 
         Assert.assertEquals("@page {size: 21cm 29.7cm}", value.getCssText());
-        Assert.assertEquals(CSSRuleType.PAGE_RULE, value.getType());
         Assert.assertEquals("@page {size: 21cm 29.7cm}", value.toString());
     }
 
@@ -50,12 +48,10 @@ public class CSSPageRuleImplTest {
         final CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
 
         Assert.assertEquals("@page {size: 21cm 29.7cm}", value.getCssText());
-        Assert.assertEquals(CSSRuleType.PAGE_RULE, value.getType());
         Assert.assertEquals("@page {size: 21cm 29.7cm}", value.toString());
 
         value.setCssText("@page :pseudo { color: blue }");
         Assert.assertEquals("@page :pseudo {color: blue}", value.getCssText());
-        Assert.assertEquals(CSSRuleType.PAGE_RULE, value.getType());
         Assert.assertEquals("@page :pseudo {color: blue}", value.toString());
 
     }
@@ -113,7 +109,6 @@ public class CSSPageRuleImplTest {
     public void type() throws Exception {
         final CSSPageRuleImpl value = new CSSPageRuleImpl(null, null, null);
 
-        Assert.assertEquals(CSSRuleType.PAGE_RULE, value.getType());
         Assert.assertEquals("@page {}", value.toString());
     }
 

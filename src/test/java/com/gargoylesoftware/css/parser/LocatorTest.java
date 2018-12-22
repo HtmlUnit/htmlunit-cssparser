@@ -86,8 +86,8 @@ public class LocatorTest {
             + MEDIA_RULE_START
             + STYLE_RULE
             + "}\n";
-        final Map<Character, List<Integer[]>> positions =
-            new Hashtable<Character, List<Integer[]>>();
+
+        final Map<Character, List<Integer[]>> positions = new Hashtable<Character, List<Integer[]>>();
         final List<Integer[]> rPos = new ArrayList<Integer[]>();
         rPos.add(new Integer[] {1, 1});
         rPos.add(new Integer[] {2, 1});
@@ -162,38 +162,37 @@ public class LocatorTest {
         Assert.assertEquals(expectedColumn, locator.getColumnNumber());
         counts.put('R', counts.get('R') + 1);
 
-        switch (cssRule.getType()) {
-            case UNKNOWN_RULE:
-                final CSSUnknownRuleImpl cssUnknownRule = (CSSUnknownRuleImpl) cssRule;
-                // TODO
-                break;
-            case CHARSET_RULE:
-                final CSSCharsetRuleImpl cssCharsetRule = (CSSCharsetRuleImpl) cssRule;
-                // TODO
-                break;
-            case IMPORT_RULE:
-                final CSSImportRuleImpl cssImportRule = (CSSImportRuleImpl) cssRule;
-                mediaList(cssImportRule.getMedia(), positions, counts);
-                break;
-            case MEDIA_RULE:
-                final CSSMediaRuleImpl cssMediaRule = (CSSMediaRuleImpl) cssRule;
-                mediaList(cssMediaRule.getMedia(), positions, counts);
-                cssRules(cssMediaRule.getCssRules(), positions, counts);
-                break;
-            case PAGE_RULE:
-                final CSSPageRuleImpl cssPageRule = (CSSPageRuleImpl) cssRule;
-                cssStyleDeclaration(cssPageRule.getStyle(), positions, counts);
-                break;
-            case FONT_FACE_RULE:
-                final CSSFontFaceRuleImpl cssFontFaceRule = (CSSFontFaceRuleImpl) cssRule;
-                cssStyleDeclaration(cssFontFaceRule.getStyle(), positions, counts);
-                break;
-            case STYLE_RULE:
-                final CSSStyleRuleImpl cssStyleRule = (CSSStyleRuleImpl) cssRule;
-                cssStyleDeclaration(cssStyleRule.getStyle(), positions, counts);
-                break;
-            default:
-                throw new RuntimeException("Unsupported rule type (" + cssRule.getType() + ")");
+        if (cssRule instanceof CSSUnknownRuleImpl) {
+            final CSSUnknownRuleImpl cssUnknownRule = (CSSUnknownRuleImpl) cssRule;
+            // TODO
+        }
+        else if (cssRule instanceof CSSCharsetRuleImpl) {
+            final CSSCharsetRuleImpl cssCharsetRule = (CSSCharsetRuleImpl) cssRule;
+            // TODO
+        }
+        else if (cssRule instanceof CSSImportRuleImpl) {
+            final CSSImportRuleImpl cssImportRule = (CSSImportRuleImpl) cssRule;
+            mediaList(cssImportRule.getMedia(), positions, counts);
+        }
+        else if (cssRule instanceof CSSMediaRuleImpl) {
+            final CSSMediaRuleImpl cssMediaRule = (CSSMediaRuleImpl) cssRule;
+            mediaList(cssMediaRule.getMedia(), positions, counts);
+            cssRules(cssMediaRule.getCssRules(), positions, counts);
+        }
+        else if (cssRule instanceof CSSPageRuleImpl) {
+            final CSSPageRuleImpl cssPageRule = (CSSPageRuleImpl) cssRule;
+            cssStyleDeclaration(cssPageRule.getStyle(), positions, counts);
+        }
+        else if (cssRule instanceof CSSFontFaceRuleImpl) {
+            final CSSFontFaceRuleImpl cssFontFaceRule = (CSSFontFaceRuleImpl) cssRule;
+            cssStyleDeclaration(cssFontFaceRule.getStyle(), positions, counts);
+        }
+        else if (cssRule instanceof CSSStyleRuleImpl) {
+            final CSSStyleRuleImpl cssStyleRule = (CSSStyleRuleImpl) cssRule;
+            cssStyleDeclaration(cssStyleRule.getStyle(), positions, counts);
+        }
+        else {
+            throw new RuntimeException("Unsupported rule type (" + cssRule.getClass().getSimpleName() + ")");
         }
     }
 

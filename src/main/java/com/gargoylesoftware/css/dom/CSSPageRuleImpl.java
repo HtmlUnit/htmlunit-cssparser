@@ -42,10 +42,6 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
         pseudoPage_ = pseudoPage;
     }
 
-    public CSSRuleType getType() {
-        return CSSRuleType.PAGE_RULE;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -82,7 +78,7 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
             final AbstractCSSRuleImpl r = parser.parseRule(is);
 
             // The rule must be a page rule
-            if (r.getType() == CSSRuleType.PAGE_RULE) {
+            if (r instanceof CSSPageRuleImpl) {
                 pseudoPage_ = ((CSSPageRuleImpl) r).pseudoPage_;
                 style_ = ((CSSPageRuleImpl) r).style_;
             }

@@ -24,7 +24,6 @@ import org.junit.Test;
 
 import com.gargoylesoftware.css.ErrorHandler;
 import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
-import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.dom.CSSRuleListImpl;
 import com.gargoylesoftware.css.dom.CSSStyleSheetImpl;
 import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
@@ -75,23 +74,18 @@ public class ImportantTest {
 
         AbstractCSSRuleImpl rule = rules.item(0);
         Assert.assertEquals("*.sel1 { padding: 0 !important }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
 
         rule = rules.item(1);
         Assert.assertEquals("*.sel2 { font-weight: normal !important }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
 
         rule = rules.item(2);
         Assert.assertEquals("*.sel3 { font-weight: normal !important }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
 
         rule = rules.item(3);
         Assert.assertEquals("*.sel4 { font-weight: normal !important }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
 
         rule = rules.item(4);
         Assert.assertEquals("*.important { font-weight: bold }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
     }
 
     private ErrorHandler parserError(final CSSParser cssParser) throws Exception {

@@ -41,10 +41,6 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
         encoding_ = encoding;
     }
 
-    public CSSRuleType getType() {
-        return CSSRuleType.CHARSET_RULE;
-    }
-
     public void setCssText(final String cssText) throws DOMException {
         final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheetImpl();
         if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
@@ -59,7 +55,7 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
             final AbstractCSSRuleImpl r = parser.parseRule(is);
 
             // The rule must be a charset rule
-            if (r.getType() == CSSRuleType.CHARSET_RULE) {
+            if (r instanceof CSSCharsetRuleImpl) {
                 encoding_ = ((CSSCharsetRuleImpl) r).encoding_;
             }
             else {

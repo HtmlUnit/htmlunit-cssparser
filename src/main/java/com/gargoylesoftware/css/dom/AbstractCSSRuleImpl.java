@@ -23,16 +23,6 @@ import com.gargoylesoftware.css.parser.AbstractLocatable;
  */
 public abstract class AbstractCSSRuleImpl extends AbstractLocatable implements Serializable {
 
-    public enum CSSRuleType {
-        MEDIA_RULE,
-        PAGE_RULE,
-        IMPORT_RULE,
-        FONT_FACE_RULE,
-        CHARSET_RULE,
-        STYLE_RULE,
-        UNKNOWN_RULE
-    }
-
     private CSSStyleSheetImpl parentStyleSheet_;
     private AbstractCSSRuleImpl parentRule_;
 
@@ -57,8 +47,6 @@ public abstract class AbstractCSSRuleImpl extends AbstractLocatable implements S
     public AbstractCSSRuleImpl() {
         super();
     }
-
-    public abstract CSSRuleType getType();
 
     public abstract String getCssText();
     public abstract void setCssText(String text);

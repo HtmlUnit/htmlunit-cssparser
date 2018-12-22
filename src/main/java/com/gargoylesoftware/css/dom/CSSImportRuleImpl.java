@@ -52,10 +52,6 @@ public class CSSImportRuleImpl extends AbstractCSSRuleImpl {
         media_ = media;
     }
 
-    public CSSRuleType getType() {
-        return CSSRuleType.IMPORT_RULE;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -90,7 +86,7 @@ public class CSSImportRuleImpl extends AbstractCSSRuleImpl {
             final AbstractCSSRuleImpl r = parser.parseRule(is);
 
             // The rule must be an import rule
-            if (r.getType() == CSSRuleType.IMPORT_RULE) {
+            if (r instanceof CSSImportRuleImpl) {
                 href_ = ((CSSImportRuleImpl) r).href_;
                 media_ = ((CSSImportRuleImpl) r).media_;
             }

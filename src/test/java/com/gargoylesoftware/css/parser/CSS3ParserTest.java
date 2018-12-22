@@ -27,7 +27,6 @@ import org.junit.Test;
 
 import com.gargoylesoftware.css.ErrorHandler;
 import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
-import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.dom.CSSMediaRuleImpl;
 import com.gargoylesoftware.css.dom.CSSRuleListImpl;
 import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
@@ -156,21 +155,18 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         AbstractCSSRuleImpl rule = rules.item(0);
         Assert.assertEquals("html:lang(fr-ca) { }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
         ElementSelector selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
         Assert.assertEquals("fr-ca", ((LangCondition) selector.getConditions().get(0)).getLang());
 
         rule = rules.item(1);
         Assert.assertEquals("html:lang(de) { }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
         selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
         Assert.assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getLang());
 
         rule = rules.item(2);
         Assert.assertEquals("*:lang(fr) > Q { }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
         ChildSelector childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         selector = (ElementSelector) childSelector.getAncestorSelector();
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
@@ -178,7 +174,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         rule = rules.item(3);
         Assert.assertEquals("*:lang(de) > Q { }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
         childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         selector = (ElementSelector) childSelector.getAncestorSelector();
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
@@ -552,7 +547,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         AbstractCSSRuleImpl cssRule = rules.item(0);
         Assert.assertEquals("@media print {*#navigation { display: none } "
                 + "@media all and (max-width: 12cm) {*.note { float: none } } }", cssRule.getCssText());
-        Assert.assertEquals(CSSRuleType.MEDIA_RULE, cssRule.getType());
 
         MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
         Assert.assertEquals(1, mediaList.getLength());
@@ -563,11 +557,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         cssRule = innerRules.item(0);
         Assert.assertEquals("*#navigation { display: none }", cssRule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, cssRule.getType());
 
         cssRule = innerRules.item(1);
         Assert.assertEquals("@media all and (max-width: 12cm) {*.note { float: none } }", cssRule.getCssText());
-        Assert.assertEquals(CSSRuleType.MEDIA_RULE, cssRule.getType());
 
         mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
         Assert.assertEquals(1, mediaList.getLength());
@@ -589,7 +581,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.item(0);
-        Assert.assertEquals(CSSRuleType.FONT_FACE_RULE, rule.getType());
         Assert.assertEquals("@font-face {font-family: Gentium; src: url(http://example.com/fonts/Gentium.ttf)}",
                 rule.getCssText());
     }
@@ -607,7 +598,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.item(0);
-        Assert.assertEquals(CSSRuleType.FONT_FACE_RULE, rule.getType());
         Assert.assertEquals("@font-face {font-family: Gentium; unicode-range: U+26}",
                 rule.getCssText());
     }
@@ -625,7 +615,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.item(0);
-        Assert.assertEquals(CSSRuleType.FONT_FACE_RULE, rule.getType());
         Assert.assertEquals("@font-face {font-family: Gentium; unicode-range: U+4?}",
                 rule.getCssText());
     }
@@ -643,7 +632,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.item(0);
-        Assert.assertEquals(CSSRuleType.FONT_FACE_RULE, rule.getType());
         Assert.assertEquals("@font-face {font-family: Gentium; unicode-range: U+0-7F}",
                 rule.getCssText());
     }
@@ -661,7 +649,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.item(0);
-        Assert.assertEquals(CSSRuleType.FONT_FACE_RULE, rule.getType());
         Assert.assertEquals("@font-face {font-family: Gentium; unicode-range: U+0025-00FF}",
                 rule.getCssText());
     }
@@ -679,7 +666,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.item(0);
-        Assert.assertEquals(CSSRuleType.FONT_FACE_RULE, rule.getType());
         Assert.assertEquals("@font-face {font-family: Gentium; unicode-range: U+0025-0??F, U+4??}",
                 rule.getCssText());
     }
@@ -701,7 +687,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.item(0);
-        Assert.assertEquals(CSSRuleType.FONT_FACE_RULE, rule.getType());
         Assert.assertEquals("@font-face {font-family: Headline; "
                 + "src: local(Futura-Medium), url(fonts.svg#MyGeometricModern) format(\"svg\")}",
                 rule.getCssText());
@@ -729,7 +714,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.item(0);
-        Assert.assertEquals(CSSRuleType.FONT_FACE_RULE, rule.getType());
         Assert.assertEquals("@font-face {font-family: Pangolin; "
                 + "font-style: normal; font-weight: 400; "
                 + "src: local(\"Indie Flower\"), local(\"IndieFlower\"), "
@@ -1160,32 +1144,27 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         AbstractCSSRuleImpl rule = rules.item(0);
         Assert.assertEquals("H1:before { content: counter(chno, upper-latin) \". \" }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
         CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
         Assert.assertEquals("counter(chno, upper-latin)", value.item(0).getCounterValue().toString());
 
         rule = rules.item(1);
         Assert.assertEquals("H2:before { content: counter(section, upper-roman) \" - \" }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
         Assert.assertEquals("counter(section, upper-roman)",
                 value.item(0).getCounterValue().toString());
 
         rule = rules.item(2);
         Assert.assertEquals("BLOCKQUOTE:after { content: \" [\" counter(bq, lower-greek) \"]\" }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
         Assert.assertEquals("counter(bq, lower-greek)", value.item(1).getCounterValue().toString());
 
         rule = rules.item(3);
         Assert.assertEquals("DIV.note:before { content: counter(notecntr, disc) \" \" }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
         Assert.assertEquals("counter(notecntr, disc)", value.item(0).getCounterValue().toString());
 
         rule = rules.item(4);
         Assert.assertEquals("P:before { content: counter(p, none) }", rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
         Assert.assertEquals("counter(p, none)", value.getCounterValue().toString());
     }
@@ -1207,7 +1186,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl rule = rules.item(0);
         Assert.assertEquals("LI:before { content: counters(item, \".\") \" \"; counter-increment: item }",
                 rule.getCssText());
-        Assert.assertEquals(CSSRuleType.STYLE_RULE, rule.getType());
         final CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
         Assert.assertEquals("counters(item, \".\")", value.item(0).getCounterValue().toString());
     }
@@ -3550,7 +3528,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.item(0);
-        Assert.assertEquals(CSSRuleType.UNKNOWN_RULE, rule.getType());
         Assert.assertEquals("@keyframes background900 { "
                 + "0% { background-position:0 0; } 100% { background-position:0 -900px; } }",
                    rule.getCssText());

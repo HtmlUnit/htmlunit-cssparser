@@ -47,10 +47,6 @@ public class CSSUnknownRuleImpl extends AbstractCSSRuleImpl {
         text_ = text;
     }
 
-    public CSSRuleType getType() {
-        return CSSRuleType.UNKNOWN_RULE;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -75,7 +71,7 @@ public class CSSUnknownRuleImpl extends AbstractCSSRuleImpl {
             final AbstractCSSRuleImpl r = parser.parseRule(is);
 
             // The rule must be an unknown rule
-            if (r.getType() == CSSRuleType.UNKNOWN_RULE) {
+            if (r instanceof CSSUnknownRuleImpl) {
                 text_ = ((CSSUnknownRuleImpl) r).text_;
             }
             else {

@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.DOMException;
 
-import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl.CSSRuleType;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
 
@@ -42,7 +41,6 @@ public class CSSMediaRuleImplTest {
         final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().item(0);
 
         Assert.assertEquals("@media print {body { font-size: 10pt } }", mediaRule.getCssText());
-        Assert.assertEquals(CSSRuleType.MEDIA_RULE, mediaRule.getType());
     }
 
     /**

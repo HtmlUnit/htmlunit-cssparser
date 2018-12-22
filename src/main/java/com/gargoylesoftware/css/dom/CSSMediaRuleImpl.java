@@ -53,10 +53,6 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
         media_ = media;
     }
 
-    public CSSRuleType getType() {
-        return CSSRuleType.MEDIA_RULE;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -87,7 +83,7 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
             final AbstractCSSRuleImpl r = parser.parseRule(is);
 
             // The rule must be a media rule
-            if (r.getType() == CSSRuleType.MEDIA_RULE) {
+            if (r instanceof CSSMediaRuleImpl) {
                 media_ = ((CSSMediaRuleImpl) r).media_;
                 cssRules_ = ((CSSMediaRuleImpl) r).cssRules_;
             }

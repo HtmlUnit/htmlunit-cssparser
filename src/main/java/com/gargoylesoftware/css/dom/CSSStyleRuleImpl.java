@@ -49,10 +49,6 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
         selectors_ = selectors;
     }
 
-    public CSSRuleType getType() {
-        return CSSRuleType.STYLE_RULE;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -86,7 +82,7 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
             final AbstractCSSRuleImpl r = parser.parseRule(is);
 
             // The rule must be a style rule
-            if (r.getType() == CSSRuleType.STYLE_RULE) {
+            if (r instanceof CSSStyleRuleImpl) {
                 selectors_ = ((CSSStyleRuleImpl) r).selectors_;
                 style_ = ((CSSStyleRuleImpl) r).style_;
             }
