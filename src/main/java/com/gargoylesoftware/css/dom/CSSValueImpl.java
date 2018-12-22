@@ -35,10 +35,6 @@ import com.gargoylesoftware.css.util.LangUtils;
  * <code>CSSPrimitiveValue</code> or a <code>CSSValueList</code> so that
  * the type can successfully change when using <code>setCssText</code>.
  *
- * TODO:
- * Float unit conversions,
- * A means of checking valid primitive types for properties
- *
  * @author Ronald Brill
  */
 public class CSSValueImpl extends AbstractLocatable implements Serializable {
