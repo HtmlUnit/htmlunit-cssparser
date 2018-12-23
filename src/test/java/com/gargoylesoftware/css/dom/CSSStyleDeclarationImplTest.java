@@ -202,7 +202,7 @@ public class CSSStyleDeclarationImplTest {
 
         Assert.assertEquals("background: url()", style.getCssText());
         Assert.assertEquals(1, style.getLength());
-        Assert.assertEquals("background", style.item(0));
+        Assert.assertEquals("background", style.getProperties().get(0).getName());
         Assert.assertEquals("url()", style.getPropertyValue("background"));
     }
 

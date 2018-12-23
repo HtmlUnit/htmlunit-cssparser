@@ -81,9 +81,9 @@ public class CSSOMParserTest {
         Assert.assertEquals(testSelector_, sr.getSelectorText());
 
         final CSSStyleDeclarationImpl style = sr.getStyle();
-        Assert.assertEquals(testItem_, style.item(0));
+        Assert.assertEquals(testItem_, style.getProperties().get(0).getName());
 
-        final CSSValueImpl value = style.getPropertyCSSValue(style.item(0));
+        final CSSValueImpl value = style.getPropertyCSSValue(style.getProperties().get(0).getName());
         Assert.assertEquals(testValue_, value.getCssText());
     }
 
@@ -526,16 +526,16 @@ public class CSSOMParserTest {
 
         Assert.assertEquals(4, declImpl.getLength());
 
-        Assert.assertEquals("background", declImpl.item(0));
+        Assert.assertEquals("background", declImpl.getProperties().get(0).getName());
         Assert.assertEquals("url(img/test.png) no-repeat", declImpl.getPropertyCSSValue("background").getCssText());
 
-        Assert.assertEquals("background-repeat", declImpl.item(1));
+        Assert.assertEquals("background-repeat", declImpl.getProperties().get(1).getName());
         Assert.assertEquals("repeat-y", declImpl.getPropertyCSSValue("background-repeat").getCssText());
 
-        Assert.assertEquals("background", declImpl.item(2));
+        Assert.assertEquals("background", declImpl.getProperties().get(2).getName());
         Assert.assertEquals("url(img/test.png) no-repeat", declImpl.getPropertyCSSValue("background").getCssText());
 
-        Assert.assertEquals("background-size", declImpl.item(3));
+        Assert.assertEquals("background-size", declImpl.getProperties().get(3).getName());
         Assert.assertEquals("190px 48px", declImpl.getPropertyCSSValue("background-size").getCssText());
 
         // now check the core results

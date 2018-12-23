@@ -56,15 +56,15 @@ public class DomTest {
         // Enumerate the properties and retrieve their values
         Assert.assertEquals(5, style.getLength());
 
-        String name = style.item(0);
+        String name = style.getProperties().get(0).getName();
         Assert.assertEquals("foo : 1.5", name + " : " + style.getPropertyValue(name));
-        name = style.item(1);
+        name = style.getProperties().get(1).getName();
         Assert.assertEquals("bogus : 3, 2, 1", name + " : " + style.getPropertyValue(name));
-        name = style.item(2);
+        name = style.getProperties().get(2).getName();
         Assert.assertEquals("bar-color : rgb(15, 238, 208)", name + " : " + style.getPropertyValue(name));
-        name = style.item(3);
+        name = style.getProperties().get(3).getName();
         Assert.assertEquals("background : rgb(170, 187, 204)", name + " : " + style.getPropertyValue(name));
-        name = style.item(4);
+        name = style.getProperties().get(4).getName();
         Assert.assertEquals("foreground : rgb(10, 20, 30)", name + " : " + style.getPropertyValue(name));
 
         // Get the style declaration as a single lump of text

@@ -153,7 +153,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         Assert.assertEquals(4, rules.getLength());
 
-        AbstractCSSRuleImpl rule = rules.item(0);
+        AbstractCSSRuleImpl rule = rules.getRules().get(0);
         Assert.assertEquals("html:lang(fr-ca) { }", rule.getCssText());
         ElementSelector selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
@@ -880,12 +880,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         // Enumerate the properties and retrieve their values
         Assert.assertEquals(2, style.getLength());
 
-        String name = style.item(0);
-        name = style.item(0);
+        String name = style.getProperties().get(0).getName();
         Assert.assertEquals("color : rgb(204, 204, 204)", name + " : " + style.getPropertyValue(name));
 
-        name = style.item(1);
-        name = style.item(1);
+        name = style.getProperties().get(1).getName();
         Assert.assertEquals("background : rgb(28, 29, 0)", name + " : " + style.getPropertyValue(name));
     }
 
@@ -910,8 +908,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         // Enumerate the properties and retrieve their values
         Assert.assertEquals(1, style.getLength());
 
-        String name = style.item(0);
-        name = style.item(0);
+        String name = style.getProperties().get(0).getName();
         Assert.assertEquals("foreground : rgb(10, 20, 30)", name + " : " + style.getPropertyValue(name));
     }
 
@@ -936,8 +933,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         // Enumerate the properties and retrieve their values
         Assert.assertEquals(1, style.getLength());
 
-        String name = style.item(0);
-        name = style.item(0);
+        String name = style.getProperties().get(0).getName();
         Assert.assertEquals("color: foo(rgb(204, 221, 68))", name + ": " + style.getPropertyValue(name));
     }
 
@@ -962,8 +958,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         // Enumerate the properties and retrieve their values
         Assert.assertEquals(1, style.getLength());
 
-        String name = style.item(0);
-        name = style.item(0);
+        String name = style.getProperties().get(0).getName();
         Assert.assertEquals("clip : foo(rect(10px, 20em, 30px, max(40, blue(rgb(1, 2, 3)))))",
                 name + " : " + style.getPropertyValue(name));
 
@@ -1066,8 +1061,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         Assert.assertEquals(1, style.getLength());
 
-        String name = style.item(0);
-        name = style.item(0);
+        String name = style.getProperties().get(0).getName();
         Assert.assertEquals("content : attr(test) \"testData\"", name + " : " + style.getPropertyValue(name));
     }
 
@@ -1092,8 +1086,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         // Enumerate the properties and retrieve their values
         Assert.assertEquals(1, style.getLength());
 
-        String name = style.item(0);
-        name = style.item(0);
+        String name = style.getProperties().get(0).getName();
         Assert.assertEquals("clip : rect(10px, 20px, 30px, 40px)", name + " : " + style.getPropertyValue(name));
     }
 
@@ -1118,8 +1111,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         // Enumerate the properties and retrieve their values
         Assert.assertEquals(1, style.getLength());
 
-        String name = style.item(0);
-        name = style.item(0);
+        String name = style.getProperties().get(0).getName();
         Assert.assertEquals("content : attr(data-foo)", name + " : " + style.getPropertyValue(name));
     }
 

@@ -158,11 +158,6 @@ public class CSSStyleDeclarationImpl implements Serializable {
         return properties_.size();
     }
 
-    public String item(final int index) {
-        final Property p = properties_.get(index);
-        return (p == null) ? "" : p.getName();
-    }
-
     public AbstractCSSRuleImpl getParentRule() {
         return parentRule_;
     }
@@ -211,8 +206,8 @@ public class CSSStyleDeclarationImpl implements Serializable {
         if ((csd == null) || (getLength() != csd.getLength())) {
             return false;
         }
-        for (int i = 0; i < getLength(); i++) {
-            final String propertyName = item(i);
+        for (Property property : properties_) {
+            final String propertyName = property.getName();
             // CSSValue propertyCSSValue1 = getPropertyCSSValue(propertyName);
             // CSSValue propertyCSSValue2 = csd.getPropertyCSSValue(propertyName);
             final String propertyValue1 = getPropertyValue(propertyName);
