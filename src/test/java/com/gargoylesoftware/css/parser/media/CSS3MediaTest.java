@@ -42,7 +42,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
     public void mediaConditions() throws Exception {
         final String css = "@media screen and (max-width: 30em) { h1 { color: red } }";
         final CSSStyleSheetImpl sheet = parse(css);
-        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().item(0);
+        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
         final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
@@ -62,7 +62,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
     public void withoutValue() throws Exception {
         final String css = "@media screen and (color) { h1 { color: red } }";
         final CSSStyleSheetImpl sheet = parse(css);
-        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().item(0);
+        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
         final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
@@ -102,7 +102,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
     public void only() throws Exception {
         final String css = "@media only screen and (color) { h1 { color: red } }";
         final CSSStyleSheetImpl sheet = parse(css);
-        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().item(0);
+        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
         final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
@@ -124,7 +124,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
     public void not() throws Exception {
         final String css = "@media not screen and (color) { h1 { color: red } }";
         final CSSStyleSheetImpl sheet = parse(css);
-        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().item(0);
+        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
         final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
@@ -146,7 +146,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
     public void dpi() throws Exception {
         final String css = "@media not screen and (min-resolution: 300dpi) { h1 { color: red } }";
         final CSSStyleSheetImpl sheet = parse(css);
-        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().item(0);
+        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
         final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
@@ -173,7 +173,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
     public void dpcm() throws Exception {
         final String css = "@media not screen and (min-resolution: 11.8dpcm) { h1 { color: red } }";
         final CSSStyleSheetImpl sheet = parse(css);
-        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().item(0);
+        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
         final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
@@ -201,7 +201,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         final String css =
                 "@media only screen and (max-width: 735px) and (max-device-width: 768px) { h1 { color: red } }";
         final CSSStyleSheetImpl sheet = parse(css);
-        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().item(0);
+        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
         final MediaListImpl mediaListImpl = ((CSSMediaRuleImpl) cssRule).getMedia();
@@ -243,7 +243,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         Assert.assertEquals(1, sheet.getMedia().getLength());
         Assert.assertEquals("all", sheet.getMedia().toString());
 
-        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().item(0);
+        final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
         final MediaListImpl mediaListImpl = ((CSSMediaRuleImpl) cssRule).getMedia();

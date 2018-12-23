@@ -88,15 +88,6 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
         return mediaQueries_.size();
     }
 
-    public String item(final int index) {
-        final MediaQuery mq = mediaQuery(index);
-        if (null == mq) {
-            return null;
-        }
-
-        return mq.getMedia();
-    }
-
     /**
      * @param index the position of the media query
      * @return the media query at the given pos
@@ -147,12 +138,15 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
         if ((ml == null) || (getLength() != ml.getLength())) {
             return false;
         }
-        for (int i = 0; i < getLength(); i++) {
-            final String m1 = item(i);
-            final String m2 = ml.item(i);
+
+        int i = 0;
+        for (MediaQuery mediaQuery : mediaQueries_) {
+            final String m1 = mediaQuery.getMedia();
+            final String m2 = ml.mediaQuery(i).getMedia();
             if (!LangUtils.equals(m1, m2)) {
                 return false;
             }
+            i++;
         }
         return true;
     }

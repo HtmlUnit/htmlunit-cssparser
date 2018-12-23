@@ -82,7 +82,7 @@ public class CSSStyleRuleImplTest {
         final InputSource is = new InputSource(new StringReader(rule));
         final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        final CSSStyleRuleImpl value = (CSSStyleRuleImpl) ss.getCssRules().item(0);
+        final CSSStyleRuleImpl value = (CSSStyleRuleImpl) ss.getCssRules().getRules().get(0);
         return value;
     }
 

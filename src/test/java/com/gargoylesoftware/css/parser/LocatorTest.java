@@ -147,7 +147,7 @@ public class LocatorTest {
     private void cssRules(final CSSRuleListImpl cssRules, final Map<Character, List<Integer[]>> positions,
             final Map<Character, Integer> counts) {
         for (int i = 0; i < cssRules.getLength(); i++) {
-            cssRule(cssRules.item(i), positions, counts);
+            cssRule(cssRules.getRules().get(i), positions, counts);
         }
     }
 

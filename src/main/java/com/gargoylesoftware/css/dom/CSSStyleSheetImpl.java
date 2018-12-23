@@ -139,7 +139,7 @@ public class CSSStyleSheetImpl implements Serializable {
                     if (index != 0) {
                         msg = DOMExceptionImpl.CHARSET_NOT_FIRST;
                     }
-                    else if (getCssRules().item(0) instanceof CSSCharsetRuleImpl) {
+                    else if (getCssRules().getRules().get(0) instanceof CSSCharsetRuleImpl) {
                         msg = DOMExceptionImpl.CHARSET_NOT_UNIQUE;
                     }
                 }
@@ -148,7 +148,7 @@ public class CSSStyleSheetImpl implements Serializable {
                     // charset rules)
                     if (index <= getCssRules().getLength()) {
                         for (int i = 0; i < index; i++) {
-                            final AbstractCSSRuleImpl ri = getCssRules().item(i);
+                            final AbstractCSSRuleImpl ri = getCssRules().getRules().get(i);
                             if (!(ri instanceof CSSCharsetRuleImpl) && !(ri instanceof CSSImportRuleImpl)) {
                                 msg = DOMExceptionImpl.IMPORT_NOT_FIRST;
                                 break;
@@ -159,7 +159,7 @@ public class CSSStyleSheetImpl implements Serializable {
                 else {
                     if (index <= getCssRules().getLength()) {
                         for (int i = index; i < getCssRules().getLength(); i++) {
-                            final AbstractCSSRuleImpl ri = getCssRules().item(i);
+                            final AbstractCSSRuleImpl ri = getCssRules().getRules().get(i);
                             if ((ri instanceof CSSCharsetRuleImpl) || (ri instanceof CSSImportRuleImpl)) {
                                 msg = DOMExceptionImpl.INSERT_BEFORE_IMPORT;
                                 break;
@@ -309,7 +309,7 @@ public class CSSStyleSheetImpl implements Serializable {
         cssRules_ = (CSSRuleListImpl) in.readObject();
         if (cssRules_ != null) {
             for (int i = 0; i < cssRules_.getLength(); i++) {
-                final AbstractCSSRuleImpl cssRule = cssRules_.item(i);
+                final AbstractCSSRuleImpl cssRule = cssRules_.getRules().get(i);
                 cssRule.setParentStyleSheet(this);
             }
         }

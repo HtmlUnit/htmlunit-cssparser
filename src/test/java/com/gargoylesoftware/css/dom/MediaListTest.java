@@ -37,7 +37,6 @@ public class MediaListTest {
         Assert.assertEquals("", ml.toString());
         Assert.assertEquals("", ml.getMediaText());
         Assert.assertEquals(0, ml.getLength());
-        Assert.assertNull(ml.item(0));
     }
 
     /**
@@ -74,39 +73,6 @@ public class MediaListTest {
 
         ml.appendMedium("lastMedium");
         Assert.assertEquals(3, ml.getLength());
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
-    public void item() throws Exception {
-        final MediaListImpl ml = new MediaListImpl(null);
-        Assert.assertEquals(null, ml.item(-1));
-        Assert.assertEquals(null, ml.item(0));
-        Assert.assertEquals(null, ml.item(1));
-        Assert.assertEquals(null, ml.item(10));
-
-        ml.appendMedium("newMedium");
-        Assert.assertEquals(null, ml.item(-1));
-        Assert.assertEquals("newMedium", ml.item(0));
-        Assert.assertEquals(null, ml.item(1));
-        Assert.assertEquals(null, ml.item(10));
-
-        ml.appendMedium("anotherMedium");
-        Assert.assertEquals(null, ml.item(-1));
-        Assert.assertEquals("newMedium", ml.item(0));
-        Assert.assertEquals("anotherMedium", ml.item(1));
-        Assert.assertEquals(null, ml.item(2));
-        Assert.assertEquals(null, ml.item(10));
-
-        ml.appendMedium("lastMedium");
-        Assert.assertEquals(null, ml.item(-1));
-        Assert.assertEquals("newMedium", ml.item(0));
-        Assert.assertEquals("anotherMedium", ml.item(1));
-        Assert.assertEquals("lastMedium", ml.item(2));
-        Assert.assertEquals(null, ml.item(3));
-        Assert.assertEquals(null, ml.item(10));
     }
 
     /**
@@ -189,8 +155,7 @@ public class MediaListTest {
         Assert.assertEquals("MyMediaText", ml.toString());
         Assert.assertEquals("MyMediaText", ml.getMediaText());
         Assert.assertEquals(1, ml.getLength());
-        Assert.assertEquals("MyMediaText", ml.item(0));
-        Assert.assertNull(ml.item(1));
+        Assert.assertEquals("MyMediaText", ml.mediaQuery(0).getMedia());
     }
 
     /**

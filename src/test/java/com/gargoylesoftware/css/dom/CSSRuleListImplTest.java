@@ -38,7 +38,6 @@ public class CSSRuleListImplTest {
         Assert.assertEquals("", rl.toString());
         Assert.assertTrue(rl.getRules().isEmpty());
         Assert.assertEquals(0, rl.getLength());
-        Assert.assertNull(rl.item(0));
     }
 
     /**
@@ -57,39 +56,6 @@ public class CSSRuleListImplTest {
 
         rl.add(new CSSFontFaceRuleImpl(null, null));
         Assert.assertEquals(3, rl.getLength());
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
-    public void item() throws Exception {
-        final CSSRuleListImpl rl = new CSSRuleListImpl();
-        Assert.assertEquals(null, rl.item(-1));
-        Assert.assertEquals(null, rl.item(0));
-        Assert.assertEquals(null, rl.item(1));
-        Assert.assertEquals(null, rl.item(10));
-
-        rl.add(new CSSFontFaceRuleImpl(null, null));
-        Assert.assertEquals(null, rl.item(-1));
-        Assert.assertEquals("@font-face {}", rl.item(0).toString());
-        Assert.assertEquals(null, rl.item(1));
-        Assert.assertEquals(null, rl.item(10));
-
-        rl.add(new CSSCharsetRuleImpl(null, null, null));
-        Assert.assertEquals(null, rl.item(-1));
-        Assert.assertEquals("@font-face {}", rl.item(0).toString());
-        Assert.assertEquals("@charset \"\";", rl.item(1).toString());
-        Assert.assertEquals(null, rl.item(2));
-        Assert.assertEquals(null, rl.item(10));
-
-        rl.add(new CSSImportRuleImpl(null, null, null, null));
-        Assert.assertEquals(null, rl.item(-1));
-        Assert.assertEquals("@font-face {}", rl.item(0).toString());
-        Assert.assertEquals("@charset \"\";", rl.item(1).toString());
-        Assert.assertEquals("@import;", rl.item(2).toString());
-        Assert.assertEquals(null, rl.item(3));
-        Assert.assertEquals(null, rl.item(10));
     }
 
     private CSSRuleListImpl parseRuleList(final String rules) throws Exception {

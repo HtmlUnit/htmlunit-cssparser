@@ -82,7 +82,7 @@ public class CSSFontFaceRuleImplTest {
         final InputSource is = new InputSource(new StringReader(rule));
         final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        final CSSFontFaceRuleImpl value = (CSSFontFaceRuleImpl) ss.getCssRules().item(0);
+        final CSSFontFaceRuleImpl value = (CSSFontFaceRuleImpl) ss.getCssRules().getRules().get(0);
         return value;
     }
 

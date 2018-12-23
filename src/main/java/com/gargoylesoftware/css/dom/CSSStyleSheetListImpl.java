@@ -42,10 +42,6 @@ public class CSSStyleSheetListImpl {
         return getCSSStyleSheets().size();
     }
 
-    public CSSStyleSheetImpl item(final int index) {
-        return getCSSStyleSheets().get(index);
-    }
-
     /**
      * Adds a CSSStyleSheet.
      *
@@ -92,10 +88,10 @@ public class CSSStyleSheetListImpl {
         if ((ssl == null) || (getLength() != ssl.getLength())) {
             return false;
         }
-        for (int i = 0; i < getLength(); i++) {
-            final CSSStyleSheetImpl styleSheet1 = item(i);
-            final CSSStyleSheetImpl styleSheet2 = ssl.item(i);
-            if (!LangUtils.equals(styleSheet1, styleSheet2)) {
+        int i = 0;
+        for (CSSStyleSheetImpl styleSheet : cssStyleSheets_) {
+            final CSSStyleSheetImpl styleSheet2 = ssl.cssStyleSheets_.get(i);
+            if (!LangUtils.equals(styleSheet, styleSheet2)) {
                 return false;
             }
         }

@@ -75,7 +75,7 @@ public class CSSOMParserTest {
         final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
         final CSSRuleListImpl rl = ss.getCssRules();
-        final AbstractCSSRuleImpl rule = rl.item(0);
+        final AbstractCSSRuleImpl rule = rl.getRules().get(0);
 
         final CSSStyleRuleImpl sr = (CSSStyleRuleImpl) rule;
         Assert.assertEquals(testSelector_, sr.getSelectorText());
@@ -100,11 +100,11 @@ public class CSSOMParserTest {
         final CSSRuleListImpl rl = ss.getCssRules();
         Assert.assertEquals(2, rl.getLength());
 
-        AbstractCSSRuleImpl rule = rl.item(0);
+        AbstractCSSRuleImpl rule = rl.getRules().get(0);
         CSSStyleRuleImpl sr = (CSSStyleRuleImpl) rule;
         Assert.assertEquals("p { filter: alpha(opacity = 33.3); opacity: 0.333 }", sr.getCssText());
 
-        rule = rl.item(1);
+        rule = rl.getRules().get(1);
         sr = (CSSStyleRuleImpl) rule;
         Assert.assertEquals("a { color: rgb(18, 52, 86) }", sr.getCssText());
     }
@@ -464,7 +464,7 @@ public class CSSOMParserTest {
         final CSSRuleListImpl rules = ss.getCssRules();
         Assert.assertEquals(1, rules.getLength());
 
-        final AbstractCSSRuleImpl rule = rules.item(0);
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
 
         Assert.assertEquals("@page :pageStyle {size: 21cm 29.7cm}", rule.getCssText());
 
@@ -487,7 +487,7 @@ public class CSSOMParserTest {
         final CSSRuleListImpl rules = ss.getCssRules();
         Assert.assertEquals(1, rules.getLength());
 
-        final AbstractCSSRuleImpl rule = rules.item(0);
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
 
         Assert.assertEquals("@page {size: 21cm 29.7cm}", rule.getCssText());
 
@@ -520,7 +520,7 @@ public class CSSOMParserTest {
         final CSSRuleListImpl rules = sheet.getCssRules();
         Assert.assertEquals(1, rules.getLength());
 
-        final AbstractCSSRuleImpl rule = rules.item(0);
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
         final CSSStyleRuleImpl ruleImpl = (CSSStyleRuleImpl) rule;
         final CSSStyleDeclarationImpl declImpl = ruleImpl.getStyle();
 

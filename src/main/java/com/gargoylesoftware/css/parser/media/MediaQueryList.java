@@ -36,10 +36,6 @@ public class MediaQueryList extends AbstractLocatable {
         return mediaQueries_.size();
     }
 
-    public String item(final int index) {
-        return mediaQuery(index).getMedia();
-    }
-
     public MediaQuery mediaQuery(final int index) {
         return mediaQueries_.get(index);
     }
@@ -55,12 +51,11 @@ public class MediaQueryList extends AbstractLocatable {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        final int len = getLength();
-        for (int i = 0; i < len; i++) {
-            sb.append(item(i));
-            if (i < len - 1) {
+        for (MediaQuery mediaQuery : mediaQueries_) {
+            if (sb.length() > 0) {
                 sb.append(", ");
             }
+            sb.append(mediaQuery.getMedia());
         }
         return sb.toString();
     }

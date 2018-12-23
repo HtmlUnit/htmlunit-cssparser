@@ -72,7 +72,7 @@ public class SerializableTest {
 
         // TODO
         for (int i = 0; i < rules.getLength(); i++) {
-            final AbstractCSSRuleImpl rule = rules.item(i);
+            final AbstractCSSRuleImpl rule = rules.getRules().get(i);
             System.out.println(rule.getCssText());
         }
     }

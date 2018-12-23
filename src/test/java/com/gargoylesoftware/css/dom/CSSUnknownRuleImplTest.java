@@ -70,7 +70,7 @@ public class CSSUnknownRuleImplTest {
         final InputSource is = new InputSource(new StringReader(rule));
         final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        final CSSUnknownRuleImpl value = (CSSUnknownRuleImpl) ss.getCssRules().item(0);
+        final CSSUnknownRuleImpl value = (CSSUnknownRuleImpl) ss.getCssRules().getRules().get(0);
         return value;
     }
 

@@ -145,7 +145,7 @@ public class DomTest {
         final CSSRuleListImpl rules = css.getCssRules();
         Assert.assertEquals(2, rules.getLength());
 
-        Assert.assertEquals("p { font-size: 2em }", rules.item(0).getCssText());
-        Assert.assertEquals("p a:link { font-size: inherit }", rules.item(1).getCssText());
+        Assert.assertEquals("p { font-size: 2em }", rules.getRules().get(0).getCssText());
+        Assert.assertEquals("p a:link { font-size: inherit }", rules.getRules().get(1).getCssText());
     }
 }

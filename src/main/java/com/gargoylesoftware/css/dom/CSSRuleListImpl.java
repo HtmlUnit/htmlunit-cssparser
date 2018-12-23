@@ -41,13 +41,6 @@ public class CSSRuleListImpl implements Serializable {
         return getRules().size();
     }
 
-    public AbstractCSSRuleImpl item(final int index) {
-        if (index < 0 || null == rules_ || index >= rules_.size()) {
-            return null;
-        }
-        return rules_.get(index);
-    }
-
     public void add(final AbstractCSSRuleImpl rule) {
         getRules().add(rule);
     }
@@ -63,12 +56,10 @@ public class CSSRuleListImpl implements Serializable {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < getLength(); i++) {
-            if (i > 0) {
+        for (AbstractCSSRuleImpl rule : rules_) {
+            if (sb.length() > 0) {
                 sb.append("\r\n");
             }
-
-            final AbstractCSSRuleImpl rule = item(i);
             sb.append(rule.toString());
         }
         return sb.toString();
@@ -90,12 +81,13 @@ public class CSSRuleListImpl implements Serializable {
         if ((crl == null) || (getLength() != crl.getLength())) {
             return false;
         }
-        for (int i = 0; i < getLength(); i++) {
-            final AbstractCSSRuleImpl cssRule1 = item(i);
-            final AbstractCSSRuleImpl cssRule2 = crl.item(i);
-            if (!LangUtils.equals(cssRule1, cssRule2)) {
+        int i = 0;;
+        for (AbstractCSSRuleImpl rule : rules_) {
+            final AbstractCSSRuleImpl cssRule2 = crl.rules_.get(i);
+            if (!LangUtils.equals(rule, cssRule2)) {
                 return false;
             }
+            i++;
         }
         return true;
     }

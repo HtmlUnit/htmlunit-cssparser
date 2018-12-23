@@ -93,7 +93,7 @@ public class CSSImportRuleImplTest {
         final InputSource is = new InputSource(new StringReader(rule));
         final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        final CSSImportRuleImpl value = (CSSImportRuleImpl) ss.getCssRules().item(0);
+        final CSSImportRuleImpl value = (CSSImportRuleImpl) ss.getCssRules().getRules().get(0);
         return value;
     }
 

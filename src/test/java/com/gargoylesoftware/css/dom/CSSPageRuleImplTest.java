@@ -116,7 +116,7 @@ public class CSSPageRuleImplTest {
         final InputSource is = new InputSource(new StringReader(pageRule));
         final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        final CSSPageRuleImpl value = (CSSPageRuleImpl) ss.getCssRules().item(0);
+        final CSSPageRuleImpl value = (CSSPageRuleImpl) ss.getCssRules().getRules().get(0);
         return value;
     }
 

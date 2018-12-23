@@ -303,7 +303,7 @@ public abstract class AbstractCSSParserTest {
         final CSSRuleListImpl rules = sheet.getCssRules();
 
         Assert.assertEquals(1, rules.getLength());
-        final AbstractCSSRuleImpl rule = rules.item(0);
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
         Assert.assertEquals(css, rule.getCssText());
 
         final CSSStyleRuleImpl ruleImpl = (CSSStyleRuleImpl) rule;
