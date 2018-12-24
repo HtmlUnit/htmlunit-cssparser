@@ -41,4 +41,14 @@ public interface Condition extends Locatable {
      * @return the associated condition type
      */
     ConditionType getConditionType();
+
+    /**
+     * @return the value
+     */
+    public String getValue();
+
+    /**
+     * @return the local name
+     */
+    public String getLocalName();
 }

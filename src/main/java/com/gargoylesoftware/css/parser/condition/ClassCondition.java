@@ -43,15 +43,17 @@ public class ClassCondition extends AbstractLocatable implements Condition, Seri
     }
 
     /**
-     * @return the local name
+     * {@inheritDoc}
      */
+    @Override
     public String getLocalName() {
         return null;
     }
 
     /**
-     * @return the value
+     * {@inheritDoc}
      */
+    @Override
     public String getValue() {
         return value_;
     }

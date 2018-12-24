@@ -46,15 +46,17 @@ public class PseudoClassCondition extends AbstractLocatable implements Condition
     }
 
     /**
-     * @return the local name
+     * {@inheritDoc}
      */
+    @Override
     public String getLocalName() {
         return null;
     }
 
     /**
-     * @return the value
+     * {@inheritDoc}
      */
+    @Override
     public String getValue() {
         return value_;
     }

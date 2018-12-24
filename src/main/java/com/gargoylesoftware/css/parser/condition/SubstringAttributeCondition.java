@@ -42,15 +42,17 @@ public class SubstringAttributeCondition extends AbstractLocatable implements Co
     }
 
     /**
-     * @return the local name
+     * {@inheritDoc}
      */
+    @Override
     public String getLocalName() {
         return localName_;
     }
 
     /**
-     * @return the value
+     * {@inheritDoc}
      */
+    @Override
     public String getValue() {
         return value_;
     }

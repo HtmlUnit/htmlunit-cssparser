@@ -42,15 +42,18 @@ public class AttributeCondition extends AbstractLocatable implements Condition, 
     }
 
     /**
-     * @return the local name
+     * {@inheritDoc}
      */
+    @Override
     public String getLocalName() {
         return localName_;
     }
 
+
     /**
-     * @return the value
+     * {@inheritDoc}
      */
+    @Override
     public String getValue() {
         return value_;
     }

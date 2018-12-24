@@ -43,9 +43,18 @@ public class LangCondition extends AbstractLocatable implements Condition, Seria
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getLocalName() {
+        return null;
+    }
+
+    /**
      * @return the language
      */
-    public String getLang() {
+    @Override
+    public String getValue() {
         return lang_;
     }
 
@@ -54,7 +63,7 @@ public class LangCondition extends AbstractLocatable implements Condition, Seria
         final StringBuilder result = new StringBuilder();
         result.append(":lang(");
 
-        final String lang = getLang();
+        final String lang = getValue();
         if (null != lang) {
             result.append(lang);
         }

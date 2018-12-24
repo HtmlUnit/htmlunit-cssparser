@@ -157,27 +157,27 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("html:lang(fr-ca) { }", rule.getCssText());
         ElementSelector selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
-        Assert.assertEquals("fr-ca", ((LangCondition) selector.getConditions().get(0)).getLang());
+        Assert.assertEquals("fr-ca", ((LangCondition) selector.getConditions().get(0)).getValue());
 
         rule = rules.getRules().get(1);
         Assert.assertEquals("html:lang(de) { }", rule.getCssText());
         selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
-        Assert.assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getLang());
+        Assert.assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getValue());
 
         rule = rules.getRules().get(2);
         Assert.assertEquals("*:lang(fr) > Q { }", rule.getCssText());
         ChildSelector childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         selector = (ElementSelector) childSelector.getAncestorSelector();
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
-        Assert.assertEquals("fr", ((LangCondition) selector.getConditions().get(0)).getLang());
+        Assert.assertEquals("fr", ((LangCondition) selector.getConditions().get(0)).getValue());
 
         rule = rules.getRules().get(3);
         Assert.assertEquals("*:lang(de) > Q { }", rule.getCssText());
         childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         selector = (ElementSelector) childSelector.getAncestorSelector();
         Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
-        Assert.assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getLang());
+        Assert.assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getValue());
     }
 
     /**

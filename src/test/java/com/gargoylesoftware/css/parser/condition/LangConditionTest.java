@@ -32,7 +32,7 @@ public class LangConditionTest {
     public void withoutValue() throws Exception {
         final LangCondition c = new LangCondition(null, null);
         Assert.assertEquals(ConditionType.LANG_CONDITION, c.getConditionType());
-        Assert.assertNull(c.getLang());
+        Assert.assertNull(c.getValue());
 
         Assert.assertEquals(":lang()", c.toString());
     }
@@ -44,7 +44,7 @@ public class LangConditionTest {
     public void emptyValue() throws Exception {
         final LangCondition c = new LangCondition("", null);
         Assert.assertEquals(ConditionType.LANG_CONDITION, c.getConditionType());
-        Assert.assertEquals("", c.getLang());
+        Assert.assertEquals("", c.getValue());
 
         Assert.assertEquals(":lang()", c.toString());
     }
@@ -56,7 +56,7 @@ public class LangConditionTest {
     public void withValue() throws Exception {
         final LangCondition c = new LangCondition("value", null);
         Assert.assertEquals(ConditionType.LANG_CONDITION, c.getConditionType());
-        Assert.assertEquals("value", c.getLang());
+        Assert.assertEquals("value", c.getValue());
 
         Assert.assertEquals(":lang(value)", c.toString());
     }

@@ -28,7 +28,7 @@ public class OneOfAttributeCondition extends AbstractLocatable implements Condit
 
     /**
      * Ctor.
-     * @param localName the local value
+     * @param localName the local name
      * @param value the value
      */
     public OneOfAttributeCondition(final String localName, final String value) {
@@ -42,15 +42,17 @@ public class OneOfAttributeCondition extends AbstractLocatable implements Condit
     }
 
     /**
-     * @return the local name
+     * {@inheritDoc}
      */
+    @Override
     public String getLocalName() {
         return localName_;
     }
 
     /**
-     * @return the value
+     * {@inheritDoc}
      */
+    @Override
     public String getValue() {
         return value_;
     }
