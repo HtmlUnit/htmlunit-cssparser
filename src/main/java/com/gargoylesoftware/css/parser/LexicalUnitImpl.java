@@ -15,6 +15,9 @@
 package com.gargoylesoftware.css.parser;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 /**
  * Implementation of {@link LexicalUnit}.
@@ -688,7 +691,11 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         if (f - i == 0) {
             return Integer.toString((int) f);
         }
-        return Float.toString(f);
+
+        final DecimalFormat decimalFormat = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+        decimalFormat.setGroupingUsed(false);
+        decimalFormat.setMaximumFractionDigits(4);
+        return decimalFormat.format(f);
     }
 
     /**

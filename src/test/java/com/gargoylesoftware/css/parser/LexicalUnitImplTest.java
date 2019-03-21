@@ -386,8 +386,30 @@ public class LexicalUnitImplTest {
         Assert.assertNull(unit.getNextLexicalUnit());
         Assert.assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.2345676", unit.toString());
-        Assert.assertEquals("REAL(1.2345676)", ((LexicalUnitImpl) unit).toDebugString());
+        Assert.assertEquals("1.2346", unit.toString());
+        Assert.assertEquals("REAL(1.2346)", ((LexicalUnitImpl) unit).toDebugString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void createNumberFromFloatPecisionWithoutExponent() throws Exception {
+        final LexicalUnit unit = LexicalUnitImpl.createNumber(null, 0.0001f);
+
+        Assert.assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
+        Assert.assertEquals(0.0001f, unit.getFloatValue(), 0.0001f);
+        Assert.assertEquals(0, unit.getIntegerValue());
+        Assert.assertEquals("", unit.getDimensionUnitText());
+        Assert.assertNull(unit.getFunctionName());
+        Assert.assertNull(unit.getParameters());
+        Assert.assertNull(unit.getStringValue());
+
+        Assert.assertNull(unit.getNextLexicalUnit());
+        Assert.assertNull(unit.getPreviousLexicalUnit());
+
+        Assert.assertEquals("0.0001", unit.toString());
+        Assert.assertEquals("REAL(0.0001)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
