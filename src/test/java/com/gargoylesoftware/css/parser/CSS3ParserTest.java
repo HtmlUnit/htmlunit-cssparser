@@ -973,21 +973,21 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         unit  = (LexicalUnitImpl) unit.getParameters();
         Assert.assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
-        Assert.assertEquals(10f, unit.getFloatValue(), 0.00001);
+        Assert.assertEquals(10f, unit.getDoubleValue(), 0.00001);
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
         Assert.assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
         Assert.assertEquals(LexicalUnitType.EM, unit.getLexicalUnitType());
-        Assert.assertEquals(20f, unit.getFloatValue(), 0.00001);
+        Assert.assertEquals(20f, unit.getDoubleValue(), 0.00001);
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
         Assert.assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
         Assert.assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
-        Assert.assertEquals(30f, unit.getFloatValue(), 0.00001);
+        Assert.assertEquals(30f, unit.getDoubleValue(), 0.00001);
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
         Assert.assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());

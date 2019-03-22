@@ -558,8 +558,8 @@ public abstract class AbstractCSSParser implements CSSParser {
         return result;
     }
 
-    protected float floatValue(final char op, final String s) {
-        final float result = Float.parseFloat(s);
+    protected double doubleValue(final char op, final String s) {
+        final double result = Double.parseDouble(s);
         if (op == '-') {
             return -1 * result;
         }

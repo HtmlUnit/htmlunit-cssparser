@@ -92,9 +92,9 @@ public interface LexicalUnit {
     int getIntegerValue();
 
     /**
-     * @return the float value.
+     * @return the double value.
      */
-    float getFloatValue();
+    double getDoubleValue();
 
     /**
      * @return the string representation of the unit.

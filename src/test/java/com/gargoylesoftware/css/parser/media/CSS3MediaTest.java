@@ -163,7 +163,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         final CSSValueImpl valueImpl = prop.getValue();
         final LexicalUnit unitImpl = (LexicalUnitImpl) valueImpl.getValue();
         Assert.assertEquals(LexicalUnitType.DIMENSION, unitImpl.getLexicalUnitType());
-        Assert.assertEquals(300f, unitImpl.getFloatValue(), 0.000001);
+        Assert.assertEquals(300f, unitImpl.getDoubleValue(), 0.000001);
     }
 
     /**
@@ -190,7 +190,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         final CSSValueImpl valueImpl = prop.getValue();
         final LexicalUnit unitImpl = (LexicalUnitImpl) valueImpl.getValue();
         Assert.assertEquals(LexicalUnitType.DIMENSION, unitImpl.getLexicalUnitType());
-        Assert.assertEquals(11.8f, unitImpl.getFloatValue(), 0.000001);
+        Assert.assertEquals(11.8f, unitImpl.getDoubleValue(), 0.000001);
     }
 
     /**

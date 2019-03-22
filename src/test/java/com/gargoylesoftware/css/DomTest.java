@@ -99,9 +99,9 @@ public class DomTest {
         // Work with CSSValues
         CSSValueImpl value = style.getPropertyCSSValue("beta");
         Assert.assertEquals("40px", value.getCssText());
-        Assert.assertEquals(40f, value.getFloatValue(), 0.000000f);
+        Assert.assertEquals(40f, value.getDoubleValue(), 0.000000f);
 
-        value.setFloatValue(100);
+        value.setDoubleValue(100);
         Assert.assertEquals("100", value.getCssText());
 
         style.setProperty("list-test", "100 200 300", null);
@@ -114,13 +114,13 @@ public class DomTest {
         Assert.assertEquals(3, vl.getLength());
 
         value = vl.item(0);
-        Assert.assertEquals(100, value.getFloatValue(), 0.000000f);
+        Assert.assertEquals(100, value.getDoubleValue(), 0.000000f);
 
         value = vl.item(1);
-        Assert.assertEquals(200, value.getFloatValue(), 0.000000f);
+        Assert.assertEquals(200, value.getDoubleValue(), 0.000000f);
 
         value = vl.item(2);
-        Assert.assertEquals(300, value.getFloatValue(), 0.000000f);
+        Assert.assertEquals(300, value.getDoubleValue(), 0.000000f);
 
         // When a CSSValue is modified, it modifies the declaration
         Assert.assertEquals("beta: 100; delta: 1mm; omega: 1 !important; list-test: 100 200 300", style.getCssText());

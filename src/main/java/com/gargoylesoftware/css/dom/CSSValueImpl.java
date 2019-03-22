@@ -294,14 +294,14 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         return null;
     }
 
-    public void setFloatValue(final float floatValue) throws DOMException {
-        value_ = LexicalUnitImpl.createNumber(null, floatValue);
+    public void setDoubleValue(final double doubleValue) throws DOMException {
+        value_ = LexicalUnitImpl.createNumber(null, doubleValue);
     }
 
-    public float getFloatValue() throws DOMException {
+    public double getDoubleValue() throws DOMException {
         if (value_ instanceof LexicalUnit) {
             final LexicalUnit lu = (LexicalUnit) value_;
-            return lu.getFloatValue();
+            return lu.getDoubleValue();
         }
         throw new DOMExceptionImpl(
             DOMException.INVALID_ACCESS_ERR,
