@@ -27,6 +27,12 @@ public class PseudoElementSelector extends AbstractSelector implements SimpleSel
     private final String localName_;
     private final boolean doubleColon_;
 
+    /**
+     * Ctor.
+     * @param localName the local name
+     * @param locator the locator
+     * @param doubleColon double column flag
+     */
     public PseudoElementSelector(final String localName, final Locator locator, final boolean doubleColon) {
         localName_ = localName;
         setLocator(locator);
@@ -43,6 +49,9 @@ public class PseudoElementSelector extends AbstractSelector implements SimpleSel
         return this;
     }
 
+    /**
+     * @return the local name
+     */
     public String getLocalName() {
         return localName_;
     }

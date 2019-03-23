@@ -24,6 +24,11 @@ public class DirectAdjacentSelector extends AbstractSelector implements Serializ
     private final Selector selector_;  // child
     private final SimpleSelector simpleSelector_;
 
+    /**
+     * Ctor.
+     * @param child the child selector
+     * @param simpleSelector the simple selector
+     */
     public DirectAdjacentSelector(final Selector child, final SimpleSelector simpleSelector) {
         selector_ = child;
         if (child != null) {
@@ -37,6 +42,9 @@ public class DirectAdjacentSelector extends AbstractSelector implements Serializ
         return SelectorType.DIRECT_ADJACENT_SELECTOR;
     }
 
+    /**
+     * @return the selector
+     */
     public Selector getSelector() {
         return selector_;
     }

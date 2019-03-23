@@ -24,6 +24,11 @@ public class DescendantSelector extends AbstractSelector implements Serializable
     private final Selector ancestorSelector_;
     private final SimpleSelector simpleSelector_;
 
+    /**
+     * Ctor.
+     * @param ancestorSelector the ancestor selector
+     * @param simpleSelector the simple selector
+     */
     public DescendantSelector(final Selector ancestorSelector, final SimpleSelector simpleSelector) {
         ancestorSelector_ = ancestorSelector;
         if (ancestorSelector != null) {
@@ -38,6 +43,9 @@ public class DescendantSelector extends AbstractSelector implements Serializable
         return SelectorType.DESCENDANT_SELECTOR;
     }
 
+    /**
+     * @return the anchestor selector
+     */
     public Selector getAncestorSelector() {
         return ancestorSelector_;
     }
