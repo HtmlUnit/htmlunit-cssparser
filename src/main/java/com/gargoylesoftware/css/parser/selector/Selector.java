@@ -21,6 +21,9 @@ import com.gargoylesoftware.css.parser.Locatable;
  */
 public interface Selector extends Locatable {
 
+    /**
+     * SelectorType enum.
+     */
     enum SelectorType {
         CHILD_SELECTOR,
         DESCENDANT_SELECTOR,

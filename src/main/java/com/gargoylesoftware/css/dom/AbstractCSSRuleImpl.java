@@ -26,35 +26,54 @@ public abstract class AbstractCSSRuleImpl extends AbstractLocatable implements S
     private CSSStyleSheetImpl parentStyleSheet_;
     private AbstractCSSRuleImpl parentRule_;
 
-    protected CSSStyleSheetImpl getParentStyleSheetImpl() {
-        return parentStyleSheet_;
+    /**
+     * Ctor.
+     * @param parentStyleSheet the parent style sheet
+     * @param parentRule the parent rule
+     */
+    public AbstractCSSRuleImpl(final CSSStyleSheetImpl parentStyleSheet, final AbstractCSSRuleImpl parentRule) {
+        super();
+        setParentStyleSheet(parentStyleSheet);
+        setParentRule(parentRule);
     }
 
+    /**
+     * @return the current css text
+     */
+    public abstract String getCssText();
+
+    /**
+     * Sets the css text.
+     * @param text the new css text
+     */
+    public abstract void setCssText(String text);
+
+    /**
+     * Sets the parent style sheet.
+     * @param parentStyleSheet the new parent style sheet
+     */
     public void setParentStyleSheet(final CSSStyleSheetImpl parentStyleSheet) {
         parentStyleSheet_ = parentStyleSheet;
     }
 
+    /**
+     * Sets the parent rule.
+     * @param parentRule the new parent rule
+     */
     public void setParentRule(final AbstractCSSRuleImpl parentRule) {
         parentRule_ = parentRule;
     }
 
-    public AbstractCSSRuleImpl(final CSSStyleSheetImpl parentStyleSheet, final AbstractCSSRuleImpl parentRule) {
-        super();
-        parentStyleSheet_ = parentStyleSheet;
-        parentRule_ = parentRule;
-    }
-
-    public AbstractCSSRuleImpl() {
-        super();
-    }
-
-    public abstract String getCssText();
-    public abstract void setCssText(String text);
-
+    /**
+     * @return the parent style sheet
+     */
     public CSSStyleSheetImpl getParentStyleSheet() {
         return parentStyleSheet_;
     }
 
+    /**
+     * @return the parent rule
+     */
     public AbstractCSSRuleImpl getParentRule() {
         return parentRule_;
     }

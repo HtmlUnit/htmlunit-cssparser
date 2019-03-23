@@ -71,6 +71,11 @@ public class CSSStyleDeclarationImpl implements Serializable {
         return sb.toString();
     }
 
+    /**
+     * Sets the css text.
+     * @param cssText the new css text
+     * @throws DOMException in case of error
+     */
     public void setCssText(final String cssText) throws DOMException {
         try {
             final InputSource is = new InputSource(new StringReader(cssText));

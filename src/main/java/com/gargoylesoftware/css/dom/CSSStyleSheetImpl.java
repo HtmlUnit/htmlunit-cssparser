@@ -354,26 +354,25 @@ public class CSSStyleSheetImpl implements Serializable {
 
         private static final class SelectorIndex {
 
-            private final Map<String, List<SelectorEntry>> keyToSelectors = new HashMap<>();
+            private final Map<String, List<SelectorEntry>> keyToSelectors_ = new HashMap<>();
 
             void add(final String key, final SelectorEntry selector) {
-                List<SelectorEntry> entry = keyToSelectors.get(key);
+                List<SelectorEntry> entry = keyToSelectors_.get(key);
                 if (entry == null) {
                     entry = new ArrayList<SelectorEntry>();
-                    keyToSelectors.put(key, entry);
+                    keyToSelectors_.put(key, entry);
                 }
                 entry.add(selector);
             }
 
             List<SelectorEntry> get(final String key) {
-                List<SelectorEntry> entry = keyToSelectors.get(key);
+                final List<SelectorEntry> entry = keyToSelectors_.get(key);
                 if (entry == null) {
                     return Collections.emptyList();
                 }
                 return entry;
             }
         }
-
 
         private static final MediaListImpl DEFAULT_MEDIA_LIST = new MediaListImpl(null);
 

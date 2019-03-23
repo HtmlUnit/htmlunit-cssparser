@@ -29,26 +29,48 @@ public class CSSRuleListImpl implements Serializable {
 
     private List<AbstractCSSRuleImpl> rules_ = new ArrayList<AbstractCSSRuleImpl>();
 
+    /**
+     * @return the rules
+     */
     public List<AbstractCSSRuleImpl> getRules() {
         return rules_;
     }
 
+    /**
+     * Ctor.
+     */
     public CSSRuleListImpl() {
         super();
     }
 
+    /**
+     * @return the number of rules
+     */
     public int getLength() {
         return getRules().size();
     }
 
+    /**
+     * Add a rule.
+     * @param rule the rule to be added
+     */
     public void add(final AbstractCSSRuleImpl rule) {
         getRules().add(rule);
     }
 
+    /**
+     * Insert a rule at the given pos.
+     * @param rule the rule to be inserted
+     * @param index the insert pos
+     */
     public void insert(final AbstractCSSRuleImpl rule, final int index) {
         getRules().add(index, rule);
     }
 
+    /**
+     * Delete the rule at the given pos.
+     * @param index the delete pos
+     */
     public void delete(final int index) {
         getRules().remove(index);
     }
@@ -81,7 +103,7 @@ public class CSSRuleListImpl implements Serializable {
         if ((crl == null) || (getLength() != crl.getLength())) {
             return false;
         }
-        int i = 0;;
+        int i = 0;
         for (AbstractCSSRuleImpl rule : rules_) {
             final AbstractCSSRuleImpl cssRule2 = crl.rules_.get(i);
             if (!LangUtils.equals(rule, cssRule2)) {

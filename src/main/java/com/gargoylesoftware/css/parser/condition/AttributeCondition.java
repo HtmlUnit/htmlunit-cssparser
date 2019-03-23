@@ -49,7 +49,6 @@ public class AttributeCondition extends AbstractLocatable implements Condition, 
         return localName_;
     }
 
-
     /**
      * {@inheritDoc}
      */

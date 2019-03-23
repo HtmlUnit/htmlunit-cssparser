@@ -208,7 +208,7 @@ public class LocatorTest {
     private void mediaList(final MediaListImpl mediaList,
             final Map<Character, List<Integer[]>> positions,
             final Map<Character, Integer> counts) {
-        if ((mediaList.getLength() > 0) ) {
+        if (mediaList.getLength() > 0) {
             final Locator locator = ((Locatable) mediaList).getLocator();
             final Integer[] expected = positions.get('M').get(counts.get('M'));
             final int expectedLine = expected[0];

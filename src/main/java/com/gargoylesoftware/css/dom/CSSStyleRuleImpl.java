@@ -35,17 +35,30 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
     private SelectorList selectors_;
     private CSSStyleDeclarationImpl style_;
 
+    /**
+     * Ctor.
+     * @param parentStyleSheet the parent style sheet
+     * @param parentRule the parent rule
+     * @param selectors the selectors
+     */
+    public CSSStyleRuleImpl(final CSSStyleSheetImpl parentStyleSheet,
+        final AbstractCSSRuleImpl parentRule, final SelectorList selectors) {
+        super(parentStyleSheet, parentRule);
+        setSelectors(selectors);
+    }
+
+    /**
+     * @return all selectors
+     */
     public SelectorList getSelectors() {
         return selectors_;
     }
 
+    /**
+     * Updates the selectors.
+     * @param selectors the new selectors
+     */
     public void setSelectors(final SelectorList selectors) {
-        selectors_ = selectors;
-    }
-
-    public CSSStyleRuleImpl(final CSSStyleSheetImpl parentStyleSheet,
-        final AbstractCSSRuleImpl parentRule, final SelectorList selectors) {
-        super(parentStyleSheet, parentRule);
         selectors_ = selectors;
     }
 
@@ -68,8 +81,13 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
         return selectorText + " { " + styleText + " }";
     }
 
+    /**
+     * Sets the css text.
+     * @param cssText the new css text
+     * @throws DOMException in case of error
+     */
     public void setCssText(final String cssText) throws DOMException {
-        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheetImpl();
+        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
         if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
             throw new DOMExceptionImpl(
                 DOMException.NO_MODIFICATION_ALLOWED_ERR,
@@ -106,12 +124,20 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
         }
     }
 
+    /**
+     * @return the selector text
+     */
     public String getSelectorText() {
         return selectors_.toString();
     }
 
+    /**
+     * Sets the selector text.
+     * @param selectorText the new selector text
+     * @throws DOMException in clase of error
+     */
     public void setSelectorText(final String selectorText) throws DOMException {
-        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheetImpl();
+        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
         if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
             throw new DOMExceptionImpl(
                 DOMException.NO_MODIFICATION_ALLOWED_ERR,
@@ -137,10 +163,17 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
         }
     }
 
+    /**
+     * @return the style
+     */
     public CSSStyleDeclarationImpl getStyle() {
         return style_;
     }
 
+    /**
+     * Replaces the style.
+     * @param style the new style
+     */
     public void setStyle(final CSSStyleDeclarationImpl style) {
         style_ = style;
     }

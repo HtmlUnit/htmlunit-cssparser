@@ -5,8 +5,11 @@
     "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
 
 <suppressions>
-    <suppress checks="JavadocPackage" files=".*[\\/]src[\\/](test)[\\/]"/>
+    <suppress checks="JavadocPackage" files=".*[\\/]src[\\/]test"/>
+    <suppress checks="JavadocMethod" files=".*[\\/]src[\\/]test"/>
+    <suppress checks="LineLength" files=".*[\\/]src[\\/]test"/>
     <suppress checks="Header" files=".+.properties"/>
 
+    <suppress checks="." files=".*[\\/]target[\\/]generated-sources[\\/]javacc"/>
     <suppress checks="." files="CssCharStream.java"/>
 </suppressions>

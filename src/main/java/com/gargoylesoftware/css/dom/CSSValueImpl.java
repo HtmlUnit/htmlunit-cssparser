@@ -38,42 +38,107 @@ import com.gargoylesoftware.css.util.LangUtils;
  * @author Ronald Brill
  */
 public class CSSValueImpl extends AbstractLocatable implements Serializable {
+
+    /**
+     * CSSValueType enum.
+     */
     public enum CSSValueType {
+        /** CSS_VALUE_LIST. */
         CSS_VALUE_LIST,
+
+        /** CSS_INHERIT. */
         CSS_INHERIT,
+
+        /** CSS_PRIMITIVE_VALUE. */
         CSS_PRIMITIVE_VALUE;
     }
 
+    /**
+     * CSSPrimitiveValueType enum.
+     */
     public enum CSSPrimitiveValueType {
+
+        /** CSS_IDENT. */
         CSS_IDENT,
+
+        /** CSS_NUMBER. */
         CSS_NUMBER,
+
+        /** CSS_EMS. */
         CSS_EMS,
+
+        /** CSS_EXS. */
         CSS_EXS,
+
+        /** CSS_PX. */
         CSS_PX,
+
+        /** CSS_IN. */
         CSS_IN,
+
+        /** CSS_CM. */
         CSS_CM,
+
+        /** CSS_MM. */
         CSS_MM,
+
+        /** CSS_PT. */
         CSS_PT,
+
+        /** CSS_PC. */
         CSS_PC,
+
+        /** CSS_PERCENTAGE. */
         CSS_PERCENTAGE,
+
+        /** CSS_URI. */
         CSS_URI,
+
+        /** COUNTERS_FUNCTION. */
         COUNTERS_FUNCTION,
+
+        /** CSS_RGBCOLOR. */
         CSS_RGBCOLOR,
+
+        /** CSS_DEG. */
         CSS_DEG,
+
+        /** CSS_GRAD. */
         CSS_GRAD,
+
+        /** CSS_RAD. */
         CSS_RAD,
+
+        /** CSS_MS. */
         CSS_MS,
+
+        /** CSS_S. */
         CSS_S,
+
+        /** CSS_HZ. */
         CSS_HZ,
+
+        /** CSS_KHZ. */
         CSS_KHZ,
+
+        /** CSS_ATTR. */
         CSS_ATTR,
+
+        /** CSS_RECT. */
         CSS_RECT,
+
+        /** CSS_STRING. */
         CSS_STRING,
+
+        /** CSS_DIMENSION. */
         CSS_DIMENSION,
+
+        /** CSS_COUNTER. */
         CSS_COUNTER,
+
+        /** CSS_UNKNOWN. */
         CSS_UNKNOWN
     }
-
 
     private Object value_;
 

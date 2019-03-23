@@ -41,8 +41,13 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
         encoding_ = encoding;
     }
 
+    /**
+     * Sets the css text.
+     * @param cssText the new css text
+     * @throws DOMException in case of error
+     */
     public void setCssText(final String cssText) throws DOMException {
-        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheetImpl();
+        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
         if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
             throw new DOMExceptionImpl(
                 DOMException.NO_MODIFICATION_ALLOWED_ERR,

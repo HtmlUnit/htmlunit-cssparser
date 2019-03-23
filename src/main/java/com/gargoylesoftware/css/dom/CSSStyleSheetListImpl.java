@@ -38,6 +38,9 @@ public class CSSStyleSheetListImpl {
         return cssStyleSheets_;
     }
 
+    /**
+     * @return the number of style sheets
+     */
     public int getLength() {
         return getCSSStyleSheets().size();
     }
@@ -94,6 +97,7 @@ public class CSSStyleSheetListImpl {
             if (!LangUtils.equals(styleSheet, styleSheet2)) {
                 return false;
             }
+            i++;
         }
         return true;
     }

@@ -45,10 +45,10 @@ public interface Condition extends Locatable {
     /**
      * @return the value
      */
-    public String getValue();
+    String getValue();
 
     /**
      * @return the local name
      */
-    public String getLocalName();
+    String getLocalName();
 }

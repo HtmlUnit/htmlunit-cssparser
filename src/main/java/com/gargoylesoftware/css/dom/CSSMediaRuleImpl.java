@@ -69,8 +69,13 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
         return sb.toString();
     }
 
+    /**
+     * Sets the css text.
+     * @param cssText the new css text
+     * @throws DOMException in case of error
+     */
     public void setCssText(final String cssText) throws DOMException {
-        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheetImpl();
+        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
         if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
             throw new DOMExceptionImpl(
                 DOMException.NO_MODIFICATION_ALLOWED_ERR,
@@ -119,7 +124,7 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
     }
 
     public int insertRule(final String rule, final int index) throws DOMException {
-        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheetImpl();
+        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
         if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
             throw new DOMExceptionImpl(
                 DOMException.NO_MODIFICATION_ALLOWED_ERR,
@@ -159,7 +164,7 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
     }
 
     public void deleteRule(final int index) throws DOMException {
-        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheetImpl();
+        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
         if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
             throw new DOMExceptionImpl(
                 DOMException.NO_MODIFICATION_ALLOWED_ERR,
@@ -220,7 +225,7 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
             for (int i = 0; i < cssRules_.getLength(); i++) {
                 final AbstractCSSRuleImpl cssRule = cssRules_.getRules().get(i);
                 cssRule.setParentRule(this);
-                cssRule.setParentStyleSheet(getParentStyleSheetImpl());
+                cssRule.setParentStyleSheet(getParentStyleSheet());
             }
         }
         media_ = (MediaListImpl) in.readObject();
