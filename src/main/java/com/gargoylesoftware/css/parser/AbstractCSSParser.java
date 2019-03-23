@@ -17,7 +17,6 @@ package com.gargoylesoftware.css.parser;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.channels.Selector;
 import java.text.MessageFormat;
 import java.util.HashMap;
 
@@ -165,7 +164,7 @@ public abstract class AbstractCSSParser implements CSSParser {
      * @return a new string with the escaped values
      */
     protected String addEscapes(final String str) {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         char ch;
         for (int i = 0; i < str.length(); i++) {
             ch = str.charAt(i);
@@ -210,6 +209,12 @@ public abstract class AbstractCSSParser implements CSSParser {
         return sb.toString();
     }
 
+    /**
+     *
+     * @param key the message lookup key
+     * @param e the parse exception
+     * @return a new CSSParseException
+     */
     protected CSSParseException toCSSParseException(final String key, final ParseException e) {
         final String messagePattern1 = getParserMessage("invalidExpectingOne");
         final String messagePattern2 = getParserMessage("invalidExpectingMore");
@@ -450,83 +455,220 @@ public abstract class AbstractCSSParser implements CSSParser {
 
     @Override
     public abstract String getParserVersion();
-    protected abstract String getGrammarUri();
+
+    /**
+     * Re intit the stream.
+     * @param charStream the stream
+     */
     protected abstract void ReInit(CharStream charStream);
+
+    /**
+     * Process a style sheet.
+     *
+     * @throws CSSParseException in case of error
+     * @throws ParseException in case of error
+     */
     protected abstract void styleSheet() throws CSSParseException, ParseException;
+
+    /**
+     * Process a style sheet declaration.
+     *
+     * @throws ParseException in case of error
+     */
     protected abstract void styleDeclaration() throws ParseException;
+
+    /**
+     * Process a style sheet rule.
+     *
+     * @throws ParseException in case of error
+     */
     protected abstract void styleSheetRuleSingle() throws ParseException;
+
+    /**
+     * Process a selector list.
+     *
+     * @return the selector list
+     * @throws ParseException in case of error
+     */
     protected abstract SelectorList parseSelectorsInternal() throws ParseException;
-    protected abstract SelectorList selectorList() throws ParseException;
+
+    /**
+     * Process an expression.
+     *
+     * @return the lexical unit
+     * @throws ParseException in case of error
+     */
     protected abstract LexicalUnit expr() throws ParseException;
+
+    /**
+     * Process a prio.
+     *
+     * @return true or false
+     * @throws ParseException in case of error
+     */
     protected abstract boolean prio() throws ParseException;
+
+    /**
+     * Process a media list.
+     *
+     * @param ml the media list
+     * @throws ParseException in case of error
+     */
     protected abstract void mediaList(MediaQueryList ml) throws ParseException;
 
+    /**
+     * start document handler.
+     */
     protected void handleStartDocument() {
         getDocumentHandler().startDocument(getInputSource());
     }
 
+    /**
+     * end document handler.
+     */
     protected void handleEndDocument() {
         getDocumentHandler().endDocument(getInputSource());
     }
 
+    /**
+     * ignorable at rule handler.
+     *
+     * @param s the rule
+     * @param locator the locator
+     */
     protected void handleIgnorableAtRule(final String s, final Locator locator) {
         getDocumentHandler().ignorableAtRule(s, locator);
     }
 
+    /**
+     * charset handler.
+     *
+     * @param characterEncoding the encoding
+     * @param locator the locator
+     */
     protected void handleCharset(final String characterEncoding, final Locator locator) {
         getDocumentHandler().charset(characterEncoding, locator);
     }
 
+    /**
+     * import style handler.
+     *
+     * @param uri the uri
+     * @param media the media query list
+     * @param defaultNamespaceURI the namespace uri
+     * @param locator the locator
+     */
     protected void handleImportStyle(final String uri, final MediaQueryList media,
             final String defaultNamespaceURI, final Locator locator) {
         getDocumentHandler().importStyle(uri, media, defaultNamespaceURI, locator);
     }
 
+    /**
+     * start media handler.
+     *
+     * @param media the media query list
+     * @param locator the locator
+     */
     protected void handleStartMedia(final MediaQueryList media, final Locator locator) {
         getDocumentHandler().startMedia(media, locator);
     }
 
+    /**
+     * medium handler.
+     *
+     * @param medium the medium
+     * @param locator the locator
+     */
     protected void handleMedium(final String medium, final Locator locator) {
         // empty default impl
     }
 
+    /**
+     * end media handler.
+     *
+     * @param media the media query list
+     */
     protected void handleEndMedia(final MediaQueryList media) {
         getDocumentHandler().endMedia(media);
     }
 
+    /**
+     * start page handler.
+     *
+     * @param name the name
+     * @param pseudoPage the pseudo page
+     * @param locator the locator
+     */
     protected void handleStartPage(final String name, final String pseudoPage, final Locator locator) {
         getDocumentHandler().startPage(name, pseudoPage, locator);
     }
 
+    /**
+     * end page handler.
+     *
+     * @param name the name
+     * @param pseudoPage the pseudo page
+     */
     protected void handleEndPage(final String name, final String pseudoPage) {
         getDocumentHandler().endPage(name, pseudoPage);
     }
 
+    /**
+     * start font face handler.
+     *
+     * @param locator the locator
+     */
     protected void handleStartFontFace(final Locator locator) {
         getDocumentHandler().startFontFace(locator);
     }
 
+    /**
+     * end font face handler.
+     */
     protected void handleEndFontFace() {
         getDocumentHandler().endFontFace();
     }
 
-    protected void handleSelector(final Selector selector) {
-        // empty default impl
-    }
-
+    /**
+     * selector start handler.
+     *
+     * @param selectors the selector list
+     * @param locator the locator
+     */
     protected void handleStartSelector(final SelectorList selectors, final Locator locator) {
         getDocumentHandler().startSelector(selectors, locator);
     }
 
+    /**
+     * selector end handler.
+     *
+     * @param selectors the selector list
+     */
     protected void handleEndSelector(final SelectorList selectors) {
         getDocumentHandler().endSelector(selectors);
     }
 
+    /**
+     * property handler.
+     *
+     * @param name the name
+     * @param value the value
+     * @param important important flag
+     * @param locator the locator
+     */
     protected void handleProperty(final String name, final LexicalUnit value,
             final boolean important, final Locator locator) {
         getDocumentHandler().property(name, value, important, locator);
     }
 
+    /**
+     * Process a function decl.
+     *
+     * @param prev the previous lexical unit
+     * @param funct the function
+     * @param params the params
+     * @return a lexical unit
+     */
     protected LexicalUnit functionInternal(final LexicalUnit prev, final String funct,
             final LexicalUnit params) {
 
@@ -551,6 +693,13 @@ public abstract class AbstractCSSParser implements CSSParser {
             params);
     }
 
+    /**
+     * Processes a hexadecimal color definition.
+     *
+     * @param prev the previous lexical unit
+     * @param t the token
+     * @return a new lexical unit
+     */
     protected LexicalUnit hexcolorInternal(final LexicalUnit prev, final Token t) {
         // Step past the hash at the beginning
         final int i = 1;
@@ -598,6 +747,13 @@ public abstract class AbstractCSSParser implements CSSParser {
         }
     }
 
+    /**
+     * Parses the sting into an integer.
+     *
+     * @param op the sign char
+     * @param s the string to parse
+     * @return the int value
+     */
     protected int intValue(final char op, final String s) {
         final int result = Integer.parseInt(s);
         if (op == '-') {
@@ -606,6 +762,13 @@ public abstract class AbstractCSSParser implements CSSParser {
         return result;
     }
 
+    /**
+     * Parses the sting into an double.
+     *
+     * @param op the sign char
+     * @param s the string to parse
+     * @return the double value
+     */
     protected double doubleValue(final char op, final String s) {
         final double result = Double.parseDouble(s);
         if (op == '-') {
@@ -614,6 +777,12 @@ public abstract class AbstractCSSParser implements CSSParser {
         return result;
     }
 
+    /**
+     * Returns the pos of the last numeric char in the given string.
+     *
+     * @param s the string to parse
+     * @return the pos
+     */
     protected int getLastNumPos(final String s) {
         int i = 0;
         for ( ; i < s.length(); i++) {
