@@ -508,7 +508,7 @@ public class CSSStyleSheetImpl implements Serializable {
         /**
          * @param elementName the element
          * @param classes the classes
-         * @return Iterator<SelectorEntry>
+         * @return Iterator of SelectorEntry
          */
         public Iterator<SelectorEntry> getSelectorEntriesIteratorFor(final String elementName, final String[] classes) {
             return new SelectorEntriesIterator(this, elementName, classes);
