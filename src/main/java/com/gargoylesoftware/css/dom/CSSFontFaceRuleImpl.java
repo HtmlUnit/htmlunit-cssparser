@@ -33,6 +33,11 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl {
 
     private CSSStyleDeclarationImpl style_;
 
+    /**
+     * Ctor.
+     * @param parentStyleSheet the parent style sheet
+     * @param parentRule the parent rule
+     */
     public CSSFontFaceRuleImpl(final CSSStyleSheetImpl parentStyleSheet, final AbstractCSSRuleImpl parentRule) {
         super(parentStyleSheet, parentRule);
     }
@@ -94,10 +99,17 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl {
         }
     }
 
+    /**
+     * @return the style
+     */
     public CSSStyleDeclarationImpl getStyle() {
         return style_;
     }
 
+    /**
+     * Sets the style to a new one.
+     * @param style the new style
+     */
     public void setStyle(final CSSStyleDeclarationImpl style) {
         style_ = style;
     }
