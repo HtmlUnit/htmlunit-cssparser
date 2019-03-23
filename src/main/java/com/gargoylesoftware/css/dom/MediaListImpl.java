@@ -53,6 +53,9 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
         }
     }
 
+    /**
+     * @return the media text
+     */
     public String getMediaText() {
         final StringBuilder sb = new StringBuilder("");
         boolean isNotFirst = false;
@@ -68,6 +71,11 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
         return sb.toString();
     }
 
+    /**
+     * Parses the given media text.
+     * @param mediaText text to be parsed
+     * @throws DOMException in case of error
+     */
     public void setMediaText(final String mediaText) throws DOMException {
         final InputSource source = new InputSource(new StringReader(mediaText));
         try {
@@ -84,6 +92,9 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
         }
     }
 
+    /**
+     * @return the media query count
+     */
     public int getLength() {
         return mediaQueries_.size();
     }
@@ -99,26 +110,15 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
         return mediaQueries_.get(index);
     }
 
-    public void deleteMedium(final String oldMedium) throws DOMException {
-        for (MediaQuery mediaQuery : mediaQueries_) {
-            final String str = mediaQuery.getMedia();
-            if (str.equalsIgnoreCase(oldMedium)) {
-                mediaQueries_.remove(mediaQuery);
-                return;
-            }
-        }
-        throw new DOMExceptionImpl(DOMException.NOT_FOUND_ERR, DOMExceptionImpl.NOT_FOUND);
-    }
-
-    public void appendMedium(final String newMedium) throws DOMException {
-        mediaQueries_.add(new MediaQuery(newMedium));
-    }
-
     @Override
     public String toString() {
         return getMediaText();
     }
 
+    /**
+     * Resets the list of media queries.
+     * @param media the media queries string to be parsed
+     */
     public void setMedia(final List<String> media) {
         mediaQueries_.clear();
         for (String medium : media) {
@@ -128,9 +128,7 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
 
     private void setMediaList(final MediaQueryList mediaList) {
         if (mediaList != null) {
-            for (int i = 0; i < mediaList.getLength(); i++) {
-                mediaQueries_.add(mediaList.mediaQuery(i));
-            }
+            mediaQueries_.addAll(mediaList.getMediaQueries());
         }
     }
 

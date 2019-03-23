@@ -176,7 +176,7 @@ public class LocatorTest {
         }
         else if (cssRule instanceof CSSMediaRuleImpl) {
             final CSSMediaRuleImpl cssMediaRule = (CSSMediaRuleImpl) cssRule;
-            mediaList(cssMediaRule.getMedia(), positions, counts);
+            mediaList(cssMediaRule.getMediaList(), positions, counts);
             cssRules(cssMediaRule.getCssRules(), positions, counts);
         }
         else if (cssRule instanceof CSSPageRuleImpl) {

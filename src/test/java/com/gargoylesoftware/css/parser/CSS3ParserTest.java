@@ -505,7 +505,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl cssRule = rules.getRules().get(0);
         Assert.assertEquals("@media print {h1 { color: red } }", cssRule.getCssText());
 
-        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
+        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
 
         Assert.assertEquals(1, mediaList.getLength());
         Assert.assertEquals("print", mediaList.getMediaText());
@@ -525,7 +525,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl cssRule = rules.getRules().get(0);
         Assert.assertEquals("@media print, screen {h1 { color: red } }", cssRule.getCssText());
 
-        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
+        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
 
         Assert.assertEquals(2, mediaList.getLength());
         Assert.assertEquals("print, screen", mediaList.getMediaText());
@@ -548,7 +548,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("@media print {*#navigation { display: none } "
                 + "@media all and (max-width: 12cm) {*.note { float: none } } }", cssRule.getCssText());
 
-        MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
+        MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
         Assert.assertEquals(1, mediaList.getLength());
         Assert.assertEquals("print", mediaList.getMediaText());
 
@@ -561,7 +561,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         cssRule = innerRules.getRules().get(1);
         Assert.assertEquals("@media all and (max-width: 12cm) {*.note { float: none } }", cssRule.getCssText());
 
-        mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
+        mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
         Assert.assertEquals(1, mediaList.getLength());
         Assert.assertEquals("all and (max-width: 12cm)", mediaList.getMediaText());
     }
@@ -3388,7 +3388,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         for (int i = 0; i < sheet.getCssRules().getLength(); i++) {
             final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(i);
             if (cssRule instanceof CSSMediaRuleImpl) {
-                final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
+                final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
                 for (int j = 0; j < mediaList.getLength(); j++) {
                     final MediaQuery mediaQuery = mediaList.mediaQuery(j);
                     Assert.assertEquals(mediaQuery.toString(), mediaQuery.toString());

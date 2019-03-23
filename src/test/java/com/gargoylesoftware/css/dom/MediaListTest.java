@@ -19,7 +19,6 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.w3c.dom.DOMException;
 
 /**
  * Unit tests for {@link MediaListImpl}.
@@ -46,15 +45,6 @@ public class MediaListTest {
     public void getMediaText() throws Exception {
         final MediaListImpl ml = new MediaListImpl(null);
         Assert.assertEquals("", ml.getMediaText());
-
-        ml.appendMedium("newMedium");
-        Assert.assertEquals("newMedium", ml.getMediaText());
-
-        ml.appendMedium("anotherMedium");
-        Assert.assertEquals("newMedium, anotherMedium", ml.getMediaText());
-
-        ml.appendMedium("lastMedium");
-        Assert.assertEquals("newMedium, anotherMedium, lastMedium", ml.getMediaText());
     }
 
     /**
@@ -64,62 +54,6 @@ public class MediaListTest {
     public void getLength() throws Exception {
         final MediaListImpl ml = new MediaListImpl(null);
         Assert.assertEquals(0, ml.getLength());
-
-        ml.appendMedium("newMedium");
-        Assert.assertEquals(1, ml.getLength());
-
-        ml.appendMedium("anotherMedium");
-        Assert.assertEquals(2, ml.getLength());
-
-        ml.appendMedium("lastMedium");
-        Assert.assertEquals(3, ml.getLength());
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
-    public void deleteMedium() throws Exception {
-        MediaListImpl ml = new MediaListImpl(null);
-        ml.appendMedium("newMedium");
-        ml.appendMedium("anotherMedium");
-        ml.appendMedium("lastMedium");
-        Assert.assertEquals(3, ml.getLength());
-        Assert.assertEquals("newMedium, anotherMedium, lastMedium", ml.getMediaText());
-
-        ml.deleteMedium("newMedium");
-        Assert.assertEquals(2, ml.getLength());
-        Assert.assertEquals("anotherMedium, lastMedium", ml.getMediaText());
-
-        ml = new MediaListImpl(null);
-        ml.appendMedium("newMedium");
-        ml.appendMedium("anotherMedium");
-        ml.appendMedium("lastMedium");
-        Assert.assertEquals(3, ml.getLength());
-        Assert.assertEquals("newMedium, anotherMedium, lastMedium", ml.getMediaText());
-
-        ml.deleteMedium("anotherMedium");
-        Assert.assertEquals(2, ml.getLength());
-        Assert.assertEquals("newMedium, lastMedium", ml.getMediaText());
-
-        ml = new MediaListImpl(null);
-        ml.appendMedium("newMedium");
-        ml.appendMedium("anotherMedium");
-        ml.appendMedium("lastMedium");
-        Assert.assertEquals(3, ml.getLength());
-        Assert.assertEquals("newMedium, anotherMedium, lastMedium", ml.getMediaText());
-
-        ml.deleteMedium("lastMeDIUM");
-        Assert.assertEquals(2, ml.getLength());
-        Assert.assertEquals("newMedium, anotherMedium", ml.getMediaText());
-
-        try {
-            ml.deleteMedium("unknown");
-            Assert.fail("DOMException expected");
-        }
-        catch (final DOMException e) {
-            Assert.assertEquals(DOMException.NOT_FOUND_ERR, e.code);
-        }
     }
 
     /**
@@ -164,7 +98,7 @@ public class MediaListTest {
     @Test
     public void getMediaTextFormated() throws Exception {
         final MediaListImpl ml = new MediaListImpl(null);
-        ml.appendMedium("newMedium");
+        ml.setMedia(Arrays.asList("newMedium"));
 
         Assert.assertEquals("newMedium", ml.toString());
         Assert.assertEquals("newMedium", ml.getMediaText());

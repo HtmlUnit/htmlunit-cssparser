@@ -31,37 +31,59 @@ public class MediaQuery extends AbstractLocatable implements Serializable {
     private boolean isOnly_;
     private boolean isNot_;
 
+    /**
+     * Ctor.
+     * @param media the media string
+     */
     public MediaQuery(final String media) {
         this(media, false, false);
     }
 
+    /**
+     * Ctor.
+     * @param media the media string
+     * @param isOnly is only flag
+     * @param isNot is not flag
+     */
     public MediaQuery(final String media, final boolean isOnly, final boolean isNot) {
-        setMedia(media);
+        media_ = media;
         properties_ = new ArrayList<Property>(10);
         isOnly_ = isOnly;
         isNot_ = isNot;
     }
 
+    /**
+     * @return the media
+     */
     public String getMedia() {
         return media_;
     }
 
-    public void setMedia(final String media) {
-        media_ = media;
-    }
-
+    /**
+     * @return the list of properties
+     */
     public List<Property> getProperties() {
         return properties_;
     }
 
+    /**
+     * Adds a property to the list.
+     * @param mp the property to add
+     */
     public void addMediaProperty(final Property mp) {
         properties_.add(mp);
     }
 
+    /**
+     * @return the is only flag
+     */
     public boolean isOnly() {
         return isOnly_;
     }
 
+    /**
+     * @return the is not flag
+     */
     public boolean isNot() {
         return isNot_;
     }

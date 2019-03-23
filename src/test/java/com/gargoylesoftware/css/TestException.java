@@ -82,16 +82,10 @@ public class TestException {
 
         rule = rules.getRules().get(1);
         ((CSSMediaRuleImpl) rule).insertRule("p { voice: female }", 1);
-        Assert.assertEquals("speech", ((CSSMediaRuleImpl) rule).getMedia().getMediaText());
+        Assert.assertEquals("speech", ((CSSMediaRuleImpl) rule).getMediaList().getMediaText());
 
         // TODO
-        ((CSSMediaRuleImpl) rule).getMedia().setMediaText("speech, signlanguage");
-        Assert.assertEquals("speech, speech, signlanguage", ((CSSMediaRuleImpl) rule).getMedia().getMediaText());
-
-        ((CSSMediaRuleImpl) rule).getMedia().deleteMedium("signlanguage");
-        Assert.assertEquals("speech, speech", ((CSSMediaRuleImpl) rule).getMedia().getMediaText());
-
-        ((CSSMediaRuleImpl) rule).getMedia().appendMedium("semaphore");
-        Assert.assertEquals("speech, speech, semaphore", ((CSSMediaRuleImpl) rule).getMedia().getMediaText());
+        ((CSSMediaRuleImpl) rule).getMediaList().setMediaText("speech, signlanguage");
+        Assert.assertEquals("speech, speech, signlanguage", ((CSSMediaRuleImpl) rule).getMediaList().getMediaText());
     }
 }

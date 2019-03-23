@@ -28,22 +28,31 @@ public class MediaQueryList extends AbstractLocatable {
 
     private final List<MediaQuery> mediaQueries_;
 
+    /**
+     * Ctor.
+     */
     public MediaQueryList() {
         mediaQueries_ = new ArrayList<MediaQuery>();
     }
 
+    /**
+     * @return the number of mediaQueries
+     */
     public int getLength() {
         return mediaQueries_.size();
     }
 
-    public MediaQuery mediaQuery(final int index) {
-        return mediaQueries_.get(index);
+    /**
+     * @return the list of media queries
+     */
+    public List<MediaQuery> getMediaQueries() {
+        return mediaQueries_;
     }
 
-    public void add(final String s) {
-        add(new MediaQuery(s));
-    }
-
+    /**
+     * Adds a new media query to the list.
+     * @param mediaQuery the media query to add
+     */
     public void add(final MediaQuery mediaQuery) {
         mediaQueries_.add(mediaQuery);
     }

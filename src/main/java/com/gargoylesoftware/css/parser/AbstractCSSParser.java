@@ -89,6 +89,9 @@ public abstract class AbstractCSSParser implements CSSParser {
 
     private static final String NUM_CHARS = "0123456789.";
 
+    /**
+     * @return the document handler
+     */
     protected DocumentHandler getDocumentHandler() {
         if (documentHandler_ == null) {
             setDocumentHandler(new HandlerBase());
@@ -101,6 +104,9 @@ public abstract class AbstractCSSParser implements CSSParser {
         documentHandler_ = handler;
     }
 
+    /**
+     * @return the error handler
+     */
     protected CSSErrorHandler getErrorHandler() {
         if (errorHandler_ == null) {
             setErrorHandler(new HandlerBase());
@@ -113,6 +119,9 @@ public abstract class AbstractCSSParser implements CSSParser {
         errorHandler_ = eh;
     }
 
+    /**
+     * @return the input source
+     */
     protected InputSource getInputSource() {
         return source_;
     }
@@ -127,6 +136,10 @@ public abstract class AbstractCSSParser implements CSSParser {
         return ieStarHackAccepted_;
     }
 
+    /**
+     * @param key the lookup key
+     * @return the parser message
+     */
     protected String getParserMessage(final String key) {
         final String msg = parserMessages_.get(key);
         if (msg == null) {
@@ -135,14 +148,24 @@ public abstract class AbstractCSSParser implements CSSParser {
         return msg;
     }
 
+    /**
+     * Returns a new locator for the given token.
+     * @param t the token to generate the locator for
+     * @return a new locator
+     */
     protected Locator createLocator(final Token t) {
         return new Locator(getInputSource().getURI(),
             t == null ? 0 : t.beginLine,
             t == null ? 0 : t.beginColumn);
     }
 
-    protected String add_escapes(final String str) {
-        final StringBuilder sb = new StringBuilder();
+    /**
+     * Escapes some chars in the given string.
+     * @param str the input
+     * @return a new string with the escaped values
+     */
+    protected String addEscapes(final String str) {
+        StringBuilder sb = new StringBuilder();
         char ch;
         for (int i = 0; i < str.length(); i++) {
             ch = str.charAt(i);
@@ -213,7 +236,7 @@ public abstract class AbstractCSSParser implements CSSParser {
                 invalid.append(e.tokenImage[0]);
                 break;
             }
-            invalid.append(add_escapes(tok.image));
+            invalid.append(addEscapes(tok.image));
             tok = tok.next;
         }
         final StringBuilder message = new StringBuilder(getParserMessage(key));
@@ -230,25 +253,44 @@ public abstract class AbstractCSSParser implements CSSParser {
             e.currentToken.next.beginColumn);
     }
 
+    /**
+     * @param e the DOMException
+     * @return a new CSSParseException
+     */
     protected CSSParseException toCSSParseException(final DOMException e) {
         final String messagePattern = getParserMessage("domException");
         return new CSSParseException(
                 MessageFormat.format(messagePattern, e.getMessage()), getInputSource().getURI(), 1, 1);
     }
 
+    /**
+     * @param e the TokenMgrError
+     * @return a new CSSParseException
+     */
     protected CSSParseException toCSSParseException(final TokenMgrError e) {
         final String messagePattern = getParserMessage("tokenMgrError");
         return new CSSParseException(messagePattern, getInputSource().getURI(), 1, 1);
     }
 
+    /**
+     * @param messageKey the message key
+     * @param msgParams the params
+     * @param locator the locator
+     * @return a new CSSParseException
+     */
     protected CSSParseException toCSSParseException(final String messageKey,
             final Object[] msgParams, final Locator locator) {
         final String messagePattern = getParserMessage(messageKey);
         return new CSSParseException(MessageFormat.format(messagePattern, msgParams), locator);
     }
 
-    protected CSSParseException createSkipWarning(final String key, final CSSParseException e) {
-        return new CSSParseException(getParserMessage(key), e.getURI(), e.getLineNumber(), e.getColumnNumber());
+    /**
+     * @param messageKey the message key
+     * @param e a CSSParseException
+     * @return a new CSSParseException
+     */
+    protected CSSParseException createSkipWarning(final String messageKey, final CSSParseException e) {
+        return new CSSParseException(getParserMessage(messageKey), e.getURI(), e.getLineNumber(), e.getColumnNumber());
     }
 
     @Override
@@ -370,6 +412,12 @@ public abstract class AbstractCSSParser implements CSSParser {
         return b;
     }
 
+    /**
+     * Parse the given input source and return the media list.
+     * @param source the input source
+     * @return new media list
+     * @throws IOException in case of errors
+     */
     public MediaQueryList parseMedia(final InputSource source) throws IOException {
         source_ = source;
         ReInit(getCharStream(source));

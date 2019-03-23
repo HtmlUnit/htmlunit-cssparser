@@ -45,7 +45,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
-        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
+        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
         Assert.assertEquals("screen and (max-width: 30em)", mediaList.getMediaText());
         Assert.assertEquals(1, mediaList.getLength());
 
@@ -65,7 +65,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
-        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
+        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
         Assert.assertEquals("screen and (color)", mediaList.getMediaText());
         Assert.assertEquals(1, mediaList.getLength());
 
@@ -105,7 +105,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
-        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
+        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
         Assert.assertEquals("only screen and (color)", mediaList.getMediaText());
         Assert.assertEquals(1, mediaList.getLength());
 
@@ -127,7 +127,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
-        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
+        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
         Assert.assertEquals("not screen and (color)", mediaList.getMediaText());
         Assert.assertEquals(1, mediaList.getLength());
 
@@ -149,7 +149,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
-        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
+        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
         Assert.assertEquals("not screen and (min-resolution: 300dpi)", mediaList.getMediaText());
         Assert.assertEquals(1, mediaList.getLength());
 
@@ -176,7 +176,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
-        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMedia();
+        final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
         Assert.assertEquals("not screen and (min-resolution: 11.8dpcm)", mediaList.getMediaText());
         Assert.assertEquals(1, mediaList.getLength());
 
@@ -204,7 +204,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
-        final MediaListImpl mediaListImpl = ((CSSMediaRuleImpl) cssRule).getMedia();
+        final MediaListImpl mediaListImpl = ((CSSMediaRuleImpl) cssRule).getMediaList();
         Assert.assertEquals("only screen and (max-width: 735px) and (max-device-width: 768px)",
                 mediaListImpl.getMediaText());
         Assert.assertEquals(1, mediaListImpl.getLength());
@@ -246,7 +246,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
-        final MediaListImpl mediaListImpl = ((CSSMediaRuleImpl) cssRule).getMedia();
+        final MediaListImpl mediaListImpl = ((CSSMediaRuleImpl) cssRule).getMediaList();
         Assert.assertEquals("all and (color)", mediaListImpl.getMediaText());
         Assert.assertEquals(1, mediaListImpl.getLength());
         Assert.assertEquals("all", mediaListImpl.mediaQuery(0).getMedia());
@@ -266,7 +266,7 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         Assert.assertEquals(1, mediaList.getLength());
         Assert.assertEquals("speech", mediaList.toString());
 
-        final MediaQuery mediaQuery = mediaList.mediaQuery(0);
+        final MediaQuery mediaQuery = mediaList.getMediaQueries().get(0);
         Assert.assertEquals("speech", mediaQuery.getMedia());
         final List<Property> properties = mediaQuery.getProperties();
         Assert.assertEquals(1, properties.size());
@@ -285,19 +285,19 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         Assert.assertEquals(3, mediaList.getLength());
         Assert.assertEquals("screen, print, aural", mediaList.toString());
 
-        MediaQuery mediaQuery = mediaList.mediaQuery(0);
+        MediaQuery mediaQuery = mediaList.getMediaQueries().get(0);
         Assert.assertEquals("screen", mediaQuery.getMedia());
         List<Property> properties = mediaQuery.getProperties();
         Assert.assertEquals(2, properties.size());
         Assert.assertEquals("max-width: 735px", properties.get(0).toString());
         Assert.assertEquals("max-device-width: 768px", properties.get(1).toString());
 
-        mediaQuery = mediaList.mediaQuery(1);
+        mediaQuery = mediaList.getMediaQueries().get(1);
         Assert.assertEquals("print", mediaQuery.getMedia());
         properties = mediaQuery.getProperties();
         Assert.assertEquals(0, properties.size());
 
-        mediaQuery = mediaList.mediaQuery(2);
+        mediaQuery = mediaList.getMediaQueries().get(2);
         Assert.assertEquals("aural", mediaQuery.getMedia());
         properties = mediaQuery.getProperties();
         Assert.assertEquals("device-aspect-ratio: 16 / 9", properties.get(0).toString());

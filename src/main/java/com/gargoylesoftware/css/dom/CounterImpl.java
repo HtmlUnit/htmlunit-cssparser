@@ -73,14 +73,23 @@ public class CounterImpl implements Serializable {
         }
     }
 
+    /**
+     * @return the identifier
+     */
     public String getIdentifier() {
         return identifier_;
     }
 
+    /**
+     * @return the list style
+     */
     public String getListStyle() {
         return listStyle_;
     }
 
+    /**
+     * @return the separator
+     */
     public String getSeparator() {
         return separator_;
     }

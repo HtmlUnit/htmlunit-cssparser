@@ -75,8 +75,5 @@ public class MediaQueryTest {
     public void media() throws Exception {
         final MediaQuery mq = new MediaQuery("test");
         Assert.assertEquals("test", mq.getMedia());
-
-        mq.setMedia("foo");
-        Assert.assertEquals("foo", mq.getMedia());
     }
 }
