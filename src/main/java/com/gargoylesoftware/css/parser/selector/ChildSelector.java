@@ -24,6 +24,11 @@ public class ChildSelector extends AbstractSelector implements Serializable {
     private Selector ancestorSelector_;
     private SimpleSelector simpleSelector_;
 
+    /**
+     * Ctor.
+     * @param ancestorSelector the ancestor selector
+     * @param simpleSelector the simple selector
+     */
     public ChildSelector(final Selector ancestorSelector, final SimpleSelector simpleSelector) {
         ancestorSelector_ = ancestorSelector;
         if (ancestorSelector != null) {
@@ -38,6 +43,9 @@ public class ChildSelector extends AbstractSelector implements Serializable {
         return SelectorType.CHILD_SELECTOR;
     }
 
+    /**
+     * @return the ancestor selector
+     */
     public Selector getAncestorSelector() {
         return ancestorSelector_;
     }

@@ -212,6 +212,9 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         this(value, false);
     }
 
+    /**
+     * @return the css text
+     */
     public String getCssText() {
         if (getCssValueType() == CSSValueType.CSS_VALUE_LIST) {
 
@@ -246,6 +249,11 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         return value_ != null ? value_.toString() : "";
     }
 
+    /**
+     * Sets the css text.
+     * @param cssText the new css text
+     * @throws DOMException in case of error
+     */
     public void setCssText(final String cssText) throws DOMException {
         try {
             final InputSource is = new InputSource(new StringReader(cssText));
