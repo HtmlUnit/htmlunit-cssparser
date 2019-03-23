@@ -21,7 +21,15 @@ package com.gargoylesoftware.css.parser;
  */
 public interface Locatable {
 
+    /**
+     * @return the locator
+     */
     Locator getLocator();
 
+    /**
+     * Set the locator.
+     *
+     * @param locator the new locator
+     */
     void setLocator(Locator locator);
 }

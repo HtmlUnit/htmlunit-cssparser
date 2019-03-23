@@ -72,8 +72,7 @@ public class TestException {
         rule.setCssText("h2 { smell: strong }");
         Assert.assertEquals("h2 { smell: strong }", rules.getRules().get(1).getCssText());
 
-        final int n = stylesheet.insertRule("@media speech { h1 { voice: male } }", 1);
-        Assert.assertEquals(1, n);
+        stylesheet.insertRule("@media speech { h1 { voice: male } }", 1);
 
         Assert.assertEquals(3, rules.getLength());
         Assert.assertEquals("@charset \"US-ASCII\";", rules.getRules().get(0).getCssText());

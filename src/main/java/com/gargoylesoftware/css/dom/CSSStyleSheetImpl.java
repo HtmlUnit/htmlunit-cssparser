@@ -52,14 +52,12 @@ public class CSSStyleSheetImpl implements Serializable {
     private String title_;
     private MediaListImpl media_;
     private AbstractCSSRuleImpl ownerRule_;
-    private boolean readOnly_;
     private CSSRuleListImpl cssRules_;
     private CSSStyleSheetRuleIndex index_;
 
-    public void setMedia(final MediaListImpl media) {
-        media_ = media;
-    }
-
+    /**
+     * Ctor.
+     */
     public CSSStyleSheetImpl() {
         super();
     }
@@ -80,26 +78,44 @@ public class CSSStyleSheetImpl implements Serializable {
         disabled_ = disabled;
     }
 
+    /**
+     * @return the owner node
+     */
     public Node getOwnerNode() {
         return ownerNode_;
     }
 
+    /**
+     * @return the href
+     */
     public String getHref() {
         return href_;
     }
 
+    /**
+     * @return the title
+     */
     public String getTitle() {
         return title_;
     }
 
+    /**
+     * @return the media list
+     */
     public MediaListImpl getMedia() {
         return media_;
     }
 
+    /**
+     * @return the owner rule
+     */
     public AbstractCSSRuleImpl getOwnerRule() {
         return ownerRule_;
     }
 
+    /**
+     * @return the css rules
+     */
     public CSSRuleListImpl getCssRules() {
         if (cssRules_ == null) {
             cssRules_ = new CSSRuleListImpl();
@@ -107,13 +123,14 @@ public class CSSStyleSheetImpl implements Serializable {
         return cssRules_;
     }
 
-    public int insertRule(final String rule, final int index) throws DOMException {
-        if (readOnly_) {
-            throw new DOMExceptionImpl(
-                DOMException.NO_MODIFICATION_ALLOWED_ERR,
-                DOMExceptionImpl.READ_ONLY_STYLE_SHEET);
-        }
-
+    /**
+     * inserts a new rule.
+     *
+     * @param rule the rule to insert
+     * @param index the insert pos
+     * @throws DOMException in case of error
+     */
+    public void insertRule(final String rule, final int index) throws DOMException {
         try {
             final InputSource is = new InputSource(new StringReader(rule));
             final CSSOMParser parser = new CSSOMParser();
@@ -194,16 +211,15 @@ public class CSSStyleSheetImpl implements Serializable {
                 DOMExceptionImpl.SYNTAX_ERROR,
                 e.getMessage());
         }
-        return index;
     }
 
+    /**
+     * delete the rule at the given pos.
+     *
+     * @param index the pos
+     * @throws DOMException in case of error
+     */
     public void deleteRule(final int index) throws DOMException {
-        if (readOnly_) {
-            throw new DOMExceptionImpl(
-                DOMException.NO_MODIFICATION_ALLOWED_ERR,
-                DOMExceptionImpl.READ_ONLY_STYLE_SHEET);
-        }
-
         try {
             getCssRules().delete(index);
         }
@@ -215,26 +231,34 @@ public class CSSStyleSheetImpl implements Serializable {
         }
     }
 
-    public boolean isReadOnly() {
-        return readOnly_;
-    }
-
-    public void setReadOnly(final boolean b) {
-        readOnly_ = b;
-    }
-
+    /**
+     * Set the owner node.
+     * @param ownerNode the new node
+     */
     public void setOwnerNode(final Node ownerNode) {
         ownerNode_ = ownerNode;
     }
 
+    /**
+     * Set the href.
+     * @param href the new href
+     */
     public void setHref(final String href) {
         href_ = href;
     }
 
+    /**
+     * Set the title.
+     * @param title the new title
+     */
     public void setTitle(final String title) {
         title_ = title;
     }
 
+    /**
+     * Set the media text.
+     * @param mediaText the new media text
+     */
     public void setMediaText(final String mediaText) {
         final InputSource source = new InputSource(new StringReader(mediaText));
         try {
@@ -291,7 +315,6 @@ public class CSSStyleSheetImpl implements Serializable {
         hash = LangUtils.hashCode(hash, href_);
         hash = LangUtils.hashCode(hash, media_);
         hash = LangUtils.hashCode(hash, ownerNode_);
-        hash = LangUtils.hashCode(hash, readOnly_);
         hash = LangUtils.hashCode(hash, title_);
         return hash;
     }
@@ -301,7 +324,6 @@ public class CSSStyleSheetImpl implements Serializable {
         out.writeBoolean(disabled_);
         out.writeObject(href_);
         out.writeObject(media_);
-        out.writeBoolean(readOnly_);
         out.writeObject(title_);
     }
 
@@ -316,22 +338,34 @@ public class CSSStyleSheetImpl implements Serializable {
         disabled_ = in.readBoolean();
         href_ = (String) in.readObject();
         media_ = (MediaListImpl) in.readObject();
-        readOnly_ = in.readBoolean();
         title_ = (String) in.readObject();
     }
 
+    /**
+     * @return the CSSStyleSheetRuleIndex
+     */
     public CSSStyleSheetRuleIndex getRuleIndex() {
         return index_;
     }
 
+    /**
+     * Set the CSSStyleSheetRuleIndex.
+     * @param index the new index
+     */
     public void setRuleIndex(final CSSStyleSheetRuleIndex index) {
         index_ = index;
     }
 
+    /**
+     * Clean the index.
+     */
     public void resetRuleIndex() {
         index_ = null;
     }
 
+    /**
+     * SelectorEntry.
+     */
     public static final class SelectorEntry {
         private Selector selector_;
         private CSSStyleRuleImpl rule_;
@@ -341,15 +375,24 @@ public class CSSStyleSheetImpl implements Serializable {
             rule_ = rule;
         }
 
+        /**
+         * @return the selector
+         */
         public Selector getSelector() {
             return selector_;
         }
 
+        /**
+         * @return the rule
+         */
         public CSSStyleRuleImpl getRule() {
             return rule_;
         }
     }
 
+    /**
+     * CSSStyleSheetRuleIndex.
+     */
     public static class CSSStyleSheetRuleIndex {
 
         private static final class SelectorIndex {
@@ -383,12 +426,27 @@ public class CSSStyleSheetImpl implements Serializable {
         private final SelectorIndex classSelectors_ = new SelectorIndex();
         private final List<SelectorEntry> otherSelectors_ = new ArrayList<>();
 
+        /**
+         * Add an ElementSelector.
+         *
+         * @param elementSelector the selector to be added
+         * @param s the selector
+         * @param styleRule the rule
+         */
         public void addElementSelector(final ElementSelector elementSelector,
                                         final Selector s, final CSSStyleRuleImpl styleRule) {
             final String elementName = elementSelector.getLocalNameLowerCase();
             elementSelectors_.add(elementName, new SelectorEntry(s, styleRule));
         }
 
+        /**
+         * Add a ClassSelector.
+         *
+         * @param elementSelector the selector to be added
+         * @param className the class name
+         * @param s the selector
+         * @param styleRule the rule
+         */
         public void addClassSelector(final ElementSelector elementSelector, final String className,
                 final Selector s, final CSSStyleRuleImpl styleRule) {
             final String elementName = elementSelector.getLocalNameLowerCase();
@@ -402,11 +460,22 @@ public class CSSStyleSheetImpl implements Serializable {
             classSelectors_.add(key, new SelectorEntry(s, styleRule));
         }
 
+        /**
+         * Add a OtherSelector.
+         *
+         * @param s the selector
+         * @param styleRule the rule
+         */
         public void addOtherSelector(final Selector s, final CSSStyleRuleImpl styleRule) {
             final SelectorEntry selectorEntry = new SelectorEntry(s, styleRule);
             otherSelectors_.add(selectorEntry);
         }
 
+        /**
+         * Add a media list.
+         * @param mediaList the list to add
+         * @return the CSSStyleSheetRuleIndex
+         */
         public CSSStyleSheetRuleIndex addMedia(final MediaListImpl mediaList) {
             final String media = mediaList.getMediaText();
             for (CSSStyleSheetRuleIndex cssStyleSheetRuleIndex : children_) {
@@ -422,14 +491,25 @@ public class CSSStyleSheetImpl implements Serializable {
             return index;
         }
 
+        /**
+         * @return return the medial list
+         */
         public MediaListImpl getMediaList() {
             return mediaList_;
         }
 
+        /**
+         * @return the children
+         */
         public List<CSSStyleSheetRuleIndex> getChildren() {
             return children_;
         }
 
+        /**
+         * @param elementName the element
+         * @param classes the classes
+         * @return Iterator<SelectorEntry>
+         */
         public Iterator<SelectorEntry> getSelectorEntriesIteratorFor(final String elementName, final String[] classes) {
             return new SelectorEntriesIterator(this, elementName, classes);
         }

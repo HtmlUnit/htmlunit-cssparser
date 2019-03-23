@@ -34,6 +34,13 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
     private String pseudoPage_;
     private CSSStyleDeclarationImpl style_;
 
+    /**
+     * Ctor.
+     *
+     * @param parentStyleSheet the parent style sheet
+     * @param parentRule the parent rule
+     * @param pseudoPage the pseudo page
+     */
     public CSSPageRuleImpl(
             final CSSStyleSheetImpl parentStyleSheet,
             final AbstractCSSRuleImpl parentRule,
@@ -70,13 +77,6 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
      * @throws DOMException in case of error
      */
     public void setCssText(final String cssText) throws DOMException {
-        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
-        if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
-            throw new DOMExceptionImpl(
-                DOMException.NO_MODIFICATION_ALLOWED_ERR,
-                DOMExceptionImpl.READ_ONLY_STYLE_SHEET);
-        }
-
         try {
             final InputSource is = new InputSource(new StringReader(cssText));
             final CSSOMParser parser = new CSSOMParser();
@@ -107,6 +107,9 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
         }
     }
 
+    /**
+     * @return the selector text
+     */
     public String getSelectorText() {
         if (null == pseudoPage_) {
             return "";
@@ -114,14 +117,17 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
         return pseudoPage_;
     }
 
+    /**
+     * @return the style
+     */
     public CSSStyleDeclarationImpl getStyle() {
         return style_;
     }
 
-    public void setPseudoPage(final String pseudoPage) {
-        pseudoPage_ = pseudoPage;
-    }
-
+    /**
+     * Changes the style.
+     * @param style the new style
+     */
     public void setStyle(final CSSStyleDeclarationImpl style) {
         style_ = style;
     }

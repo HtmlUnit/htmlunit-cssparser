@@ -34,14 +34,14 @@ public class CSSImportRuleImpl extends AbstractCSSRuleImpl {
     private String href_;
     private MediaListImpl media_;
 
-    public void setHref(final String href) {
-        href_ = href;
-    }
-
-    public void setMedia(final MediaListImpl media) {
-        media_ = media;
-    }
-
+    /**
+     * Ctor.
+     *
+     * @param parentStyleSheet the parent style sheet
+     * @param parentRule the parent rule
+     * @param href the href
+     * @param media the media
+     */
     public CSSImportRuleImpl(
             final CSSStyleSheetImpl parentStyleSheet,
             final AbstractCSSRuleImpl parentRule,
@@ -78,13 +78,6 @@ public class CSSImportRuleImpl extends AbstractCSSRuleImpl {
      * @throws DOMException in case of error
      */
     public void setCssText(final String cssText) throws DOMException {
-        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
-        if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
-            throw new DOMExceptionImpl(
-                DOMException.NO_MODIFICATION_ALLOWED_ERR,
-                DOMExceptionImpl.READ_ONLY_STYLE_SHEET);
-        }
-
         try {
             final InputSource is = new InputSource(new StringReader(cssText));
             final CSSOMParser parser = new CSSOMParser();
@@ -115,14 +108,23 @@ public class CSSImportRuleImpl extends AbstractCSSRuleImpl {
         }
     }
 
+    /**
+     * @return the href
+     */
     public String getHref() {
         return href_;
     }
 
+    /**
+     * @return the media lsit
+     */
     public MediaListImpl getMedia() {
         return media_;
     }
 
+    /**
+     * @return the parent style sheet
+     */
     public CSSStyleSheetImpl getStyleSheet() {
         return getParentStyleSheet();
     }

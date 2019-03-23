@@ -269,6 +269,9 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         }
     }
 
+    /**
+     * @return the css value type
+     */
     public CSSValueType getCssValueType() {
         if (value_ instanceof List) {
             return CSSValueType.CSS_VALUE_LIST;
@@ -280,6 +283,9 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         return CSSValueType.CSS_PRIMITIVE_VALUE;
     }
 
+    /**
+     * @return the primitive type
+     */
     public CSSPrimitiveValueType getPrimitiveType() {
         if (value_ instanceof LexicalUnit) {
             final LexicalUnit lu = (LexicalUnit) value_;
@@ -360,6 +366,9 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         return CSSPrimitiveValueType.CSS_UNKNOWN;
     }
 
+    /**
+     * @return the lexical unit type
+     */
     public LexicalUnit.LexicalUnitType getLexicalUnitType() {
         if (value_ instanceof LexicalUnit) {
             return ((LexicalUnit) value_).getLexicalUnitType();
@@ -367,10 +376,21 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         return null;
     }
 
+    /**
+     * Sets the double value to a new value.
+     *
+     * @param doubleValue the new value
+     * @throws DOMException in case of error
+     */
     public void setDoubleValue(final double doubleValue) throws DOMException {
         value_ = LexicalUnitImpl.createNumber(null, doubleValue);
     }
 
+    /**
+     * @return the double value.
+     *
+     * @throws DOMException in case of error
+     */
     public double getDoubleValue() throws DOMException {
         if (value_ instanceof LexicalUnit) {
             final LexicalUnit lu = (LexicalUnit) value_;
@@ -412,6 +432,10 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
             DOMExceptionImpl.STRING_ERROR);
     }
 
+    /**
+     * @return the counter value
+     * @throws DOMException in case of error
+     */
     public CounterImpl getCounterValue() throws DOMException {
         if (value_ instanceof CounterImpl) {
             return (CounterImpl) value_;
@@ -422,6 +446,10 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
                 DOMExceptionImpl.COUNTER_ERROR);
     }
 
+    /**
+     * @return the rect
+     * @throws DOMException in case of error
+     */
     public RectImpl getRectValue() throws DOMException {
         if (value_ instanceof RectImpl) {
             return (RectImpl) value_;
@@ -432,6 +460,10 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
                 DOMExceptionImpl.RECT_ERROR);
     }
 
+    /**
+     * @return the rgb
+     * @throws DOMException in case of error
+     */
     public RGBColorImpl getRGBColorValue() throws DOMException {
         if (value_ instanceof RGBColorImpl) {
             return (RGBColorImpl) value_;
@@ -442,6 +474,10 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
             DOMExceptionImpl.RGBCOLOR_ERROR);
     }
 
+    /**
+     * @return the length
+     * @throws DOMException in case of error
+     */
     @SuppressWarnings("unchecked")
     public int getLength() {
         if (value_ instanceof List) {
@@ -450,6 +486,11 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         return 0;
     }
 
+    /**
+     * @param index the position
+     * @return the value at the position
+     * @throws DOMException in case of error
+     */
     @SuppressWarnings("unchecked")
     public CSSValueImpl item(final int index) {
         if (value_ instanceof List) {

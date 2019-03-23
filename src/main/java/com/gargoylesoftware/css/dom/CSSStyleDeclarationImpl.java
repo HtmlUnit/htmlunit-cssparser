@@ -37,20 +37,20 @@ public class CSSStyleDeclarationImpl implements Serializable {
     private AbstractCSSRuleImpl parentRule_;
     private List<Property> properties_ = new ArrayList<Property>();
 
-    public void setParentRule(final AbstractCSSRuleImpl parentRule) {
-        parentRule_ = parentRule;
-    }
-
-    public List<Property> getProperties() {
-        return properties_;
-    }
-
-    public void setProperties(final List<Property> properties) {
-        properties_ = properties;
-    }
-
+    /**
+     * Ctor.
+     *
+     * @param parentRule the parent role
+     */
     public CSSStyleDeclarationImpl(final AbstractCSSRuleImpl parentRule) {
         parentRule_ = parentRule;
+    }
+
+    /**
+     * @return the properties
+     */
+    public List<Property> getProperties() {
+        return properties_;
     }
 
     /**
@@ -91,6 +91,10 @@ public class CSSStyleDeclarationImpl implements Serializable {
         }
     }
 
+    /**
+     * @param propertyName the property name
+     * @return the property value
+     */
     public String getPropertyValue(final String propertyName) {
         final Property p = getPropertyDeclaration(propertyName);
         if (p == null || p.getValue() == null) {
@@ -99,11 +103,22 @@ public class CSSStyleDeclarationImpl implements Serializable {
         return p.getValue().toString();
     }
 
+    /**
+     * @param propertyName the property name
+     * @return the property value
+     */
     public CSSValueImpl getPropertyCSSValue(final String propertyName) {
         final Property p = getPropertyDeclaration(propertyName);
         return (p == null) ? null : p.getValue();
     }
 
+    /**
+     * Remove a property.
+     *
+     * @param propertyName the property name
+     * @return the removed property
+     * @throws DOMException in case of error
+     */
     public String removeProperty(final String propertyName) throws DOMException {
         if (null == propertyName) {
             return "";
@@ -121,6 +136,10 @@ public class CSSStyleDeclarationImpl implements Serializable {
         return "";
     }
 
+    /**
+     * @param propertyName the name of the property
+     * @return the priority
+     */
     public String getPropertyPriority(final String propertyName) {
         final Property p = getPropertyDeclaration(propertyName);
         if (p == null) {
@@ -129,6 +148,13 @@ public class CSSStyleDeclarationImpl implements Serializable {
         return p.isImportant() ? PRIORITY_IMPORTANT : "";
     }
 
+    /**
+     * Set a property.
+     * @param propertyName the name of the property
+     * @param value the new value
+     * @param priority the priority
+     * @throws DOMException in case of error
+     */
     public void setProperty(
             final String propertyName,
             final String value,
@@ -159,14 +185,24 @@ public class CSSStyleDeclarationImpl implements Serializable {
         }
     }
 
+    /**
+     * @return the properties count
+     */
     public int getLength() {
         return properties_.size();
     }
 
+    /**
+     * @return the parent rule
+     */
     public AbstractCSSRuleImpl getParentRule() {
         return parentRule_;
     }
 
+    /**
+     * Add a property.
+     * @param p the property to add
+     */
     public void addProperty(final Property p) {
         if (null == p) {
             return;
@@ -174,6 +210,10 @@ public class CSSStyleDeclarationImpl implements Serializable {
         properties_.add(p);
     }
 
+    /**
+     * @param propertyName the name of the propery
+     * @return the property
+     */
     public Property getPropertyDeclaration(final String propertyName) {
         if (null == propertyName) {
             return null;

@@ -105,25 +105,6 @@ public class CSSStyleSheetImplTest {
      * @throws Exception if any error occurs
      */
     @Test
-    public void insertRuleReadOnly() throws Exception {
-        final CSSStyleSheetImpl ss = parseStyleSheet("");
-        ss.setReadOnly(true);
-
-        try {
-            ss.insertRule(".testStyleDef", 0);
-            Assert.fail("DOMException expected");
-        }
-        catch (final DOMException e) {
-            Assert.assertTrue(e.getMessage(), e.getMessage().startsWith("This style sheet is read only"));
-            Assert.assertEquals(0, ss.getCssRules().getLength());
-        }
-
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
     public void insertRuleRuleOrderCharset() throws Exception {
         final CSSStyleSheetImpl ss = parseStyleSheet("");
 
@@ -184,24 +165,6 @@ public class CSSStyleSheetImplTest {
             Assert.assertTrue(e.getMessage(), e.getMessage().startsWith("Index out of bounds error"));
             Assert.assertEquals(0, ss.getCssRules().getLength());
         }
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
-    public void deleteRuleReadOnly() throws Exception {
-        final CSSStyleSheetImpl ss = parseStyleSheet("");
-        ss.setReadOnly(true);
-
-        try {
-            ss.deleteRule(0);
-        }
-        catch (final DOMException e) {
-            Assert.assertTrue(e.getMessage(), e.getMessage().startsWith("This style sheet is read only"));
-        }
-
-        Assert.assertEquals(0, ss.getCssRules().getLength());
     }
 
     /**

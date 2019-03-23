@@ -69,20 +69,6 @@ public class CSSCharsetRuleImplTest {
      * @throws Exception if any error occurs
      */
     @Test
-    public void setEncoding() throws Exception {
-        final CSSCharsetRuleImpl value = parseCharsetRule("@charset \"UTF-8\";");
-        Assert.assertEquals("UTF-8", value.getEncoding());
-
-        value.setEncoding("EBCDIC");
-        Assert.assertEquals("EBCDIC", value.getEncoding());
-        Assert.assertEquals("@charset \"EBCDIC\";", value.getCssText());
-        Assert.assertEquals("@charset \"EBCDIC\";", value.toString());
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
     public void type() throws Exception {
         final CSSCharsetRuleImpl value = new CSSCharsetRuleImpl(null, null, null);
 

@@ -76,18 +76,8 @@ public class CSSPageRuleImplTest {
         CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
         Assert.assertEquals("", value.getSelectorText());
 
-        value.setPseudoPage(":test");
-        Assert.assertEquals(":test", value.getSelectorText());
-        Assert.assertEquals("@page :test {size: 21cm 29.7cm}", value.getCssText());
-        Assert.assertEquals("@page :test {size: 21cm 29.7cm}", value.toString());
-
         value = parsePageRule("@page :pseudo {color: blue}");
         Assert.assertEquals(":pseudo", value.getSelectorText());
-
-        value.setPseudoPage("test");
-        Assert.assertEquals("test", value.getSelectorText());
-        Assert.assertEquals("@page test {color: blue}", value.getCssText());
-        Assert.assertEquals("@page test {color: blue}", value.toString());
     }
 
     /**

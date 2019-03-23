@@ -69,20 +69,6 @@ public class CSSImportRuleImplTest {
      * @throws Exception if any error occurs
      */
     @Test
-    public void setHref() throws Exception {
-        final CSSImportRuleImpl value = parseImportRule("@import \"ext.css\";");
-        Assert.assertEquals("ext.css", value.getHref());
-
-        value.setHref("coOl");
-        Assert.assertEquals("coOl", value.getHref());
-        Assert.assertEquals("@import url(coOl);", value.getCssText());
-        Assert.assertEquals("@import url(coOl);", value.toString());
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
     public void type() throws Exception {
         final CSSImportRuleImpl value = new CSSImportRuleImpl(null, null, null, null);
 

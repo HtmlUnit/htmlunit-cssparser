@@ -73,13 +73,6 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
      * @throws DOMException in case of error
      */
     public void setCssText(final String cssText) throws DOMException {
-        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
-        if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
-            throw new DOMExceptionImpl(
-                DOMException.NO_MODIFICATION_ALLOWED_ERR,
-                DOMExceptionImpl.READ_ONLY_STYLE_SHEET);
-        }
-
         try {
             final InputSource is = new InputSource(new StringReader(cssText));
             final CSSOMParser parser = new CSSOMParser();
@@ -135,11 +128,6 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
      */
     public void insertRule(final String rule, final int index) throws DOMException {
         final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
-        if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
-            throw new DOMExceptionImpl(
-                DOMException.NO_MODIFICATION_ALLOWED_ERR,
-                DOMExceptionImpl.READ_ONLY_STYLE_SHEET);
-        }
 
         try {
             final InputSource is = new InputSource(new StringReader(rule));
@@ -178,12 +166,6 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
      * @throws DOMException in case of error
      */
     public void deleteRule(final int index) throws DOMException {
-        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
-        if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
-            throw new DOMExceptionImpl(
-                DOMException.NO_MODIFICATION_ALLOWED_ERR,
-                DOMExceptionImpl.READ_ONLY_STYLE_SHEET);
-        }
         try {
             getCssRules().delete(index);
         }

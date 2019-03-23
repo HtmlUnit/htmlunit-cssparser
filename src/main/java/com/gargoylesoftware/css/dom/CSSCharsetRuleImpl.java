@@ -33,6 +33,13 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
 
     private String encoding_;
 
+    /**
+     * Ctor.
+     *
+     * @param parentStyleSheet the parent style sheet
+     * @param parentRule the parent rule
+     * @param encoding the encoding
+     */
     public CSSCharsetRuleImpl(
             final CSSStyleSheetImpl parentStyleSheet,
             final AbstractCSSRuleImpl parentRule,
@@ -47,13 +54,6 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
      * @throws DOMException in case of error
      */
     public void setCssText(final String cssText) throws DOMException {
-        final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
-        if (parentStyleSheet != null && parentStyleSheet.isReadOnly()) {
-            throw new DOMExceptionImpl(
-                DOMException.NO_MODIFICATION_ALLOWED_ERR,
-                DOMExceptionImpl.READ_ONLY_STYLE_SHEET);
-        }
-
         try {
             final InputSource is = new InputSource(new StringReader(cssText));
             final CSSOMParser parser = new CSSOMParser();
@@ -83,12 +83,11 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
         }
     }
 
+    /**
+     * @return the encoding
+     */
     public String getEncoding() {
         return encoding_;
-    }
-
-    public void setEncoding(final String encoding) throws DOMException {
-        encoding_ = encoding;
     }
 
     @Override
@@ -116,6 +115,9 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
         return getCssText();
     }
 
+    /**
+     * @return the current css text
+     */
     public String getCssText() {
         final StringBuilder sb = new StringBuilder();
 
