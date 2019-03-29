@@ -14,12 +14,10 @@
  */
 package com.gargoylesoftware.css.parser.selector;
 
-import java.io.Serializable;
-
 /**
  * @author Ronald Brill
  */
-public class DescendantSelector extends AbstractSelector implements Serializable {
+public class DescendantSelector extends AbstractSelector {
 
     private final Selector ancestorSelector_;
     private final SimpleSelector simpleSelector_;

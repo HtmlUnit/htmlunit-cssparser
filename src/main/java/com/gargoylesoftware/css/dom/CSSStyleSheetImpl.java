@@ -131,8 +131,7 @@ public class CSSStyleSheetImpl implements Serializable {
      * @throws DOMException in case of error
      */
     public void insertRule(final String rule, final int index) throws DOMException {
-        try {
-            final InputSource is = new InputSource(new StringReader(rule));
+        try (InputSource is = new InputSource(new StringReader(rule))) {
             final CSSOMParser parser = new CSSOMParser();
             parser.setParentStyleSheet(this);
             parser.setErrorHandler(ThrowCssExceptionErrorHandler.INSTANCE);
@@ -260,8 +259,7 @@ public class CSSStyleSheetImpl implements Serializable {
      * @param mediaText the new media text
      */
     public void setMediaText(final String mediaText) {
-        final InputSource source = new InputSource(new StringReader(mediaText));
-        try {
+        try (InputSource source = new InputSource(new StringReader(mediaText))) {
             final CSSOMParser parser = new CSSOMParser();
             final MediaQueryList sml = parser.parseMedia(source);
             media_ = new MediaListImpl(sml);
@@ -402,7 +400,7 @@ public class CSSStyleSheetImpl implements Serializable {
             void add(final String key, final SelectorEntry selector) {
                 List<SelectorEntry> entry = keyToSelectors_.get(key);
                 if (entry == null) {
-                    entry = new ArrayList<SelectorEntry>();
+                    entry = new ArrayList<>();
                     keyToSelectors_.put(key, entry);
                 }
                 entry.add(selector);
@@ -522,7 +520,7 @@ public class CSSStyleSheetImpl implements Serializable {
                 final String elementName,
                 final String[] classes) {
 
-            iterators_ = new LinkedList<Iterator<SelectorEntry>>();
+            iterators_ = new LinkedList<>();
 
             List<SelectorEntry> selectors = index.elementSelectors_.get(null);
             if (!selectors.isEmpty()) {

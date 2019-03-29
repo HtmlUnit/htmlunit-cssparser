@@ -14,7 +14,6 @@
  */
 package com.gargoylesoftware.css.parser.selector;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -25,7 +24,7 @@ import com.gargoylesoftware.css.parser.condition.Condition;
 /**
  * @author Ronald Brill
  */
-public class ElementSelector extends AbstractSelector implements SimpleSelector, Serializable {
+public class ElementSelector extends AbstractSelector implements SimpleSelector {
 
     private final String localName_;
     private final String localNameLC_;
@@ -96,7 +95,7 @@ public class ElementSelector extends AbstractSelector implements SimpleSelector,
      */
     public void addCondition(final Condition condition) {
         if (conditions_ == null) {
-            conditions_ = new ArrayList<Condition>();
+            conditions_ = new ArrayList<>();
         }
         conditions_.add(condition);
     }

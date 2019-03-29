@@ -45,6 +45,7 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getCssText() {
         final StringBuilder sb = new StringBuilder();
         sb.append("@font-face {");
@@ -58,13 +59,11 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl {
     }
 
     /**
-     * Sets the css text.
-     * @param cssText the new css text
-     * @throws DOMException in case of error
+     * {@inheritDoc}
      */
+    @Override
     public void setCssText(final String cssText) throws DOMException {
-        try {
-            final InputSource is = new InputSource(new StringReader(cssText));
+        try (InputSource is = new InputSource(new StringReader(cssText))) {
             final CSSOMParser parser = new CSSOMParser();
             final AbstractCSSRuleImpl r = parser.parseRule(is);
 

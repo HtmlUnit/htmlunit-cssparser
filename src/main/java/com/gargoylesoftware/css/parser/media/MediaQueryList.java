@@ -32,7 +32,7 @@ public class MediaQueryList extends AbstractLocatable {
      * Ctor.
      */
     public MediaQueryList() {
-        mediaQueries_ = new ArrayList<MediaQuery>();
+        mediaQueries_ = new ArrayList<>();
     }
 
     /**

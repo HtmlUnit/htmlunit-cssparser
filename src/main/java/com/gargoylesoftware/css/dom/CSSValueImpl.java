@@ -194,8 +194,8 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         }
     }
 
-    private List<CSSValueImpl> getValues(final LexicalUnit value) {
-        final List<CSSValueImpl> values = new ArrayList<CSSValueImpl>();
+    private static List<CSSValueImpl> getValues(final LexicalUnit value) {
+        final List<CSSValueImpl> values = new ArrayList<>();
         LexicalUnit lu = value;
         while (lu != null) {
             values.add(new CSSValueImpl(lu, true));
@@ -255,8 +255,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
      * @throws DOMException in case of error
      */
     public void setCssText(final String cssText) throws DOMException {
-        try {
-            final InputSource is = new InputSource(new StringReader(cssText));
+        try (InputSource is = new InputSource(new StringReader(cssText))) {
             final CSSOMParser parser = new CSSOMParser();
             final CSSValueImpl v2 = parser.parsePropertyValue(is);
             value_ = v2.value_;

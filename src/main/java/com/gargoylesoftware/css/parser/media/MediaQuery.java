@@ -47,7 +47,7 @@ public class MediaQuery extends AbstractLocatable implements Serializable {
      */
     public MediaQuery(final String media, final boolean isOnly, final boolean isNot) {
         media_ = media;
-        properties_ = new ArrayList<Property>(10);
+        properties_ = new ArrayList<>(10);
         isOnly_ = isOnly;
         isNot_ = isNot;
     }

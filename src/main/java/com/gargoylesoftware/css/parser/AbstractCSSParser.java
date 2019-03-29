@@ -442,7 +442,7 @@ public abstract class AbstractCSSParser implements CSSParser {
         return ml;
     }
 
-    private CharStream getCharStream(final InputSource source) throws IOException {
+    private static CharStream getCharStream(final InputSource source) throws IOException {
         if (source.getReader() != null) {
             return new CssCharStream(source.getReader(), 1, 1);
         }

@@ -33,7 +33,7 @@ public class CSSStyleSheetListImpl {
      */
     public List<CSSStyleSheetImpl> getCSSStyleSheets() {
         if (cssStyleSheets_ == null) {
-            cssStyleSheets_ = new ArrayList<CSSStyleSheetImpl>();
+            cssStyleSheets_ = new ArrayList<>();
         }
         return cssStyleSheets_;
     }

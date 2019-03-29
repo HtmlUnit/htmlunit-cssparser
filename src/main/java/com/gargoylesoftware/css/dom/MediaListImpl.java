@@ -45,7 +45,7 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
      * @param mediaList the media list
      */
     public MediaListImpl(final MediaQueryList mediaList) {
-        mediaQueries_ = new ArrayList<MediaQuery>(10);
+        mediaQueries_ = new ArrayList<>(10);
 
         setMediaList(mediaList);
         if (mediaList != null) {
@@ -77,8 +77,7 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
      * @throws DOMException in case of error
      */
     public void setMediaText(final String mediaText) throws DOMException {
-        final InputSource source = new InputSource(new StringReader(mediaText));
-        try {
+        try (InputSource source = new InputSource(new StringReader(mediaText))) {
             final CSSOMParser parser = new CSSOMParser();
             parser.setErrorHandler(ThrowCssExceptionErrorHandler.INSTANCE);
             final MediaQueryList sml = parser.parseMedia(source);

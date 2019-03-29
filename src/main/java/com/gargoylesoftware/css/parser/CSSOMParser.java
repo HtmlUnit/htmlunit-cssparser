@@ -108,7 +108,7 @@ public class CSSOMParser {
      * @throws IOException if the underlying SAC parser throws an IOException
      */
     public void parseStyleDeclaration(final CSSStyleDeclarationImpl sd, final InputSource source) throws IOException {
-        final Stack<Object> nodeStack = new Stack<Object>();
+        final Stack<Object> nodeStack = new Stack<>();
         nodeStack.push(sd);
         final CSSOMHandler handler = new CSSOMHandler(nodeStack);
         parser_.setDocumentHandler(handler);
@@ -207,7 +207,7 @@ public class CSSOMParser {
         }
 
         CSSOMHandler() {
-            nodeStack_ = new Stack<Object>();
+            nodeStack_ = new Stack<>();
         }
 
         Object getRoot() {

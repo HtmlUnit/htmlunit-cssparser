@@ -35,7 +35,7 @@ public class CSSStyleDeclarationImpl implements Serializable {
     private static final String PRIORITY_IMPORTANT = "important";
 
     private AbstractCSSRuleImpl parentRule_;
-    private List<Property> properties_ = new ArrayList<Property>();
+    private List<Property> properties_ = new ArrayList<>();
 
     /**
      * Ctor.
@@ -77,8 +77,7 @@ public class CSSStyleDeclarationImpl implements Serializable {
      * @throws DOMException in case of error
      */
     public void setCssText(final String cssText) throws DOMException {
-        try {
-            final InputSource is = new InputSource(new StringReader(cssText));
+        try (InputSource is = new InputSource(new StringReader(cssText))) {
             final CSSOMParser parser = new CSSOMParser();
             properties_.clear();
             parser.parseStyleDeclaration(this, is);
