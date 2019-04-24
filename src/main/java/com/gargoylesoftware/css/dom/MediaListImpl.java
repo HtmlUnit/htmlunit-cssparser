@@ -16,7 +16,6 @@ package com.gargoylesoftware.css.dom;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,6 @@ import org.w3c.dom.DOMException;
 import com.gargoylesoftware.css.parser.AbstractLocatable;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.CSSParseException;
-import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.parser.media.MediaQuery;
 import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.util.LangUtils;
@@ -77,10 +75,10 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
      * @throws DOMException in case of error
      */
     public void setMediaText(final String mediaText) throws DOMException {
-        try (InputSource source = new InputSource(new StringReader(mediaText))) {
+        try {
             final CSSOMParser parser = new CSSOMParser();
             parser.setErrorHandler(ThrowCssExceptionErrorHandler.INSTANCE);
-            final MediaQueryList sml = parser.parseMedia(source);
+            final MediaQueryList sml = parser.parseMedia(mediaText);
             setMediaList(sml);
         }
         catch (final CSSParseException e) {

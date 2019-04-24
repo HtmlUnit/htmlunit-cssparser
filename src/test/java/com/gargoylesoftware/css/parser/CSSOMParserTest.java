@@ -164,9 +164,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void parseMedia() throws Exception {
-        final Reader r = new StringReader(testParseMedia_);
-        final InputSource is = new InputSource(r);
-        final MediaQueryList ml = new CSSOMParser().parseMedia(is);
+        final MediaQueryList ml = new CSSOMParser().parseMedia(testParseMedia_);
 
         Assert.assertEquals(2, ml.getLength());
     }
@@ -176,9 +174,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void parseMediaParseException() throws Exception {
-        final Reader r = new StringReader("~xx");
-        final InputSource is = new InputSource(r);
-        final MediaQueryList ml = new CSSOMParser().parseMedia(is);
+        final MediaQueryList ml = new CSSOMParser().parseMedia("~xx");
 
         Assert.assertEquals(0, ml.getLength());
     }

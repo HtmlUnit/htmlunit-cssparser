@@ -169,19 +169,21 @@ public class CSSOMParser {
     }
 
     /**
-     * Parses a SAC input source into a MediaQueryList.
+     * Parses a string into a MediaQueryList.
      *
-     * @param source the SAC input source
+     * @param media the input string
      * @return the css media query list
      * @throws IOException if the underlying SAC parser throws an IOException
      */
-    public MediaQueryList parseMedia(final InputSource source) throws IOException {
-        final HandlerBase handler = new HandlerBase();
-        parser_.setDocumentHandler(handler);
-        if (parser_ instanceof AbstractCSSParser) {
-            return ((AbstractCSSParser) parser_).parseMedia(source);
+    public MediaQueryList parseMedia(final String media) throws IOException {
+        try (InputSource source = new InputSource(new StringReader(media))) {
+            final HandlerBase handler = new HandlerBase();
+            parser_.setDocumentHandler(handler);
+            if (parser_ instanceof AbstractCSSParser) {
+                return ((AbstractCSSParser) parser_).parseMedia(source);
+            }
+            return null;
         }
-        return null;
     }
 
     /**

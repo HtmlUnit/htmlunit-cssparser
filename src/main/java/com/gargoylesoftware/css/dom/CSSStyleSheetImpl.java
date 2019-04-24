@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,7 +31,6 @@ import org.w3c.dom.Node;
 
 import com.gargoylesoftware.css.parser.CSSException;
 import com.gargoylesoftware.css.parser.CSSOMParser;
-import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.ElementSelector;
 import com.gargoylesoftware.css.parser.selector.Selector;
@@ -259,9 +257,9 @@ public class CSSStyleSheetImpl implements Serializable {
      * @param mediaText the new media text
      */
     public void setMediaText(final String mediaText) {
-        try (InputSource source = new InputSource(new StringReader(mediaText))) {
+        try {
             final CSSOMParser parser = new CSSOMParser();
-            final MediaQueryList sml = parser.parseMedia(source);
+            final MediaQueryList sml = parser.parseMedia(mediaText);
             media_ = new MediaListImpl(sml);
         }
         catch (final IOException e) {

@@ -144,19 +144,13 @@ public abstract class AbstractCSSParserTest {
         return sheet;
     }
 
-    protected MediaQueryList parseMedia(final String css,
-            final int err, final int fatal, final int warn) throws IOException {
-        final InputSource source = new InputSource(new StringReader(css));
-        return parseMedia(source, err, fatal, warn);
-    }
-
-    protected MediaQueryList parseMedia(final InputSource source,
+    protected MediaQueryList parseMedia(final String media,
             final int err, final int fatal, final int warn) throws IOException {
         final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final MediaQueryList mediaList = parser.parseMedia(source);
+        final MediaQueryList mediaList = parser.parseMedia(media);
 
         Assert.assertEquals(err, errorHandler.getErrorCount());
         Assert.assertEquals(fatal, errorHandler.getFatalErrorCount());
