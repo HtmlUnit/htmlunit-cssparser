@@ -166,8 +166,7 @@ public abstract class AbstractCSSParserTest {
     }
 
     protected SelectorList createSelectors(final String cssText) throws Exception {
-        final InputSource source = new InputSource(new StringReader(cssText));
-        return new CSSOMParser().parseSelectors(source);
+        return new CSSOMParser().parseSelectors(cssText);
     }
 
     protected List<Condition> createConditions(final String cssText) throws Exception {
@@ -269,8 +268,7 @@ public abstract class AbstractCSSParserTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final InputSource source = new InputSource(new StringReader(input));
-        final SelectorList selectors = parser.parseSelectors(source);
+        final SelectorList selectors = parser.parseSelectors(input);
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());

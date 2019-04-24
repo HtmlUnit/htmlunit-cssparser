@@ -15,7 +15,6 @@
 package com.gargoylesoftware.css.dom;
 
 import java.io.Serializable;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,10 +23,9 @@ import org.w3c.dom.DOMException;
 
 import com.gargoylesoftware.css.parser.AbstractLocatable;
 import com.gargoylesoftware.css.parser.CSSOMParser;
-import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.parser.LexicalUnit;
-import com.gargoylesoftware.css.parser.LexicalUnitImpl;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
+import com.gargoylesoftware.css.parser.LexicalUnitImpl;
 import com.gargoylesoftware.css.util.LangUtils;
 
 /**
@@ -255,9 +253,9 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
      * @throws DOMException in case of error
      */
     public void setCssText(final String cssText) throws DOMException {
-        try (InputSource is = new InputSource(new StringReader(cssText))) {
+        try {
             final CSSOMParser parser = new CSSOMParser();
-            final CSSValueImpl v2 = parser.parsePropertyValue(is);
+            final CSSValueImpl v2 = parser.parsePropertyValue(cssText);
             value_ = v2.value_;
         }
         catch (final Exception e) {

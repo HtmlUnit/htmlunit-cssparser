@@ -317,11 +317,6 @@ public abstract class AbstractCSSParser implements CSSParser {
     }
 
     @Override
-    public void parseStyleSheet(final String uri) throws IOException {
-        parseStyleSheet(new InputSource(uri));
-    }
-
-    @Override
     public void parseStyleDeclaration(final InputSource source) throws IOException {
         source_ = source;
         ReInit(getCharStream(source));

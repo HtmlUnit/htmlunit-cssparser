@@ -131,11 +131,11 @@ public class CSSStyleSheetImpl implements Serializable {
      * @throws DOMException in case of error
      */
     public void insertRule(final String rule, final int index) throws DOMException {
-        try (InputSource is = new InputSource(new StringReader(rule))) {
+        try {
             final CSSOMParser parser = new CSSOMParser();
             parser.setParentStyleSheet(this);
             parser.setErrorHandler(ThrowCssExceptionErrorHandler.INSTANCE);
-            final AbstractCSSRuleImpl r = parser.parseRule(is);
+            final AbstractCSSRuleImpl r = parser.parseRule(rule);
 
             if (r == null) {
                 // this should neven happen because of the ThrowCssExceptionErrorHandler

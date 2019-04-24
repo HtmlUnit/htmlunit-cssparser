@@ -20,8 +20,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.charset.Charset;
 
 /**
@@ -56,17 +54,6 @@ public class InputSource implements Closeable {
      */
     public InputSource(final Reader reader) {
         reader_ = reader;
-    }
-
-    /**
-     * Create a new input source backed by a reader.
-     * @param uri the uri to read from
-     * @throws IOException in case of error
-     * @throws MalformedURLException in case of error
-     */
-    public InputSource(final String uri) throws MalformedURLException, IOException {
-        setURI(uri);
-        reader_ = new InputStreamReader(new URL(uri).openStream());
     }
 
     /**

@@ -114,9 +114,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void parseSelectors() throws Exception {
-        final Reader r = new StringReader(testSelector_);
-        final InputSource is = new InputSource(r);
-        final SelectorList sl = new CSSOMParser().parseSelectors(is);
+        final SelectorList sl = new CSSOMParser().parseSelectors(testSelector_);
 
         Assert.assertEquals(testSelector_, sl.get(0).toString());
     }
@@ -126,9 +124,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void parseSelectorsEscapedChars() throws Exception {
-        final Reader r = new StringReader("#id\\:withColon");
-        final InputSource is = new InputSource(r);
-        final SelectorList sl = new CSSOMParser().parseSelectors(is);
+        final SelectorList sl = new CSSOMParser().parseSelectors("#id\\:withColon");
 
         Assert.assertEquals("*#id:withColon", sl.get(0).toString());
     }
@@ -138,9 +134,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void parseSelectorsParseException() throws Exception {
-        final Reader r = new StringReader("table==td");
-        final InputSource is = new InputSource(r);
-        final SelectorList sl = new CSSOMParser().parseSelectors(is);
+        final SelectorList sl = new CSSOMParser().parseSelectors("table==td");
 
         Assert.assertNull(sl);
     }
@@ -150,9 +144,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void parsePropertyValue() throws Exception {
-        final Reader r = new StringReader(testPropertyValue_);
-        final InputSource is = new InputSource(r);
-        final CSSValueImpl pv = new CSSOMParser().parsePropertyValue(is);
+        final CSSValueImpl pv = new CSSOMParser().parsePropertyValue(testPropertyValue_);
 
         Assert.assertEquals(testPropertyValue_, pv.toString());
     }
@@ -162,9 +154,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void parsePropertyValueParseException() throws Exception {
-        final Reader r = new StringReader("@a");
-        final InputSource is = new InputSource(r);
-        final CSSValueImpl pv = new CSSOMParser().parsePropertyValue(is);
+        final CSSValueImpl pv = new CSSOMParser().parsePropertyValue("@a");
 
         Assert.assertNull(pv);
     }
@@ -198,9 +188,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void parseRule() throws Exception {
-        final Reader r = new StringReader(testParseRule_);
-        final InputSource is = new InputSource(r);
-        final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule(is);
+        final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule(testParseRule_);
 
         Assert.assertEquals(testParseRule_, rule.getCssText());
     }
@@ -210,9 +198,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void parseRuleParseException() throws Exception {
-        final Reader r = new StringReader("~xx");
-        final InputSource is = new InputSource(r);
-        final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule(is);
+        final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule("~xx");
 
         Assert.assertNull(rule);
     }
@@ -222,9 +208,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void parseStyleDeclaration() throws Exception {
-        final Reader r = new StringReader(testStyleDeclaration_);
-        final InputSource is = new InputSource(r);
-        final CSSStyleDeclarationImpl sd = new CSSOMParser().parseStyleDeclaration(is);
+        final CSSStyleDeclarationImpl sd = new CSSOMParser().parseStyleDeclaration(testStyleDeclaration_);
 
         Assert.assertEquals(testStyleDeclaration_, sd.toString());
     }
@@ -234,9 +218,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void parseStyleDeclarationParseException() throws Exception {
-        final Reader r = new StringReader("@abc");
-        final InputSource is = new InputSource(r);
-        final CSSStyleDeclarationImpl sd = new CSSOMParser().parseStyleDeclaration(is);
+        final CSSStyleDeclarationImpl sd = new CSSOMParser().parseStyleDeclaration("@abc");
 
         Assert.assertEquals(sd.getLength(), 0);
     }
@@ -249,9 +231,7 @@ public class CSSOMParserTest {
      */
     @Test
     public void parseStyleDeclarationWithoutBrace() throws Exception {
-        final Reader r = new StringReader("background-color: white");
-        final InputSource is = new InputSource(r);
-        final CSSStyleDeclarationImpl declaration = new CSSOMParser().parseStyleDeclaration(is);
+        final CSSStyleDeclarationImpl declaration = new CSSOMParser().parseStyleDeclaration("background-color: white");
 
         Assert.assertEquals(1, declaration.getLength());
     }
@@ -444,9 +424,7 @@ public class CSSOMParserTest {
 
     private String getCssTextFromDeclaration(final CSSParser p, final String s) throws Exception {
         final CSSOMParser parser = new CSSOMParser();
-        final Reader r = new StringReader(s);
-        final InputSource is = new InputSource(r);
-        final CSSStyleDeclarationImpl d = parser.parseStyleDeclaration(is);
+        final CSSStyleDeclarationImpl d = parser.parseStyleDeclaration(s);
         return d.getCssText();
     }
 

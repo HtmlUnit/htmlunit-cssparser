@@ -17,13 +17,11 @@ package com.gargoylesoftware.css.dom;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.StringReader;
 
 import org.w3c.dom.DOMException;
 
 import com.gargoylesoftware.css.parser.CSSException;
 import com.gargoylesoftware.css.parser.CSSOMParser;
-import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.util.LangUtils;
 import com.gargoylesoftware.css.util.ThrowCssExceptionErrorHandler;
 
@@ -73,9 +71,9 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
      */
     @Override
     public void setCssText(final String cssText) throws DOMException {
-        try (InputSource is = new InputSource(new StringReader(cssText))) {
+        try {
             final CSSOMParser parser = new CSSOMParser();
-            final AbstractCSSRuleImpl r = parser.parseRule(is);
+            final AbstractCSSRuleImpl r = parser.parseRule(cssText);
 
             // The rule must be a media rule
             if (r instanceof CSSMediaRuleImpl) {
@@ -128,11 +126,11 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
     public void insertRule(final String rule, final int index) throws DOMException {
         final CSSStyleSheetImpl parentStyleSheet = getParentStyleSheet();
 
-        try (InputSource is = new InputSource(new StringReader(rule))) {
+        try {
             final CSSOMParser parser = new CSSOMParser();
             parser.setParentStyleSheet(parentStyleSheet);
             parser.setErrorHandler(ThrowCssExceptionErrorHandler.INSTANCE);
-            final AbstractCSSRuleImpl r = parser.parseRule(is);
+            final AbstractCSSRuleImpl r = parser.parseRule(rule);
 
             // Insert the rule into the list of rules
             getCssRules().insert(r, index);

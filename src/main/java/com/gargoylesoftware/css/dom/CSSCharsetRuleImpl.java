@@ -15,13 +15,11 @@
 package com.gargoylesoftware.css.dom;
 
 import java.io.IOException;
-import java.io.StringReader;
 
 import org.w3c.dom.DOMException;
 
 import com.gargoylesoftware.css.parser.CSSException;
 import com.gargoylesoftware.css.parser.CSSOMParser;
-import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.util.LangUtils;
 
 /**
@@ -53,9 +51,9 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
      */
     @Override
     public void setCssText(final String cssText) throws DOMException {
-        try (InputSource is = new InputSource(new StringReader(cssText))) {
+        try {
             final CSSOMParser parser = new CSSOMParser();
-            final AbstractCSSRuleImpl r = parser.parseRule(is);
+            final AbstractCSSRuleImpl r = parser.parseRule(cssText);
 
             // The rule must be a charset rule
             if (r instanceof CSSCharsetRuleImpl) {

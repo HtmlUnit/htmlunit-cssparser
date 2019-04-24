@@ -46,8 +46,7 @@ public class DomTest {
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        final InputSource source = new InputSource(new StringReader(cssText));
-        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(source);
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
         Assert.assertEquals(0, errorHandler.getErrorCount());
         Assert.assertEquals(0, errorHandler.getFatalErrorCount());

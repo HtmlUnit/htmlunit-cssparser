@@ -15,16 +15,12 @@
 package com.gargoylesoftware.css.parser.selector;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
-
-import java.io.Reader;
-import java.io.StringReader;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
-import com.gargoylesoftware.css.parser.InputSource;
 
 /**
  * Tests for {@link SelectorSpecificity}.
@@ -128,9 +124,7 @@ public class SelectorSpecificityTest {
 
     private SelectorSpecificity selectorSpecifity(final String selector, final String expectedSpecificity)
         throws Exception {
-        final Reader r = new StringReader(selector);
-        final InputSource is = new InputSource(r);
-        final SelectorList sl = new CSSOMParser().parseSelectors(is);
+        final SelectorList sl = new CSSOMParser().parseSelectors(selector);
 
         final SelectorSpecificity specificity = new SelectorSpecificity(sl.get(0));
         assertEquals(expectedSpecificity, specificity.toString());

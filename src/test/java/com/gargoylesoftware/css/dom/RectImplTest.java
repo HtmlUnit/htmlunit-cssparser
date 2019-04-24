@@ -14,15 +14,11 @@
  */
 package com.gargoylesoftware.css.dom;
 
-import java.io.Reader;
-import java.io.StringReader;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.DOMException;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
-import com.gargoylesoftware.css.parser.InputSource;
 import com.gargoylesoftware.css.parser.LexicalUnit;
 import com.gargoylesoftware.css.parser.LexicalUnitImpl;
 
@@ -169,9 +165,7 @@ public class RectImplTest {
     @Test
     public void parseRule() throws Exception {
         final String testRule = "img { clip: rect(1px, 2px, -3px, 4px) }";
-        final Reader r = new StringReader(testRule);
-        final InputSource is = new InputSource(r);
-        final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule(is);
+        final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule(testRule);
 
         Assert.assertEquals(testRule, rule.getCssText());
 

@@ -18,17 +18,15 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Reader;
-import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
-import com.gargoylesoftware.css.parser.InputSource;
 
 /**
  * Unit tests for {@link CSSStyleDeclarationImpl}.
@@ -180,9 +178,7 @@ public class CSSStyleDeclarationImplTest {
 
         final CSSOMParser parser = new CSSOMParser();
 
-        final Reader r = new InputStreamReader(is);
-        final InputSource source = new InputSource(r);
-        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(source);
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(IOUtils.toString(is, StandardCharsets.UTF_8));
 
         Assert.assertFalse(style.getCssText().contains("{"));
         Assert.assertFalse(style.getCssText().contains("}"));
@@ -218,9 +214,7 @@ public class CSSStyleDeclarationImplTest {
 
         final CSSOMParser parser = new CSSOMParser();
 
-        final Reader r = new InputStreamReader(is);
-        final InputSource source = new InputSource(r);
-        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(source);
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(IOUtils.toString(is, StandardCharsets.UTF_8));
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final ObjectOutputStream oos = new ObjectOutputStream(baos);
         oos.writeObject(style);
@@ -333,13 +327,11 @@ public class CSSStyleDeclarationImplTest {
 
     private CSSStyleDeclarationImpl parseStyleDeclaration(final String value) throws IOException {
         final CSSOMParser parser = new CSSOMParser();
-        final InputSource is = new InputSource(new StringReader(value));
-        return parser.parseStyleDeclaration(is);
+        return parser.parseStyleDeclaration(value);
     }
 
     private CSSValueImpl parsePropertyValue(final String value) throws IOException {
         final CSSOMParser parser = new CSSOMParser();
-        final InputSource is = new InputSource(new StringReader(value));
-        return parser.parsePropertyValue(is);
+        return parser.parsePropertyValue(value);
     }
 }
