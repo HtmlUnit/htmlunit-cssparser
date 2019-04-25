@@ -402,7 +402,8 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
-     * {@inheritDoc}
+     * @return the string value.
+     * @throws DOMException case of error
      */
     public String getStringValue() throws DOMException {
         if (value_ instanceof LexicalUnit) {

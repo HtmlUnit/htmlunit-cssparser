@@ -52,7 +52,7 @@ public class CSSStyleDeclarationImpl implements Serializable {
     }
 
     /**
-     * {@inheritDoc}
+     * @return the current css text
      */
     public String getCssText() {
         final StringBuilder sb = new StringBuilder();

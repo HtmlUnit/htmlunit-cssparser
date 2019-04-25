@@ -287,7 +287,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * {@inheritDoc}
+     * @return the current css text
      */
     public String getCssText() {
         if (null != toString_) {
