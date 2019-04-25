@@ -81,7 +81,6 @@ public interface CSSParser {
      *            possibly from a byte stream or character stream
      *            supplied by the application.
      * @see InputSource
-     * @see #parseStyleSheet(java.lang.String)
      * @see #setDocumentHandler
      * @see #setErrorHandler
      */
