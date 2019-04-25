@@ -18,7 +18,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -3407,7 +3409,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void unicodeInputByteStream() throws Exception {
         final String css = "h1:before { content: \"\u04c5 - \u0666\" }";
 
-        final InputSource source = new InputSource(new ByteArrayInputStream(css.getBytes("UTF-8")), "UTF-8");
+        final Reader reader = new InputStreamReader(new ByteArrayInputStream(css.getBytes("UTF-8")), "UTF-8");
+        final InputSource source = new InputSource(reader);
         final CSSStyleSheetImpl sheet = parse(source, 0, 0, 0);
 
         Assert.assertEquals(css, sheet.toString());
@@ -3422,8 +3425,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void unicodeInputByteStreamDefaultEncoding() throws Exception {
         final String css = "h1:before { content: \"\u00fe - \u00e4\" }";
 
-        final InputSource source = new InputSource(new ByteArrayInputStream(css.getBytes()), null);
-
+        final Reader reader = new InputStreamReader(new ByteArrayInputStream(css.getBytes()), Charset.defaultCharset());
+        final InputSource source = new InputSource(reader);
         final CSSStyleSheetImpl sheet = parse(source, 0, 0, 0);
 
         Assert.assertEquals(css, sheet.toString());
@@ -3436,7 +3439,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void clip() throws Exception {
         final String css = "h1 { clip: rect(0px 0px 1px 1px); }";
 
-        final InputSource source = new InputSource(new ByteArrayInputStream(css.getBytes()), null);
+        final Reader reader = new InputStreamReader(new ByteArrayInputStream(css.getBytes()), Charset.defaultCharset());
+        final InputSource source = new InputSource(reader);
         final CSSStyleSheetImpl sheet = parse(source, 0, 0, 0);
 
         Assert.assertEquals("h1 { clip: rect(0px, 0px, 1px, 1px) }", sheet.toString());

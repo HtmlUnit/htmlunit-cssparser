@@ -16,11 +16,7 @@ package com.gargoylesoftware.css.parser;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 
 /**
  * The input supported by the parser.
@@ -32,21 +28,6 @@ public class InputSource implements Closeable {
     private Reader reader_;
     private String media_;
     private String title_;
-
-    /**
-     * Create a new input source backed by byteStream.
-     * @param byteStream the byte stream
-     * @param encoding the encoding
-     * @throws UnsupportedEncodingException if the encoding is not supported
-     */
-    public InputSource(final InputStream byteStream, final String encoding) throws UnsupportedEncodingException {
-        if (encoding == null || encoding.length() < 1) {
-            reader_ = new InputStreamReader(byteStream, Charset.defaultCharset());
-        }
-        else {
-            reader_ = new InputStreamReader(byteStream, encoding);
-        }
-    }
 
     /**
      * Create a new input source backed by a reader.
