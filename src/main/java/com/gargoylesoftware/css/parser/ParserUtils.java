@@ -58,5 +58,9 @@ public final class ParserUtils {
 
         return s1;
     }
+    
+    public static String trimUrlPatched(final StringBuilder s) {
+        return trimBy(s, 4, 1).trim();
+      }
 
 }

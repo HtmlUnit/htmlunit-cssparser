@@ -200,235 +200,241 @@ public class CSSOMParser {
         return parentStyleSheet_;
     }
 
-    class CSSOMHandler implements DocumentHandler {
-        private Stack<Object> nodeStack_;
-        private Object root_;
-        private String href_;
+	class CSSOMHandler implements DocumentHandler {
+		private Stack<Object> nodeStack_;
+		private Object root_;
+		private String href_;
 
-        private String getHref() {
-            return href_;
-        }
+		private String getHref() {
+			return href_;
+		}
 
-        private void setHref(final String href) {
-            href_ = href;
-        }
+		private void setHref(final String href) {
+			href_ = href;
+		}
 
-        CSSOMHandler(final Stack<Object> nodeStack) {
-            nodeStack_ = nodeStack;
-        }
+		CSSOMHandler(final Stack<Object> nodeStack) {
+			nodeStack_ = nodeStack;
+		}
 
-        CSSOMHandler() {
-            nodeStack_ = new Stack<>();
-        }
+		CSSOMHandler() {
+			nodeStack_ = new Stack<>();
+		}
 
-        Object getRoot() {
-            return root_;
-        }
+		Object getRoot() {
+			return root_;
+		}
 
-        @Override
-        public void startDocument(final InputSource source) throws CSSException {
-            if (nodeStack_.empty()) {
-                final CSSStyleSheetImpl ss = new CSSStyleSheetImpl();
-                CSSOMParser.this.setParentStyleSheet(ss);
-                ss.setHref(getHref());
-                ss.setMediaText(source.getMedia());
-                ss.setTitle(source.getTitle());
-                // Create the rule list
-                final CSSRuleListImpl rules = new CSSRuleListImpl();
-                ss.setCssRules(rules);
-                nodeStack_.push(ss);
-                nodeStack_.push(rules);
-            }
-        }
+		@Override
+		public void startDocument(final InputSource source) throws CSSException {
+			if (nodeStack_.empty()) {
+				final CSSStyleSheetImpl ss = new CSSStyleSheetImpl();
+				CSSOMParser.this.setParentStyleSheet(ss);
+				ss.setHref(getHref());
+				ss.setMediaText(source.getMedia());
+				ss.setTitle(source.getTitle());
+				// Create the rule list
+				final CSSRuleListImpl rules = new CSSRuleListImpl();
+				ss.setCssRules(rules);
+				nodeStack_.push(ss);
+				nodeStack_.push(rules);
+			}
+		}
 
-        @Override
-        public void endDocument(final InputSource source) throws CSSException {
-            // Pop the rule list and style sheet nodes
-            nodeStack_.pop();
-            root_ = nodeStack_.pop();
-        }
+		@Override
+		public void endDocument(final InputSource source) throws CSSException {
+			// Pop the rule list and style sheet nodes
+			nodeStack_.pop();
+			root_ = nodeStack_.pop();
+		}
 
-        @Override
-        public void ignorableAtRule(final String atRule, final Locator locator) throws CSSException {
-            // Create the unknown rule and add it to the rule list
-            final CSSUnknownRuleImpl ir = new CSSUnknownRuleImpl(
-                CSSOMParser.this.getParentStyleSheet(),
-                getParentRule(),
-                atRule);
-            ir.setLocator(locator);
-            if (!nodeStack_.empty()) {
-                ((CSSRuleListImpl) nodeStack_.peek()).add(ir);
-            }
-            else {
-                root_ = ir;
-            }
-        }
+		@Override
+		public void ignorableAtRule(final String atRule, final Locator locator) throws CSSException {
+			// Create the unknown rule and add it to the rule list
+			final CSSUnknownRuleImpl ir = new CSSUnknownRuleImpl(CSSOMParser.this.getParentStyleSheet(),
+					getParentRule(), atRule);
+			ir.setLocator(locator);
+			if (!nodeStack_.empty()) {
+				((CSSRuleListImpl) nodeStack_.peek()).add(ir);
+			} else {
+				root_ = ir;
+			}
+		}
 
-        @Override
-        public void charset(final String characterEncoding, final Locator locator)
-            throws CSSException {
-            final CSSCharsetRuleImpl cr = new CSSCharsetRuleImpl(
-                    CSSOMParser.this.getParentStyleSheet(),
-                    getParentRule(),
-                    characterEncoding);
-            cr.setLocator(locator);
-            if (!nodeStack_.empty()) {
-                ((CSSRuleListImpl) nodeStack_.peek()).add(cr);
-            }
-            else {
-                root_ = cr;
-            }
-        }
+		@Override
+		public void charset(final String characterEncoding, final Locator locator) throws CSSException {
+			final CSSCharsetRuleImpl cr = new CSSCharsetRuleImpl(CSSOMParser.this.getParentStyleSheet(),
+					getParentRule(), characterEncoding);
+			cr.setLocator(locator);
+			if (!nodeStack_.empty()) {
+				((CSSRuleListImpl) nodeStack_.peek()).add(cr);
+			} else {
+				root_ = cr;
+			}
+		}
 
-        @Override
-        public void importStyle(final String uri, final MediaQueryList media,
-            final String defaultNamespaceURI, final Locator locator) throws CSSException {
-            // Create the import rule and add it to the rule list
-            final CSSImportRuleImpl ir = new CSSImportRuleImpl(
-                CSSOMParser.this.getParentStyleSheet(),
-                getParentRule(),
-                uri,
-                new MediaListImpl(media));
-            ir.setLocator(locator);
-            if (!nodeStack_.empty()) {
-                ((CSSRuleListImpl) nodeStack_.peek()).add(ir);
-            }
-            else {
-                root_ = ir;
-            }
-        }
+		public void charset(final String characterEncoding, final Locator locator, char quoting) throws CSSException {
+			final CSSCharsetRuleImpl cr = new CSSCharsetRuleImpl(CSSOMParser.this.getParentStyleSheet(),
+					getParentRule(), characterEncoding, quoting);
+			cr.setLocator(locator);
+			if (!nodeStack_.empty()) {
+				((CSSRuleListImpl) nodeStack_.peek()).add(cr);
+			} else {
+				root_ = cr;
+			}
+		}
 
-        @Override
-        public void startMedia(final MediaQueryList media, final Locator locator) throws CSSException {
-            final MediaListImpl ml = new MediaListImpl(media);
-            // Create the media rule and add it to the rule list
-            final CSSMediaRuleImpl mr = new CSSMediaRuleImpl(
-                CSSOMParser.this.getParentStyleSheet(),
-                getParentRule(),
-                ml);
-            mr.setLocator(locator);
-            if (!nodeStack_.empty()) {
-                ((CSSRuleListImpl) nodeStack_.peek()).add(mr);
-            }
+		@Override
+		public void importStyle(final String uri, final MediaQueryList media, final String defaultNamespaceURI,
+				final Locator locator) throws CSSException {
+			// Create the import rule and add it to the rule list
+			final CSSImportRuleImpl ir = new CSSImportRuleImpl(CSSOMParser.this.getParentStyleSheet(), getParentRule(),
+					uri, new MediaListImpl(media));
+			ir.setLocator(locator);
+			if (!nodeStack_.empty()) {
+				((CSSRuleListImpl) nodeStack_.peek()).add(ir);
+			} else {
+				root_ = ir;
+			}
+		}
 
-            // Create the rule list
-            final CSSRuleListImpl rules = new CSSRuleListImpl();
-            mr.setRuleList(rules);
-            nodeStack_.push(mr);
-            nodeStack_.push(rules);
-        }
+		public void importStyle(final String uri, final MediaQueryList media, final String defaultNamespaceURI,
+				final Locator locator, final char quoting) throws CSSException {
+			// Create the import rule and add it to the rule list
+			final CSSImportRuleImpl ir = new CSSImportRuleImpl(CSSOMParser.this.getParentStyleSheet(), getParentRule(),
+					uri, new MediaListImpl(media), quoting);
+			ir.setLocator(locator);
+			if (!nodeStack_.empty()) {
+				((CSSRuleListImpl) nodeStack_.peek()).add(ir);
+			} else {
+				root_ = ir;
+			}
+		}
 
-        @Override
-        public void endMedia(final MediaQueryList media) throws CSSException {
-            // Pop the rule list and media rule nodes
-            nodeStack_.pop();
-            root_ = nodeStack_.pop();
-        }
+		@Override
+		public void startMedia(final MediaQueryList media, final Locator locator) throws CSSException {
+			final MediaListImpl ml = new MediaListImpl(media);
+			// Create the media rule and add it to the rule list
+			final CSSMediaRuleImpl mr = new CSSMediaRuleImpl(CSSOMParser.this.getParentStyleSheet(), getParentRule(),
+					ml);
+			mr.setLocator(locator);
+			if (!nodeStack_.empty()) {
+				((CSSRuleListImpl) nodeStack_.peek()).add(mr);
+			}
 
-        @Override
-        public void startPage(final String name, final String pseudoPage, final Locator locator)
-            throws CSSException {
-            // Create the page rule and add it to the rule list
-            final CSSPageRuleImpl pr = new CSSPageRuleImpl(
-                CSSOMParser.this.getParentStyleSheet(),
-                getParentRule(), pseudoPage);
-            pr.setLocator(locator);
-            if (!nodeStack_.empty()) {
-                ((CSSRuleListImpl) nodeStack_.peek()).add(pr);
-            }
+			// Create the rule list
+			final CSSRuleListImpl rules = new CSSRuleListImpl();
+			mr.setRuleList(rules);
+			nodeStack_.push(mr);
+			nodeStack_.push(rules);
+		}
 
-            // Create the style declaration
-            final CSSStyleDeclarationImpl decl = new CSSStyleDeclarationImpl(pr);
-            pr.setStyle(decl);
-            nodeStack_.push(pr);
-            nodeStack_.push(decl);
-        }
+		@Override
+		public void endMedia(final MediaQueryList media) throws CSSException {
+			// Pop the rule list and media rule nodes
+			nodeStack_.pop();
+			root_ = nodeStack_.pop();
+		}
 
-        @Override
-        public void endPage(final String name, final String pseudoPage) throws CSSException {
-            // Pop both the style declaration and the page rule nodes
-            nodeStack_.pop();
-            root_ = nodeStack_.pop();
-        }
+		@Override
+		public void startPage(final String name, final String pseudoPage, final Locator locator) throws CSSException {
+			// Create the page rule and add it to the rule list
+			final CSSPageRuleImpl pr = new CSSPageRuleImpl(CSSOMParser.this.getParentStyleSheet(), getParentRule(),
+					pseudoPage);
+			pr.setLocator(locator);
+			if (!nodeStack_.empty()) {
+				((CSSRuleListImpl) nodeStack_.peek()).add(pr);
+			}
 
-        @Override
-        public void startFontFace(final Locator locator) throws CSSException {
-            // Create the font face rule and add it to the rule list
-            final CSSFontFaceRuleImpl ffr = new CSSFontFaceRuleImpl(
-                CSSOMParser.this.getParentStyleSheet(),
-                getParentRule());
-            ffr.setLocator(locator);
-            if (!nodeStack_.empty()) {
-                ((CSSRuleListImpl) nodeStack_.peek()).add(ffr);
-            }
+			// Create the style declaration
+			final CSSStyleDeclarationImpl decl = new CSSStyleDeclarationImpl(pr);
+			pr.setStyle(decl);
+			nodeStack_.push(pr);
+			nodeStack_.push(decl);
+		}
 
-            // Create the style declaration
-            final CSSStyleDeclarationImpl decl = new CSSStyleDeclarationImpl(ffr);
-            ffr.setStyle(decl);
-            nodeStack_.push(ffr);
-            nodeStack_.push(decl);
-        }
+		@Override
+		public void endPage(final String name, final String pseudoPage) throws CSSException {
+			// Pop both the style declaration and the page rule nodes
+			nodeStack_.pop();
+			root_ = nodeStack_.pop();
+		}
 
-        @Override
-        public void endFontFace() throws CSSException {
-            // Pop both the style declaration and the font face rule nodes
-            nodeStack_.pop();
-            root_ = nodeStack_.pop();
-        }
+		@Override
+		public void startFontFace(final Locator locator) throws CSSException {
+			// Create the font face rule and add it to the rule list
+			final CSSFontFaceRuleImpl ffr = new CSSFontFaceRuleImpl(CSSOMParser.this.getParentStyleSheet(),
+					getParentRule());
+			ffr.setLocator(locator);
+			if (!nodeStack_.empty()) {
+				((CSSRuleListImpl) nodeStack_.peek()).add(ffr);
+			}
 
-        @Override
-        public void startSelector(final SelectorList selectors, final Locator locator) throws CSSException {
-            // Create the style rule and add it to the rule list
-            final CSSStyleRuleImpl sr = new CSSStyleRuleImpl(
-                CSSOMParser.this.getParentStyleSheet(),
-                getParentRule(), selectors);
-            sr.setLocator(locator);
-            if (!nodeStack_.empty()) {
-                final Object o = nodeStack_.peek();
-                ((CSSRuleListImpl) o).add(sr);
-            }
+			// Create the style declaration
+			final CSSStyleDeclarationImpl decl = new CSSStyleDeclarationImpl(ffr);
+			ffr.setStyle(decl);
+			nodeStack_.push(ffr);
+			nodeStack_.push(decl);
+		}
 
-            // Create the style declaration
-            final CSSStyleDeclarationImpl decl = new CSSStyleDeclarationImpl(sr);
-            sr.setStyle(decl);
-            nodeStack_.push(sr);
-            nodeStack_.push(decl);
-        }
+		@Override
+		public void endFontFace() throws CSSException {
+			// Pop both the style declaration and the font face rule nodes
+			nodeStack_.pop();
+			root_ = nodeStack_.pop();
+		}
 
-        @Override
-        public void endSelector(final SelectorList selectors) throws CSSException {
-            // Pop both the style declaration and the style rule nodes
-            nodeStack_.pop();
-            root_ = nodeStack_.pop();
-        }
+		@Override
+		public void startSelector(final SelectorList selectors, final Locator locator) throws CSSException {
+			// Create the style rule and add it to the rule list
+			final CSSStyleRuleImpl sr = new CSSStyleRuleImpl(CSSOMParser.this.getParentStyleSheet(), getParentRule(),
+					selectors);
+			sr.setLocator(locator);
+			if (!nodeStack_.empty()) {
+				final Object o = nodeStack_.peek();
+				((CSSRuleListImpl) o).add(sr);
+			}
 
-        @Override
-        public void property(final String name, final LexicalUnit value, final boolean important,
-                                final Locator locator) {
-            final CSSStyleDeclarationImpl decl = (CSSStyleDeclarationImpl) nodeStack_.peek();
-            try {
-                final Property property = new Property(name, new CSSValueImpl(value), important);
-                property.setLocator(locator);
-                decl.addProperty(property);
-            }
-            catch (final DOMException e) {
-                if (parser_ instanceof AbstractCSSParser) {
-                    final AbstractCSSParser parser = (AbstractCSSParser) parser_;
-                    parser.getErrorHandler().error(parser.toCSSParseException(e));
+			// Create the style declaration
+			final CSSStyleDeclarationImpl decl = new CSSStyleDeclarationImpl(sr);
+			sr.setStyle(decl);
+			nodeStack_.push(sr);
+			nodeStack_.push(decl);
+		}
 
-                }
-                // call ErrorHandler?
-            }
-        }
+		@Override
+		public void endSelector(final SelectorList selectors) throws CSSException {
+			// Pop both the style declaration and the style rule nodes
+			nodeStack_.pop();
+			root_ = nodeStack_.pop();
+		}
 
-        private AbstractCSSRuleImpl getParentRule() {
-            if (!nodeStack_.empty() && nodeStack_.size() > 1) {
-                final Object node = nodeStack_.get(nodeStack_.size() - 2);
-                if (node instanceof AbstractCSSRuleImpl) {
-                    return (AbstractCSSRuleImpl) node;
-                }
-            }
-            return null;
-        }
-    }
+		@Override
+		public void property(final String name, final LexicalUnit value, final boolean important,
+				final Locator locator) {
+			final CSSStyleDeclarationImpl decl = (CSSStyleDeclarationImpl) nodeStack_.peek();
+			try {
+				final Property property = new Property(name, new CSSValueImpl(value), important);
+				property.setLocator(locator);
+				decl.addProperty(property);
+			} catch (final DOMException e) {
+				if (parser_ instanceof AbstractCSSParser) {
+					final AbstractCSSParser parser = (AbstractCSSParser) parser_;
+					parser.getErrorHandler().error(parser.toCSSParseException(e));
+
+				}
+				// call ErrorHandler?
+			}
+		}
+
+		private AbstractCSSRuleImpl getParentRule() {
+			if (!nodeStack_.empty() && nodeStack_.size() > 1) {
+				final Object node = nodeStack_.get(nodeStack_.size() - 2);
+				if (node instanceof AbstractCSSRuleImpl) {
+					return (AbstractCSSRuleImpl) node;
+				}
+			}
+			return null;
+		}
+	}
 }

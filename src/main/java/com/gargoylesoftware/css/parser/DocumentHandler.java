@@ -98,6 +98,18 @@ public interface DocumentHandler {
      *  exception.
      */
     void charset(String characterEncoding, Locator locator) throws CSSException;
+    
+    
+    /**
+     * Receive notification of a charset at-rule.
+     *
+     * @param characterEncoding the character encoding
+     * @param locator the locator
+     * @param quoting the quoting
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *  exception.
+     */
+    void charset(String characterEncoding, Locator locator, char quoting) throws CSSException;
 
     /**
      * Receive notification of a import statement in the style sheet.
@@ -110,9 +122,22 @@ public interface DocumentHandler {
      * @exception CSSException Any CSS exception, possibly wrapping another
      *  exception.
      */
-    void importStyle(String uri, MediaQueryList media,
-        String defaultNamespaceURI, Locator locator) throws CSSException;
+    void importStyle(String uri, MediaQueryList media, String defaultNamespaceURI, Locator locator) throws CSSException;
 
+    /**
+     * Receive notification of a import statement in the style sheet.
+     *
+     * @param uri The URI of the imported style sheet.
+     * @param media The intended destination media for style information.
+     * @param defaultNamespaceURI The default namespace URI for the imported
+     *  style sheet.
+     * @param locator the locator
+     * @param quoting the quoting
+     * @exception CSSException Any CSS exception, possibly wrapping another
+     *  exception.
+     */
+    void importStyle(String uri, MediaQueryList media, String defaultNamespaceURI, Locator locator, char quoting) throws CSSException;
+    
     /**
      * Receive notification of an unknown rule t-rule not supported by this
      * parser.

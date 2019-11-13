@@ -544,6 +544,18 @@ public abstract class AbstractCSSParser implements CSSParser {
     protected void handleCharset(final String characterEncoding, final Locator locator) {
         getDocumentHandler().charset(characterEncoding, locator);
     }
+    
+
+    /**
+     * charset handler.
+     *
+     * @param characterEncoding the encoding
+     * @param locator the locator
+     * @param quoting the quoting
+     */
+    protected void handleCharset(final String characterEncoding, final Locator locator, final char quoting) {
+        getDocumentHandler().charset(characterEncoding, locator, quoting);
+    }
 
     /**
      * import style handler.
@@ -556,6 +568,20 @@ public abstract class AbstractCSSParser implements CSSParser {
     protected void handleImportStyle(final String uri, final MediaQueryList media,
             final String defaultNamespaceURI, final Locator locator) {
         getDocumentHandler().importStyle(uri, media, defaultNamespaceURI, locator);
+    }
+    
+    /**
+     * import style handler.
+     *
+     * @param uri the uri
+     * @param media the media query list
+     * @param defaultNamespaceURI the namespace uri
+     * @param locator the locator
+     * @param quoting the quoting
+     */
+    protected void handleImportStyle(final String uri, final MediaQueryList media,
+            final String defaultNamespaceURI, final Locator locator, final char quoting) {
+        getDocumentHandler().importStyle(uri, media, defaultNamespaceURI, locator, quoting);
     }
 
     /**

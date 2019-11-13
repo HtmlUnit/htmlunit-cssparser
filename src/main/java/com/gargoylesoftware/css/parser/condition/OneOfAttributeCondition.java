@@ -26,16 +26,30 @@ public class OneOfAttributeCondition extends AbstractLocatable implements Condit
 	private static final long serialVersionUID = 1L;
 	private final String localName_;
     private final String value_;
+    private char quoting_;
 
-    /**
-     * Ctor.
-     * @param localName the local name
-     * @param value the value
-     */
-    public OneOfAttributeCondition(final String localName, final String value) {
-        localName_ = localName;
-        value_ = value;
-    }
+	/**
+	 * Ctor.
+	 * 
+	 * @param localName the local name
+	 * @param value the value
+	 */
+	public OneOfAttributeCondition(final String localName, final String value) {
+		if (value == null || value.length() < 2) {
+			localName_ = localName;
+			value_ = value;
+		} else if (value.charAt(0) == ' ' && value.charAt(value.length() - 1) == ' '
+				|| value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"'
+				|| value.charAt(0) == '\'' && value.charAt(value.length() - 1) == '\'') {
+
+			localName_ = localName;
+			value_ = value.substring(1, value.length() - 1);
+			quoting_ = value.charAt(0);
+		} else {
+			localName_ = localName;
+			value_ = value;
+		}
+	}
 
     @Override
     public ConditionType getConditionType() {
@@ -57,6 +71,10 @@ public class OneOfAttributeCondition extends AbstractLocatable implements Condit
     public String getValue() {
         return value_;
     }
+    
+	public char getQuoting() {
+		return quoting_;
+	}
 
     @Override
     public String toString() {

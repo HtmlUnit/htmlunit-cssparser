@@ -44,6 +44,13 @@ public class HandlerBase implements DocumentHandler, CSSErrorHandler {
             final String defaultNamespaceURI, final Locator locator) throws CSSException {
         // empty default impl
     }
+    
+    
+    public void importStyle(final String uri, final MediaQueryList media,
+            final String defaultNamespaceURI, final Locator locator, final char quoting) throws CSSException {
+        // empty default impl
+    }
+
 
     @Override
     public void startMedia(final MediaQueryList media, final Locator locator) throws CSSException {
@@ -92,6 +99,10 @@ public class HandlerBase implements DocumentHandler, CSSErrorHandler {
 
     @Override
     public void charset(final String characterEncoding, final Locator locator) throws CSSException {
+        // empty default impl
+    }
+    
+    public void charset(final String characterEncoding, final Locator locator, char quoting) throws CSSException {
         // empty default impl
     }
 

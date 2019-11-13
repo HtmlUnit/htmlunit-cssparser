@@ -32,6 +32,7 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
 	private static final long serialVersionUID = 1L;
 	
 	private String encoding_;
+    private char quoting_;
 
     /**
      * Ctor.
@@ -46,6 +47,23 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
             final String encoding) {
         super(parentStyleSheet, parentRule);
         encoding_ = encoding;
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param parentStyleSheet the parent style sheet
+     * @param parentRule the parent rule
+     * @param encoding the encoding
+     * @param quoting the quoting
+     */
+    public CSSCharsetRuleImpl(
+            final CSSStyleSheetImpl parentStyleSheet,
+            final AbstractCSSRuleImpl parentRule,
+            final String encoding,
+            final char quoting) {
+        this(parentStyleSheet, parentRule, encoding);
+        quoting_ = quoting;
     }
 
     /**
@@ -86,6 +104,13 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
      */
     public String getEncoding() {
         return encoding_;
+    }
+
+    /**
+     * @return the quoting
+     */
+    public char getQuoting() {
+      return quoting_;
     }
 
     @Override

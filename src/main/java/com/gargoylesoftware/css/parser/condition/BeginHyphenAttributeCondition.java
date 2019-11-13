@@ -26,17 +26,32 @@ public class BeginHyphenAttributeCondition extends AbstractLocatable implements 
 	private static final long serialVersionUID = 1L;
 	private final String localName_;
     private final String value_;
+    private char quoting_;
 
-    /**
-     * Ctor.
-     * @param localName the local name
-     * @param value the value
-     */
-    public BeginHyphenAttributeCondition(final String localName, final String value) {
-        localName_ = localName;
-        value_ = value;
-    }
 
+	/**
+	 * Ctor.
+	 * 
+	 * @param localName the local name
+	 * @param value the value
+	 */
+	public BeginHyphenAttributeCondition(final String localName, final String value) {
+		if (value == null || value.length() < 2) {
+			localName_ = localName;
+			value_ = value;
+		} else if (value.charAt(0) == ' ' && value.charAt(value.length() - 1) == ' '
+				|| value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"'
+				|| value.charAt(0) == '\'' && value.charAt(value.length() - 1) == '\'') {
+
+			localName_ = localName;
+			value_ = value.substring(1, value.length() - 1);
+			quoting_ = value.charAt(0);
+		} else {
+			localName_ = localName;
+			value_ = value;
+		}
+	}
+    
     @Override
     public ConditionType getConditionType() {
         return ConditionType.BEGIN_HYPHEN_ATTRIBUTE_CONDITION;
@@ -56,7 +71,11 @@ public class BeginHyphenAttributeCondition extends AbstractLocatable implements 
     @Override
     public String getValue() {
         return value_;
-    }
+	}
+
+	public char getQuoting() {
+		return quoting_;
+	}
 
     @Override
     public String toString() {

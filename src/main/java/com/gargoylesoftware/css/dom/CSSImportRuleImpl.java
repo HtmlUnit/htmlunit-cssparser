@@ -33,6 +33,7 @@ public class CSSImportRuleImpl extends AbstractCSSRuleImpl {
 	
 	private String href_;
     private MediaListImpl media_;
+    private char quoting_;
 
     /**
      * Ctor.
@@ -50,6 +51,25 @@ public class CSSImportRuleImpl extends AbstractCSSRuleImpl {
         super(parentStyleSheet, parentRule);
         href_ = href;
         media_ = media;
+    }
+    
+    /**
+     * Ctor.
+     *
+     * @param parentStyleSheet the parent style sheet
+     * @param parentRule the parent rule
+     * @param href the href
+     * @param media the media
+     * @param quoting the quoting
+     */
+    public CSSImportRuleImpl(
+            final CSSStyleSheetImpl parentStyleSheet,
+            final AbstractCSSRuleImpl parentRule,
+            final String href,
+            final MediaListImpl media,
+            final char quoting) {
+        this(parentStyleSheet, parentRule, href, media);
+        quoting_ = quoting;
     }
 
     /**
@@ -114,12 +134,19 @@ public class CSSImportRuleImpl extends AbstractCSSRuleImpl {
         return href_;
     }
 
-    /**
-     * @return the media lsit
-     */
-    public MediaListImpl getMedia() {
-        return media_;
-    }
+	/**
+	 * @return the media lsit
+	 */
+	public MediaListImpl getMedia() {
+		return media_;
+	}
+
+	/**
+	 * @return the media quoting
+	 */
+	public char getQuoting() {
+		return quoting_;
+	}
 
     /**
      * @return the parent style sheet
