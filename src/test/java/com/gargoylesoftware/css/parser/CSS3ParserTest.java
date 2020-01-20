@@ -2219,6 +2219,36 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      * @throws Exception in case of failure
      */
     @Test
+    public void fontContainingForwardSlash() throws Exception {
+        final String css = "p { font:normal normal normal 14px/11 FontAwesome; }";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        Assert.assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+
+        final CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("font");
+        Assert.assertEquals("normal normal normal 14px / 11 FontAwesome", value.getCssText());
+
+        Assert.assertEquals(CSSValueType.CSS_VALUE_LIST, value.getCssValueType());
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_UNKNOWN, value.getPrimitiveType());
+
+        Assert.assertEquals(7, value.getLength());
+        Assert.assertEquals("normal", value.item(0).getStringValue());
+        Assert.assertEquals("normal", value.item(1).getStringValue());
+        Assert.assertEquals("normal", value.item(2).getStringValue());
+        Assert.assertEquals("14px", value.item(3).getCssText());
+        Assert.assertEquals("/", value.item(4).getCssText());
+        Assert.assertEquals("11", value.item(5).getCssText());
+        Assert.assertEquals("FontAwesome", value.item(6).getStringValue());
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
     public void transformRotate() throws Exception {
         final String css = ".flipped {\n"
                 + "  transform: rotateY(180deg);\n"
