@@ -1030,6 +1030,186 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertNull(unit.getNextLexicalUnit());
     }
 
+    @Test
+    public void calcPlus() throws Exception {
+        final String cssText = "width: calc(100% + 80px)";
+
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+
+        Assert.assertEquals(0, errorHandler.getErrorCount());
+        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
+        Assert.assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        Assert.assertEquals(1, style.getLength());
+
+        final String name = style.getProperties().get(0).getName();
+        Assert.assertEquals("width : calc(100% + 80px)",
+                name + " : " + style.getPropertyValue(name));
+
+        final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
+        LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
+        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        Assert.assertEquals("calc", unit.getFunctionName());
+
+        unit  = (LexicalUnitImpl) unit.getParameters();
+        Assert.assertEquals(LexicalUnitType.PERCENTAGE, unit.getLexicalUnitType());
+        Assert.assertEquals(100d, unit.getDoubleValue(), 0.00001);
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        Assert.assertEquals(LexicalUnitType.OPERATOR_PLUS, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        Assert.assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
+        Assert.assertEquals(80d, unit.getDoubleValue(), 0.00001);
+
+        Assert.assertNull(unit.getNextLexicalUnit());
+    }
+
+    @Test
+    public void calcSum() throws Exception {
+        final String cssText = "width: calc(42 - 16.4em)";
+
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+
+        Assert.assertEquals(0, errorHandler.getErrorCount());
+        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
+        Assert.assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        Assert.assertEquals(1, style.getLength());
+
+        final String name = style.getProperties().get(0).getName();
+        Assert.assertEquals("width : calc(42 - 16.4em)",
+                name + " : " + style.getPropertyValue(name));
+
+        final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
+        LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
+        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        Assert.assertEquals("calc", unit.getFunctionName());
+
+        unit  = (LexicalUnitImpl) unit.getParameters();
+        Assert.assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
+        Assert.assertEquals(42, unit.getIntegerValue());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        Assert.assertEquals(LexicalUnitType.OPERATOR_MINUS, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        Assert.assertEquals(LexicalUnitType.EM, unit.getLexicalUnitType());
+        Assert.assertEquals(16.4d, unit.getDoubleValue(), 0.00001);
+
+        Assert.assertNull(unit.getNextLexicalUnit());
+    }
+
+    @Test
+    public void calcComplex() throws Exception {
+        final String cssText = "width: calc(14.1pc * 40mm / 1.2)";
+
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+
+        Assert.assertEquals(0, errorHandler.getErrorCount());
+        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
+        Assert.assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        Assert.assertEquals(1, style.getLength());
+
+        final String name = style.getProperties().get(0).getName();
+        Assert.assertEquals("width : calc(14.1pc * 40mm / 1.2)",
+                name + " : " + style.getPropertyValue(name));
+
+        final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
+        LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
+        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        Assert.assertEquals("calc", unit.getFunctionName());
+
+        unit  = (LexicalUnitImpl) unit.getParameters();
+        Assert.assertEquals(LexicalUnitType.PICA, unit.getLexicalUnitType());
+        Assert.assertEquals(14.1d, unit.getDoubleValue(), 0.00001);
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        Assert.assertEquals(LexicalUnitType.OPERATOR_MULTIPLY, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        Assert.assertEquals(LexicalUnitType.MILLIMETER, unit.getLexicalUnitType());
+        Assert.assertEquals(40.0d, unit.getDoubleValue(), 0.00001);
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        Assert.assertEquals(LexicalUnitType.OPERATOR_SLASH, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        Assert.assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
+        Assert.assertEquals(1.2d, unit.getDoubleValue(), 0.00001);
+
+        Assert.assertNull(unit.getNextLexicalUnit());
+    }
+
+    @Test
+    public void calcCalc() throws Exception {
+        final String cssText = "width: calc(14.1pc*(40mm/1.2))";
+
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+
+        Assert.assertEquals(0, errorHandler.getErrorCount());
+        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
+        Assert.assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        Assert.assertEquals(1, style.getLength());
+
+        final String name = style.getProperties().get(0).getName();
+        Assert.assertEquals("width : calc(14.1pc * calc(40mm / 1.2))",
+                name + " : " + style.getPropertyValue(name));
+
+        final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
+        LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
+        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        Assert.assertEquals("calc", unit.getFunctionName());
+
+        unit  = (LexicalUnitImpl) unit.getParameters();
+        Assert.assertEquals(LexicalUnitType.PICA, unit.getLexicalUnitType());
+        Assert.assertEquals(14.1, unit.getDoubleValue(), 0.00001);
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        Assert.assertEquals(LexicalUnitType.OPERATOR_MULTIPLY, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        Assert.assertEquals("calc", unit.getFunctionName());
+
+        Assert.assertNull(unit.getNextLexicalUnit());
+
+        unit  = (LexicalUnitImpl) unit.getParameters();
+        Assert.assertEquals(LexicalUnitType.MILLIMETER, unit.getLexicalUnitType());
+        Assert.assertEquals(40.0, unit.getDoubleValue(), 0.00001);
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        Assert.assertEquals(LexicalUnitType.OPERATOR_SLASH, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        Assert.assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
+        Assert.assertEquals(1.2, unit.getDoubleValue(), 0.00001);
+
+        Assert.assertNull(unit.getNextLexicalUnit());
+    }
+
     /**
      * @throws Exception in case of failure
      */
@@ -1260,13 +1440,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION>, \"progid:\".)"
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
                         + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION>, \"progid:\".)"
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION>, \"progid:\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)"
                 + " Error in style rule. (Invalid token \" \". Was expecting one of: <EOF>, \"}\", \";\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)";
@@ -1561,7 +1741,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION>, \"progid:\".)";
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION>, \"progid:\".)";
         Assert.assertEquals(expected, errorHandler.getErrorMessage());
         Assert.assertEquals("3", errorHandler.getErrorLines());
         Assert.assertEquals("16", errorHandler.getErrorColumns());
@@ -3322,6 +3502,14 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void realWorldCargo() throws Exception {
+        realWorld("realworld/cargo.css", 123, 330, "", 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void realWorldBlueprint() throws Exception {
         realWorld("realworld/blueprint/screen.css", 245, 341, "", 0, 0);
         realWorld("realworld/blueprint/print.css", 15, 33, "", 0, 0);
@@ -3332,7 +3520,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
-    public void realWorldBootstrap() throws Exception {
+    public void realWorldBootstrap337() throws Exception {
         final String media = "all and (-webkit-transform-3d);"
                 + "all and (max-device-width: 480px) and (orientation: landscape);"
                 + "all and (max-width: 767px);"
@@ -3351,8 +3539,26 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void realWorldBootstrap400() throws Exception {
+        final String media = "all and (max-width: 1199.98px);"
+                + "all and (max-width: 575.98px);"
+                + "all and (max-width: 767.98px);"
+                + "all and (max-width: 991.98px);"
+                + "all and (min-width: 1200px);"
+                + "all and (min-width: 576px);"
+                + "all and (min-width: 768px);"
+                + "all and (min-width: 992px);"
+                + "print;";
+        realWorld("realworld/bootstrap_4_0_0.css", 1033, 2441, media, 2, 1);
+        realWorld("realworld/bootstrap_4_0_0_min.css", 1033, 2441, media, 2, 1);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void realWorldSpiegel() throws Exception {
-        realWorld("realworld/style-V5-11.css", 2088, 6021, "screen and (min-width: 1030px);", 54, 0);
+        realWorld("realworld/style-V5-11.css", 2088, 6028, "screen and (min-width: 1030px);", 47, 0);
     }
 
     /**
@@ -3366,7 +3572,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 + "screen and (max-height: 750px);"
                 + "screen and (max-width: 1090px);"
                 + "screen and (max-width: 920px);";
-        realWorld("realworld/all.css", 5235, 12377, media, 26, 2);
+        realWorld("realworld/all.css", 5235, 12401, media, 2, 2);
     }
 
     /**

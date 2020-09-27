@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>1.5.0</version>
+    <version>1.6.0-SNAPSHOT</version>
     <name>HtmlUnit CSS Parser</name>
     <packaging>jar</packaging>
     <description>CSS parser for HtmlUnit.</description>
@@ -12,6 +12,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
     <build>
@@ -19,11 +22,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
+                <version>3.8.1</version>
             </plugin>
             <plugin>
                 <!-- generate parsers and lexers before compiling -->
@@ -42,7 +41,7 @@
                     <dependency>
                         <groupId>net.java.dev.javacc</groupId>
                         <artifactId>javacc</artifactId>
-                        <version>7.0.4</version>
+                        <version>7.0.9</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -62,7 +61,6 @@
                     <basedir>${project.build.directory}/generated-sources/javacc/com/gargoylesoftware/css/parser/javacc</basedir>
                     <includes>
                         <include>CSS3Parser.java</include>
-                        <include>CSS3ParserTokenManager.java</include>
 
                         <include>Token.java</include>
                         <include>TokenMgrError.java</include>
@@ -73,8 +71,8 @@
                     </regexFlags>
                     <replacements>
                         <replacement>
-                            <token>^public class</token>
-                            <value>@SuppressWarnings("all") public class</value>
+                            <token>@SuppressWarnings("unused")</token>
+                            <value>@SuppressWarnings({"unused", "all"})</value>
                         </replacement>
                         <replacement>
                             <token>\{if \("" != null\) return (..*)\}\n    throw new Error\("Missing return statement in function"\);</token>
@@ -83,6 +81,10 @@
                         <replacement>
                             <token>\{if \("" != null\) return (..*)\}\n(\s*break;)?</token>
                             <value>return $1</value>
+                        </replacement>
+                        <replacement>
+                            <token>\{if \("" != null\) return;\}</token>
+                            <value>return;</value>
                         </replacement>
                         <replacement>
                             <token>\{if \(true\) throw (..*)\}(\n)(\s*break;\n)?</token>
@@ -98,7 +100,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.1</version>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
                     <suppressionsLocation>checkstyle_suppressions.xml</suppressionsLocation>
@@ -110,14 +112,14 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>8.18</version>
+                        <version>8.36.1</version>
                     </dependency>
                 </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.0</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -135,7 +137,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -147,7 +149,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
                 <configuration>
                     <additionalparam>--allow-script-in-comments</additionalparam>
                     <excludePackageNames>com.gargoylesoftware.css.parser.javacc</excludePackageNames>
@@ -219,7 +221,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
                 <configuration>
                     <additionalparam>--allow-script-in-comments</additionalparam>
                     <links>
@@ -288,6 +290,9 @@
         </contributor>
         <contributor>
             <name>Ahmed Ashour</name>
+        </contributor>
+        <contributor>
+            <name>Christian Morgner</name>
         </contributor>
     </contributors>
 

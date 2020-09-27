@@ -970,4 +970,36 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     public static LexicalUnit createComma(final LexicalUnit prev) {
         return new LexicalUnitImpl(prev, LexicalUnitType.OPERATOR_COMMA);
     }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @return lexical unit with type plus
+     */
+    public static LexicalUnit createPlus(final LexicalUnit prev) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.OPERATOR_PLUS);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @return lexical unit with type minus
+     */
+    public static LexicalUnit createMinus(final LexicalUnit prev) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.OPERATOR_MINUS);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @return lexical unit with type multiply
+     */
+    public static LexicalUnit createMultiply(final LexicalUnit prev) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.OPERATOR_MULTIPLY);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @return lexical unit with type slash
+     */
+    public static LexicalUnit createDivide(final LexicalUnit prev) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.OPERATOR_SLASH);
+    }
 }

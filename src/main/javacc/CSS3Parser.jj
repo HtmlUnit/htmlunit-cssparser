@@ -23,7 +23,7 @@ options {
 //    DEBUG_TOKEN_MANAGER = true;
 //    DEBUG_PARSER = true;
 
-    JDK_VERSION = "1.5";
+    JDK_VERSION = "1.8";
 //    JAVA_TEMPLATE_TYPE = "modern"
 }
 
@@ -392,6 +392,9 @@ TOKEN_MGR_DECLS :
 
 // {L}{A}{N}{G} "("        {return FUNCTION_LANG;}
 | < FUNCTION_LANG: <L_LETTER> <A_LETTER> <N_LETTER> <G_LETTER> <LROUND> >
+
+// {C}{A}{L}{C} "("        {return FUNCTION_CALC;}
+| < FUNCTION_CALC: "calc" <LROUND> >
 
 // {ident} "("          {return FUNCTION;}
 | < FUNCTION: <IDENT> <LROUND> >
@@ -1567,37 +1570,11 @@ LexicalUnit term(LexicalUnit prev) :
         }
     }
     (
-        (   t = <NUMBER>
-            {
-                try
-                {
-                    value = LexicalUnitImpl.createNumber(prev, intValue(op, t.image));
-                }
-                catch (NumberFormatException e)
-                {
-                    value = LexicalUnitImpl.createNumber(prev, doubleValue(op, t.image));
-                }
-            }
-            | t = <PERCENTAGE>        { value = LexicalUnitImpl.createPercentage(prev, doubleValue(op, t.image)); }
-            | t = <LENGTH_PX>         { value = LexicalUnitImpl.createPixel(prev, doubleValue(op, t.image)); }
-            | t = <LENGTH_CM>         { value = LexicalUnitImpl.createCentimeter(prev, doubleValue(op, t.image)); }
-            | t = <LENGTH_MM>         { value = LexicalUnitImpl.createMillimeter(prev, doubleValue(op, t.image)); }
-            | t = <LENGTH_IN>         { value = LexicalUnitImpl.createInch(prev, doubleValue(op, t.image)); }
-            | t = <LENGTH_PT>         { value = LexicalUnitImpl.createPoint(prev, doubleValue(op, t.image)); }
-            | t = <LENGTH_PC>         { value = LexicalUnitImpl.createPica(prev, doubleValue(op, t.image)); }
-            | t = <EMS>               { value = LexicalUnitImpl.createEm(prev, doubleValue(op, t.image)); }
-            | t = <REM>               { value = LexicalUnitImpl.createRem(prev, doubleValue(op, t.image)); }
-            | t = <EXS>               { value = LexicalUnitImpl.createEx(prev, doubleValue(op, t.image)); }
-            | t = <ANGLE_DEG>         { value = LexicalUnitImpl.createDegree(prev, doubleValue(op, t.image)); }
-            | t = <ANGLE_RAD>         { value = LexicalUnitImpl.createRadian(prev, doubleValue(op, t.image)); }
-            | t = <ANGLE_GRAD>        { value = LexicalUnitImpl.createGradian(prev, doubleValue(op, t.image)); }
-            | t = <TIME_MS>           { value = LexicalUnitImpl.createMillisecond(prev, doubleValue(op, t.image)); }
-            | t = <TIME_S>            { value = LexicalUnitImpl.createSecond(prev, doubleValue(op, t.image)); }
-            | t = <FREQ_HZ>           { value = LexicalUnitImpl.createHertz(prev, doubleValue(op, t.image)); }
-            | t = <FREQ_KHZ>          { value = LexicalUnitImpl.createKiloHertz(prev, doubleValue(op, t.image)); }
-            | t = <RESOLUTION_DPI>    { value = LexicalUnitImpl.createDimension(prev, doubleValue(op, t.image), "dpi"); }
-            | t = <RESOLUTION_DPCM>   { value = LexicalUnitImpl.createDimension(prev, doubleValue(op, t.image), "dpcm"); }
+        (   value = number(prev, op)
+            | value = dimension(prev, op)
+            | value = percentage(prev, op)
             | value = function(prev)
+            | value = calc(prev)
         )
         | t = <STRING>          { value = LexicalUnitImpl.createString(prev, unescape(t.image, false)); }
         | t = "progid:"         { value = LexicalUnitImpl.createIdent(prev, skipUnit().trim()); }
@@ -1671,6 +1648,231 @@ LexicalUnit function(LexicalUnit prev) :
 }
 
 //
+// calc()
+// https://www.w3.org/TR/css3-values/#calc-syntax
+// <calc()> = calc( <calc-sum> )
+//
+LexicalUnit calc(LexicalUnit prev) :
+{
+    Token t;
+    LexicalUnit sum = null;
+    String funct = "";
+}
+{
+    t = <FUNCTION_CALC> { funct = unescape(t.image, false); }
+    ( <S> )*
+    sum = calcSum(null)
+    <RROUND>
+    {
+        return functionInternal(prev, funct, sum);
+    }
+}
+
+//
+// calcSum()
+// <calc-sum> = <calc-product> [ [ '+' | '-' ] <calc-product> ]*
+//
+LexicalUnit calcSum(LexicalUnit prev) :
+{
+    LexicalUnit sum = null;
+}
+{
+    (
+        sum = calcProduct(prev) { prev = sum; }
+        (
+            (
+                <PLUS>       { prev = LexicalUnitImpl.createPlus(prev); }
+                | <MINUS>    { prev = LexicalUnitImpl.createMinus(prev); }
+            )
+            ( <S> )*
+            prev = calcProduct(prev)
+        )*
+    )
+    {
+        if (sum != null)
+        {
+            sum.setLocator(createLocator(token));
+        }
+        return sum;
+    }
+}
+
+//
+// calcProduct()
+// <calc-product> = <calc-value> [ '*' <calc-value> | '/' <calc-number-value> ]*
+//
+LexicalUnit calcProduct(LexicalUnit prev) :
+{
+    LexicalUnit prod = null;
+}
+{
+    (
+        prod = calcValue(prev) { prev = prod; }
+        (
+            (
+                <ASTERISK>  { prev = LexicalUnitImpl.createMultiply(prev); }
+                ( <S> )*
+                prev = calcValue(prev)
+            )
+            |
+            (
+                <SLASH>  { prev = LexicalUnitImpl.createDivide(prev); }
+                ( <S> )*
+                prev = calcNumberValue(prev)
+            )
+        )*
+    )
+    {
+        if (prod != null)
+        {
+            prod.setLocator(createLocator(token));
+        }
+        return prod;
+    }
+}
+
+//
+// calcValue()
+// <calc-value> = <number> | <dimension> | <percentage> | ( <calc-sum> )
+//
+LexicalUnit calcValue(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit value = null;
+}
+{
+    (
+        (
+            (
+                (op = unaryOperator() )?
+                value = number(prev, op)
+            )
+            | value = dimension(prev, op)
+            | value = percentage(prev, op)
+            |
+                (
+                    <LROUND>
+                    value = calcSum(prev)  // TODO
+                    <RROUND>
+                )
+                {
+                    value = functionInternal(prev, "calc(", value);
+                }
+        )
+        ( <S> )*
+    )
+    {
+        if (value != null)
+        {
+            value.setLocator(createLocator(token));
+        }
+        return value;
+    }
+}
+
+//
+// calcNumberSum()
+// <calc-number-sum> = <calc-number-product> [ [ '+' | '-' ] <calc-number-product> ]*
+//
+LexicalUnit calcNumberSum(LexicalUnit prev) :
+{
+    LexicalUnit sum = null;
+}
+{
+    (
+        sum = calcNumberProduct(prev) { prev = sum; }
+        (
+            (
+                <PLUS>       { prev = LexicalUnitImpl.createPlus(prev); }
+                | <MINUS>    { prev = LexicalUnitImpl.createMinus(prev); }
+            )
+            ( <S> )*
+            prev = calcNumberProduct(prev)
+        )*
+    )
+    {
+        if (sum != null)
+        {
+            sum.setLocator(createLocator(token));
+        }
+        return sum;
+    }
+}
+
+//
+// calcNumberProduct()
+// <calc-number-product> = <calc-number-value> [ '*' <calc-number-value> | '/' <calc-number-value> ]*
+//
+LexicalUnit calcNumberProduct(LexicalUnit prev) :
+{
+    LexicalUnit prod = null;
+}
+{
+    (
+        prod = calcNumberValue(prev) { prev = prod; }
+        (
+            (
+                <ASTERISK>  { prev = LexicalUnitImpl.createMultiply(prev); }
+                ( <S> )*
+                prev = calcNumberValue(prev)
+            )
+            |
+            (
+                <SLASH>  { prev = LexicalUnitImpl.createDivide(prev); }
+                ( <S> )*
+                prev = calcNumberValue(prev)
+            )
+        )*
+    )
+    {
+        if (prod != null)
+        {
+            prod.setLocator(createLocator(token));
+        }
+        return prod;
+    }
+}
+
+//
+// calcNumberValue()
+// <calc-number-value> = <number> | ( <calc-number-sum> )
+//
+LexicalUnit calcNumberValue(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit value = null;
+}
+{
+    (
+        (
+            (
+                (op = unaryOperator() )?
+                value = number(prev, op)
+            )
+            |
+            (
+                <LROUND>
+                value = calcNumberSum(prev)  // TODO
+                <RROUND>
+            )
+            {
+                value = functionInternal(prev, "calc(", value);
+            }
+        )
+        ( <S> )*
+    )
+    {
+        if (value != null)
+        {
+            value.setLocator(createLocator(token));
+        }
+        return value;
+    }
+}
+
+//
 // negation_arg
 //   : type_selector | universal | HASH | class | attrib | pseudo
 //   ;
@@ -1690,6 +1892,94 @@ String negation_arg() :
       {  if (o instanceof Condition) { return o.toString(); }
          return new DescendantSelector(null, (SimpleSelector) o).toString();
       }
+}
+
+//
+// number()
+//
+LexicalUnit number(LexicalUnit prev, char op) :
+{
+    Token t;
+    LexicalUnit value = null;
+}
+{
+    (
+        t = <NUMBER>
+    )
+    {
+        try
+        {
+            value = LexicalUnitImpl.createNumber(prev, intValue(op, t.image));
+        }
+        catch (NumberFormatException e)
+        {
+            value = LexicalUnitImpl.createNumber(prev, doubleValue(op, t.image));
+        }
+        if (value != null)
+        {
+            value.setLocator(createLocator(token));
+        }
+        return value;
+    }
+}
+
+//
+// percentage()
+//
+LexicalUnit percentage(LexicalUnit prev, char op) :
+{
+    Token t;
+    LexicalUnit value = null;
+}
+{
+    (
+        t = <PERCENTAGE>        { value = LexicalUnitImpl.createPercentage(prev, doubleValue(op, t.image)); }
+    )
+    {
+        if (value != null)
+        {
+            value.setLocator(createLocator(token));
+        }
+        return value;
+    }
+}
+
+//
+// dimension()
+//
+LexicalUnit dimension(LexicalUnit prev, char op) :
+{
+    Token t;
+    LexicalUnit value = null;
+}
+{
+    (
+        t = <LENGTH_PX>         { value = LexicalUnitImpl.createPixel(prev, doubleValue(op, t.image)); }
+        | t = <LENGTH_CM>         { value = LexicalUnitImpl.createCentimeter(prev, doubleValue(op, t.image)); }
+        | t = <LENGTH_MM>         { value = LexicalUnitImpl.createMillimeter(prev, doubleValue(op, t.image)); }
+        | t = <LENGTH_IN>         { value = LexicalUnitImpl.createInch(prev, doubleValue(op, t.image)); }
+        | t = <LENGTH_PT>         { value = LexicalUnitImpl.createPoint(prev, doubleValue(op, t.image)); }
+        | t = <LENGTH_PC>         { value = LexicalUnitImpl.createPica(prev, doubleValue(op, t.image)); }
+        | t = <EMS>               { value = LexicalUnitImpl.createEm(prev, doubleValue(op, t.image)); }
+        | t = <REM>               { value = LexicalUnitImpl.createRem(prev, doubleValue(op, t.image)); }
+        | t = <EXS>               { value = LexicalUnitImpl.createEx(prev, doubleValue(op, t.image)); }
+        | t = <ANGLE_DEG>         { value = LexicalUnitImpl.createDegree(prev, doubleValue(op, t.image)); }
+        | t = <ANGLE_RAD>         { value = LexicalUnitImpl.createRadian(prev, doubleValue(op, t.image)); }
+        | t = <ANGLE_GRAD>        { value = LexicalUnitImpl.createGradian(prev, doubleValue(op, t.image)); }
+        | t = <TIME_MS>           { value = LexicalUnitImpl.createMillisecond(prev, doubleValue(op, t.image)); }
+        | t = <TIME_S>            { value = LexicalUnitImpl.createSecond(prev, doubleValue(op, t.image)); }
+        | t = <FREQ_HZ>           { value = LexicalUnitImpl.createHertz(prev, doubleValue(op, t.image)); }
+        | t = <FREQ_KHZ>          { value = LexicalUnitImpl.createKiloHertz(prev, doubleValue(op, t.image)); }
+        | t = <RESOLUTION_DPI>    { value = LexicalUnitImpl.createDimension(prev, doubleValue(op, t.image), "dpi"); }
+        | t = <RESOLUTION_DPCM>   { value = LexicalUnitImpl.createDimension(prev, doubleValue(op, t.image), "dpcm"); }
+    )
+    {
+        if (value != null)
+        {
+            value.setLocator(createLocator(token));
+        }
+        return value;
+    }
 }
 
 //
