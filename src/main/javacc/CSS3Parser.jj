@@ -1655,16 +1655,16 @@ LexicalUnit function(LexicalUnit prev) :
 LexicalUnit calc(LexicalUnit prev) :
 {
     Token t;
-    LexicalUnit sum = null;
+    LexicalUnit head = LexicalUnitImpl.createIdent(null, "");
     String funct = "";
 }
 {
     t = <FUNCTION_CALC> { funct = unescape(t.image, false); }
     ( <S> )*
-    sum = calcSum(null)
+    calcSum(head)
     <RROUND>
     {
-        return functionInternal(prev, funct, sum);
+        return functionInternal(prev, funct, head.getNextLexicalUnit());
     }
 }
 
@@ -1674,11 +1674,10 @@ LexicalUnit calc(LexicalUnit prev) :
 //
 LexicalUnit calcSum(LexicalUnit prev) :
 {
-    LexicalUnit sum = null;
 }
 {
     (
-        sum = calcProduct(prev) { prev = sum; }
+        prev = calcProduct(prev)
         (
             (
                 <PLUS>       { prev = LexicalUnitImpl.createPlus(prev); }
@@ -1689,11 +1688,11 @@ LexicalUnit calcSum(LexicalUnit prev) :
         )*
     )
     {
-        if (sum != null)
+        if (prev != null)
         {
-            sum.setLocator(createLocator(token));
+            prev.setLocator(createLocator(token));
         }
-        return sum;
+        return prev;
     }
 }
 
@@ -1707,7 +1706,7 @@ LexicalUnit calcProduct(LexicalUnit prev) :
 }
 {
     (
-        prod = calcValue(prev) { prev = prod; }
+        prev = calcValue(prev)
         (
             (
                 <ASTERISK>  { prev = LexicalUnitImpl.createMultiply(prev); }
@@ -1723,11 +1722,11 @@ LexicalUnit calcProduct(LexicalUnit prev) :
         )*
     )
     {
-        if (prod != null)
+        if (prev != null)
         {
-            prod.setLocator(createLocator(token));
+            prev.setLocator(createLocator(token));
         }
-        return prod;
+        return prev;
     }
 }
 
@@ -1739,35 +1738,42 @@ LexicalUnit calcValue(LexicalUnit prev) :
 {
     Token t;
     char op = ' ';
-    LexicalUnit value = null;
+    String funct = "(";
+    LexicalUnit head = LexicalUnitImpl.createIdent(null, "");
 }
 {
     (
         (
             (
                 (op = unaryOperator() )?
-                value = number(prev, op)
+                (
+                    prev = number(prev, op)
+                    | prev = dimension(prev, op)
+                    | prev = percentage(prev, op)
+                )
             )
-            | value = dimension(prev, op)
-            | value = percentage(prev, op)
             |
                 (
-                    <LROUND>
-                    value = calcSum(prev)  // TODO
+                    (
+                        t = <FUNCTION_CALC> { funct = unescape(t.image, false); }
+                        | t = <LROUND>      { funct = unescape(t.image, false); }
+                    )
+                    calcSum(head)
                     <RROUND>
                 )
                 {
-                    value = functionInternal(prev, "calc(", value);
+                    // use an empty function as block scope
+                    prev = functionInternal(prev, "(", head.getNextLexicalUnit());
                 }
         )
         ( <S> )*
     )
     {
-        if (value != null)
+        if (prev != null)
         {
-            value.setLocator(createLocator(token));
+            prev.setLocator(createLocator(token));
         }
-        return value;
+        return prev;
     }
 }
 
@@ -1777,11 +1783,10 @@ LexicalUnit calcValue(LexicalUnit prev) :
 //
 LexicalUnit calcNumberSum(LexicalUnit prev) :
 {
-    LexicalUnit sum = null;
 }
 {
     (
-        sum = calcNumberProduct(prev) { prev = sum; }
+        prev = calcNumberProduct(prev)
         (
             (
                 <PLUS>       { prev = LexicalUnitImpl.createPlus(prev); }
@@ -1792,11 +1797,11 @@ LexicalUnit calcNumberSum(LexicalUnit prev) :
         )*
     )
     {
-        if (sum != null)
+        if (prev != null)
         {
-            sum.setLocator(createLocator(token));
+            prev.setLocator(createLocator(token));
         }
-        return sum;
+        return prev;
     }
 }
 
@@ -1806,11 +1811,10 @@ LexicalUnit calcNumberSum(LexicalUnit prev) :
 //
 LexicalUnit calcNumberProduct(LexicalUnit prev) :
 {
-    LexicalUnit prod = null;
 }
 {
     (
-        prod = calcNumberValue(prev) { prev = prod; }
+        prev = calcNumberValue(prev)
         (
             (
                 <ASTERISK>  { prev = LexicalUnitImpl.createMultiply(prev); }
@@ -1826,11 +1830,11 @@ LexicalUnit calcNumberProduct(LexicalUnit prev) :
         )*
     )
     {
-        if (prod != null)
+        if (prev != null)
         {
-            prod.setLocator(createLocator(token));
+            prev.setLocator(createLocator(token));
         }
-        return prod;
+        return prev;
     }
 }
 
@@ -1842,33 +1846,38 @@ LexicalUnit calcNumberValue(LexicalUnit prev) :
 {
     Token t;
     char op = ' ';
-    LexicalUnit value = null;
+    String funct = "(";
+    LexicalUnit head = LexicalUnitImpl.createIdent(null, "");
 }
 {
     (
         (
             (
                 (op = unaryOperator() )?
-                value = number(prev, op)
+                prev = number(prev, op)
             )
             |
             (
-                <LROUND>
-                value = calcNumberSum(prev)  // TODO
+                (
+                    t = <FUNCTION_CALC> { funct = unescape(t.image, false); }
+                    | t = <LROUND>      { funct = unescape(t.image, false); }
+                )
+                calcNumberSum(head)
                 <RROUND>
             )
             {
-                value = functionInternal(prev, "calc(", value);
+                // use an empty function as block scope
+                prev = functionInternal(prev, funct, head.getNextLexicalUnit());
             }
         )
         ( <S> )*
     )
     {
-        if (value != null)
+        if (prev != null)
         {
-            value.setLocator(createLocator(token));
+            prev.setLocator(createLocator(token));
         }
-        return value;
+        return prev;
     }
 }
 

@@ -1175,7 +1175,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("width : calc(14.1pc * calc(40mm / 1.2))",
+        Assert.assertEquals("width : calc(14.1pc * (40mm / 1.2))",
                 name + " : " + style.getPropertyValue(name));
 
         final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
@@ -1192,7 +1192,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
         Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals("calc", unit.getFunctionName());
+        Assert.assertEquals("", unit.getFunctionName());
 
         Assert.assertNull(unit.getNextLexicalUnit());
 
@@ -1208,6 +1208,54 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1.2, unit.getDoubleValue(), 0.00001);
 
         Assert.assertNull(unit.getNextLexicalUnit());
+    }
+
+    @Test
+    public void calcExpressions() throws Exception {
+        calc("#c { top: calc() }", 1, 0, 0);
+
+        calc("#c { top: calc(14px) }");
+
+        calc("#c { top: calc(0.875em + 0.1875em) }");
+        calc("#c { top: calc(0.875em + -0.1875em) }");
+        calc("#c { top: calc(-0.875em + 0.1875em) }");
+        calc("#c { top: calc(0.875em - -0.1875em) }");
+
+        calc("#c { top: calc(1px + 2px) }");
+        calc("#c { top: calc(((1px + 2px) + 3px) + 4px) }");
+
+        calc("#c { top: calc(1px * 2px) }");
+        calc("#c { top: calc(((1px * 2px) * 3px) * 4px) }");
+
+        calc("#c { top: calc(1px / 2px) }", 1, 0, 0);
+        calc("#c { top: calc(1px / (1 + 2px)) }", 1, 0, 0);
+        calc("#c { top: calc(1px / (1px + 2)) }", 1, 0, 0);
+        calc("#c { top: calc(1px / (1 + 2)) }");
+
+        calc("#c { top: calc(1px / calc(1 + 2) * (7em * 3)) }");
+
+        calc("#c { top: calc(14) }");
+        calc("#c { top: calc(14; }", 1, 0, 0);
+        calc("#c { top: calc(14 + (7)) }");
+        calc("#c { top: calc(14 + (7); }", 1, 0, 0);
+        calc("#c { top: calc(14 + (7 + 3) - 1) }");
+    }
+
+    private void calc(String cssText) throws Exception {
+        calc(cssText, 0, 0, 0);
+    }
+
+    private void calc(String cssText, final int err, final int fatal, final int warn) throws Exception {
+        final CSSStyleSheetImpl sheet = parse(cssText, err, fatal, warn);
+
+        if (err == 0) {
+            final CSSRuleListImpl rules = sheet.getCssRules();
+
+            Assert.assertEquals(1, rules.getLength());
+
+            final CSSStyleRuleImpl rule = (CSSStyleRuleImpl) rules.getRules().get(0);
+            Assert.assertEquals("*" + cssText, rule.getCssText());
+        }
     }
 
     /**
@@ -3549,8 +3597,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 + "all and (min-width: 768px);"
                 + "all and (min-width: 992px);"
                 + "print;";
-        realWorld("realworld/bootstrap_4_0_0.css", 1033, 2441, media, 2, 1);
-        realWorld("realworld/bootstrap_4_0_0_min.css", 1033, 2441, media, 2, 1);
+        realWorld("realworld/bootstrap_4_0_0.css", 1033, 2442, media, 1, 1);
+        realWorld("realworld/bootstrap_4_0_0_min.css", 1033, 2442, media, 1, 1);
     }
 
     /**
