@@ -171,7 +171,7 @@ TOKEN_MGR_DECLS :
 
 // ident        -?{nmstart}{nmchar}*
 // {ident}         {return IDENT;}
-| < IDENT: ("-")? <NMSTART> ( <NMCHAR> )* >
+| < IDENT: (< MINUS >)? <NMSTART> ( <NMCHAR> )* >
 
 // name     {nmchar}+
 | < #NAME: ( <NMCHAR> )+ >
@@ -312,7 +312,7 @@ TOKEN_MGR_DECLS :
 | < MEDIA_SYM: "@" <M_LETTER> <E_LETTER> <D_LETTER> <I_LETTER> <A_LETTER> >
 
 // "@{F}{O}{N}{T}-{F}{A}{C}{E}"    {return FONT_FACE_SYM;}
-| < FONT_FACE_SYM: "@" <F_LETTER> <O_LETTER> <N_LETTER> <T_LETTER> "-" <F_LETTER> <A_LETTER> <C_LETTER> <E_LETTER> >
+| < FONT_FACE_SYM: "@" <F_LETTER> <O_LETTER> <N_LETTER> <T_LETTER> < MINUS > <F_LETTER> <A_LETTER> <C_LETTER> <E_LETTER> >
 
 // @{C}{H}{A}{R}{S}{E}{T}   {return CHARSET_SYM;}
 | < CHARSET_SYM: "@" <C_LETTER> <H_LETTER> <A_LETTER> <R_LETTER> <S_LETTER> <E_LETTER> <T_LETTER> >
@@ -381,20 +381,25 @@ TOKEN_MGR_DECLS :
 | < DIMENSION: <NUM> <IDENT> >
 
 | < #H_PLACEHOLDER: (<H> | "?"){1,6} >
-| < UNICODE_RANGE: "u+" <H_PLACEHOLDER > ("-" < H_PLACEHOLDER >)? >
+| < UNICODE_RANGE: "u+" <H_PLACEHOLDER > (< MINUS > < H_PLACEHOLDER >)? >
 
 // "url("{w}{string}{w}")"  {return URI;}
 // "url("{w}{url}{w}")" {return URI;}
 | < URI: "url" <LROUND> ( <S> )* ( <STRING> | <URL> ) ( <S> )* <RROUND> > { matchedToken.image = ParserUtils.trimUrl(image); }
 
 // {N}{O}{T} "("        {return FUNCTION_NOT;}
-| < FUNCTION_NOT: <N_LETTER> <O_LETTER> <T_LETTER> <LROUND> >
+| < FUNCTION_NOT: "not" <LROUND> >
 
 // {L}{A}{N}{G} "("        {return FUNCTION_LANG;}
-| < FUNCTION_LANG: <L_LETTER> <A_LETTER> <N_LETTER> <G_LETTER> <LROUND> >
+| < FUNCTION_LANG: "lang" <LROUND> >
 
 // {C}{A}{L}{C} "("        {return FUNCTION_CALC;}
 | < FUNCTION_CALC: "calc" <LROUND> >
+
+// {V}{A}{R} "("        {return FUNCTION_VAR;}
+| < FUNCTION_VAR: "var" <LROUND> >
+
+| < CUSTOM_PROPERTY_NAME: < MINUS > <MINUS > <NMSTART> ( <NMCHAR> )* >
 
 // {ident} "("          {return FUNCTION;}
 | < FUNCTION: <IDENT> <LROUND> >
@@ -481,7 +486,7 @@ void styleSheetRuleList() :
                     getErrorHandler().warning(createSkipWarning("ignoringRule", cpe));
                 }
 
-                if (!charsetProcessed) { 
+                if (!charsetProcessed) {
                     if (t.kind == EOF) {
                         return;
                     }
@@ -859,7 +864,7 @@ void pageRule() :
 String pageSelectorList() :
 {
   String sel;
-  LinkedList selectors = new LinkedList<String>(); 
+  LinkedList selectors = new LinkedList<String>();
 }
 {
   sel = pageSelector() { selectors.add(sel); }
@@ -995,8 +1000,8 @@ String property() :
     Token t;
 }
 {
-    t = <IDENT> ( <S> )*
-    { return unescape(t.image, false); }
+    t = <IDENT> ( <S> )*                    { return unescape(t.image, false); }
+    | t = <CUSTOM_PROPERTY_NAME> ( <S> )*   { return unescape(t.image, false); }
 }
 
 //
@@ -1575,6 +1580,7 @@ LexicalUnit term(LexicalUnit prev) :
             | value = percentage(prev, op)
             | value = function(prev)
             | value = calc(prev)
+            | value = var(prev)
         )
         | t = <STRING>          { value = LexicalUnitImpl.createString(prev, unescape(t.image, false)); }
         | t = "progid:"         { value = LexicalUnitImpl.createIdent(prev, skipUnit().trim()); }
@@ -1878,6 +1884,32 @@ LexicalUnit calcNumberValue(LexicalUnit prev) :
             prev.setLocator(createLocator(token));
         }
         return prev;
+    }
+}
+
+// var()
+// https://developer.mozilla.org/en-US/docs/Web/CSS/var
+// var( <custom-property-name> , <declaration-value>? )
+//
+LexicalUnit var(LexicalUnit prev) :
+{
+    Token t;
+    LexicalUnit value, propertyName;
+    String funct = "";
+}
+{
+    t = <FUNCTION_VAR> { funct = unescape(t.image, false); }
+    ( <S> )*
+    t = <CUSTOM_PROPERTY_NAME> { prev = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); propertyName = prev; }
+    ( <S> )*
+    (
+        <COMMA> { prev = LexicalUnitImpl.createComma(prev); }
+        ( <S> )*
+        prev = term(prev)
+    )*
+    <RROUND>
+    {
+        return functionInternal(prev, funct, propertyName);
     }
 }
 

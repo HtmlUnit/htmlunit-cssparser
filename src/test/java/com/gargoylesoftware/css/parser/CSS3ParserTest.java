@@ -1212,40 +1212,80 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
     @Test
     public void calcExpressions() throws Exception {
-        calc("#c { top: calc() }", 1, 0, 0);
+        expression("h1 { top: calc() }", 1, 0, 0);
 
-        calc("#c { top: calc(14px) }");
+        expression("h1 { top: calc(14px) }");
 
-        calc("#c { top: calc(0.875em + 0.1875em) }");
-        calc("#c { top: calc(0.875em + -0.1875em) }");
-        calc("#c { top: calc(-0.875em + 0.1875em) }");
-        calc("#c { top: calc(0.875em - -0.1875em) }");
+        expression("h1 { top: calc(0.875em + 0.1875em) }");
+        expression("h1 { top: calc(0.875em + -0.1875em) }");
+        expression("h1 { top: calc(-0.875em + 0.1875em) }");
+        expression("h1 { top: calc(0.875em - -0.1875em) }");
 
-        calc("#c { top: calc(1px + 2px) }");
-        calc("#c { top: calc(((1px + 2px) + 3px) + 4px) }");
+        expression("h1 { top: calc(1px + 2px) }");
+        expression("h1 { top: calc(((1px + 2px) + 3px) + 4px) }");
 
-        calc("#c { top: calc(1px * 2px) }");
-        calc("#c { top: calc(((1px * 2px) * 3px) * 4px) }");
+        expression("h1 { top: calc(1px * 2px) }");
+        expression("h1 { top: calc(((1px * 2px) * 3px) * 4px) }");
 
-        calc("#c { top: calc(1px / 2px) }", 1, 0, 0);
-        calc("#c { top: calc(1px / (1 + 2px)) }", 1, 0, 0);
-        calc("#c { top: calc(1px / (1px + 2)) }", 1, 0, 0);
-        calc("#c { top: calc(1px / (1 + 2)) }");
+        expression("h1 { top: calc(1px / 2px) }", 1, 0, 0);
+        expression("h1 { top: calc(1px / (1 + 2px)) }", 1, 0, 0);
+        expression("h1 { top: calc(1px / (1px + 2)) }", 1, 0, 0);
+        expression("h1 { top: calc(1px / (1 + 2)) }");
 
-        calc("#c { top: calc(1px / calc(1 + 2) * (7em * 3)) }");
+        expression("h1 { top: calc(1px / calc(1 + 2) * (7em * 3)) }");
 
-        calc("#c { top: calc(14) }");
-        calc("#c { top: calc(14; }", 1, 0, 0);
-        calc("#c { top: calc(14 + (7)) }");
-        calc("#c { top: calc(14 + (7); }", 1, 0, 0);
-        calc("#c { top: calc(14 + (7 + 3) - 1) }");
+        expression("h1 { top: calc(14) }");
+        expression("h1 { top: calc(14; }", 1, 0, 0);
+        expression("h1 { top: calc(14 + (7)) }");
+        expression("h1 { top: calc(14 + (7); }", 1, 0, 0);
+        expression("h1 { top: calc(14 + (7 + 3) - 1) }");
     }
 
-    private void calc(String cssText) throws Exception {
-        calc(cssText, 0, 0, 0);
+    public void varExpressions() throws Exception {
+        // test cases for successful parsing
+        expression("#v { --my-var: 3 }");
+        expression("#v { --my-var: 2px }");
+        expression("#v { --my-var: 10pt }");
+        expression("#v { --my-var: 11% }");
+        expression("#v { --my-var: rgb(255, 255, 255) }");
+        expression("#v { --my-var: rgba(255, 255, 255, 0) }");
+        expression("#v { --my-var: var(--test) }");
+        expression("#v { --my-var: \"test\" }");
+        expression("#v { --my-var: 3 }");
+        expression("#v { --my-var: 3; top: var(--my-var, 10) }");
+        expression("#v { --my-var: -2; top: var(--my-var, 10) }");
+        expression("#v { --my-var: -2; top: var(--my-var, 10, 11) }");
+        expression("#v { --my-var: -2; top: var(--my-var, 10, 11, 12, \"test\") }");
+        expression("#v { --my-var: -2; top: var(--my-var, 10, 11, 12, rgb(12, 24, 35)) }");
+
+        // special test cases with different expected result
+        expression("#v { --my-var: +11; top: var(--my-var, 10) }",
+                    "#v { --my-var: 11; top: var(--my-var, 10) }");
+        expression("#v { --my-var: -2; top: var(--my-var, 10, 11, 12, 'test') }",
+                    "#v { --my-var: -2; top: var(--my-var, 10, 11, 12, \"test\") }");
+        expression("#v { --my-var: 'test' }",
+                    "#v { --my-var: \"test\" }");
+
+        // test cases for unsuccessful parsing
+        expression("#v { --my-var: var(test) }", 1, 0, 0);
+        expression("#v { --my-var: var() }", 1, 0, 0);
+        expression("#v { --my-var: var(-test) }", 1, 0, 0);
+        expression("#v { --my-var: var(---test) }", 1, 0, 0);
     }
 
-    private void calc(String cssText, final int err, final int fatal, final int warn) throws Exception {
+    private void expression(String cssText) throws Exception {
+        expression(cssText, 0, 0, 0, cssText);
+    }
+
+    private void expression(String cssText, String expected) throws Exception {
+        expression(cssText, 0, 0, 0, expected);
+    }
+
+    private void expression(String cssText, final int err, final int fatal, final int warn) throws Exception {
+        expression(cssText, err, fatal, warn, cssText);
+    }
+
+    private void expression(String cssText, final int err, final int fatal, final int warn, String expected) throws Exception {
         final CSSStyleSheetImpl sheet = parse(cssText, err, fatal, warn);
 
         if (err == 0) {
@@ -1254,7 +1294,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
             Assert.assertEquals(1, rules.getLength());
 
             final CSSStyleRuleImpl rule = (CSSStyleRuleImpl) rules.getRules().get(0);
-            Assert.assertEquals("*" + cssText, rule.getCssText());
+            Assert.assertEquals(expected, rule.getCssText());
         }
     }
 
@@ -1488,13 +1528,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION>, \"progid:\".)"
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
                         + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION>, \"progid:\".)"
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION>, \"progid:\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)"
                 + " Error in style rule. (Invalid token \" \". Was expecting one of: <EOF>, \"}\", \";\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)";
@@ -1740,7 +1780,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         Assert.assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in @page rule. "
-                + "(Invalid token \"<EOF>\". Was expecting one of: <S>, <IDENT>, \"}\", \";\", \"*\".)";
+                + "(Invalid token \"<EOF>\". Was expecting one of: <S>, <IDENT>, \"}\", \";\", \"*\", <CUSTOM_PROPERTY_NAME>.)";
         Assert.assertEquals(expected, errorHandler.getErrorMessage());
         Assert.assertEquals("1", errorHandler.getErrorLines());
         Assert.assertEquals("39", errorHandler.getErrorColumns());
@@ -1789,7 +1829,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION>, \"progid:\".)";
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION>, \"progid:\".)";
         Assert.assertEquals(expected, errorHandler.getErrorMessage());
         Assert.assertEquals("3", errorHandler.getErrorLines());
         Assert.assertEquals("16", errorHandler.getErrorColumns());
@@ -3597,8 +3637,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 + "all and (min-width: 768px);"
                 + "all and (min-width: 992px);"
                 + "print;";
-        realWorld("realworld/bootstrap_4_0_0.css", 1033, 2442, media, 1, 1);
-        realWorld("realworld/bootstrap_4_0_0_min.css", 1033, 2442, media, 1, 1);
+        realWorld("realworld/bootstrap_4_0_0.css", 1033, 2470, media, 0, 0);
+        realWorld("realworld/bootstrap_4_0_0_min.css", 1033, 2470, media, 0, 0);
     }
 
     /**
