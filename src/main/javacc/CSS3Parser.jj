@@ -1567,13 +1567,7 @@ LexicalUnit term(LexicalUnit prev) :
   Locator locator = null;
 }
 {
-    ( op = unaryOperator() )?
-    {
-        if (op != ' ')
-        {
-            locator = createLocator(token);
-        }
-    }
+    ( op = unaryOperator() )?    { if (op != ' ') { locator = createLocator(token); } }
     (
         (   value = number(prev, op)
             | value = dimension(prev, op)
@@ -1646,7 +1640,7 @@ LexicalUnit function(LexicalUnit prev) :
             )?
             body = term(body)
         )*
-    )? 
+    )?
     <RROUND>
     {
         return functionInternal(prev, funct, param);
@@ -1758,6 +1752,7 @@ LexicalUnit calcValue(LexicalUnit prev) :
                     | prev = percentage(prev, op)
                 )
             )
+            | prev = var(prev)
             |
                 (
                     (
@@ -1862,6 +1857,7 @@ LexicalUnit calcNumberValue(LexicalUnit prev) :
                 (op = unaryOperator() )?
                 prev = number(prev, op)
             )
+            | prev = var(prev)
             |
             (
                 (
@@ -1894,18 +1890,18 @@ LexicalUnit calcNumberValue(LexicalUnit prev) :
 LexicalUnit var(LexicalUnit prev) :
 {
     Token t;
-    LexicalUnit value, propertyName;
+    LexicalUnit value, current, propertyName;
     String funct = "";
 }
 {
     t = <FUNCTION_VAR> { funct = unescape(t.image, false); }
     ( <S> )*
-    t = <CUSTOM_PROPERTY_NAME> { prev = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); propertyName = prev; }
+    t = <CUSTOM_PROPERTY_NAME> { current = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); propertyName = current; }
     ( <S> )*
     (
-        <COMMA> { prev = LexicalUnitImpl.createComma(prev); }
+        <COMMA> { current = LexicalUnitImpl.createComma(current); }
         ( <S> )*
-        prev = term(prev)
+        current = term(current)
     )*
     <RROUND>
     {

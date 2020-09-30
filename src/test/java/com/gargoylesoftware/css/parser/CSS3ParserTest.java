@@ -1241,36 +1241,37 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         expression("h1 { top: calc(14 + (7 + 3) - 1) }");
     }
 
+    @Test
     public void varExpressions() throws Exception {
         // test cases for successful parsing
-        expression("#v { --my-var: 3 }");
-        expression("#v { --my-var: 2px }");
-        expression("#v { --my-var: 10pt }");
-        expression("#v { --my-var: 11% }");
-        expression("#v { --my-var: rgb(255, 255, 255) }");
-        expression("#v { --my-var: rgba(255, 255, 255, 0) }");
-        expression("#v { --my-var: var(--test) }");
-        expression("#v { --my-var: \"test\" }");
-        expression("#v { --my-var: 3 }");
-        expression("#v { --my-var: 3; top: var(--my-var, 10) }");
-        expression("#v { --my-var: -2; top: var(--my-var, 10) }");
-        expression("#v { --my-var: -2; top: var(--my-var, 10, 11) }");
-        expression("#v { --my-var: -2; top: var(--my-var, 10, 11, 12, \"test\") }");
-        expression("#v { --my-var: -2; top: var(--my-var, 10, 11, 12, rgb(12, 24, 35)) }");
+        expression("h1 { --my-var: 3 }");
+        expression("h1 { --my-var: 2px }");
+        expression("h1 { --my-var: 10pt }");
+        expression("h1 { --my-var: 11% }");
+        expression("h1 { --my-var: rgb(255, 255, 255) }");
+        expression("h1 { --my-var: rgba(255, 255, 255, 0) }");
+        expression("h1 { --my-var: var(--test) }");
+        expression("h1 { --my-var: \"test\" }");
+        expression("h1 { --my-var: 3 }");
+        expression("h1 { --my-var: 3; top: var(--my-var, 10) }");
+        expression("h1 { --my-var: -2; top: var(--my-var, 10) }");
+        expression("h1 { --my-var: -2; top: var(--my-var, 10, 11) }");
+        expression("h1 { --my-var: -2; top: var(--my-var, 10, 11, 12, \"test\") }");
+        expression("h1 { --my-var: -2; top: var(--my-var, 10, 11, 12, rgb(12, 24, 35)) }");
 
         // special test cases with different expected result
-        expression("#v { --my-var: +11; top: var(--my-var, 10) }",
-                    "#v { --my-var: 11; top: var(--my-var, 10) }");
-        expression("#v { --my-var: -2; top: var(--my-var, 10, 11, 12, 'test') }",
-                    "#v { --my-var: -2; top: var(--my-var, 10, 11, 12, \"test\") }");
-        expression("#v { --my-var: 'test' }",
-                    "#v { --my-var: \"test\" }");
+        expression("h1 { --my-var: +11; top: var(--my-var, 10) }",
+                    "h1 { --my-var: 11; top: var(--my-var, 10) }");
+        expression("h1 { --my-var: -2; top: var(--my-var, 10, 11, 12, 'test') }",
+                    "h1 { --my-var: -2; top: var(--my-var, 10, 11, 12, \"test\") }");
+        expression("h1 { --my-var: 'test' }",
+                    "h1 { --my-var: \"test\" }");
 
         // test cases for unsuccessful parsing
-        expression("#v { --my-var: var(test) }", 1, 0, 0);
-        expression("#v { --my-var: var() }", 1, 0, 0);
-        expression("#v { --my-var: var(-test) }", 1, 0, 0);
-        expression("#v { --my-var: var(---test) }", 1, 0, 0);
+        expression("h1 { --my-var: var(test) }", 1, 0, 0);
+        expression("h1 { --my-var: var() }", 1, 0, 0);
+        expression("h1 { --my-var: var(-test) }", 1, 0, 0);
+        expression("h1 { --my-var: var(---test) }", 1, 0, 0);
     }
 
     private void expression(String cssText) throws Exception {
