@@ -1901,7 +1901,7 @@ LexicalUnit var(LexicalUnit prev) :
     (
         <COMMA> { current = LexicalUnitImpl.createComma(current); }
         ( <S> )*
-        current = term(current)
+        ( current = term(current) )?
     )*
     <RROUND>
     {

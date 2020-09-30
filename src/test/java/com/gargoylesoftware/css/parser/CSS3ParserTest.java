@@ -1272,6 +1272,29 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         expression("h1 { --my-var: var() }", 1, 0, 0);
         expression("h1 { --my-var: var(-test) }", 1, 0, 0);
         expression("h1 { --my-var: var(---test) }", 1, 0, 0);
+        expression("h1 { --my-var: var(- -test) }", 1, 0, 0);
+
+        expression("h1 {--divide-x-reverse:0;border-right-width:calc(0px * var(--divide-x-reverse)); }",
+                    "h1 { --divide-x-reverse: 0; border-right-width: calc(0px * var(--divide-x-reverse)) }");
+
+        expression("h1 { --my-var: 0; border-right-width: calc(var(--my-var) / 5) }");
+        expression("h1 { --my-var: 0; border-right-width: calc(var(--my-var) / -5) }");
+        expression("h1 { --my-var: 0; border-right-width: calc(5px * var(--my-var)) }");
+        expression("h1 { --my-var: 0; border-right-width: calc(5px / var(--my-var)) }");
+        expression("h1 { --my-var: 0; border-right-width: calc(0px + var(--my-var) / 5) }");
+        expression("h1 { --my-var: 0; border-right-width: calc(0px - var(--my-var) / 5) }");
+        expression("h1 { --my-var: 0; border-right-width: calc(1rem + var(--my-var) / 5) }");
+        expression("h1 { --my-var: 0; border-right-width: calc(-2rem - var(--my-var) / 5) }");
+
+        // digits are trimmed to 4
+        expression("h1 { margin-right: calc(-66.66667% * var(--space-x-reverse)) }",
+                    "h1 { margin-right: calc(-66.6667% * var(--space-x-reverse)) }");
+
+        // empty fallback values
+        expression("h1 { top: var(--tailwind-empty, ) }",
+                    "h1 { top: var(--tailwind-empty,) }");
+        expression("h1 { top: var(--tailwind-empty,,) }");
+        expression("h1 { top: var(--tailwind-empty,, blue,, red) }");
     }
 
     private void expression(String cssText) throws Exception {
@@ -2225,6 +2248,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSValueImpl value = dimension("17em");
         Assert.assertEquals(CSSPrimitiveValueType.CSS_EMS, value.getPrimitiveType());
     }
+
     /**
      * @throws Exception if any error occurs
      */
