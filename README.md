@@ -1,4 +1,4 @@
-# HtmlUnit - CSSParser--------------------------------------------------------------------
+# HtmlUnit - CSSParser  ----------------------------------------------------
 
 This is the code repository of the CSS parser used by HtmlUnit starting with version 1.30.
 
@@ -8,16 +8,16 @@ This implementation starts based on CSSParser 0.9.25; we removed the sac depende
 
 We will try to stay in sync with CSSParser regarding the features in the future.
 
-## Getting Started--------------------------------------------------------------------------
+## Getting Started  --------------------------------------------------------
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-### Prerequisites----------------------------------------------------------------------------
+### Prerequisites  ---------------------------------------------------------
 
 You simply only need a local maven installation.
 
 
-### Building----------------------------------------------------------------------------------
+### Building  --------------------------------------------------------------
 
 Create a local clone of the repository and you are ready to start.
 
@@ -27,18 +27,18 @@ Open a command line window from the root folder of the project and call
 mvn compile
 ```
 
-### Running the tests--------------------------------------------------------------------------
+### Running the tests  -----------------------------------------------------
 
 ```
 mvn test
 ```
 
-## Contributing---------------------------------------------------------------------------------
+## Contributing  -----------------------------------------------------------
 
 TODO
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
-## Deployment and Versioning--------------------------------------------------------------------
+## Deployment and Versioning  ----------------------------------------------
 
 This part is intended for committer who are packaging a release.
 
@@ -73,15 +73,15 @@ This part is intended for committer who are packaging a release.
 * Update the version number in pom.xml to start next snapshot development
 * Update the htmlunit pom to use the new release
 
-## Authors-------------------------------------------------------------------
+## Authors -----------------------------------------------------------------
 
 * **RBRi**
 * all the contributors to CSSParser
 
-## License-------------------------------------------------------------------
+## License -----------------------------------------------------------------
 
 This project is licensed under the Apache 2.0 License
 
-## Acknowledgments-----------------------------------------------------------
+## Acknowledgments----------------------------------------------------------
 
 Many thanks to all of you contributing to HtmlUnit/CSSParser/Rhino in the past.
