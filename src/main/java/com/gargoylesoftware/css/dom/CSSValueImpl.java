@@ -68,6 +68,21 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         /** CSS_EXS. */
         CSS_EXS,
 
+        /** CSS_CH. */
+        CSS_CH,
+
+        /** CSS_VW. */
+        CSS_VW,
+
+        /** CSS_VH. */
+        CSS_VH,
+
+        /** CSS_VMIN. */
+        CSS_VMIN,
+
+        /** CSS_VMAX. */
+        CSS_VMAX,
+
         /** CSS_PX. */
         CSS_PX,
 
@@ -298,6 +313,16 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
                     return CSSPrimitiveValueType.CSS_UNKNOWN;
                 case EX:
                     return CSSPrimitiveValueType.CSS_EXS;
+                case CH:
+                    return CSSPrimitiveValueType.CSS_CH;
+                case VW:
+                    return CSSPrimitiveValueType.CSS_VW;
+                case VH:
+                    return CSSPrimitiveValueType.CSS_VH;
+                case VMIN:
+                    return CSSPrimitiveValueType.CSS_VMIN;
+                case VMAX:
+                    return CSSPrimitiveValueType.CSS_VMAX;
                 case PIXEL:
                     return CSSPrimitiveValueType.CSS_PX;
                 case INCH:

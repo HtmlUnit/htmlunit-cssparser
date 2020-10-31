@@ -132,7 +132,7 @@ public class CSSValueImplTest {
      * @throws Exception if any error occurs
      */
     @Test
-    public void em() throws Exception {
+    public void ems() throws Exception {
         final LexicalUnit lu = LexicalUnitImpl.createEm(null, 1.2f);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
@@ -536,6 +536,111 @@ public class CSSValueImplTest {
         Assert.assertEquals("1.2rem", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValueType.CSS_UNKNOWN, value.getPrimitiveType());
         Assert.assertEquals(LexicalUnit.LexicalUnitType.REM, value.getLexicalUnitType());
+        Assert.assertEquals(1.2, value.getDoubleValue(), 0.00001);
+        try {
+            value.getStringValue();
+            Assert.fail("DomException expected");
+        }
+        catch (final DOMException e) {
+            // expected
+        }
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void ch() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createCh(null, 1.2f);
+        final CSSValueImpl value = new CSSValueImpl(lu, false);
+
+        Assert.assertEquals("1.2ch", value.getCssText());
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_CH, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.CH, value.getLexicalUnitType());
+        Assert.assertEquals(1.2, value.getDoubleValue(), 0.00001);
+        try {
+            value.getStringValue();
+            Assert.fail("DomException expected");
+        }
+        catch (final DOMException e) {
+            // expected
+        }
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void vw() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createVw(null, 1.2f);
+        final CSSValueImpl value = new CSSValueImpl(lu, false);
+
+        Assert.assertEquals("1.2vw", value.getCssText());
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_VW, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.VW, value.getLexicalUnitType());
+        Assert.assertEquals(1.2, value.getDoubleValue(), 0.00001);
+        try {
+            value.getStringValue();
+            Assert.fail("DomException expected");
+        }
+        catch (final DOMException e) {
+            // expected
+        }
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void vh() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createVh(null, 1.2f);
+        final CSSValueImpl value = new CSSValueImpl(lu, false);
+
+        Assert.assertEquals("1.2vh", value.getCssText());
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_VH, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.VH, value.getLexicalUnitType());
+        Assert.assertEquals(1.2, value.getDoubleValue(), 0.00001);
+        try {
+            value.getStringValue();
+            Assert.fail("DomException expected");
+        }
+        catch (final DOMException e) {
+            // expected
+        }
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void vmin() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createVMin(null, 1.2f);
+        final CSSValueImpl value = new CSSValueImpl(lu, false);
+
+        Assert.assertEquals("1.2vmin", value.getCssText());
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_VMIN, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.VMIN, value.getLexicalUnitType());
+        Assert.assertEquals(1.2, value.getDoubleValue(), 0.00001);
+        try {
+            value.getStringValue();
+            Assert.fail("DomException expected");
+        }
+        catch (final DOMException e) {
+            // expected
+        }
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void vmax() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createVMax(null, 1.2f);
+        final CSSValueImpl value = new CSSValueImpl(lu, false);
+
+        Assert.assertEquals("1.2vmax", value.getCssText());
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_VMAX, value.getPrimitiveType());
+        Assert.assertEquals(LexicalUnit.LexicalUnitType.VMAX, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getDoubleValue(), 0.00001);
         try {
             value.getStringValue();

@@ -277,6 +277,21 @@ public class LexicalUnitImplTest {
         unit = new LexicalUnitImpl(null, LexicalUnitType.EX);
         Assert.assertEquals("ex", unit.getDimensionUnitText());
 
+        unit = new LexicalUnitImpl(null, LexicalUnitType.CH);
+        Assert.assertEquals("ch", unit.getDimensionUnitText());
+
+        unit = new LexicalUnitImpl(null, LexicalUnitType.VW);
+        Assert.assertEquals("vw", unit.getDimensionUnitText());
+
+        unit = new LexicalUnitImpl(null, LexicalUnitType.VH);
+        Assert.assertEquals("vh", unit.getDimensionUnitText());
+
+        unit = new LexicalUnitImpl(null, LexicalUnitType.VMIN);
+        Assert.assertEquals("vmin", unit.getDimensionUnitText());
+
+        unit = new LexicalUnitImpl(null, LexicalUnitType.VMAX);
+        Assert.assertEquals("vmax", unit.getDimensionUnitText());
+
         unit = new LexicalUnitImpl(null, LexicalUnitType.PIXEL);
         Assert.assertEquals("px", unit.getDimensionUnitText());
 
@@ -608,6 +623,116 @@ public class LexicalUnitImplTest {
 
         Assert.assertEquals("1.7rem", unit.toString());
         Assert.assertEquals("REM(1.7rem)", ((LexicalUnitImpl) unit).toDebugString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void createCh() throws Exception {
+        final LexicalUnit unit = LexicalUnitImpl.createCh(null, 1.7f);
+
+        Assert.assertEquals(LexicalUnitType.CH, unit.getLexicalUnitType());
+        Assert.assertEquals(1.7f, unit.getDoubleValue(), 0.0001f);
+        Assert.assertEquals(1, unit.getIntegerValue());
+        Assert.assertEquals("ch", unit.getDimensionUnitText());
+        Assert.assertNull(unit.getFunctionName());
+        Assert.assertNull(unit.getParameters());
+        Assert.assertNull(unit.getStringValue());
+
+        Assert.assertNull(unit.getNextLexicalUnit());
+        Assert.assertNull(unit.getPreviousLexicalUnit());
+
+        Assert.assertEquals("1.7ch", unit.toString());
+        Assert.assertEquals("CH(1.7ch)", ((LexicalUnitImpl) unit).toDebugString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void createVw() throws Exception {
+        final LexicalUnit unit = LexicalUnitImpl.createVw(null, 1.7f);
+
+        Assert.assertEquals(LexicalUnitType.VW, unit.getLexicalUnitType());
+        Assert.assertEquals(1.7f, unit.getDoubleValue(), 0.0001f);
+        Assert.assertEquals(1, unit.getIntegerValue());
+        Assert.assertEquals("vw", unit.getDimensionUnitText());
+        Assert.assertNull(unit.getFunctionName());
+        Assert.assertNull(unit.getParameters());
+        Assert.assertNull(unit.getStringValue());
+
+        Assert.assertNull(unit.getNextLexicalUnit());
+        Assert.assertNull(unit.getPreviousLexicalUnit());
+
+        Assert.assertEquals("1.7vw", unit.toString());
+        Assert.assertEquals("VW(1.7vw)", ((LexicalUnitImpl) unit).toDebugString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void createVh() throws Exception {
+        final LexicalUnit unit = LexicalUnitImpl.createVh(null, 1.7f);
+
+        Assert.assertEquals(LexicalUnitType.VH, unit.getLexicalUnitType());
+        Assert.assertEquals(1.7f, unit.getDoubleValue(), 0.0001f);
+        Assert.assertEquals(1, unit.getIntegerValue());
+        Assert.assertEquals("vh", unit.getDimensionUnitText());
+        Assert.assertNull(unit.getFunctionName());
+        Assert.assertNull(unit.getParameters());
+        Assert.assertNull(unit.getStringValue());
+
+        Assert.assertNull(unit.getNextLexicalUnit());
+        Assert.assertNull(unit.getPreviousLexicalUnit());
+
+        Assert.assertEquals("1.7vh", unit.toString());
+        Assert.assertEquals("VH(1.7vh)", ((LexicalUnitImpl) unit).toDebugString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void createVMin() throws Exception {
+        final LexicalUnit unit = LexicalUnitImpl.createVMin(null, 1.7f);
+
+        Assert.assertEquals(LexicalUnitType.VMIN, unit.getLexicalUnitType());
+        Assert.assertEquals(1.7f, unit.getDoubleValue(), 0.0001f);
+        Assert.assertEquals(1, unit.getIntegerValue());
+        Assert.assertEquals("vmin", unit.getDimensionUnitText());
+        Assert.assertNull(unit.getFunctionName());
+        Assert.assertNull(unit.getParameters());
+        Assert.assertNull(unit.getStringValue());
+
+        Assert.assertNull(unit.getNextLexicalUnit());
+        Assert.assertNull(unit.getPreviousLexicalUnit());
+
+        Assert.assertEquals("1.7vmin", unit.toString());
+        Assert.assertEquals("VMIN(1.7vmin)", ((LexicalUnitImpl) unit).toDebugString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void createVMax() throws Exception {
+        final LexicalUnit unit = LexicalUnitImpl.createVMax(null, 1.7f);
+
+        Assert.assertEquals(LexicalUnitType.VMAX, unit.getLexicalUnitType());
+        Assert.assertEquals(1.7f, unit.getDoubleValue(), 0.0001f);
+        Assert.assertEquals(1, unit.getIntegerValue());
+        Assert.assertEquals("vmax", unit.getDimensionUnitText());
+        Assert.assertNull(unit.getFunctionName());
+        Assert.assertNull(unit.getParameters());
+        Assert.assertNull(unit.getStringValue());
+
+        Assert.assertNull(unit.getNextLexicalUnit());
+        Assert.assertNull(unit.getPreviousLexicalUnit());
+
+        Assert.assertEquals("1.7vmax", unit.toString());
+        Assert.assertEquals("VMAX(1.7vmax)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**

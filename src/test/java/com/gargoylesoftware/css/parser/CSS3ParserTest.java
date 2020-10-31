@@ -1111,6 +1111,91 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     @Test
+    public void calcSumWhitespace() throws Exception {
+        String cssText = "width: calc(42 -16.4em)";
+
+        CSSOMParser parser = new CSSOMParser();
+        ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+
+        Assert.assertEquals(0, errorHandler.getErrorCount());
+        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
+        Assert.assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        Assert.assertEquals(1, style.getLength());
+
+        String name = style.getProperties().get(0).getName();
+        Assert.assertEquals("width : calc(42 - 16.4em)",
+                name + " : " + style.getPropertyValue(name));
+
+        cssText = "width: calc(42-16.4em)";
+
+        parser = new CSSOMParser();
+        errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        style = parser.parseStyleDeclaration(cssText);
+
+        Assert.assertEquals(0, errorHandler.getErrorCount());
+        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
+        Assert.assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        Assert.assertEquals(1, style.getLength());
+
+        name = style.getProperties().get(0).getName();
+        Assert.assertEquals("width : calc(42 - 16.4em)",
+                name + " : " + style.getPropertyValue(name));
+
+        cssText = "width: calc(42vh-16.4em)";
+
+        parser = new CSSOMParser();
+        errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        style = parser.parseStyleDeclaration(cssText);
+
+        Assert.assertEquals(0, errorHandler.getErrorCount());
+        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
+        Assert.assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        Assert.assertEquals(1, style.getLength());
+
+        name = style.getProperties().get(0).getName();
+        Assert.assertEquals("width : calc(42vh - 16.4em)",
+                name + " : " + style.getPropertyValue(name));
+    }
+
+
+    @Test
+    public void calcUnits() throws Exception {
+        final String cssText = "width: calc(1cm + 2mm - 3in + 4px - 5pt + 6pc"
+                + " - 7em + 8ex - 9ch + 10rem -11vw + 12vh - 13vmin + 14vmax - 15%)";
+
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+
+        Assert.assertEquals(0, errorHandler.getErrorCount());
+        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
+        Assert.assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        Assert.assertEquals(1, style.getLength());
+
+        final String name = style.getProperties().get(0).getName();
+        Assert.assertEquals("width : calc(1cm + 2mm - 3in + 4px - 5pt + 6pc"
+                + " - 7em + 8ex - 9ch + 10rem - 11vw + 12vh - 13vmin + 14vmax - 15%)",
+                name + " : " + style.getPropertyValue(name));
+    }
+
+    @Test
     public void calcComplex() throws Exception {
         final String cssText = "width: calc(14.1pc * 40mm / 1.2)";
 
@@ -1548,13 +1633,15 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final String expected = "Error in declaration. (Invalid token \"}\". Was expecting one of: <S>, \":\".)"
                 + " Error in declaration. (Invalid token \";\". Was expecting one of: <S>, \":\".)"
                 + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
-                        + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, "
+                        + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
+                        + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
-                        + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, "
+                        + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
+                        + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
@@ -1849,7 +1936,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in expression. "
                 + "(Invalid token \"\\'\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
-                        + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, "
+                        + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
+                        + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
@@ -2256,6 +2344,51 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void dimensionREM() throws Exception {
         final CSSValueImpl value = dimension("17rem");
         Assert.assertEquals(CSSPrimitiveValueType.CSS_UNKNOWN, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionCh() throws Exception {
+        final CSSValueImpl value = dimension("17ch");
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_CH, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionVw() throws Exception {
+        final CSSValueImpl value = dimension("17vw");
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_VW, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionVh() throws Exception {
+        final CSSValueImpl value = dimension("17vh");
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_VH, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionVMin() throws Exception {
+        final CSSValueImpl value = dimension("17vmin");
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_VMIN, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionVMax() throws Exception {
+        final CSSValueImpl value = dimension("17vmax");
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_VMAX, value.getPrimitiveType());
     }
 
     /**

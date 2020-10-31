@@ -240,9 +240,6 @@ TOKEN_MGR_DECLS :
 // U        v|\\0{0,4}(55|76)(\r\n|[ \t\r\n\f])?|\\v
 | < #U_LETTER: "u" | "\\" ("0")? ("0")? ("0")? ("0")? ( "55" | "75" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "u" >
 
-// V        v|\\0{0,4}(56|76)(\r\n|[ \t\r\n\f])?|\\v
-| < #V_LETTER: "v" | "\\" ("0")? ("0")? ("0")? ("0")? ( "56" | "76" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "v" >
-
 // X        x|\\0{0,4}(58|78)(\r\n|[ \t\r\n\f])?|\\x
 | < #X_LETTER: "x" | "\\" ("0")? ("0")? ("0")? ("0")? ( "58" | "78" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "x" >
 
@@ -324,10 +321,25 @@ TOKEN_MGR_DECLS :
 | < EMS: <NUM> <E_LETTER> <M_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
 // {num}{R}{E}{M}       {return REM;}
-| < REM: <NUM> <R_LETTER> <E_LETTER> <M_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < REM: <NUM> "rem" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
 
 // {num}{E}{X}          {return EXS;}
 | < EXS: <NUM> <E_LETTER> <X_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{C}{H}          {return CH;}
+| < CH: <NUM> "ch" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{V}{W}          {return VW;}
+| < VW: <NUM> "vw" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{V}{H}          {return VH;}
+| < VH: <NUM> "vh" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+
+// {num}{V}{M}{I}{N}    {return VMIN;}
+| < VMIN: <NUM> "vmin" > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
+
+// {num}{V}{M}{I}{N}    {return VMAX;}
+| < VMAX: <NUM> "vmax" > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
 
 // {num}{P}{X}          {return LENGTH;}
 | < LENGTH_PX: <NUM> <P_LETTER> <X_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
@@ -378,7 +390,7 @@ TOKEN_MGR_DECLS :
 | < PERCENTAGE: <NUM> "%" > { matchedToken.image = ParserUtils.trimBy(image, 0, 1); }
 
 // {num}{ident}         {return DIMENSION;}
-| < DIMENSION: <NUM> <IDENT> >
+| < DIMENSION: <NUM> <NMSTART> ( ["a"-"z","0"-"9"] | <NONASCII> | <ESCAPE> )* >
 
 | < #H_PLACEHOLDER: (<H> | "?"){1,6} >
 | < UNICODE_RANGE: "u+" <H_PLACEHOLDER > (< MINUS > < H_PLACEHOLDER >)? >
@@ -2000,6 +2012,11 @@ LexicalUnit dimension(LexicalUnit prev, char op) :
         | t = <EMS>               { value = LexicalUnitImpl.createEm(prev, doubleValue(op, t.image)); }
         | t = <REM>               { value = LexicalUnitImpl.createRem(prev, doubleValue(op, t.image)); }
         | t = <EXS>               { value = LexicalUnitImpl.createEx(prev, doubleValue(op, t.image)); }
+        | t = <CH>                { value = LexicalUnitImpl.createCh(prev, doubleValue(op, t.image)); }
+        | t = <VW>                { value = LexicalUnitImpl.createVw(prev, doubleValue(op, t.image)); }
+        | t = <VH>                { value = LexicalUnitImpl.createVh(prev, doubleValue(op, t.image)); }
+        | t = <VMIN>              { value = LexicalUnitImpl.createVMin(prev, doubleValue(op, t.image)); }
+        | t = <VMAX>              { value = LexicalUnitImpl.createVMax(prev, doubleValue(op, t.image)); }
         | t = <ANGLE_DEG>         { value = LexicalUnitImpl.createDegree(prev, doubleValue(op, t.image)); }
         | t = <ANGLE_RAD>         { value = LexicalUnitImpl.createRadian(prev, doubleValue(op, t.image)); }
         | t = <ANGLE_GRAD>        { value = LexicalUnitImpl.createGradian(prev, doubleValue(op, t.image)); }
@@ -2111,6 +2128,26 @@ void appendUnit(Token t, StringBuilder sb) {
     }
     if (t.kind == EXS) {
       sb.append("ex");
+      return;
+    }
+    if (t.kind == CH) {
+      sb.append("ch");
+      return;
+    }
+    if (t.kind == VW) {
+      sb.append("vw");
+      return;
+    }
+    if (t.kind == VH) {
+      sb.append("vh");
+      return;
+    }
+    if (t.kind == VMIN) {
+      sb.append("vmin");
+      return;
+    }
+    if (t.kind == VMAX) {
+      sb.append("vmax");
       return;
     }
     if (t.kind == LENGTH_PX) {
