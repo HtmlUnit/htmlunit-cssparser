@@ -2343,7 +2343,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionREM() throws Exception {
         final CSSValueImpl value = dimension("17rem");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_UNKNOWN, value.getPrimitiveType());
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_REM, value.getPrimitiveType());
     }
 
     /**

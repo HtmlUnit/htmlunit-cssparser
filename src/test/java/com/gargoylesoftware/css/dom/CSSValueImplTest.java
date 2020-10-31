@@ -534,7 +534,7 @@ public class CSSValueImplTest {
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2rem", value.getCssText());
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_UNKNOWN, value.getPrimitiveType());
+        Assert.assertEquals(CSSPrimitiveValueType.CSS_REM, value.getPrimitiveType());
         Assert.assertEquals(LexicalUnit.LexicalUnitType.REM, value.getLexicalUnitType());
         Assert.assertEquals(1.2, value.getDoubleValue(), 0.00001);
         try {
