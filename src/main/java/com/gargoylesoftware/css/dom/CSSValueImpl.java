@@ -48,7 +48,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         CSS_INHERIT,
 
         /** CSS_PRIMITIVE_VALUE. */
-        CSS_PRIMITIVE_VALUE;
+        CSS_PRIMITIVE_VALUE
     }
 
     /**

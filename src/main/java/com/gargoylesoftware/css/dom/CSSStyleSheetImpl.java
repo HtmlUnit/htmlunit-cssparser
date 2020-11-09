@@ -474,7 +474,7 @@ public class CSSStyleSheetImpl implements Serializable {
          */
         public CSSStyleSheetRuleIndex addMedia(final MediaListImpl mediaList) {
             final String media = mediaList.getMediaText();
-            for (CSSStyleSheetRuleIndex cssStyleSheetRuleIndex : children_) {
+            for (final CSSStyleSheetRuleIndex cssStyleSheetRuleIndex : children_) {
                 if (media.equals(cssStyleSheetRuleIndex.getMediaList().getMediaText())) {
                     return cssStyleSheetRuleIndex;
                 }
@@ -531,7 +531,7 @@ public class CSSStyleSheetImpl implements Serializable {
             }
 
             if (classes != null) {
-                for (String clazz : classes) {
+                for (final String clazz : classes) {
                     selectors = index.classSelectors_.get("." + clazz);
                     if (selectors != null && !selectors.isEmpty()) {
                         iterators_.add(selectors.iterator());

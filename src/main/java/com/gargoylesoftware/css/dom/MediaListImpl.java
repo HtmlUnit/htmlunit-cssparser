@@ -57,7 +57,7 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
     public String getMediaText() {
         final StringBuilder sb = new StringBuilder("");
         boolean isNotFirst = false;
-        for (MediaQuery mediaQuery : mediaQueries_) {
+        for (final MediaQuery mediaQuery : mediaQueries_) {
             if (isNotFirst) {
                 sb.append(", ");
             }
@@ -118,7 +118,7 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
      */
     public void setMedia(final List<String> media) {
         mediaQueries_.clear();
-        for (String medium : media) {
+        for (final String medium : media) {
             mediaQueries_.add(new MediaQuery(medium));
         }
     }
@@ -135,7 +135,7 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
         }
 
         int i = 0;
-        for (MediaQuery mediaQuery : mediaQueries_) {
+        for (final MediaQuery mediaQuery : mediaQueries_) {
             final String m1 = mediaQuery.getMedia();
             final String m2 = ml.mediaQuery(i).getMedia();
             if (!LangUtils.equals(m1, m2)) {

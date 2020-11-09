@@ -101,7 +101,7 @@ public class MediaQuery extends AbstractLocatable implements Serializable {
 
         sb.append(getMedia());
 
-        for (Property prop : properties_) {
+        for (final Property prop : properties_) {
             sb.append(" and (")
                 .append(prop.toString())
                 .append(')');

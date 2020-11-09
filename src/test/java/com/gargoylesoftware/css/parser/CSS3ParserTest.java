@@ -1170,7 +1170,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 name + " : " + style.getPropertyValue(name));
     }
 
-
     @Test
     public void calcUnits() throws Exception {
         final String cssText = "width: calc(1cm + 2mm - 3in + 4px - 5pt + 6pc"
@@ -1382,19 +1381,19 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         expression("h1 { top: var(--tailwind-empty,, blue,, red) }");
     }
 
-    private void expression(String cssText) throws Exception {
+    private void expression(final String cssText) throws Exception {
         expression(cssText, 0, 0, 0, cssText);
     }
 
-    private void expression(String cssText, String expected) throws Exception {
+    private void expression(final String cssText, final String expected) throws Exception {
         expression(cssText, 0, 0, 0, expected);
     }
 
-    private void expression(String cssText, final int err, final int fatal, final int warn) throws Exception {
+    private void expression(final String cssText, final int err, final int fatal, final int warn) throws Exception {
         expression(cssText, err, fatal, warn, cssText);
     }
 
-    private void expression(String cssText, final int err, final int fatal, final int warn, String expected) throws Exception {
+    private void expression(final String cssText, final int err, final int fatal, final int warn, final String expected) throws Exception {
         final CSSStyleSheetImpl sheet = parse(cssText, err, fatal, warn);
 
         if (err == 0) {
@@ -3875,7 +3874,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
             }
         }
         final StringBuilder queries = new StringBuilder();
-        for (String string : mediaQ) {
+        for (final String string : mediaQ) {
             queries.append(string);
             queries.append(";");
         }

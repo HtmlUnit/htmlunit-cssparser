@@ -78,7 +78,7 @@ public class CSSRuleListImpl implements Serializable {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        for (AbstractCSSRuleImpl rule : rules_) {
+        for (final AbstractCSSRuleImpl rule : rules_) {
             if (sb.length() > 0) {
                 sb.append("\r\n");
             }
@@ -104,7 +104,7 @@ public class CSSRuleListImpl implements Serializable {
             return false;
         }
         int i = 0;
-        for (AbstractCSSRuleImpl rule : rules_) {
+        for (final AbstractCSSRuleImpl rule : rules_) {
             final AbstractCSSRuleImpl cssRule2 = crl.rules_.get(i);
             if (!LangUtils.equals(rule, cssRule2)) {
                 return false;

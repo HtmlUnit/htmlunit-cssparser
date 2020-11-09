@@ -247,7 +247,7 @@ public class CSSStyleDeclarationImpl implements Serializable {
         if ((csd == null) || (getLength() != csd.getLength())) {
             return false;
         }
-        for (Property property : properties_) {
+        for (final Property property : properties_) {
             final String propertyName = property.getName();
             // CSSValue propertyCSSValue1 = getPropertyCSSValue(propertyName);
             // CSSValue propertyCSSValue2 = csd.getPropertyCSSValue(propertyName);

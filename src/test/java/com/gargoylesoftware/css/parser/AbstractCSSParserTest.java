@@ -60,7 +60,7 @@ public abstract class AbstractCSSParserTest {
     private Locale systemLocale_;
 
     /**
-     * {@inheritDoc}
+     * Before each test.
      */
     @Before
     public void setUp() {
@@ -69,7 +69,7 @@ public abstract class AbstractCSSParserTest {
     }
 
     /**
-     * {@inheritDoc}
+     * After each test.
      */
     @After
     public void tearDown() {
