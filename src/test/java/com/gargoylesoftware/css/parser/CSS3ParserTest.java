@@ -1110,6 +1110,22 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final String name = style.getProperties().get(0).getName();
         Assert.assertEquals("content : attr(data-foo)", name + " : " + style.getPropertyValue(name));
     }
+    
+    
+    @Test
+	public void calcSumParseStyleSheet() throws Exception {
+		String cssText = "p{height:calc(100vh - 72px)}";
+
+		CSSOMParser parser = new CSSOMParser();
+		ErrorHandler errorHandler = new ErrorHandler();
+		parser.setErrorHandler(errorHandler);
+		final Reader reader = new StringReader(cssText);
+		final InputSource is = new InputSource(reader);
+		parser.parseStyleSheet(is, null);
+		
+		System.out.println(errorHandler.getErrorMessage());
+		Assert.assertEquals(0, errorHandler.getErrorCount());
+	}
 
     /**
      * @see <a href="http://www.w3.org/TR/CSS21/generate.html#counters">
