@@ -20,6 +20,7 @@ import org.w3c.dom.DOMException;
 
 import com.gargoylesoftware.css.parser.LexicalUnit;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
+import com.gargoylesoftware.css.parser.LexicalUnitImpl;
 
 /**
  * Implementation of Counter.
@@ -28,9 +29,11 @@ import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
  */
 public class CounterImpl implements Serializable {
 
-    private String identifier_;
+	private static final long serialVersionUID = 1L;
+	private String identifier_;
     private String listStyle_;
     private String separator_;
+    private char separatorQuoting_;
 
     /**
      * Creates new CounterImpl.
@@ -51,6 +54,7 @@ public class CounterImpl implements Serializable {
             next = next.getNextLexicalUnit();
             if (separatorSpecified && (next != null)) {
                 separator_ = next.getStringValue();
+                separatorQuoting_ = ((LexicalUnitImpl) next).getQuoting();
                 next = next.getNextLexicalUnit();   // ','
                 if (next != null) {
                     if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_COMMA) {
@@ -93,6 +97,13 @@ public class CounterImpl implements Serializable {
     public String getSeparator() {
         return separator_;
     }
+    
+    /**
+     * @return the separator Quoting
+     */
+    public char getSeparatorQuoting() {
+        return separatorQuoting_;
+      }
 
     @Override
     public String toString() {

@@ -26,7 +26,8 @@ import java.util.Locale;
  */
 public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, Serializable {
 
-    private LexicalUnitType lexicalUnitType_;
+	private static final long serialVersionUID = 1L;
+	private LexicalUnitType lexicalUnitType_;
     private LexicalUnit nextLexicalUnit_;
     private LexicalUnit previousLexicalUnit_;
     private double doubleValue_;
@@ -34,6 +35,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     private String functionName_;
     private LexicalUnit parameters_;
     private String stringValue_;
+    private char quoting_;
 
     /** cache */
     private transient String toString_;
@@ -153,7 +155,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         dimension_ = dimension;
         doubleValue_ = value;
     }
-
+    
     /**
      * String.
      *
@@ -165,6 +167,17 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         this(previous, type);
         stringValue_ = value;
     }
+
+	/**
+	 * Quoted string
+	 */
+	protected LexicalUnitImpl(final LexicalUnit previous, final LexicalUnitType type, final String value,
+			final char quoting) {
+		this(previous, type);
+		stringValue_ = value;
+		quoting_ = quoting;
+	}
+
 
     /**
      * Function.
@@ -295,6 +308,10 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     public LexicalUnit getSubValues() {
         return parameters_;
     }
+    
+	public char getQuoting() {
+		return quoting_;
+	}
 
     /**
      * @return the current css text
@@ -1034,6 +1051,16 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     public static LexicalUnit createString(final LexicalUnit prev, final String value) {
         return new LexicalUnitImpl(prev, LexicalUnitType.STRING_VALUE, value);
     }
+    
+    /**
+     * @param prev the previous LexicalUnit
+     * @param value the value
+     * @param quoting the quoting
+     * @return lexical unit with type string
+     */
+    public static LexicalUnit createString(final LexicalUnit prev, final String value, final char quoting) {
+    	return new LexicalUnitImpl(prev, LexicalUnitType.STRING_VALUE, value, quoting);
+    }
 
     /**
      * @param prev the previous LexicalUnit
@@ -1051,6 +1078,16 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
      */
     public static LexicalUnit createURI(final LexicalUnit prev, final String value) {
         return new LexicalUnitImpl(prev, LexicalUnitType.URI, value);
+    }
+    
+    /**
+     * @param prev the previous LexicalUnit
+     * @param value the value
+     * @param quoting the quoting
+     * @return lexical unit with type uri
+     */
+    public static LexicalUnit createURI(final LexicalUnit prev, final String value, final char quoting) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.URI, value, quoting);
     }
 
     /**
