@@ -398,7 +398,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(subs.css);", rule.getCssText());
+        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
         Assert.assertEquals("h1 { color: blue }", rule.getCssText());
@@ -424,7 +424,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(subs.css);", rule.getCssText());
+        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
         Assert.assertEquals("h1 { color: blue }", rule.getCssText());
@@ -449,7 +449,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(2, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(subs.css);", rule.getCssText());
+        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
         Assert.assertEquals("h2 { color: red }", rule.getCssText());
@@ -468,7 +468,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(subs.css);", rule.getCssText());
+        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
     }
 
     /**
@@ -484,13 +484,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(subs.css);", rule.getCssText());
+        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("@import url(subs1.css);", rule.getCssText());
+        Assert.assertEquals("@import url(\"subs1.css\");", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("@import url(subs2.css);", rule.getCssText());
+        Assert.assertEquals("@import url(\"subs2.css\");", rule.getCssText());
     }
 
     /**
@@ -761,7 +761,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(subs.css);", rule.getCssText());
+        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
         Assert.assertEquals("h1 { color: blue }", rule.getCssText());
@@ -807,7 +807,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(subs.css);", rule.getCssText());
+        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
         Assert.assertEquals("@media print {body { font-size: 10pt } }", rule.getCssText());
@@ -852,7 +852,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(subs.css);", rule.getCssText());
+        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
         Assert.assertEquals("@media print {body { font-size: 10pt } }", rule.getCssText());

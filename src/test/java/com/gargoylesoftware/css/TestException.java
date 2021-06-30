@@ -59,7 +59,7 @@ public class TestException {
         Assert.assertEquals(3, rules.getLength());
 
         Assert.assertEquals("@charset \"US-ASCII\";", rules.getRules().get(0).getCssText());
-        Assert.assertEquals("@import url(http://www.steadystate.com/primary.css);", rules.getRules().get(1).getCssText());
+        Assert.assertEquals("@import url(\"http://www.steadystate.com/primary.css\");", rules.getRules().get(1).getCssText());
         Assert.assertEquals("P { color: blue }", rules.getRules().get(2).getCssText());
 
         stylesheet.deleteRule(1);

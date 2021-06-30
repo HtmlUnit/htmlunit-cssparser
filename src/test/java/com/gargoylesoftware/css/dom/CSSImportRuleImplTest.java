@@ -36,8 +36,8 @@ public class CSSImportRuleImplTest {
     public void getCssText() throws Exception {
         final CSSImportRuleImpl value = parseImportRule("@import \"ext.css\";");
 
-        Assert.assertEquals("@import url(ext.css);", value.getCssText());
-        Assert.assertEquals("@import url(ext.css);", value.toString());
+        Assert.assertEquals("@import url(\"ext.css\");", value.getCssText());
+        Assert.assertEquals("@import url(\"ext.css\");", value.toString());
     }
 
     /**
@@ -47,12 +47,12 @@ public class CSSImportRuleImplTest {
     public void setCssText() throws Exception {
         final CSSImportRuleImpl value = parseImportRule("@import \"ext.css\";");
 
-        Assert.assertEquals("@import url(ext.css);", value.getCssText());
-        Assert.assertEquals("@import url(ext.css);", value.toString());
+        Assert.assertEquals("@import url(\"ext.css\");", value.getCssText());
+        Assert.assertEquals("@import url(\"ext.css\");", value.toString());
 
-        value.setCssText("@import url(cool.css);");
-        Assert.assertEquals("@import url(cool.css);", value.getCssText());
-        Assert.assertEquals("@import url(cool.css);", value.toString());
+        value.setCssText("@import url(\"cool.css\");");
+        Assert.assertEquals("@import url(\"cool.css\");", value.getCssText());
+        Assert.assertEquals("@import url(\"cool.css\");", value.toString());
 
     }
 
@@ -90,7 +90,7 @@ public class CSSImportRuleImplTest {
     public void getCssTextFormated() throws Exception {
         final CSSImportRuleImpl value = parseImportRule("@import \"ext.css\";");
 
-        Assert.assertEquals("@import url(ext.css);", value.toString());
-        Assert.assertEquals("@import url(ext.css);", value.getCssText());
+        Assert.assertEquals("@import url(\"ext.css\");", value.toString());
+        Assert.assertEquals("@import url(\"ext.css\");", value.getCssText());
     }
 }
