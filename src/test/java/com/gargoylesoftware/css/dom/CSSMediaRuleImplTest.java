@@ -40,7 +40,7 @@ public class CSSMediaRuleImplTest {
         final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
         final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().getRules().get(0);
 
-        Assert.assertEquals("@media print {body { font-size: 10pt } }", mediaRule.getCssText());
+        Assert.assertEquals("@media print {\n  body { font-size: 10pt }\n}", mediaRule.getCssText());
     }
 
     /**
@@ -188,6 +188,6 @@ public class CSSMediaRuleImplTest {
         final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
         final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().getRules().get(0);
 
-        Assert.assertEquals("@media print {body { font-size: 10pt } }", mediaRule.toString());
+        Assert.assertEquals("@media print {\n  body { font-size: 10pt }\n}", mediaRule.toString());
     }
 }

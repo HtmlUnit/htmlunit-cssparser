@@ -241,16 +241,16 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         Assert.assertEquals(1, sheet.getCssRules().getLength());
 
         Assert.assertEquals(1, sheet.getMedia().getLength());
-        Assert.assertEquals("all", sheet.getMedia().toString());
+        Assert.assertEquals("", sheet.getMedia().toString());
 
         final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(0);
         Assert.assertTrue(cssRule instanceof CSSMediaRuleImpl);
 
         final MediaListImpl mediaListImpl = ((CSSMediaRuleImpl) cssRule).getMediaList();
-        Assert.assertEquals("all and (color)", mediaListImpl.getMediaText());
+        Assert.assertEquals("(color)", mediaListImpl.getMediaText());
         Assert.assertEquals(1, mediaListImpl.getLength());
         Assert.assertEquals("all", mediaListImpl.mediaQuery(0).getMedia());
-        Assert.assertEquals("all and (color)", mediaListImpl.mediaQuery(0).toString());
+        Assert.assertEquals("(color)", mediaListImpl.mediaQuery(0).toString());
         Assert.assertEquals(1, mediaListImpl.mediaQuery(0).getProperties().size());
         Assert.assertEquals("color", mediaListImpl.mediaQuery(0).getProperties().get(0).toString());
     }

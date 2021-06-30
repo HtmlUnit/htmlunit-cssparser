@@ -76,7 +76,7 @@ public class TestException {
 
         Assert.assertEquals(3, rules.getLength());
         Assert.assertEquals("@charset \"US-ASCII\";", rules.getRules().get(0).getCssText());
-        Assert.assertEquals("@media speech {h1 { voice: male } }", rules.getRules().get(1).getCssText());
+        Assert.assertEquals("@media speech {\n  h1 { voice: male }\n}", rules.getRules().get(1).getCssText());
         Assert.assertEquals("h2 { smell: strong }", rules.getRules().get(2).getCssText());
 
         rule = rules.getRules().get(1);
