@@ -77,7 +77,7 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
             return selectorText + " { }";
         }
 
-        return selectorText + " { " + styleText + " }";
+        return selectorText + " { " + styleText + "; }";
     }
 
     /**

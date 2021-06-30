@@ -40,7 +40,7 @@ public class CSSOMParserTest {
 
     private String testStyleDeclaration_ = "align: right";
     private String testParseMedia_ = "print, screen";
-    private String testParseRule_ = "p { " + testStyleDeclaration_ + " }";
+    private String testParseRule_ = "p { " + testStyleDeclaration_ + "; }";
     private String testSelector_ = "FOO";
     private String testItem_ = "color";
     private String testValue_ = "rgb(1, 2, 3)";
@@ -102,11 +102,11 @@ public class CSSOMParserTest {
 
         AbstractCSSRuleImpl rule = rl.getRules().get(0);
         CSSStyleRuleImpl sr = (CSSStyleRuleImpl) rule;
-        Assert.assertEquals("p { filter: alpha(opacity = 33.3); opacity: 0.333 }", sr.getCssText());
+        Assert.assertEquals("p { filter: alpha(opacity = 33.3); opacity: 0.333; }", sr.getCssText());
 
         rule = rl.getRules().get(1);
         sr = (CSSStyleRuleImpl) rule;
-        Assert.assertEquals("a { color: rgb(18, 52, 86) }", sr.getCssText());
+        Assert.assertEquals("a { color: rgb(18, 52, 86); }", sr.getCssText());
     }
 
     /**
@@ -488,7 +488,7 @@ public class CSSOMParserTest {
         Assert.assertEquals("p { background: rgb(0, 0, 0); "
                 + "background-repeat: repeat-y; "
                 + "background: url(img/test.png) no-repeat; "
-                + "background-size: 190px 48px }",
+                + "background-size: 190px 48px; }",
                 sheet.toString().trim());
 
         final CSSRuleListImpl rules = sheet.getCssRules();

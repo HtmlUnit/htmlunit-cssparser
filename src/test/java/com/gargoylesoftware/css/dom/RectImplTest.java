@@ -164,7 +164,7 @@ public class RectImplTest {
      */
     @Test
     public void parseRule() throws Exception {
-        final String testRule = "img { clip: rect(1px, 2px, -3px, 4px) }";
+        final String testRule = "img { clip: rect(1px, 2px, -3px, 4px); }";
         final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule(testRule);
 
         Assert.assertEquals(testRule, rule.getCssText());

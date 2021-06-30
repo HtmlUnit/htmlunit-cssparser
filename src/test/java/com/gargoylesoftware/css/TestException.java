@@ -60,24 +60,24 @@ public class TestException {
 
         Assert.assertEquals("@charset \"US-ASCII\";", rules.getRules().get(0).getCssText());
         Assert.assertEquals("@import url(\"http://www.steadystate.com/primary.css\");", rules.getRules().get(1).getCssText());
-        Assert.assertEquals("P { color: blue }", rules.getRules().get(2).getCssText());
+        Assert.assertEquals("P { color: blue; }", rules.getRules().get(2).getCssText());
 
         stylesheet.deleteRule(1);
 
         Assert.assertEquals(2, rules.getLength());
         Assert.assertEquals("@charset \"US-ASCII\";", rules.getRules().get(0).getCssText());
-        Assert.assertEquals("P { color: blue }", rules.getRules().get(1).getCssText());
+        Assert.assertEquals("P { color: blue; }", rules.getRules().get(1).getCssText());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(1);
         rule.setCssText("h2 { smell: strong }");
-        Assert.assertEquals("h2 { smell: strong }", rules.getRules().get(1).getCssText());
+        Assert.assertEquals("h2 { smell: strong; }", rules.getRules().get(1).getCssText());
 
         stylesheet.insertRule("@media speech { h1 { voice: male } }", 1);
 
         Assert.assertEquals(3, rules.getLength());
         Assert.assertEquals("@charset \"US-ASCII\";", rules.getRules().get(0).getCssText());
-        Assert.assertEquals("@media speech {\n  h1 { voice: male }\n}", rules.getRules().get(1).getCssText());
-        Assert.assertEquals("h2 { smell: strong }", rules.getRules().get(2).getCssText());
+        Assert.assertEquals("@media speech {\n  h1 { voice: male; }\n}", rules.getRules().get(1).getCssText());
+        Assert.assertEquals("h2 { smell: strong; }", rules.getRules().get(2).getCssText());
 
         rule = rules.getRules().get(1);
         ((CSSMediaRuleImpl) rule).insertRule("p { voice: female }", 1);

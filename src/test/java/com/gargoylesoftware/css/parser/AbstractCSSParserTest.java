@@ -289,7 +289,7 @@ public abstract class AbstractCSSParserTest {
     }
 
     protected CSSValueImpl dimension(final String dim) throws Exception {
-        final String css = "*.dim { top: " + dim + " }";
+        final String css = "*.dim { top: " + dim + "; }";
 
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
