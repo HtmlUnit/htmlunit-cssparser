@@ -241,21 +241,21 @@ public class CSSOMParserTest {
     @Test
     public void urlGreedy() throws Exception {
         Assert.assertEquals(
-            "background: url(images/bottom-angle.png); background-image: url(background.png)",
+            "background: url(\"images/bottom-angle.png\"); background-image: url(\"background.png\")",
             getCssTextFromDeclaration(
                     new CSS3Parser(),
                     "background:url('images/bottom-angle.png');background-image:url('background.png');"));
         Assert.assertEquals(
-            "background: url(images/bottom-angle.png); background-image: url(background.png)",
+            "background: url(\"images/bottom-angle.png\"); background-image: url(\"background.png\")",
             getCssTextFromDeclaration(
                     new CSS3Parser(),
                     "background:url(\"images/bottom-angle.png\");background-image:url(\"background.png\");"));
         Assert.assertEquals(
-            "background: rgb(60, 90, 118) url(/images/status_bg.png?2) no-repeat center; "
+            "background: rgb(60, 90, 118) url(\"/images/status_bg.png?2\") no-repeat center; "
             + "font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif",
             getCssTextFromDeclaration(
                     new CSS3Parser(),
-                    "background:#3c5a76 url('/images/status_bg.png?2') no-repeat center;"
+                    "background:#3c5a76 url(\"/images/status_bg.png?2\") no-repeat center;"
                     + "font-family:Arial,'Helvetica Neue',Helvetica,sans-serif"));
     }
 
@@ -286,14 +286,14 @@ public class CSSOMParserTest {
     @Test
     public void colorFirst() throws Exception {
         Assert.assertEquals(
-            "background: rgb(232, 239, 245) url(images/bottom-angle.png) no-repeat",
+            "background: rgb(232, 239, 245) url(\"images/bottom-angle.png\") no-repeat",
             getCssTextFromDeclaration(new CSS3Parser(),
                     "background: #e8eff5 url(images/bottom-angle.png) no-repeat"));
         Assert.assertEquals(
-            "background: red url(images/bottom-angle.png) no-repeat",
+            "background: red url(\"images/bottom-angle.png\") no-repeat",
             getCssTextFromDeclaration(new CSS3Parser(), "background: red url(images/bottom-angle.png) no-repeat"));
         Assert.assertEquals(
-            "background: rgb(8, 3, 6) url(images/bottom-angle.png) no-repeat",
+            "background: rgb(8, 3, 6) url(\"images/bottom-angle.png\") no-repeat",
             getCssTextFromDeclaration(new CSS3Parser(),
                     "background: rgb(8, 3, 6) url(images/bottom-angle.png) no-repeat"));
     }
@@ -487,7 +487,7 @@ public class CSSOMParserTest {
 
         Assert.assertEquals("p { background: rgb(0, 0, 0); "
                 + "background-repeat: repeat-y; "
-                + "background: url(img/test.png) no-repeat; "
+                + "background: url(\"img/test.png\") no-repeat; "
                 + "background-size: 190px 48px; }",
                 sheet.toString().trim());
 
@@ -501,13 +501,13 @@ public class CSSOMParserTest {
         Assert.assertEquals(4, declImpl.getLength());
 
         Assert.assertEquals("background", declImpl.getProperties().get(0).getName());
-        Assert.assertEquals("url(img/test.png) no-repeat", declImpl.getPropertyCSSValue("background").getCssText());
+        Assert.assertEquals("url(\"img/test.png\") no-repeat", declImpl.getPropertyCSSValue("background").getCssText());
 
         Assert.assertEquals("background-repeat", declImpl.getProperties().get(1).getName());
         Assert.assertEquals("repeat-y", declImpl.getPropertyCSSValue("background-repeat").getCssText());
 
         Assert.assertEquals("background", declImpl.getProperties().get(2).getName());
-        Assert.assertEquals("url(img/test.png) no-repeat", declImpl.getPropertyCSSValue("background").getCssText());
+        Assert.assertEquals("url(\"img/test.png\") no-repeat", declImpl.getPropertyCSSValue("background").getCssText());
 
         Assert.assertEquals("background-size", declImpl.getProperties().get(3).getName());
         Assert.assertEquals("190px 48px", declImpl.getPropertyCSSValue("background-size").getCssText());
@@ -525,7 +525,7 @@ public class CSSOMParserTest {
 
         prop = declImpl.getProperties().get(2);
         Assert.assertEquals("background", prop.getName());
-        Assert.assertEquals("url(img/test.png) no-repeat", prop.getValue().getCssText());
+        Assert.assertEquals("url(\"img/test.png\") no-repeat", prop.getValue().getCssText());
 
         prop = declImpl.getProperties().get(3);
         Assert.assertEquals("background-size", prop.getName());

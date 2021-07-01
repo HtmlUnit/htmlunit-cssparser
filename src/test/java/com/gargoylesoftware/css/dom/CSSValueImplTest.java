@@ -728,7 +728,7 @@ public class CSSValueImplTest {
         final LexicalUnit lu = LexicalUnitImpl.createURI(null, "cssparser");
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
-        Assert.assertEquals("url(cssparser)", value.getCssText());
+        Assert.assertEquals("url(\"cssparser\")", value.getCssText());
         Assert.assertEquals(CSSPrimitiveValueType.CSS_URI, value.getPrimitiveType());
         Assert.assertEquals(LexicalUnit.LexicalUnitType.URI, value.getLexicalUnitType());
         Assert.assertEquals(0.0, value.getDoubleValue(), 0.00001);

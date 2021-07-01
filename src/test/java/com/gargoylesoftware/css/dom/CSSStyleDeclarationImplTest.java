@@ -196,10 +196,10 @@ public class CSSStyleDeclarationImplTest {
     public void emptyUrl() throws Exception {
         final CSSStyleDeclarationImpl style = parseStyleDeclaration("background: url()");
 
-        Assert.assertEquals("background: url()", style.getCssText());
+        Assert.assertEquals("background: url(\"\")", style.getCssText());
         Assert.assertEquals(1, style.getLength());
         Assert.assertEquals("background", style.getProperties().get(0).getName());
-        Assert.assertEquals("url()", style.getPropertyValue("background"));
+        Assert.assertEquals("url(\"\")", style.getPropertyValue("background"));
     }
 
     /**

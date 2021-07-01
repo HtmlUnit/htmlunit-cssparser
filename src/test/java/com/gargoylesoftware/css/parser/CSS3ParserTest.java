@@ -583,7 +583,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face {font-family: Gentium; src: url(http://example.com/fonts/Gentium.ttf)}",
+        Assert.assertEquals("@font-face { font-family: Gentium; src: url(\"http://example.com/fonts/Gentium.ttf\"); }",
                 rule.getCssText());
     }
 
@@ -600,7 +600,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face {font-family: Gentium; unicode-range: U+26}",
+        Assert.assertEquals("@font-face { font-family: Gentium; unicode-range: U+26; }",
                 rule.getCssText());
     }
 
@@ -617,7 +617,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face {font-family: Gentium; unicode-range: U+4?}",
+        Assert.assertEquals("@font-face { font-family: Gentium; unicode-range: U+4?; }",
                 rule.getCssText());
     }
 
@@ -634,7 +634,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face {font-family: Gentium; unicode-range: U+0-7F}",
+        Assert.assertEquals("@font-face { font-family: Gentium; unicode-range: U+0-7F; }",
                 rule.getCssText());
     }
 
@@ -651,7 +651,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face {font-family: Gentium; unicode-range: U+0025-00FF}",
+        Assert.assertEquals("@font-face { font-family: Gentium; unicode-range: U+0025-00FF; }",
                 rule.getCssText());
     }
 
@@ -668,7 +668,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face {font-family: Gentium; unicode-range: U+0025-0??F, U+4??}",
+        Assert.assertEquals("@font-face { font-family: Gentium; unicode-range: U+0025-0??F, U+4??; }",
                 rule.getCssText());
     }
 
@@ -689,8 +689,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face {font-family: Headline; "
-                + "src: local(Futura-Medium), url(fonts.svg#MyGeometricModern) format(\"svg\")}",
+        Assert.assertEquals("@font-face { font-family: Headline; "
+                + "src: local(Futura-Medium), url(\"fonts.svg#MyGeometricModern\") format(\"svg\"); }",
                 rule.getCssText());
     }
 
@@ -716,13 +716,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face {font-family: Pangolin; "
+        Assert.assertEquals("@font-face { font-family: Pangolin; "
                 + "font-style: normal; font-weight: 400; "
                 + "src: local(\"Indie Flower\"), local(\"IndieFlower\"), "
-                + "url(https://fonts.gstatic.com/s/indieflower/v9"
-                + "/10JVD_humAd5zP2yrFqw6ugdm0LZdjqr5-oayXSOefg.woff2) format(\"woff2\"); "
+                + "url(\"https://fonts.gstatic.com/s/indieflower/v9"
+                + "/10JVD_humAd5zP2yrFqw6ugdm0LZdjqr5-oayXSOefg.woff2\") format(\"woff2\"); "
                 + "unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, "
-                + "U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215}",
+                + "U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215; }",
                 rule.getCssText());
     }
 
@@ -2060,19 +2060,19 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(6, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("h1 { background: url(this is a 'string'); }", rule.getCssText());
+        Assert.assertEquals("h1 { background: url(\"this is a 'string'\"); }", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h2 { background: url(this is a \"string\"); }", rule.getCssText());
+        Assert.assertEquals("h2 { background: url(\"this is a \"string\"\"); }", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("h4 { background: url(this is a \"string\"); }", rule.getCssText());
+        Assert.assertEquals("h4 { background: url(\"this is a \"string\"\"); }", rule.getCssText());
 
         rule = rules.getRules().get(3);
-        Assert.assertEquals("h5 { background: url(this is a 'string'); }", rule.getCssText());
+        Assert.assertEquals("h5 { background: url(\"this is a 'string'\"); }", rule.getCssText());
 
         rule = rules.getRules().get(4);
-        Assert.assertEquals("h6 { background: url(this is a  string); }", rule.getCssText());
+        Assert.assertEquals("h6 { background: url(\"this is a  string\"); }", rule.getCssText());
 
         rule = rules.getRules().get(5);
         Assert.assertEquals("h1:before { content: \"chapter\\A hoofdstuk\\A  chapitre\"; }", rule.getCssText());
@@ -2094,16 +2094,16 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(4, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("h1 { background: url(); }", rule.getCssText());
+        Assert.assertEquals("h1 { background: url(\"\"); }", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h2 { background: url(); }", rule.getCssText());
+        Assert.assertEquals("h2 { background: url(\"\"); }", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("h4 { background: url(); }", rule.getCssText());
+        Assert.assertEquals("h4 { background: url(\"\"); }", rule.getCssText());
 
         rule = rules.getRules().get(3);
-        Assert.assertEquals("h5 { background: url(); }", rule.getCssText());
+        Assert.assertEquals("h5 { background: url(\"\"); }", rule.getCssText());
     }
 
     /**

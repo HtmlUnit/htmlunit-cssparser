@@ -1233,7 +1233,7 @@ public class LexicalUnitImplTest {
         Assert.assertNull(unit.getNextLexicalUnit());
         Assert.assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("url(www.wetator.org)", unit.toString());
+        Assert.assertEquals("url(\"www.wetator.org\")", unit.toString());
         Assert.assertEquals("URI(url(www.wetator.org))", ((LexicalUnitImpl) unit).toDebugString());
     }
 

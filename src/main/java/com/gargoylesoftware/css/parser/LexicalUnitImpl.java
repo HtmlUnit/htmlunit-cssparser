@@ -381,7 +381,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 }
                 break;
             case URI:
-                sb.append("url(").append(getStringValue()).append(")");
+                sb.append("url(\"").append(getStringValue()).append("\")");
                 break;
             case COUNTER_FUNCTION:
                 sb.append("counter(");
