@@ -742,7 +742,6 @@ MediaQuery mediaQuery() :
       p = mediaExpression()
       {
           s = "all";
-          handleMedium(s, null);
           mq = new MediaQuery(s, only, not);
           mq.setLocator(createLocator(token));
           mq.addMediaProperty(p);
@@ -808,14 +807,11 @@ void mediaRuleList() :
 String medium() :
 {
   Token t;
-  String medium;
 }
 {
     t = <IDENT> ( <S> )*
     {
-        medium = unescape(t.image, false);
-        handleMedium(medium, createLocator(t));
-        return medium;
+        return unescape(t.image, false);
     }
 }
 

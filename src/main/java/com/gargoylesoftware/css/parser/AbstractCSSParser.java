@@ -569,16 +569,6 @@ public abstract class AbstractCSSParser implements CSSParser {
     }
 
     /**
-     * medium handler.
-     *
-     * @param medium the medium
-     * @param locator the locator
-     */
-    protected void handleMedium(final String medium, final Locator locator) {
-        // empty default impl
-    }
-
-    /**
      * end media handler.
      *
      * @param media the media query list
