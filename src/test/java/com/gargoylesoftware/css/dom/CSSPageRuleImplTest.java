@@ -99,7 +99,7 @@ public class CSSPageRuleImplTest {
     public void type() throws Exception {
         final CSSPageRuleImpl value = new CSSPageRuleImpl(null, null, null);
 
-        Assert.assertEquals("@page {  }", value.toString());
+        Assert.assertEquals("@page { }", value.toString());
     }
 
     private CSSPageRuleImpl parsePageRule(final String pageRule) throws Exception {

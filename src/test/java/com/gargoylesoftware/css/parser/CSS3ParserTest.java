@@ -3431,25 +3431,25 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void unicode() throws Exception {
-        unicode("@p\\41ge :pageStyle {}", "@page :pageStyle {  }");
-        unicode("@p\\041ge :pageStyle {}", "@page :pageStyle {  }");
-        unicode("@p\\0041ge :pageStyle {}", "@page :pageStyle {  }");
-        unicode("@p\\00041ge :pageStyle {}", "@page :pageStyle {  }");
-        unicode("@p\\000041ge :pageStyle {}", "@page :pageStyle {  }");
+        unicode("@p\\41ge :pageStyle {}", "@page :pageStyle { }");
+        unicode("@p\\041ge :pageStyle {}", "@page :pageStyle { }");
+        unicode("@p\\0041ge :pageStyle {}", "@page :pageStyle { }");
+        unicode("@p\\00041ge :pageStyle {}", "@page :pageStyle { }");
+        unicode("@p\\000041ge :pageStyle {}", "@page :pageStyle { }");
 
         // \\0000041 - fails
         unicode("@p\\0000041ge :pageStyle {}", "@p\\0000041ge :pageStyle {}");
 
         // terminated by whitespace
-        unicode("@\\0070 age :pageStyle {}", "@page :pageStyle {  }");
-        unicode("@\\0070\tage :pageStyle {}", "@page :pageStyle {  }");
-        unicode("@\\0070\r\nage :pageStyle {}", "@page :pageStyle {  }");
+        unicode("@\\0070 age :pageStyle {}", "@page :pageStyle { }");
+        unicode("@\\0070\tage :pageStyle {}", "@page :pageStyle { }");
+        unicode("@\\0070\r\nage :pageStyle {}", "@page :pageStyle { }");
 
         // terminated by lenght
-        unicode("@\\000070age :pageStyle {}", "@page :pageStyle {  }");
+        unicode("@\\000070age :pageStyle {}", "@page :pageStyle { }");
 
         // backslash ignored
-        unicode("@\\page :pageStyle {}", "@page :pageStyle {  }");
+        unicode("@\\page :pageStyle {}", "@page :pageStyle { }");
     }
 
     /**
