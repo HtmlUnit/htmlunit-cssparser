@@ -1906,7 +1906,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@page :pageStyle {size: 21cm 29.7cm}", rule.getCssText());
+        Assert.assertEquals("@page :pageStyle { size: 21cm 29.7cm; }", rule.getCssText());
     }
 
     /**
@@ -3431,25 +3431,25 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void unicode() throws Exception {
-        unicode("@p\\41ge :pageStyle {}", "@page :pageStyle {}");
-        unicode("@p\\041ge :pageStyle {}", "@page :pageStyle {}");
-        unicode("@p\\0041ge :pageStyle {}", "@page :pageStyle {}");
-        unicode("@p\\00041ge :pageStyle {}", "@page :pageStyle {}");
-        unicode("@p\\000041ge :pageStyle {}", "@page :pageStyle {}");
+        unicode("@p\\41ge :pageStyle {}", "@page :pageStyle {  }");
+        unicode("@p\\041ge :pageStyle {}", "@page :pageStyle {  }");
+        unicode("@p\\0041ge :pageStyle {}", "@page :pageStyle {  }");
+        unicode("@p\\00041ge :pageStyle {}", "@page :pageStyle {  }");
+        unicode("@p\\000041ge :pageStyle {}", "@page :pageStyle {  }");
 
         // \\0000041 - fails
         unicode("@p\\0000041ge :pageStyle {}", "@p\\0000041ge :pageStyle {}");
 
         // terminated by whitespace
-        unicode("@\\0070 age :pageStyle {}", "@page :pageStyle {}");
-        unicode("@\\0070\tage :pageStyle {}", "@page :pageStyle {}");
-        unicode("@\\0070\r\nage :pageStyle {}", "@page :pageStyle {}");
+        unicode("@\\0070 age :pageStyle {}", "@page :pageStyle {  }");
+        unicode("@\\0070\tage :pageStyle {}", "@page :pageStyle {  }");
+        unicode("@\\0070\r\nage :pageStyle {}", "@page :pageStyle {  }");
 
         // terminated by lenght
-        unicode("@\\000070age :pageStyle {}", "@page :pageStyle {}");
+        unicode("@\\000070age :pageStyle {}", "@page :pageStyle {  }");
 
         // backslash ignored
-        unicode("@\\page :pageStyle {}", "@page :pageStyle {}");
+        unicode("@\\page :pageStyle {}", "@page :pageStyle {  }");
     }
 
     /**
@@ -3459,7 +3459,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void unicodeEscaping() throws Exception {
         unicode("@media paper\\7b { }", "@media paper{ {\n}");
         unicode(".class\\7b { color: blue }", "*.class{ { color: blue; }");
-        unicode("@page :pseu\\64o { color: blue }", "@page :pseudo {color: blue}");
+        unicode("@page :pseu\\64o { color: blue }", "@page :pseudo { color: blue; }");
         unicode("h1:first-l\\69ne { color: blue }", "h1:first-line { color: blue; }");
         unicode(".cls { color: blu\\65 }", "*.cls { color: blue; }");
     }
@@ -3945,30 +3945,30 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void pageSelectors() throws IOException {
-        pageSelectors("@page rotated { size : landscape }\n", "@page rotated {size: landscape}", 0, 0, 0);
+        pageSelectors("@page rotated { size : landscape }\n", "@page rotated { size: landscape; }", 0, 0, 0);
 
-        pageSelectors("@page { size : landscape }\n", "@page {size: landscape}", 0, 0, 0);
-        pageSelectors("@page{ size : landscape }\n", "@page {size: landscape}", 0, 0, 0);
-        pageSelectors("@page  \t { size : landscape }\n", "@page {size: landscape}", 0, 0, 0);
+        pageSelectors("@page { size : landscape }\n", "@page { size: landscape; }", 0, 0, 0);
+        pageSelectors("@page{ size : landscape }\n", "@page { size: landscape; }", 0, 0, 0);
+        pageSelectors("@page  \t { size : landscape }\n", "@page { size: landscape; }", 0, 0, 0);
 
-        pageSelectors("@page :left { size : landscape }\n", "@page :left {size: landscape}", 0, 0, 0);
-        pageSelectors("@page :left{ size : landscape }\n", "@page :left {size: landscape}", 0, 0, 0);
-        pageSelectors("@page:left { size : landscape }\n", "@page :left {size: landscape}", 0, 0, 0);
+        pageSelectors("@page :left { size : landscape }\n", "@page :left { size: landscape; }", 0, 0, 0);
+        pageSelectors("@page :left{ size : landscape }\n", "@page :left { size: landscape; }", 0, 0, 0);
+        pageSelectors("@page:left { size : landscape }\n", "@page :left { size: landscape; }", 0, 0, 0);
 
-        pageSelectors("@page :left:right { size : landscape }\n", "@page :left:right {size: landscape}", 0, 0, 0);
+        pageSelectors("@page :left:right { size : landscape }\n", "@page :left:right { size: landscape; }", 0, 0, 0);
         pageSelectors("@page toc, :left:right { size : landscape }\n",
-                "@page toc, :left:right {size: landscape}", 0, 0, 0);
+                "@page toc, :left:right { size: landscape; }", 0, 0, 0);
         pageSelectors("@page toc,:left:right { size : landscape }\n",
-                "@page toc, :left:right {size: landscape}", 0, 0, 0);
+                "@page toc, :left:right { size: landscape; }", 0, 0, 0);
         pageSelectors("@page :left:right, toc:right { size : landscape }\n",
-                "@page :left:right, toc:right {size: landscape}", 0, 0, 0);
-        pageSelectors("@page toc:first { size : landscape }\n", "@page toc:first {size: landscape}", 0, 0, 0);
-        pageSelectors("@page toc,    index   { size : landscape }\n", "@page toc, index {size: landscape}", 0, 0, 0);
+                "@page :left:right, toc:right { size: landscape; }", 0, 0, 0);
+        pageSelectors("@page toc:first { size : landscape }\n", "@page toc:first { size: landscape; }", 0, 0, 0);
+        pageSelectors("@page toc,    index   { size : landscape }\n", "@page toc, index { size: landscape; }", 0, 0, 0);
 
         // invalid
-        pageSelectors("@page :left :right { size : landscape }\n", "@page :left:right {size: landscape}", 1, 0, 1);
-        pageSelectors("@page toc :left{ size : landscape }\n", "@page :left:right {size: landscape}", 1, 0, 1);
-        pageSelectors("@page toc index { size : landscape }\n", "@page :left:right {size: landscape}", 1, 0, 1);
+        pageSelectors("@page :left :right { size : landscape }\n", "@page :left:right { size: landscape; }", 1, 0, 1);
+        pageSelectors("@page toc :left{ size : landscape }\n", "@page :left:right { size: landscape; }", 1, 0, 1);
+        pageSelectors("@page toc index { size : landscape }\n", "@page :left:right { size: landscape; }", 1, 0, 1);
     }
 
     private void pageSelectors(final String css, final String expected,

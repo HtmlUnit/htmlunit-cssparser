@@ -433,14 +433,14 @@ public class CSSOMParserTest {
         final InputSource is = new InputSource(r);
         final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        Assert.assertEquals("@page :pageStyle {size: 21cm 29.7cm}", ss.toString().trim());
+        Assert.assertEquals("@page :pageStyle { size: 21cm 29.7cm; }", ss.toString().trim());
 
         final CSSRuleListImpl rules = ss.getCssRules();
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
 
-        Assert.assertEquals("@page :pageStyle {size: 21cm 29.7cm}", rule.getCssText());
+        Assert.assertEquals("@page :pageStyle { size: 21cm 29.7cm; }", rule.getCssText());
 
         final CSSPageRuleImpl pageRule = (CSSPageRuleImpl) rule;
         Assert.assertEquals(":pageStyle", pageRule.getSelectorText());
@@ -456,14 +456,14 @@ public class CSSOMParserTest {
         final InputSource is = new InputSource(r);
         final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        Assert.assertEquals("@page {size: 21cm 29.7cm}", ss.toString().trim());
+        Assert.assertEquals("@page { size: 21cm 29.7cm; }", ss.toString().trim());
 
         final CSSRuleListImpl rules = ss.getCssRules();
         Assert.assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
 
-        Assert.assertEquals("@page {size: 21cm 29.7cm}", rule.getCssText());
+        Assert.assertEquals("@page { size: 21cm 29.7cm; }", rule.getCssText());
 
         final CSSPageRuleImpl pageRule = (CSSPageRuleImpl) rule;
         Assert.assertEquals("", pageRule.getSelectorText());

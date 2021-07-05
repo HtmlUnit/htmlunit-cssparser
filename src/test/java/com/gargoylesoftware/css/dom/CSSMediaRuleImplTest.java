@@ -55,6 +55,7 @@ public class CSSMediaRuleImplTest {
 
         mediaRule.insertRule(".testStyle { height: 42px; }", 0);
         Assert.assertEquals("*.testStyle { height: 42px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
+        Assert.assertEquals("@media print {\n  *.testStyle { height: 42px; }\n}", mediaRule.getCssRules().getRules().get(0).getParentRule().getCssText());
 
         mediaRule.insertRule(".testStyle { height: 43px; }", 0);
         Assert.assertEquals("*.testStyle { height: 43px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
