@@ -63,7 +63,7 @@ public class InputSource implements Closeable {
      */
     public String getMedia() {
         if (media_ == null) {
-            return "all";
+            return "";
         }
         return media_;
     }

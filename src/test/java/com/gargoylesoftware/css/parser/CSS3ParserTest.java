@@ -3773,7 +3773,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 + "(min-width: 768px);"
                 + "(min-width: 768px) and (max-width: 991px);(min-width: 992px);"
                 + "(min-width: 992px) and (max-width: 1199px);"
-                + "(transform-3d);print;"
+                + "all and (transform-3d);print;"
                 + "screen and (-webkit-min-device-pixel-ratio: 0);"
                 + "screen and (max-width: 767px);"
                 + "screen and (min-width: 768px);";
@@ -3826,7 +3826,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void realMui() throws Exception {
         final String media = "(-ms-high-contrast: active);"
-                + "(-ms-high-contrast: none);"
                 + "(max-width: 543px);"
                 + "(min-width: 1200px);"
                 + "(min-width: 480px);"
@@ -3836,7 +3835,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 + "(min-width: 768px) and (max-width: 991px);"
                 + "(min-width: 992px);"
                 + "(min-width: 992px) and (max-width: 1199px);"
-                + "(orientation: landscape) and (max-height: 480px);";
+                + "(orientation: landscape) and (max-height: 480px);"
+                + "all and (-ms-high-contrast: none);";
         realWorld("realworld/mui.css", 342, 752, media, 0, 0);
     }
 

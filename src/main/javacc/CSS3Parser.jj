@@ -741,8 +741,7 @@ MediaQuery mediaQuery() :
     (
       p = mediaExpression()
       {
-          s = "all";
-          mq = new MediaQuery(s, only, not);
+          mq = new MediaQuery(null, only, not);
           mq.setLocator(createLocator(token));
           mq.addMediaProperty(p);
       }
