@@ -1346,11 +1346,9 @@ Condition attrib(boolean pseudoElementFound) :
 //
 Object pseudo(boolean pseudoElementFound) :
 {
-    Condition c = null;
     Token t;
     String function;
     String arg;
-    Selector sel;
     boolean doubleColon = false;
     Locator locator;
 }
@@ -1709,7 +1707,6 @@ LexicalUnit calcSum(LexicalUnit prev) :
 //
 LexicalUnit calcProduct(LexicalUnit prev) :
 {
-    LexicalUnit prod = null;
 }
 {
     (
@@ -1743,9 +1740,7 @@ LexicalUnit calcProduct(LexicalUnit prev) :
 //
 LexicalUnit calcValue(LexicalUnit prev) :
 {
-    Token t;
     char op = ' ';
-    String funct = "(";
     LexicalUnit head = LexicalUnitImpl.createIdent(null, "");
 }
 {
@@ -1762,10 +1757,7 @@ LexicalUnit calcValue(LexicalUnit prev) :
             | prev = var(prev)
             |
                 (
-                    (
-                        t = <FUNCTION_CALC> { funct = unescape(t.image, false); }
-                        | t = <LROUND>      { funct = unescape(t.image, false); }
-                    )
+                    (<FUNCTION_CALC> | <LROUND>)
                     calcSum(head)
                     <RROUND>
                 )
@@ -1897,7 +1889,7 @@ LexicalUnit calcNumberValue(LexicalUnit prev) :
 LexicalUnit var(LexicalUnit prev) :
 {
     Token t;
-    LexicalUnit value, current, propertyName;
+    LexicalUnit current, propertyName;
     String funct = "";
 }
 {
