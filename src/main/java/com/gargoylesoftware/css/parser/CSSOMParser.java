@@ -43,14 +43,14 @@ import com.gargoylesoftware.css.parser.selector.SelectorList;
  */
 public class CSSOMParser {
 
-    private CSSParser parser_;
+    private AbstractCSSParser parser_;
     private CSSStyleSheetImpl parentStyleSheet_;
 
     /**
      * Creates new CSSOMParser.
      * @param parser the parser
      */
-    public CSSOMParser(final CSSParser parser) {
+    public CSSOMParser(final AbstractCSSParser parser) {
         parser_ = parser;
     }
 
@@ -179,10 +179,7 @@ public class CSSOMParser {
         try (InputSource source = new InputSource(new StringReader(media))) {
             final HandlerBase handler = new HandlerBase();
             parser_.setDocumentHandler(handler);
-            if (parser_ instanceof AbstractCSSParser) {
-                return ((AbstractCSSParser) parser_).parseMedia(source);
-            }
-            return null;
+            return parser_.parseMedia(source);
         }
     }
 
@@ -412,12 +409,7 @@ public class CSSOMParser {
                 decl.addProperty(property);
             }
             catch (final DOMException e) {
-                if (parser_ instanceof AbstractCSSParser) {
-                    final AbstractCSSParser parser = (AbstractCSSParser) parser_;
-                    parser.getErrorHandler().error(parser.toCSSParseException(e));
-
-                }
-                // call ErrorHandler?
+                parser_.getErrorHandler().error(parser_.toCSSParseException(e));
             }
         }
 

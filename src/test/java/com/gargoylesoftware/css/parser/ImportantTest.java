@@ -88,7 +88,7 @@ public class ImportantTest {
         Assert.assertEquals("*.important { font-weight: bold; }", rule.getCssText());
     }
 
-    private ErrorHandler parserError(final CSSParser cssParser) throws Exception {
+    private ErrorHandler parserError(final AbstractCSSParser cssParser) throws Exception {
         final ErrorHandler errorHandler = new ErrorHandler();
         cssParser.setErrorHandler(errorHandler);
 

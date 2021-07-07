@@ -1495,10 +1495,6 @@ void declaration() :
         {
             if (starHack != null)
             {
-                if (isIeStarHackAccepted()) {
-                    handleProperty("*" + p, e, priority, locator);
-                    return;
-                }
                 CSSParseException cpe = toCSSParseException("invalidDeclarationStarHack", new Object[0], starHack);
                 getErrorHandler().error(cpe);
                 return;

@@ -322,7 +322,7 @@ public class CSSOMParserTest {
         doubleDotSelector(new CSS3Parser());
     }
 
-    private void doubleDotSelector(final CSSParser p) throws Exception {
+    private void doubleDotSelector(final AbstractCSSParser p) throws Exception {
         final Reader r = new StringReader("..nieuwsframedatum{ font-size : 8pt;}");
         final InputSource source = new InputSource(r);
         final CSSOMParser parser = new CSSOMParser();
@@ -342,7 +342,7 @@ public class CSSOMParserTest {
         importEOF(new CSS3Parser());
     }
 
-    private void importEOF(final CSSParser p) throws Exception {
+    private void importEOF(final AbstractCSSParser p) throws Exception {
         final Reader r = new StringReader("@import http://www.wetator.org");
         final InputSource source = new InputSource(r);
         final CSSOMParser parser = new CSSOMParser();
@@ -362,7 +362,7 @@ public class CSSOMParserTest {
         importWithoutClosingSemicolon(new CSS3Parser());
     }
 
-    private void importWithoutClosingSemicolon(final CSSParser p) throws Exception {
+    private void importWithoutClosingSemicolon(final AbstractCSSParser p) throws Exception {
         final Reader r = new StringReader("@import url('a.css'); @import url('c.css')");
         final InputSource source = new InputSource(r);
         final CSSOMParser parser = new CSSOMParser();
@@ -384,7 +384,7 @@ public class CSSOMParserTest {
         escapedChars(new CSS3Parser());
     }
 
-    private void escapedChars(final CSSParser p) throws Exception {
+    private void escapedChars(final AbstractCSSParser p) throws Exception {
         Assert.assertEquals("bogus0: \"abc\"", getCssTextFromDeclaration(p, "bogus0: 'a\\\rbc'"));
         Assert.assertEquals("bogus1: \"abc\"", getCssTextFromDeclaration(p, "bogus1: 'a\\\nbc'"));
         Assert.assertEquals("bogus2: \"abc\"", getCssTextFromDeclaration(p, "bogus2: 'a\\\fbc'"));
@@ -418,7 +418,7 @@ public class CSSOMParserTest {
         Assert.assertEquals("bogus24: \"\\D  o\"", getCssTextFromDeclaration(p, "bogus24: '\\D  o'"));
     }
 
-    private String getCssTextFromDeclaration(final CSSParser p, final String s) throws Exception {
+    private String getCssTextFromDeclaration(final AbstractCSSParser p, final String s) throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final CSSStyleDeclarationImpl d = parser.parseStyleDeclaration(s);
         return d.getCssText();

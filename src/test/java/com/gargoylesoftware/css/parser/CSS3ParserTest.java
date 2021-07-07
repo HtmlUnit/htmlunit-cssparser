@@ -3371,34 +3371,6 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     }
 
     /**
-     * Star Hack support.
-     * @throws Exception if any error occurs
-     */
-    @Test
-    public void starHackSupport() throws Exception {
-        final String css = "p { color: blue; *color: red; background: white; }";
-        final CSSParser parser = new CSS3Parser();
-        parser.setIeStarHackAccepted(true);
-
-        final InputSource source = new InputSource(new StringReader(css));
-        final CSSOMParser cssParser = new CSSOMParser(parser);
-        final ErrorHandler errorHandler = new ErrorHandler();
-        cssParser.setErrorHandler(errorHandler);
-
-        final CSSStyleSheetImpl sheet = cssParser.parseStyleSheet(source, null);
-
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
-
-        final CSSRuleListImpl rules = sheet.getCssRules();
-        Assert.assertEquals(1, rules.getLength());
-
-        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("p { color: blue; *color: red; background: white; }", rule.getCssText());
-    }
-
-    /**
      * Testcase for the backslash zero ie hack.
      * @throws Exception if any error occurs
      */

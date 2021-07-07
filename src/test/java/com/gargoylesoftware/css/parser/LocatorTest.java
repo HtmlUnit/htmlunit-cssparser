@@ -124,7 +124,7 @@ public class LocatorTest {
         locations(new CSS3Parser(), cssCode, positions);
     }
 
-    private void locations(final CSSParser cssParser, final String cssCode,
+    private void locations(final AbstractCSSParser cssParser, final String cssCode,
             final Map<Character, List<Integer[]>> positions) {
         final Reader r = new StringReader(cssCode);
         final InputSource source = new InputSource(r);

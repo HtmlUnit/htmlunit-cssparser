@@ -41,7 +41,7 @@ public class XhtmlCssTest {
         xhtmlCss(new CSS3Parser());
     }
 
-    private void xhtmlCss(final CSSParser cssParser) throws Exception {
+    private void xhtmlCss(final AbstractCSSParser cssParser) throws Exception {
         final ErrorHandler errorHandler = new ErrorHandler();
         cssParser.setErrorHandler(errorHandler);
 

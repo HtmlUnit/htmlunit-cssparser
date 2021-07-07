@@ -34,7 +34,7 @@ import com.gargoylesoftware.css.parser.selector.SelectorList;
  *
  * @author Ronald Brill
  */
-public abstract class AbstractCSSParser implements CSSParser {
+public abstract class AbstractCSSParser {
     private DocumentHandler documentHandler_;
     private CSSErrorHandler errorHandler_;
     private InputSource source_;
@@ -84,8 +84,6 @@ public abstract class AbstractCSSParser implements CSSParser {
         parserMessages_.put("domException", "DOM exception: ''{0}''");
     }
 
-    private boolean ieStarHackAccepted_;
-
     private static final String NUM_CHARS = "0123456789.";
 
     /**
@@ -98,7 +96,21 @@ public abstract class AbstractCSSParser implements CSSParser {
         return documentHandler_;
     }
 
-    @Override
+    /**
+     * Allow an application to register a document event handler.
+     *
+     * <p>If the application does not register a document handler, all
+     * document events reported by the CSS parser will be silently
+     * ignored (this is the default behaviour implemented by
+     * HandlerBase).</p>
+     *
+     * <p>Applications may register a new or different handler in the
+     * middle of a parse, and the CSS parser must begin using the new
+     * handler immediately.</p>
+     *
+     * @param handler The document handler.
+     * @see DocumentHandler
+     */
     public void setDocumentHandler(final DocumentHandler handler) {
         documentHandler_ = handler;
     }
@@ -113,7 +125,22 @@ public abstract class AbstractCSSParser implements CSSParser {
         return errorHandler_;
     }
 
-    @Override
+    /**
+     * Allow an application to register an error event handler.
+     *
+     * <p>If the application does not register an error event handler,
+     * all error events reported by the CSS parser will be silently
+     * ignored, except for fatalError, which will throw a CSSException
+     * (this is the default behaviour implemented by HandlerBase).</p>
+     *
+     * <p>Applications may register a new or different handler in the
+     * middle of a parse, and the CSS parser must begin using the new
+     * handler immediately.</p>
+     *
+     * @param handler The error handler.
+     * @see CSSErrorHandler
+     * @see CSSException
+     */
     public void setErrorHandler(final CSSErrorHandler eh) {
         errorHandler_ = eh;
     }
@@ -123,16 +150,6 @@ public abstract class AbstractCSSParser implements CSSParser {
      */
     protected InputSource getInputSource() {
         return source_;
-    }
-
-    @Override
-    public void setIeStarHackAccepted(final boolean accepted) {
-        ieStarHackAccepted_ = accepted;
-    }
-
-    @Override
-    public boolean isIeStarHackAccepted() {
-        return ieStarHackAccepted_;
     }
 
     /**
@@ -298,7 +315,30 @@ public abstract class AbstractCSSParser implements CSSParser {
         return new CSSParseException(getParserMessage(messageKey), e.getURI(), e.getLineNumber(), e.getColumnNumber());
     }
 
-    @Override
+    /**
+     * Parse a CSS document.
+     *
+     * <p>The application can use this method to instruct the CSS parser
+     * to begin parsing an CSS document from any valid input
+     * source (a character stream, a byte stream, or a URI).</p>
+     *
+     * <p>Applications may not invoke this method while a parse is in
+     * progress (they should create a new Parser instead for each
+     * additional CSS document).  Once a parse is complete, an
+     * application may reuse the same Parser object, possibly with a
+     * different input source.</p>
+     *
+     * @param source The input source for the top-level of the
+     *        CSS document.
+     * @exception CSSException Any CSS exception, possibly
+     *            wrapping another exception.
+     * @exception java.io.IOException An IO exception from the parser,
+     *            possibly from a byte stream or character stream
+     *            supplied by the application.
+     * @see InputSource
+     * @see #setDocumentHandler
+     * @see #setErrorHandler
+     */
     public void parseStyleSheet(final InputSource source) throws IOException {
         source_ = source;
         ReInit(getCharStream(source));
@@ -316,7 +356,16 @@ public abstract class AbstractCSSParser implements CSSParser {
         }
     }
 
-    @Override
+    /**
+     * Parse a CSS style declaration (without '{' and '}').
+     *
+     * @param source source to be parsed
+     * @exception CSSException Any CSS exception, possibly
+     *            wrapping another exception.
+     * @exception java.io.IOException An IO exception from the parser,
+     *            possibly from a byte stream or character stream
+     *            supplied by the application.
+     */
     public void parseStyleDeclaration(final InputSource source) throws IOException {
         source_ = source;
         ReInit(getCharStream(source));
@@ -334,7 +383,16 @@ public abstract class AbstractCSSParser implements CSSParser {
         }
     }
 
-    @Override
+    /**
+     * Parse a CSS rule.
+     *
+     * @param source source to be parsed
+     * @exception CSSException Any CSS exception, possibly
+     *            wrapping another exception.
+     * @exception java.io.IOException An IO exception from the parser,
+     *            possibly from a byte stream or character stream
+     *            supplied by the application.
+     */
     public void parseRule(final InputSource source) throws IOException {
         source_ = source;
         ReInit(getCharStream(source));
@@ -352,7 +410,17 @@ public abstract class AbstractCSSParser implements CSSParser {
         }
     }
 
-    @Override
+    /**
+     * Parse a comma separated list of selectors.
+     *
+     * @param source source to be parsed
+     * @return a selector list
+     * @exception CSSException Any CSS exception, possibly
+     *            wrapping another exception.
+     * @exception java.io.IOException An IO exception from the parser,
+     *            possibly from a byte stream or character stream
+     *            supplied by the application.
+     */
     public SelectorList parseSelectors(final InputSource source) throws IOException {
         source_ = source;
         ReInit(getCharStream(source));
@@ -372,7 +440,17 @@ public abstract class AbstractCSSParser implements CSSParser {
         return sl;
     }
 
-    @Override
+    /**
+     * Parse a CSS property value.
+     *
+     * @param source source to be parsed
+     * @return a lexical unit
+     * @exception CSSException Any CSS exception, possibly
+     *            wrapping another exception.
+     * @exception java.io.IOException An IO exception from the parser,
+     *            possibly from a byte stream or character stream
+     *            supplied by the application.
+     */
     public LexicalUnit parsePropertyValue(final InputSource source) throws IOException {
         source_ = source;
         ReInit(getCharStream(source));
@@ -392,7 +470,17 @@ public abstract class AbstractCSSParser implements CSSParser {
         return lu;
     }
 
-    @Override
+    /**
+     * Parse a CSS priority value (e.g. "!important").
+     *
+     * @param source source to be parsed
+     * @return true or flase
+     * @exception CSSException Any CSS exception, possibly
+     *            wrapping another exception.
+     * @exception java.io.IOException An IO exception from the parser,
+     *            possibly from a byte stream or character stream
+     *            supplied by the application.
+     */
     public boolean parsePriority(final InputSource source) throws IOException {
         source_ = source;
         ReInit(getCharStream(source));
@@ -448,7 +536,13 @@ public abstract class AbstractCSSParser implements CSSParser {
         return null;
     }
 
-    @Override
+    /**
+     * @return a string about which CSS language is supported by this
+     * parser. For CSS Level 1, it returns "http://www.w3.org/TR/REC-CSS1", for
+     * CSS Level 2, it returns "http://www.w3.org/TR/REC-CSS2". Note that a
+     * "CSSx" parser can return lexical unit other than those allowed by CSS
+     * Level x but this usage is not recommended.
+     */
     public abstract String getParserVersion();
 
     /**
