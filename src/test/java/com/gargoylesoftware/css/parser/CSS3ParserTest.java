@@ -2513,7 +2513,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         Assert.assertEquals("\"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)\"", value.getCssText());
 
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("filter");
-        Assert.assertEquals("alpha(opacity = 90)", value.getCssText());
+        Assert.assertEquals("alpha(opacity=90)", value.getCssText());
 
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("-moz-opacity");
         Assert.assertEquals("0.9", value.getCssText());

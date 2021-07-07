@@ -718,12 +718,18 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         LexicalUnit l = parameters_;
         if (l != null) {
             sb.append(l.toString());
+
+            LexicalUnit last = l;
             l = l.getNextLexicalUnit();
             while (l != null) {
-                if (l.getLexicalUnitType() != LexicalUnitType.OPERATOR_COMMA) {
+                if (l.getLexicalUnitType() != LexicalUnitType.OPERATOR_COMMA
+                        && !"=".equals(l.toString())
+                        && !"=".equals(last.toString())) {
                     sb.append(" ");
                 }
                 sb.append(l.toString());
+
+                last = l;
                 l = l.getNextLexicalUnit();
             }
         }

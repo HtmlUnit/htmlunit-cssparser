@@ -102,7 +102,7 @@ public class CSSOMParserTest {
 
         AbstractCSSRuleImpl rule = rl.getRules().get(0);
         CSSStyleRuleImpl sr = (CSSStyleRuleImpl) rule;
-        Assert.assertEquals("p { filter: alpha(opacity = 33.3); opacity: 0.333; }", sr.getCssText());
+        Assert.assertEquals("p { filter: alpha(opacity=33.3); opacity: 0.333; }", sr.getCssText());
 
         rule = rl.getRules().get(1);
         sr = (CSSStyleRuleImpl) rule;
