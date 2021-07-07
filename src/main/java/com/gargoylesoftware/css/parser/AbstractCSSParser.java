@@ -30,7 +30,7 @@ import com.gargoylesoftware.css.parser.media.MediaQueryList;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
 
 /**
- * Base implementation of {@link CSSParser}.
+ * Base implementation.
  *
  * @author Ronald Brill
  */
@@ -141,8 +141,8 @@ public abstract class AbstractCSSParser {
      * @see CSSErrorHandler
      * @see CSSException
      */
-    public void setErrorHandler(final CSSErrorHandler eh) {
-        errorHandler_ = eh;
+    public void setErrorHandler(final CSSErrorHandler handler) {
+        errorHandler_ = handler;
     }
 
     /**
