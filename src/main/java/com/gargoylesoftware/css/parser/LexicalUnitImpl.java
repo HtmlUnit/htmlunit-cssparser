@@ -736,17 +736,22 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     private String getTrimedDoubleValue() {
-        final double f = getDoubleValue();
-        final int i = (int) f;
+        final double d = getDoubleValue();
+        final int i = (int) d;
 
-        if (f - i == 0) {
-            return Integer.toString((int) f);
+        if (d - i == 0) {
+            return Integer.toString(i);
         }
 
-        final DecimalFormat decimalFormat = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
-        decimalFormat.setGroupingUsed(false);
-        decimalFormat.setMaximumFractionDigits(4);
-        return decimalFormat.format(f);
+        // i know this is uggly - suggestions are welcome
+        final String str = Double.toString(d);
+        if (str.contains("E")) {
+          final DecimalFormat decimalFormat = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+          decimalFormat.setGroupingUsed(false);
+          decimalFormat.setMaximumFractionDigits(7);
+          return decimalFormat.format(d);
+        }
+        return str;
     }
 
     /**

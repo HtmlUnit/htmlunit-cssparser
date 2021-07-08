@@ -49,7 +49,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void cm() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createCentimeter(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createCentimeter(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2cm", value.getCssText());
@@ -91,7 +91,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void deg() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createDegree(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createDegree(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2deg", value.getCssText());
@@ -112,7 +112,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void dimension() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createDimension(null, 1.2f, "lumen");
+        final LexicalUnit lu = LexicalUnitImpl.createDimension(null, 1.2, "lumen");
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2lumen", value.getCssText());
@@ -133,7 +133,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void ems() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createEm(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createEm(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2em", value.getCssText());
@@ -154,7 +154,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void emx() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createEx(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createEx(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2ex", value.getCssText());
@@ -207,7 +207,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void gradian() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createGradian(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createGradian(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2grad", value.getCssText());
@@ -228,7 +228,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void hertz() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createHertz(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createHertz(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2Hz", value.getCssText());
@@ -264,7 +264,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void inch() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createInch(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createInch(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2in", value.getCssText());
@@ -285,7 +285,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void kiloHertz() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createKiloHertz(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createKiloHertz(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2kHz", value.getCssText());
@@ -306,7 +306,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void millimeter() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createMillimeter(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createMillimeter(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2mm", value.getCssText());
@@ -327,7 +327,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void millisecond() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createMillisecond(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createMillisecond(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2ms", value.getCssText());
@@ -348,7 +348,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void numberDouble() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createNumber(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createNumber(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2", value.getCssText());
@@ -390,7 +390,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void pica() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createPica(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createPica(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2pc", value.getCssText());
@@ -411,7 +411,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void percentage() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createPercentage(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createPercentage(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2%", value.getCssText());
@@ -432,7 +432,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void point() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createPoint(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createPoint(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2pt", value.getCssText());
@@ -453,7 +453,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void pixel() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createPixel(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createPixel(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2px", value.getCssText());
@@ -474,7 +474,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void radian() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createRadian(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createRadian(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2rad", value.getCssText());
@@ -530,7 +530,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void rem() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createRem(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createRem(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2rem", value.getCssText());
@@ -551,7 +551,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void ch() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createCh(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createCh(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2ch", value.getCssText());
@@ -572,7 +572,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void vw() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createVw(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createVw(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2vw", value.getCssText());
@@ -593,7 +593,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void vh() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createVh(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createVh(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2vh", value.getCssText());
@@ -614,7 +614,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void vmin() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createVMin(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createVMin(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2vmin", value.getCssText());
@@ -635,7 +635,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void vmax() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createVMax(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createVMax(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2vmax", value.getCssText());
@@ -689,7 +689,7 @@ public class CSSValueImplTest {
      */
     @Test
     public void second() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createSecond(null, 1.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createSecond(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         Assert.assertEquals("1.2s", value.getCssText());

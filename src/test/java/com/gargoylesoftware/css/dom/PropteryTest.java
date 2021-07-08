@@ -51,7 +51,7 @@ public class PropteryTest {
         Assert.assertEquals("\"MyValue\"", prop.getValue().toString());
         Assert.assertFalse(prop.isImportant());
 
-        lu = LexicalUnitImpl.createPixel(null, 11f);
+        lu = LexicalUnitImpl.createPixel(null, 11);
         prop.setValue(new CSSValueImpl(lu, true));
         Assert.assertEquals("MyName: 11px", prop.toString());
         Assert.assertEquals("MyName", prop.getName());
@@ -84,7 +84,7 @@ public class PropteryTest {
      */
     @Test
     public void constructWithParams() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createCentimeter(null, 13.2f);
+        final LexicalUnit lu = LexicalUnitImpl.createCentimeter(null, 13.2);
         final Property prop = new Property("MyName", new CSSValueImpl(lu, true), false);
         Assert.assertEquals("MyName: 13.2cm", prop.toString());
         Assert.assertEquals("MyName", prop.getName());

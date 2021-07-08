@@ -1372,7 +1372,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         // digits are trimmed to 4
         expression("h1 { margin-right: calc(-66.66667% * var(--space-x-reverse)) }",
-                    "h1 { margin-right: calc(-66.6667% * var(--space-x-reverse)); }");
+                    "h1 { margin-right: calc(-66.66667% * var(--space-x-reverse)); }");
 
         // empty fallback values
         expression("h1 { top: var(--tailwind-empty, ) }",
