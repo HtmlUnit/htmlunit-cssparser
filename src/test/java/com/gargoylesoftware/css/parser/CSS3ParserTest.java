@@ -1053,7 +1053,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
-        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        Assert.assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
         Assert.assertEquals("calc", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
@@ -1093,7 +1093,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
-        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        Assert.assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
         Assert.assertEquals("calc", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
@@ -1217,7 +1217,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
-        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        Assert.assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
         Assert.assertEquals("calc", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
@@ -1264,7 +1264,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
-        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        Assert.assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
         Assert.assertEquals("calc", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();

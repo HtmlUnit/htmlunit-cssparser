@@ -434,6 +434,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 }
                 break;
             case FUNCTION:
+            case FUNCTION_CALC:
                 final String functName = getFunctionName();
                 if (null != functName) {
                     sb.append(functName);
@@ -698,6 +699,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                     .append(")");
                 break;
             case FUNCTION:
+            case FUNCTION_CALC:
                 sb.append("FUNCTION(")
                     .append(getFunctionName())
                     .append("(");
@@ -1025,6 +1027,15 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
      */
     public static LexicalUnit createRgbColor(final LexicalUnit prev, final LexicalUnit params) {
         return new LexicalUnitImpl(prev, LexicalUnitType.RGBCOLOR, "rgb", params);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param params the params
+     * @return lexical unit with type calc
+     */
+    public static LexicalUnit createCalc(final LexicalUnit prev, final LexicalUnit params) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.FUNCTION_CALC, "calc", params);
     }
 
     /**

@@ -766,6 +766,9 @@ public abstract class AbstractCSSParser {
         else if ("rgb(".equalsIgnoreCase(funct)) {
             return LexicalUnitImpl.createRgbColor(prev, params);
         }
+        else if ("calc(".equalsIgnoreCase(funct)) {
+            return LexicalUnitImpl.createCalc(prev, params);
+        }
         return LexicalUnitImpl.createFunction(
             prev,
             funct.substring(0, funct.length() - 1),

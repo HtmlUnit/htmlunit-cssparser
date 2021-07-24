@@ -17,7 +17,7 @@ package com.gargoylesoftware.css.parser;
 /**
  * Lexical unit of css values.
  *
- * @author Ronald brill
+ * @author Ronald Brill
  */
 public interface LexicalUnit {
 
@@ -73,6 +73,7 @@ public interface LexicalUnit {
         UNICODERANGE,
         SUB_EXPRESSION,
         FUNCTION,
+        FUNCTION_CALC,
         DIMENSION
     }
 
