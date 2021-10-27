@@ -63,7 +63,7 @@ import com.gargoylesoftware.css.parser.selector.SelectorList;
  * @author Ahmed Ashour
  * @author Ronald Brill
  */
-public class CSS3ParserTest  extends AbstractCSSParserTest {
+public class CSS3ParserTest extends AbstractCSSParserTest {
 
     /**
      * @throws Exception if any error occurs
