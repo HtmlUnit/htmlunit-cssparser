@@ -14,10 +14,11 @@
  */
 package com.gargoylesoftware.css.dom;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
@@ -36,8 +37,8 @@ public class CSSUnknownRuleImplTest {
     public void getCssText() throws Exception {
         final CSSUnknownRuleImpl value = parseUnknownRule("@foo \"text\";");
 
-        Assert.assertEquals("@foo text;", value.getCssText());
-        Assert.assertEquals("@foo text;", value.toString());
+        assertEquals("@foo text;", value.getCssText());
+        assertEquals("@foo text;", value.toString());
     }
 
     /**
@@ -47,12 +48,12 @@ public class CSSUnknownRuleImplTest {
     public void setCssText() throws Exception {
         final CSSUnknownRuleImpl value = parseUnknownRule("@foo \"text\";");
 
-        Assert.assertEquals("@foo text;", value.getCssText());
-        Assert.assertEquals("@foo text;", value.toString());
+        assertEquals("@foo text;", value.getCssText());
+        assertEquals("@foo text;", value.toString());
 
         value.setCssText("@foo { key: 'value' };");
-        Assert.assertEquals("@foo { key: value }", value.getCssText());
-        Assert.assertEquals("@foo { key: value }", value.toString());
+        assertEquals("@foo { key: value }", value.getCssText());
+        assertEquals("@foo { key: value }", value.toString());
 
     }
 
@@ -63,7 +64,7 @@ public class CSSUnknownRuleImplTest {
     public void type() throws Exception {
         final CSSUnknownRuleImpl value = new CSSUnknownRuleImpl(null, null, null);
 
-        Assert.assertEquals("", value.toString());
+        assertEquals("", value.toString());
     }
 
     private CSSUnknownRuleImpl parseUnknownRule(final String rule) throws Exception {
@@ -81,7 +82,7 @@ public class CSSUnknownRuleImplTest {
     public void getCssTextFormated() throws Exception {
         final CSSUnknownRuleImpl value = parseUnknownRule("@foo \"text\";");
 
-        Assert.assertEquals("@foo text;", value.toString());
-        Assert.assertEquals("@foo text;", value.getCssText());
+        assertEquals("@foo text;", value.toString());
+        assertEquals("@foo text;", value.getCssText());
     }
 }

@@ -14,8 +14,10 @@
  */
 package com.gargoylesoftware.css.parser.condition;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcases for {@link IdCondition}.
@@ -29,10 +31,10 @@ public class IdConditionTest {
     @Test
     public void withoutValue() throws Exception {
         final IdCondition c = new IdCondition(null, null);
-        Assert.assertNull(c.getLocalName());
-        Assert.assertNull(c.getValue());
+        assertNull(c.getLocalName());
+        assertNull(c.getValue());
 
-        Assert.assertEquals("#", c.toString());
+        assertEquals("#", c.toString());
     }
 
     /**
@@ -41,10 +43,10 @@ public class IdConditionTest {
     @Test
     public void emptyValue() throws Exception {
         final IdCondition c = new IdCondition("", null);
-        Assert.assertNull(c.getLocalName());
-        Assert.assertEquals("", c.getValue());
+        assertNull(c.getLocalName());
+        assertEquals("", c.getValue());
 
-        Assert.assertEquals("#", c.toString());
+        assertEquals("#", c.toString());
     }
 
     /**
@@ -53,9 +55,9 @@ public class IdConditionTest {
     @Test
     public void withValue() throws Exception {
         final IdCondition c = new IdCondition("value", null);
-        Assert.assertNull(c.getLocalName());
-        Assert.assertEquals("value", c.getValue());
+        assertNull(c.getLocalName());
+        assertEquals("value", c.getValue());
 
-        Assert.assertEquals("#value", c.toString());
+        assertEquals("#value", c.toString());
     }
 }

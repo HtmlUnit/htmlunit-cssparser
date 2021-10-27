@@ -14,11 +14,12 @@
  */
 package com.gargoylesoftware.css;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.Reader;
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
 import com.gargoylesoftware.css.dom.CSSMediaRuleImpl;
@@ -47,44 +48,44 @@ public class TestException {
         final InputSource source = new InputSource(r);
         final CSSStyleSheetImpl stylesheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         stylesheet.insertRule("P { color: blue }", 0);
         stylesheet.insertRule("@import url(http://www.steadystate.com/primary.css);", 0);
         stylesheet.insertRule("@charset \"US-ASCII\";", 0);
 
         final CSSRuleListImpl rules = stylesheet.getCssRules();
-        Assert.assertEquals(3, rules.getLength());
+        assertEquals(3, rules.getLength());
 
-        Assert.assertEquals("@charset \"US-ASCII\";", rules.getRules().get(0).getCssText());
-        Assert.assertEquals("@import url(\"http://www.steadystate.com/primary.css\");", rules.getRules().get(1).getCssText());
-        Assert.assertEquals("P { color: blue; }", rules.getRules().get(2).getCssText());
+        assertEquals("@charset \"US-ASCII\";", rules.getRules().get(0).getCssText());
+        assertEquals("@import url(\"http://www.steadystate.com/primary.css\");", rules.getRules().get(1).getCssText());
+        assertEquals("P { color: blue; }", rules.getRules().get(2).getCssText());
 
         stylesheet.deleteRule(1);
 
-        Assert.assertEquals(2, rules.getLength());
-        Assert.assertEquals("@charset \"US-ASCII\";", rules.getRules().get(0).getCssText());
-        Assert.assertEquals("P { color: blue; }", rules.getRules().get(1).getCssText());
+        assertEquals(2, rules.getLength());
+        assertEquals("@charset \"US-ASCII\";", rules.getRules().get(0).getCssText());
+        assertEquals("P { color: blue; }", rules.getRules().get(1).getCssText());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(1);
         rule.setCssText("h2 { smell: strong }");
-        Assert.assertEquals("h2 { smell: strong; }", rules.getRules().get(1).getCssText());
+        assertEquals("h2 { smell: strong; }", rules.getRules().get(1).getCssText());
 
         stylesheet.insertRule("@media speech { h1 { voice: male } }", 1);
 
-        Assert.assertEquals(3, rules.getLength());
-        Assert.assertEquals("@charset \"US-ASCII\";", rules.getRules().get(0).getCssText());
-        Assert.assertEquals("@media speech {\n  h1 { voice: male; }\n}", rules.getRules().get(1).getCssText());
-        Assert.assertEquals("h2 { smell: strong; }", rules.getRules().get(2).getCssText());
+        assertEquals(3, rules.getLength());
+        assertEquals("@charset \"US-ASCII\";", rules.getRules().get(0).getCssText());
+        assertEquals("@media speech {\n  h1 { voice: male; }\n}", rules.getRules().get(1).getCssText());
+        assertEquals("h2 { smell: strong; }", rules.getRules().get(2).getCssText());
 
         rule = rules.getRules().get(1);
         ((CSSMediaRuleImpl) rule).insertRule("p { voice: female }", 1);
-        Assert.assertEquals("speech", ((CSSMediaRuleImpl) rule).getMediaList().getMediaText());
+        assertEquals("speech", ((CSSMediaRuleImpl) rule).getMediaList().getMediaText());
 
         // TODO
         ((CSSMediaRuleImpl) rule).getMediaList().setMediaText("speech, signlanguage");
-        Assert.assertEquals("speech, speech, signlanguage", ((CSSMediaRuleImpl) rule).getMediaList().getMediaText());
+        assertEquals("speech, speech, signlanguage", ((CSSMediaRuleImpl) rule).getMediaList().getMediaText());
     }
 }

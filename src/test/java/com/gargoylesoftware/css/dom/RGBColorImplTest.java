@@ -14,8 +14,10 @@
  */
 package com.gargoylesoftware.css.dom;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.DOMException;
 
 import com.gargoylesoftware.css.parser.LexicalUnit;
@@ -40,10 +42,10 @@ public class RGBColorImplTest {
         lu = LexicalUnitImpl.createNumber(lu, 30);
 
         final RGBColorImpl rgb = new RGBColorImpl(rgbLU);
-        Assert.assertEquals("rgb(10, 20, 30)", rgb.toString());
-        Assert.assertEquals("10", rgb.getRed().getCssText());
-        Assert.assertEquals("20", rgb.getGreen().getCssText());
-        Assert.assertEquals("30", rgb.getBlue().getCssText());
+        assertEquals("rgb(10, 20, 30)", rgb.toString());
+        assertEquals("10", rgb.getRed().getCssText());
+        assertEquals("20", rgb.getGreen().getCssText());
+        assertEquals("30", rgb.getBlue().getCssText());
     }
 
     /**
@@ -57,10 +59,10 @@ public class RGBColorImplTest {
 
         try {
             new RGBColorImpl(rgbLU);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertEquals("rgb parameters must be separated by ','.", e.getMessage());
+            assertEquals("rgb parameters must be separated by ','.", e.getMessage());
         }
 
         rgbLU = LexicalUnitImpl.createNumber(null, 10);
@@ -70,10 +72,10 @@ public class RGBColorImplTest {
 
         try {
             new RGBColorImpl(rgbLU);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertEquals("rgb parameters must be separated by ','.", e.getMessage());
+            assertEquals("rgb parameters must be separated by ','.", e.getMessage());
         }
     }
 
@@ -91,10 +93,10 @@ public class RGBColorImplTest {
 
         try {
             new RGBColorImpl(rgbLU);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertEquals("Too many parameters for rgb function.", e.getMessage());
+            assertEquals("Too many parameters for rgb function.", e.getMessage());
         }
     }
 
@@ -111,6 +113,6 @@ public class RGBColorImplTest {
 
         final RGBColorImpl rgb = new RGBColorImpl(rgbLu);
 
-        Assert.assertEquals("rgb(10, 20, 30)", rgb.toString());
+        assertEquals("rgb(10, 20, 30)", rgb.toString());
     }
 }

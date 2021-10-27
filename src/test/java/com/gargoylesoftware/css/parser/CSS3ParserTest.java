@@ -14,6 +14,11 @@
  */
 package com.gargoylesoftware.css.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,8 +29,7 @@ import java.nio.charset.Charset;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.ErrorHandler;
 import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
@@ -153,33 +157,33 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(4, rules.getLength());
+        assertEquals(4, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("html:lang(fr-ca) { }", rule.getCssText());
+        assertEquals("html:lang(fr-ca) { }", rule.getCssText());
         ElementSelector selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
-        Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
-        Assert.assertEquals("fr-ca", ((LangCondition) selector.getConditions().get(0)).getValue());
+        assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
+        assertEquals("fr-ca", ((LangCondition) selector.getConditions().get(0)).getValue());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("html:lang(de) { }", rule.getCssText());
+        assertEquals("html:lang(de) { }", rule.getCssText());
         selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
-        Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
-        Assert.assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getValue());
+        assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
+        assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getValue());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("*:lang(fr) > Q { }", rule.getCssText());
+        assertEquals("*:lang(fr) > Q { }", rule.getCssText());
         ChildSelector childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         selector = (ElementSelector) childSelector.getAncestorSelector();
-        Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
-        Assert.assertEquals("fr", ((LangCondition) selector.getConditions().get(0)).getValue());
+        assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
+        assertEquals("fr", ((LangCondition) selector.getConditions().get(0)).getValue());
 
         rule = rules.getRules().get(3);
-        Assert.assertEquals("*:lang(de) > Q { }", rule.getCssText());
+        assertEquals("*:lang(de) > Q { }", rule.getCssText());
         childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         selector = (ElementSelector) childSelector.getAncestorSelector();
-        Assert.assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
-        Assert.assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getValue());
+        assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
+        assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getValue());
     }
 
     /**
@@ -194,8 +198,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
-        Assert.assertEquals("p { color: green; }", rules.toString().trim());
+        assertEquals(1, rules.getLength());
+        assertEquals("p { color: green; }", rules.toString().trim());
     }
 
     /**
@@ -228,8 +232,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void classCondition() throws Exception {
         conditionAssert(".class", null, "class", true);
         conditionAssert("h1.class", null, "class", true);
-        Assert.assertNull(createSelectors("."));
-        Assert.assertNull(createSelectors("h1."));
+        assertNull(createSelectors("."));
+        assertNull(createSelectors("h1."));
     }
 
     /**
@@ -239,8 +243,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void idCondition() throws Exception {
         conditionAssert("#id", null, "id", true);
         conditionAssert("h1#id", null, "id", true);
-        Assert.assertNull(createSelectors("#"));
-        Assert.assertNull(createSelectors("h1.#"));
+        assertNull(createSelectors("#"));
+        assertNull(createSelectors("h1.#"));
     }
 
     /**
@@ -254,8 +258,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         conditionAssert(":visited", null, "visited", true);
         conditionAssert("a:active", null, "active", true);
         conditionAssert(":active", null, "active", true);
-        Assert.assertNull(createSelectors(":"));
-        Assert.assertNull(createSelectors("a:"));
+        assertNull(createSelectors(":"));
+        assertNull(createSelectors("a:"));
     }
 
     /**
@@ -268,27 +272,27 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         conditionAssert("[rel=val]", "rel", "val", true);
         conditionAssert("[ rel = val ]", "rel", "val", true);
-        Assert.assertNull(createSelectors("[rel=]")); // invalid rule
+        assertNull(createSelectors("[rel=]")); // invalid rule
 
         conditionAssert("[rel~=val]", "rel", "val", true);
         conditionAssert("[ rel ~= val ]", "rel", "val", true);
-        Assert.assertNull(createSelectors("[rel~=]")); // invalid rule
+        assertNull(createSelectors("[rel~=]")); // invalid rule
 
         conditionAssert("[rel|=val]", "rel", "val", true);
         conditionAssert("[ rel |= val]", "rel", "val", true);
-        Assert.assertNull(createSelectors("[rel|=]")); // invalid rule
+        assertNull(createSelectors("[rel|=]")); // invalid rule
 
         conditionAssert("[rel^=val]", "rel", "val", true);
         conditionAssert("[ rel ^= val]", "rel", "val", true);
-        Assert.assertNull(createSelectors("[rel^=]")); // invalid rule
+        assertNull(createSelectors("[rel^=]")); // invalid rule
 
         conditionAssert("[rel$=val]", "rel", "val", true);
         conditionAssert("[ rel $= val]", "rel", "val", true);
-        Assert.assertNull(createSelectors("[rel$=]")); // invalid rule
+        assertNull(createSelectors("[rel$=]")); // invalid rule
 
         conditionAssert("[rel*=val]", "rel", "val", true);
         conditionAssert("[ rel *= val]", "rel", "val", true);
-        Assert.assertNull(createSelectors("[rel*=]")); // invalid rule
+        assertNull(createSelectors("[rel*=]")); // invalid rule
     }
 
     /**
@@ -297,10 +301,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dojoCSS() throws Exception {
         final InputStream is = getClass().getClassLoader().getResourceAsStream("dojo.css");
-        Assert.assertNotNull(is);
+        assertNotNull(is);
 
         final CSSStyleSheetImpl sheet = parse(is);
-        Assert.assertEquals(17, sheet.getCssRules().getLength());
+        assertEquals(17, sheet.getCssRules().getLength());
     }
 
     /**
@@ -309,7 +313,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void emptyCSS() throws Exception {
         final CSSStyleSheetImpl sheet = parse("");
-        Assert.assertEquals(0, sheet.getCssRules().getLength());
+        assertEquals(0, sheet.getCssRules().getLength());
     }
 
     /**
@@ -318,7 +322,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void whitespaceOnlyCSS() throws Exception {
         final CSSStyleSheetImpl sheet = parse("  \t \r\n \n");
-        Assert.assertEquals(0, sheet.getCssRules().getLength());
+        assertEquals(0, sheet.getCssRules().getLength());
     }
 
     /**
@@ -332,13 +336,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@charset \"UTF-8\";", rule.getCssText());
+        assertEquals("@charset \"UTF-8\";", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h1 { color: blue; }", rule.getCssText());
+        assertEquals("h1 { color: blue; }", rule.getCssText());
     }
 
     /**
@@ -352,13 +356,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@charset \"UTF-8\";", rule.getCssText());
+        assertEquals("@charset \"UTF-8\";", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h1 { color: blue; }", rule.getCssText());
+        assertEquals("h1 { color: blue; }", rule.getCssText());
     }
 
     /**
@@ -373,13 +377,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@charset \"UTF-8\";", rule.getCssText());
+        assertEquals("@charset \"UTF-8\";", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h1 { color: blue; }", rule.getCssText());
+        assertEquals("h1 { color: blue; }", rule.getCssText());
     }
 
     /**
@@ -395,16 +399,16 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(3, rules.getLength());
+        assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
+        assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h1 { color: blue; }", rule.getCssText());
+        assertEquals("h1 { color: blue; }", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("h2 { color: red; }", rule.getCssText());
+        assertEquals("h2 { color: red; }", rule.getCssText());
     }
 
     /**
@@ -421,16 +425,16 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(3, rules.getLength());
+        assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
+        assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h1 { color: blue; }", rule.getCssText());
+        assertEquals("h1 { color: blue; }", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("h2 { color: red; }", rule.getCssText());
+        assertEquals("h2 { color: red; }", rule.getCssText());
     }
 
     /**
@@ -446,13 +450,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 2, 0, 2);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
+        assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h2 { color: red; }", rule.getCssText());
+        assertEquals("h2 { color: red; }", rule.getCssText());
     }
 
     /**
@@ -465,10 +469,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
+        assertEquals("@import url(\"subs.css\");", rule.getCssText());
     }
 
     /**
@@ -481,16 +485,16 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(3, rules.getLength());
+        assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
+        assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("@import url(\"subs1.css\");", rule.getCssText());
+        assertEquals("@import url(\"subs1.css\");", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("@import url(\"subs2.css\");", rule.getCssText());
+        assertEquals("@import url(\"subs2.css\");", rule.getCssText());
     }
 
     /**
@@ -503,14 +507,14 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
         final AbstractCSSRuleImpl cssRule = rules.getRules().get(0);
-        Assert.assertEquals("@media print {\n  h1 { color: red; }\n}", cssRule.getCssText());
+        assertEquals("@media print {\n  h1 { color: red; }\n}", cssRule.getCssText());
 
         final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
 
-        Assert.assertEquals(1, mediaList.getLength());
-        Assert.assertEquals("print", mediaList.getMediaText());
+        assertEquals(1, mediaList.getLength());
+        assertEquals("print", mediaList.getMediaText());
     }
 
     /**
@@ -523,14 +527,14 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
         final AbstractCSSRuleImpl cssRule = rules.getRules().get(0);
-        Assert.assertEquals("@media print, screen {\n  h1 { color: red; }\n}", cssRule.getCssText());
+        assertEquals("@media print, screen {\n  h1 { color: red; }\n}", cssRule.getCssText());
 
         final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
 
-        Assert.assertEquals(2, mediaList.getLength());
-        Assert.assertEquals("print, screen", mediaList.getMediaText());
+        assertEquals(2, mediaList.getLength());
+        assertEquals("print, screen", mediaList.getMediaText());
     }
 
     /**
@@ -545,27 +549,27 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
         AbstractCSSRuleImpl cssRule = rules.getRules().get(0);
-        Assert.assertEquals("@media print {\n  *#navigation { display: none; }"
+        assertEquals("@media print {\n  *#navigation { display: none; }"
                 + "\n  @media (max-width: 12cm) {\n  *.note { float: none; }\n}\n}", cssRule.getCssText());
 
         MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
-        Assert.assertEquals(1, mediaList.getLength());
-        Assert.assertEquals("print", mediaList.getMediaText());
+        assertEquals(1, mediaList.getLength());
+        assertEquals("print", mediaList.getMediaText());
 
         final CSSRuleListImpl innerRules = ((CSSMediaRuleImpl) cssRule).getCssRules();
-        Assert.assertEquals(2, innerRules.getLength());
+        assertEquals(2, innerRules.getLength());
 
         cssRule = innerRules.getRules().get(0);
-        Assert.assertEquals("*#navigation { display: none; }", cssRule.getCssText());
+        assertEquals("*#navigation { display: none; }", cssRule.getCssText());
 
         cssRule = innerRules.getRules().get(1);
-        Assert.assertEquals("@media (max-width: 12cm) {\n  *.note { float: none; }\n}", cssRule.getCssText());
+        assertEquals("@media (max-width: 12cm) {\n  *.note { float: none; }\n}", cssRule.getCssText());
 
         mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
-        Assert.assertEquals(1, mediaList.getLength());
-        Assert.assertEquals("(max-width: 12cm)", mediaList.getMediaText());
+        assertEquals(1, mediaList.getLength());
+        assertEquals("(max-width: 12cm)", mediaList.getMediaText());
     }
 
     /**
@@ -580,10 +584,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face { font-family: Gentium; src: url(\"http://example.com/fonts/Gentium.ttf\"); }",
+        assertEquals("@font-face { font-family: Gentium; src: url(\"http://example.com/fonts/Gentium.ttf\"); }",
                 rule.getCssText());
     }
 
@@ -597,10 +601,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face { font-family: Gentium; unicode-range: U+26; }",
+        assertEquals("@font-face { font-family: Gentium; unicode-range: U+26; }",
                 rule.getCssText());
     }
 
@@ -614,10 +618,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face { font-family: Gentium; unicode-range: U+4?; }",
+        assertEquals("@font-face { font-family: Gentium; unicode-range: U+4?; }",
                 rule.getCssText());
     }
 
@@ -631,10 +635,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face { font-family: Gentium; unicode-range: U+0-7F; }",
+        assertEquals("@font-face { font-family: Gentium; unicode-range: U+0-7F; }",
                 rule.getCssText());
     }
 
@@ -648,10 +652,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face { font-family: Gentium; unicode-range: U+0025-00FF; }",
+        assertEquals("@font-face { font-family: Gentium; unicode-range: U+0025-00FF; }",
                 rule.getCssText());
     }
 
@@ -665,10 +669,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face { font-family: Gentium; unicode-range: U+0025-0??F, U+4??; }",
+        assertEquals("@font-face { font-family: Gentium; unicode-range: U+0025-0??F, U+4??; }",
                 rule.getCssText());
     }
 
@@ -686,10 +690,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face { font-family: Headline; "
+        assertEquals("@font-face { font-family: Headline; "
                 + "src: local(Futura-Medium), url(\"fonts.svg#MyGeometricModern\") format(\"svg\"); }",
                 rule.getCssText());
     }
@@ -713,10 +717,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@font-face { font-family: Pangolin; "
+        assertEquals("@font-face { font-family: Pangolin; "
                 + "font-style: normal; font-weight: 400; "
                 + "src: local(\"Indie Flower\"), local(\"IndieFlower\"), "
                 + "url(\"https://fonts.gstatic.com/s/indieflower/v9"
@@ -746,28 +750,28 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(1, errorHandler.getErrorCount());
         final String expected = "@import rule must occur before all other rules, except the @charset rule."
                 + " (Invalid token \"@import\". Was expecting one of: <S>, \"<!--\", \"-->\".)";
-        Assert.assertEquals(expected, errorHandler.getErrorMessage());
-        Assert.assertEquals("3", errorHandler.getErrorLines());
-        Assert.assertEquals("1", errorHandler.getErrorColumns());
+        assertEquals(expected, errorHandler.getErrorMessage());
+        assertEquals("3", errorHandler.getErrorLines());
+        assertEquals("1", errorHandler.getErrorColumns());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(3, rules.getLength());
+        assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
+        assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h1 { color: blue; }", rule.getCssText());
+        assertEquals("h1 { color: blue; }", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("h2 { color: red; }", rule.getCssText());
+        assertEquals("h2 { color: red; }", rule.getCssText());
     }
 
     /**
@@ -792,28 +796,28 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(1, errorHandler.getErrorCount());
         final String expected = "@import rule must occur before all other rules, except the @charset rule."
                 + " (Invalid token \"@import\". Was expecting: <S>.)";
-        Assert.assertEquals(expected, errorHandler.getErrorMessage());
-        Assert.assertEquals("3", errorHandler.getErrorLines());
-        Assert.assertEquals("3", errorHandler.getErrorColumns());
+        assertEquals(expected, errorHandler.getErrorMessage());
+        assertEquals("3", errorHandler.getErrorLines());
+        assertEquals("3", errorHandler.getErrorColumns());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(3, rules.getLength());
+        assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
+        assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("@media print {\n  body { font-size: 10pt; }\n}", rule.getCssText());
+        assertEquals("@media print {\n  body { font-size: 10pt; }\n}", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("h1 { color: blue; }", rule.getCssText());
+        assertEquals("h1 { color: blue; }", rule.getCssText());
     }
 
     /**
@@ -837,28 +841,28 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(1, errorHandler.getErrorCount());
         final String expected = "@import rule must occur before all other rules, except the @charset rule."
                 + " (Invalid token \"@import\". Was expecting: <S>.)";
-        Assert.assertEquals(expected, errorHandler.getErrorMessage());
-        Assert.assertEquals("4", errorHandler.getErrorLines());
-        Assert.assertEquals("3", errorHandler.getErrorColumns());
+        assertEquals(expected, errorHandler.getErrorMessage());
+        assertEquals("4", errorHandler.getErrorLines());
+        assertEquals("3", errorHandler.getErrorColumns());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(3, rules.getLength());
+        assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@import url(\"subs.css\");", rule.getCssText());
+        assertEquals("@import url(\"subs.css\");", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("@media print {\n  body { font-size: 10pt; }\n}", rule.getCssText());
+        assertEquals("@media print {\n  body { font-size: 10pt; }\n}", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("h1 { color: blue; }", rule.getCssText());
+        assertEquals("h1 { color: blue; }", rule.getCssText());
     }
 
     /**
@@ -874,18 +878,18 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(2, style.getLength());
+        assertEquals(2, style.getLength());
 
         String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("color : rgb(204, 204, 204)", name + " : " + style.getPropertyValue(name));
+        assertEquals("color : rgb(204, 204, 204)", name + " : " + style.getPropertyValue(name));
 
         name = style.getProperties().get(1).getName();
-        Assert.assertEquals("background : rgb(28, 29, 0)", name + " : " + style.getPropertyValue(name));
+        assertEquals("background : rgb(28, 29, 0)", name + " : " + style.getPropertyValue(name));
     }
 
     /**
@@ -901,15 +905,15 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("foreground : rgb(10, 20, 30)", name + " : " + style.getPropertyValue(name));
+        assertEquals("foreground : rgb(10, 20, 30)", name + " : " + style.getPropertyValue(name));
     }
 
     /**
@@ -925,15 +929,15 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("color: foo(rgb(204, 221, 68))", name + ": " + style.getPropertyValue(name));
+        assertEquals("color: foo(rgb(204, 221, 68))", name + ": " + style.getPropertyValue(name));
     }
 
     /**
@@ -949,85 +953,85 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("clip : foo(rect(10px, 20em, 30px, max(40, blue(rgb(1, 2, 3)))))",
+        assertEquals("clip : foo(rect(10px, 20em, 30px, max(40, blue(rgb(1, 2, 3)))))",
                 name + " : " + style.getPropertyValue(name));
 
         final CSSValueImpl value = style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
-        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals("foo", unit.getFunctionName());
+        assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        assertEquals("foo", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
-        Assert.assertEquals(LexicalUnitType.RECT_FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals("rect", unit.getFunctionName());
+        assertEquals(LexicalUnitType.RECT_FUNCTION, unit.getLexicalUnitType());
+        assertEquals("rect", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
-        Assert.assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
-        Assert.assertEquals(10f, unit.getDoubleValue(), 0.00001);
+        assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
+        assertEquals(10f, unit.getDoubleValue(), 0.00001);
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.EM, unit.getLexicalUnitType());
-        Assert.assertEquals(20f, unit.getDoubleValue(), 0.00001);
+        assertEquals(LexicalUnitType.EM, unit.getLexicalUnitType());
+        assertEquals(20f, unit.getDoubleValue(), 0.00001);
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
-        Assert.assertEquals(30f, unit.getDoubleValue(), 0.00001);
+        assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
+        assertEquals(30f, unit.getDoubleValue(), 0.00001);
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals("max", unit.getFunctionName());
+        assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        assertEquals("max", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
-        Assert.assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
-        Assert.assertEquals(40, unit.getIntegerValue());
+        assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
+        assertEquals(40, unit.getIntegerValue());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals("blue", unit.getFunctionName());
+        assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        assertEquals("blue", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
-        Assert.assertEquals(LexicalUnitType.RGBCOLOR, unit.getLexicalUnitType());
-        Assert.assertEquals("rgb", unit.getFunctionName());
+        assertEquals(LexicalUnitType.RGBCOLOR, unit.getLexicalUnitType());
+        assertEquals("rgb", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
-        Assert.assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
-        Assert.assertEquals(1, unit.getIntegerValue());
+        assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
+        assertEquals(1, unit.getIntegerValue());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
-        Assert.assertEquals(2, unit.getIntegerValue());
+        assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
+        assertEquals(2, unit.getIntegerValue());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
-        Assert.assertEquals(3, unit.getIntegerValue());
+        assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
+        assertEquals(3, unit.getIntegerValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
     }
 
     @Test
@@ -1040,34 +1044,34 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("width : calc(100% + 80px)",
+        assertEquals("width : calc(100% + 80px)",
                 name + " : " + style.getPropertyValue(name));
 
         final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
-        Assert.assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
-        Assert.assertEquals("calc", unit.getFunctionName());
+        assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
+        assertEquals("calc", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
-        Assert.assertEquals(LexicalUnitType.PERCENTAGE, unit.getLexicalUnitType());
-        Assert.assertEquals(100d, unit.getDoubleValue(), 0.00001);
+        assertEquals(LexicalUnitType.PERCENTAGE, unit.getLexicalUnitType());
+        assertEquals(100d, unit.getDoubleValue(), 0.00001);
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.OPERATOR_PLUS, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.OPERATOR_PLUS, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
-        Assert.assertEquals(80d, unit.getDoubleValue(), 0.00001);
+        assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
+        assertEquals(80d, unit.getDoubleValue(), 0.00001);
 
-        Assert.assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
     }
 
     @Test
@@ -1080,34 +1084,34 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("width : calc(42 - 16.4em)",
+        assertEquals("width : calc(42 - 16.4em)",
                 name + " : " + style.getPropertyValue(name));
 
         final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
-        Assert.assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
-        Assert.assertEquals("calc", unit.getFunctionName());
+        assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
+        assertEquals("calc", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
-        Assert.assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
-        Assert.assertEquals(42, unit.getIntegerValue());
+        assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
+        assertEquals(42, unit.getIntegerValue());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.OPERATOR_MINUS, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.OPERATOR_MINUS, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.EM, unit.getLexicalUnitType());
-        Assert.assertEquals(16.4d, unit.getDoubleValue(), 0.00001);
+        assertEquals(LexicalUnitType.EM, unit.getLexicalUnitType());
+        assertEquals(16.4d, unit.getDoubleValue(), 0.00001);
 
-        Assert.assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
     }
 
     @Test
@@ -1120,15 +1124,15 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("width : calc(42 - 16.4em)",
+        assertEquals("width : calc(42 - 16.4em)",
                 name + " : " + style.getPropertyValue(name));
 
         cssText = "width: calc(42-16.4em)";
@@ -1139,15 +1143,15 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         name = style.getProperties().get(0).getName();
-        Assert.assertEquals("width : calc(42 - 16.4em)",
+        assertEquals("width : calc(42 - 16.4em)",
                 name + " : " + style.getPropertyValue(name));
 
         cssText = "width: calc(42vh-16.4em)";
@@ -1158,15 +1162,15 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         name = style.getProperties().get(0).getName();
-        Assert.assertEquals("width : calc(42vh - 16.4em)",
+        assertEquals("width : calc(42vh - 16.4em)",
                 name + " : " + style.getPropertyValue(name));
     }
 
@@ -1181,15 +1185,15 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("width : calc(1cm + 2mm - 3in + 4px - 5pt + 6pc"
+        assertEquals("width : calc(1cm + 2mm - 3in + 4px - 5pt + 6pc"
                 + " - 7em + 8ex - 9ch + 10rem - 11vw + 12vh - 13vmin + 14vmax - 15%)",
                 name + " : " + style.getPropertyValue(name));
     }
@@ -1204,41 +1208,41 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("width : calc(14.1pc * 40mm / 1.2)",
+        assertEquals("width : calc(14.1pc * 40mm / 1.2)",
                 name + " : " + style.getPropertyValue(name));
 
         final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
-        Assert.assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
-        Assert.assertEquals("calc", unit.getFunctionName());
+        assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
+        assertEquals("calc", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
-        Assert.assertEquals(LexicalUnitType.PICA, unit.getLexicalUnitType());
-        Assert.assertEquals(14.1d, unit.getDoubleValue(), 0.00001);
+        assertEquals(LexicalUnitType.PICA, unit.getLexicalUnitType());
+        assertEquals(14.1d, unit.getDoubleValue(), 0.00001);
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.OPERATOR_MULTIPLY, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.OPERATOR_MULTIPLY, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.MILLIMETER, unit.getLexicalUnitType());
-        Assert.assertEquals(40.0d, unit.getDoubleValue(), 0.00001);
+        assertEquals(LexicalUnitType.MILLIMETER, unit.getLexicalUnitType());
+        assertEquals(40.0d, unit.getDoubleValue(), 0.00001);
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.OPERATOR_SLASH, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.OPERATOR_SLASH, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
-        Assert.assertEquals(1.2d, unit.getDoubleValue(), 0.00001);
+        assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
+        assertEquals(1.2d, unit.getDoubleValue(), 0.00001);
 
-        Assert.assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
     }
 
     @Test
@@ -1251,47 +1255,47 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("width : calc(14.1pc * (40mm / 1.2))",
+        assertEquals("width : calc(14.1pc * (40mm / 1.2))",
                 name + " : " + style.getPropertyValue(name));
 
         final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
-        Assert.assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
-        Assert.assertEquals("calc", unit.getFunctionName());
+        assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
+        assertEquals("calc", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
-        Assert.assertEquals(LexicalUnitType.PICA, unit.getLexicalUnitType());
-        Assert.assertEquals(14.1, unit.getDoubleValue(), 0.00001);
+        assertEquals(LexicalUnitType.PICA, unit.getLexicalUnitType());
+        assertEquals(14.1, unit.getDoubleValue(), 0.00001);
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.OPERATOR_MULTIPLY, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.OPERATOR_MULTIPLY, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals("", unit.getFunctionName());
+        assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        assertEquals("", unit.getFunctionName());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
-        Assert.assertEquals(LexicalUnitType.MILLIMETER, unit.getLexicalUnitType());
-        Assert.assertEquals(40.0, unit.getDoubleValue(), 0.00001);
+        assertEquals(LexicalUnitType.MILLIMETER, unit.getLexicalUnitType());
+        assertEquals(40.0, unit.getDoubleValue(), 0.00001);
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.OPERATOR_SLASH, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.OPERATOR_SLASH, unit.getLexicalUnitType());
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
-        Assert.assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
-        Assert.assertEquals(1.2, unit.getDoubleValue(), 0.00001);
+        assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
+        assertEquals(1.2, unit.getDoubleValue(), 0.00001);
 
-        Assert.assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
     }
 
     @Test
@@ -1399,10 +1403,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         if (err == 0) {
             final CSSRuleListImpl rules = sheet.getCssRules();
 
-            Assert.assertEquals(1, rules.getLength());
+            assertEquals(1, rules.getLength());
 
             final CSSStyleRuleImpl rule = (CSSStyleRuleImpl) rules.getRules().get(0);
-            Assert.assertEquals(expected, rule.getCssText());
+            assertEquals(expected, rule.getCssText());
         }
     }
 
@@ -1420,23 +1424,23 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final InputSource source = new InputSource(new StringReader(cssText));
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final CSSStyleRuleImpl rule = (CSSStyleRuleImpl) rules.getRules().get(0);
-        Assert.assertEquals("heading:before { content: attr(test) \"testData\"; }", rule.getCssText());
+        assertEquals("heading:before { content: attr(test) \"testData\"; }", rule.getCssText());
 
         final CSSStyleDeclarationImpl style = rule.getStyle();
 
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("content : attr(test) \"testData\"", name + " : " + style.getPropertyValue(name));
+        assertEquals("content : attr(test) \"testData\"", name + " : " + style.getPropertyValue(name));
     }
 
     /**
@@ -1452,15 +1456,15 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("clip : rect(10px, 20px, 30px, 40px)", name + " : " + style.getPropertyValue(name));
+        assertEquals("clip : rect(10px, 20px, 30px, 40px)", name + " : " + style.getPropertyValue(name));
     }
 
     /**
@@ -1476,15 +1480,15 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(1, style.getLength());
+        assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("content : attr(data-foo)", name + " : " + style.getPropertyValue(name));
+        assertEquals("content : attr(data-foo)", name + " : " + style.getPropertyValue(name));
     }
 
     /**
@@ -1504,33 +1508,33 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(5, rules.getLength());
+        assertEquals(5, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("H1:before { content: counter(chno, upper-latin) \". \"; }", rule.getCssText());
+        assertEquals("H1:before { content: counter(chno, upper-latin) \". \"; }", rule.getCssText());
         CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        Assert.assertEquals("counter(chno, upper-latin)", value.item(0).getCounterValue().toString());
+        assertEquals("counter(chno, upper-latin)", value.item(0).getCounterValue().toString());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("H2:before { content: counter(section, upper-roman) \" - \"; }", rule.getCssText());
+        assertEquals("H2:before { content: counter(section, upper-roman) \" - \"; }", rule.getCssText());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        Assert.assertEquals("counter(section, upper-roman)",
+        assertEquals("counter(section, upper-roman)",
                 value.item(0).getCounterValue().toString());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("BLOCKQUOTE:after { content: \" [\" counter(bq, lower-greek) \"]\"; }", rule.getCssText());
+        assertEquals("BLOCKQUOTE:after { content: \" [\" counter(bq, lower-greek) \"]\"; }", rule.getCssText());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        Assert.assertEquals("counter(bq, lower-greek)", value.item(1).getCounterValue().toString());
+        assertEquals("counter(bq, lower-greek)", value.item(1).getCounterValue().toString());
 
         rule = rules.getRules().get(3);
-        Assert.assertEquals("DIV.note:before { content: counter(notecntr, disc) \" \"; }", rule.getCssText());
+        assertEquals("DIV.note:before { content: counter(notecntr, disc) \" \"; }", rule.getCssText());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        Assert.assertEquals("counter(notecntr, disc)", value.item(0).getCounterValue().toString());
+        assertEquals("counter(notecntr, disc)", value.item(0).getCounterValue().toString());
 
         rule = rules.getRules().get(4);
-        Assert.assertEquals("P:before { content: counter(p, none); }", rule.getCssText());
+        assertEquals("P:before { content: counter(p, none); }", rule.getCssText());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        Assert.assertEquals("counter(p, none)", value.getCounterValue().toString());
+        assertEquals("counter(p, none)", value.getCounterValue().toString());
     }
 
     /**
@@ -1545,13 +1549,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("LI:before { content: counters(item, \".\") \" \"; counter-increment: item; }",
+        assertEquals("LI:before { content: counters(item, \".\") \" \"; counter-increment: item; }",
                 rule.getCssText());
         final CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        Assert.assertEquals("counters(item, \".\")", value.item(0).getCounterValue().toString());
+        assertEquals("counters(item, \".\")", value.item(0).getCounterValue().toString());
     }
 
     /**
@@ -1566,11 +1570,11 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
         // parser accepts this
-        Assert.assertEquals("h1 { color: red; rotation: 70minutes; }", rule.getCssText());
+        assertEquals("h1 { color: red; rotation: 70minutes; }", rule.getCssText());
     }
 
     /**
@@ -1589,20 +1593,20 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(5, rules.getLength());
+        assertEquals(5, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("img { float: left; }", rule.getCssText());
+        assertEquals("img { float: left; }", rule.getCssText());
 
         // parser accepts this
         rule = rules.getRules().get(1);
-        Assert.assertEquals("img { float: left here; }", rule.getCssText());
+        assertEquals("img { float: left here; }", rule.getCssText());
         rule = rules.getRules().get(2);
-        Assert.assertEquals("img { background: \"red\"; }", rule.getCssText());
+        assertEquals("img { background: \"red\"; }", rule.getCssText());
         rule = rules.getRules().get(3);
-        Assert.assertEquals("img { background: \"red\"; }", rule.getCssText());
+        assertEquals("img { background: \"red\"; }", rule.getCssText());
         rule = rules.getRules().get(4);
-        Assert.assertEquals("img { border-width: 3; }", rule.getCssText());
+        assertEquals("img { border-width: 3; }", rule.getCssText());
     }
 
     /**
@@ -1628,7 +1632,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(7, errorHandler.getErrorCount());
+        assertEquals(7, errorHandler.getErrorCount());
         final String expected = "Error in declaration. (Invalid token \"}\". Was expecting one of: <S>, \":\".)"
                 + " Error in declaration. (Invalid token \";\". Was expecting one of: <S>, \":\".)"
                 + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
@@ -1648,37 +1652,37 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)"
                 + " Error in style rule. (Invalid token \" \". Was expecting one of: <EOF>, \"}\", \";\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)";
-        Assert.assertEquals(expected, errorHandler.getErrorMessage());
-        Assert.assertEquals("2 3 4 5 6 6 7", errorHandler.getErrorLines());
-        Assert.assertEquals("29 28 30 29 28 48 28", errorHandler.getErrorColumns());
+        assertEquals(expected, errorHandler.getErrorMessage());
+        assertEquals("2 3 4 5 6 6 7", errorHandler.getErrorLines());
+        assertEquals("29 28 30 29 28 48 28", errorHandler.getErrorColumns());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(1, errorHandler.getWarningCount());
-        Assert.assertTrue(errorHandler.getWarningMessage(),
-                errorHandler.getWarningMessage().startsWith("Ignoring the following declarations in this rule."));
-        Assert.assertEquals("6", errorHandler.getWarningLines());
-        Assert.assertEquals("48", errorHandler.getWarningColumns());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(1, errorHandler.getWarningCount());
+        assertTrue(errorHandler.getWarningMessage().startsWith("Ignoring the following declarations in this rule."),
+                errorHandler.getWarningMessage());
+        assertEquals("6", errorHandler.getWarningLines());
+        assertEquals("48", errorHandler.getWarningColumns());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(7, rules.getLength());
+        assertEquals(7, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("p { color: green; }", rule.getCssText());
+        assertEquals("p { color: green; }", rule.getCssText());
 
         // parser accepts this
         rule = rules.getRules().get(1);
-        Assert.assertEquals("p { color: green; }", rule.getCssText());
+        assertEquals("p { color: green; }", rule.getCssText());
         rule = rules.getRules().get(2);
-        Assert.assertEquals("p { color: red; visibility: hidden; }", rule.getCssText());
+        assertEquals("p { color: red; visibility: hidden; }", rule.getCssText());
         rule = rules.getRules().get(3);
-        Assert.assertEquals("p { color: green; }", rule.getCssText());
+        assertEquals("p { color: green; }", rule.getCssText());
         rule = rules.getRules().get(4);
-        Assert.assertEquals("p { color: red; visibility: hidden; }", rule.getCssText());
+        assertEquals("p { color: red; visibility: hidden; }", rule.getCssText());
         rule = rules.getRules().get(5);
-        Assert.assertEquals("p { color: green; }", rule.getCssText());
+        assertEquals("p { color: green; }", rule.getCssText());
         rule = rules.getRules().get(6);
-        Assert.assertEquals("p { color: red; display: block; }", rule.getCssText());
+        assertEquals("p { color: red; display: block; }", rule.getCssText());
     }
 
     /**
@@ -1698,22 +1702,22 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(3, errorHandler.getErrorCount());
-        Assert.assertEquals("1 2 3", errorHandler.getErrorLines());
-        Assert.assertEquals("16 12 16", errorHandler.getErrorColumns());
+        assertEquals(3, errorHandler.getErrorCount());
+        assertEquals("1 2 3", errorHandler.getErrorLines());
+        assertEquals("16 12 16", errorHandler.getErrorColumns());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
-        Assert.assertEquals(3, rules.getLength());
+        assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("h1 { color: red; width: 10px; }", rule.getCssText());
+        assertEquals("h1 { color: red; width: 10px; }", rule.getCssText());
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h2 { width: 10px; }", rule.getCssText());
+        assertEquals("h2 { width: 10px; }", rule.getCssText());
         rule = rules.getRules().get(2);
-        Assert.assertEquals("h3 { color: red; }", rule.getCssText());
+        assertEquals("h3 { color: red; }", rule.getCssText());
     }
 
     /**
@@ -1738,31 +1742,31 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in style rule. "
                 + "(Invalid token \"@here\". Was expecting one of: <S>, <LBRACE>, <COMMA>.)";
-        Assert.assertEquals(expected, errorHandler.getErrorMessage());
-        Assert.assertEquals("2", errorHandler.getErrorLines());
-        Assert.assertEquals("3", errorHandler.getErrorColumns());
+        assertEquals(expected, errorHandler.getErrorMessage());
+        assertEquals("2", errorHandler.getErrorLines());
+        assertEquals("3", errorHandler.getErrorColumns());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(1, errorHandler.getWarningCount());
-        Assert.assertEquals("Ignoring the following declarations in this rule.", errorHandler.getWarningMessage());
-        Assert.assertEquals("2", errorHandler.getWarningLines());
-        Assert.assertEquals("3", errorHandler.getWarningColumns());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(1, errorHandler.getWarningCount());
+        assertEquals("Ignoring the following declarations in this rule.", errorHandler.getWarningMessage());
+        assertEquals("2", errorHandler.getWarningLines());
+        assertEquals("3", errorHandler.getWarningColumns());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(3, rules.getLength());
+        assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("p { color: green; }", rule.getCssText());
+        assertEquals("p { color: green; }", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("@foo @bar;", rule.getCssText());
+        assertEquals("@foo @bar;", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("p { color: blue; }", rule.getCssText());
+        assertEquals("p { color: blue; }", rule.getCssText());
     }
 
     /**
@@ -1784,10 +1788,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@three-dee {\n"
+        assertEquals("@three-dee {\n"
                             + "  @background-lighting {\n"
                             + "    azimuth: 30deg;\n"
                             + "    elevation: 190deg;\n"
@@ -1796,7 +1800,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                             + "  }", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h1 { color: blue; }", rule.getCssText());
+        assertEquals("h1 { color: blue; }", rule.getCssText());
     }
 
     /**
@@ -1817,24 +1821,24 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in @media rule. (Invalid token \"<EOF>\". Was expecting one of: ";
-        Assert.assertTrue(errorHandler.getErrorMessage(), errorHandler.getErrorMessage().startsWith(expected));
-        Assert.assertEquals("2", errorHandler.getErrorLines());
-        Assert.assertEquals("27", errorHandler.getErrorColumns());
+        assertTrue(errorHandler.getErrorMessage().startsWith(expected), errorHandler.getErrorMessage());
+        assertEquals("2", errorHandler.getErrorLines());
+        assertEquals("27", errorHandler.getErrorColumns());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(1, errorHandler.getWarningCount());
-        Assert.assertEquals("Ignoring the whole rule.", errorHandler.getWarningMessage());
-        Assert.assertEquals("2", errorHandler.getWarningLines());
-        Assert.assertEquals("27", errorHandler.getWarningColumns());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(1, errorHandler.getWarningCount());
+        assertEquals("Ignoring the whole rule.", errorHandler.getWarningMessage());
+        assertEquals("2", errorHandler.getWarningLines());
+        assertEquals("27", errorHandler.getWarningColumns());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@media screen {\n  p:before { content: Hello; }\n}", rule.getCssText());
+        assertEquals("@media screen {\n  p:before { content: Hello; }\n}", rule.getCssText());
     }
 
     /**
@@ -1853,24 +1857,24 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in @media rule. (Invalid token \"<EOF>\". Was expecting one of: ";
-        Assert.assertTrue(errorHandler.getErrorMessage(), errorHandler.getErrorMessage().startsWith(expected));
-        Assert.assertEquals("2", errorHandler.getErrorLines());
-        Assert.assertEquals("29", errorHandler.getErrorColumns());
+        assertTrue(errorHandler.getErrorMessage().startsWith(expected), errorHandler.getErrorMessage());
+        assertEquals("2", errorHandler.getErrorLines());
+        assertEquals("29", errorHandler.getErrorColumns());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(1, errorHandler.getWarningCount());
-        Assert.assertEquals("Ignoring the whole rule.", errorHandler.getWarningMessage());
-        Assert.assertEquals("2", errorHandler.getWarningLines());
-        Assert.assertEquals("29", errorHandler.getWarningColumns());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(1, errorHandler.getWarningCount());
+        assertEquals("Ignoring the whole rule.", errorHandler.getWarningMessage());
+        assertEquals("2", errorHandler.getWarningLines());
+        assertEquals("29", errorHandler.getWarningColumns());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@media screen {\n  p:before { content: Hello; }\n}", rule.getCssText());
+        assertEquals("@media screen {\n  p:before { content: Hello; }\n}", rule.getCssText());
     }
 
     /**
@@ -1888,25 +1892,25 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in @page rule. "
                 + "(Invalid token \"<EOF>\". Was expecting one of: <S>, <IDENT>, \"}\", \";\", \"*\", <CUSTOM_PROPERTY_NAME>.)";
-        Assert.assertEquals(expected, errorHandler.getErrorMessage());
-        Assert.assertEquals("1", errorHandler.getErrorLines());
-        Assert.assertEquals("39", errorHandler.getErrorColumns());
+        assertEquals(expected, errorHandler.getErrorMessage());
+        assertEquals("1", errorHandler.getErrorLines());
+        assertEquals("39", errorHandler.getErrorColumns());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(1, errorHandler.getWarningCount());
-        Assert.assertEquals("Ignoring the whole rule.", errorHandler.getWarningMessage());
-        Assert.assertEquals("1", errorHandler.getWarningLines());
-        Assert.assertEquals("39", errorHandler.getWarningColumns());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(1, errorHandler.getWarningCount());
+        assertEquals("Ignoring the whole rule.", errorHandler.getWarningMessage());
+        assertEquals("1", errorHandler.getWarningLines());
+        assertEquals("39", errorHandler.getWarningColumns());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@page :pageStyle { size: 21cm 29.7cm; }", rule.getCssText());
+        assertEquals("@page :pageStyle { size: 21cm 29.7cm; }", rule.getCssText());
     }
 
     /**
@@ -1932,7 +1936,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in expression. "
                 + "(Invalid token \"\\'\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
                         + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
@@ -1941,19 +1945,19 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION>, \"progid:\".)";
-        Assert.assertEquals(expected, errorHandler.getErrorMessage());
-        Assert.assertEquals("3", errorHandler.getErrorLines());
-        Assert.assertEquals("16", errorHandler.getErrorColumns());
+        assertEquals(expected, errorHandler.getErrorMessage());
+        assertEquals("3", errorHandler.getErrorLines());
+        assertEquals("16", errorHandler.getErrorColumns());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("p { color: green; background: green; }", rule.getCssText());
+        assertEquals("p { color: green; background: green; }", rule.getCssText());
     }
 
     /**
@@ -1974,22 +1978,22 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in rule. (Invalid token \"0.75\".";
-        Assert.assertTrue("'" + errorHandler.getErrorMessage() + "' does not start with '" + expected + "'",
-                        errorHandler.getErrorMessage().startsWith(expected));
-        Assert.assertEquals("2", errorHandler.getErrorLines());
-        Assert.assertEquals("13", errorHandler.getErrorColumns());
+        assertTrue(errorHandler.getErrorMessage().startsWith(expected),
+                "'" + errorHandler.getErrorMessage() + "' does not start with '" + expected + "'");
+        assertEquals("2", errorHandler.getErrorLines());
+        assertEquals("13", errorHandler.getErrorColumns());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(1, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(1, errorHandler.getWarningCount());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(3, rules.getLength());
-        Assert.assertEquals("*.red { color: red; }", rules.getRules().get(0).getCssText());
-        Assert.assertEquals("*.invalid { }", rules.getRules().get(1).getCssText());
-        Assert.assertEquals("*.green { color: green; }", rules.getRules().get(2).getCssText());
+        assertEquals(3, rules.getLength());
+        assertEquals("*.red { color: red; }", rules.getRules().get(0).getCssText());
+        assertEquals("*.invalid { }", rules.getRules().get(1).getCssText());
+        assertEquals("*.green { color: green; }", rules.getRules().get(2).getCssText());
     }
 
     /**
@@ -2007,20 +2011,20 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in rule. (Invalid token \"}\".";
-        Assert.assertTrue("'" + errorHandler.getErrorMessage() + "' does not start with '" + expected + "'",
-                        errorHandler.getErrorMessage().startsWith(expected));
-        Assert.assertEquals("2", errorHandler.getErrorLines());
-        Assert.assertEquals("1", errorHandler.getErrorColumns());
+        assertTrue(errorHandler.getErrorMessage().startsWith(expected),
+                "'" + errorHandler.getErrorMessage() + "' does not start with '" + expected + "'");
+        assertEquals("2", errorHandler.getErrorLines());
+        assertEquals("1", errorHandler.getErrorColumns());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(1, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(1, errorHandler.getWarningCount());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
-        Assert.assertEquals("*.red { color: red; }", rules.getRules().get(0).getCssText());
+        assertEquals(1, rules.getLength());
+        assertEquals("*.red { color: red; }", rules.getRules().get(0).getCssText());
     }
 
     /**
@@ -2035,8 +2039,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
-        Assert.assertEquals("*.red { color: red; }", rules.getRules().get(0).getCssText());
+        assertEquals(1, rules.getLength());
+        assertEquals("*.red { color: red; }", rules.getRules().get(0).getCssText());
     }
 
     /**
@@ -2057,25 +2061,25 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(6, rules.getLength());
+        assertEquals(6, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("h1 { background: url(\"this is a 'string'\"); }", rule.getCssText());
+        assertEquals("h1 { background: url(\"this is a 'string'\"); }", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h2 { background: url(\"this is a \"string\"\"); }", rule.getCssText());
+        assertEquals("h2 { background: url(\"this is a \"string\"\"); }", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("h4 { background: url(\"this is a \"string\"\"); }", rule.getCssText());
+        assertEquals("h4 { background: url(\"this is a \"string\"\"); }", rule.getCssText());
 
         rule = rules.getRules().get(3);
-        Assert.assertEquals("h5 { background: url(\"this is a 'string'\"); }", rule.getCssText());
+        assertEquals("h5 { background: url(\"this is a 'string'\"); }", rule.getCssText());
 
         rule = rules.getRules().get(4);
-        Assert.assertEquals("h6 { background: url(\"this is a  string\"); }", rule.getCssText());
+        assertEquals("h6 { background: url(\"this is a  string\"); }", rule.getCssText());
 
         rule = rules.getRules().get(5);
-        Assert.assertEquals("h1:before { content: \"chapter\\A hoofdstuk\\A  chapitre\"; }", rule.getCssText());
+        assertEquals("h1:before { content: \"chapter\\A hoofdstuk\\A  chapitre\"; }", rule.getCssText());
     }
 
     /**
@@ -2091,19 +2095,19 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(4, rules.getLength());
+        assertEquals(4, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("h1 { background: url(\"\"); }", rule.getCssText());
+        assertEquals("h1 { background: url(\"\"); }", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h2 { background: url(\"\"); }", rule.getCssText());
+        assertEquals("h2 { background: url(\"\"); }", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("h4 { background: url(\"\"); }", rule.getCssText());
+        assertEquals("h4 { background: url(\"\"); }", rule.getCssText());
 
         rule = rules.getRules().get(3);
-        Assert.assertEquals("h5 { background: url(\"\"); }", rule.getCssText());
+        assertEquals("h5 { background: url(\"\"); }", rule.getCssText());
     }
 
     /**
@@ -2123,13 +2127,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(1, errorHandler.getWarningCount());
+        assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(1, errorHandler.getWarningCount());
 
-        Assert.assertTrue(errorHandler.getErrorMessage(),
-                errorHandler.getErrorMessage().startsWith("Error in simple selector."));
-        Assert.assertEquals("Ignoring the whole rule.", errorHandler.getWarningMessage());
+        assertTrue(errorHandler.getErrorMessage().startsWith("Error in simple selector."),
+                errorHandler.getErrorMessage());
+        assertEquals("Ignoring the whole rule.", errorHandler.getWarningMessage());
     }
 
     /**
@@ -2150,22 +2154,22 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
-        Assert.assertTrue(errorHandler.getErrorMessage(),
-                errorHandler.getErrorMessage().startsWith("Error in declaration."));
+        assertTrue(errorHandler.getErrorMessage().startsWith("Error in declaration."),
+                errorHandler.getErrorMessage());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("*.a { }", rule.getCssText());
+        assertEquals("*.a { }", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("p { color: green; }", rule.getCssText());
+        assertEquals("p { color: green; }", rule.getCssText());
     }
 
     /**
@@ -2183,19 +2187,19 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
-        Assert.assertTrue(errorHandler.getErrorMessage(),
-                errorHandler.getErrorMessage().startsWith("Error in declaration."));
+        assertTrue(errorHandler.getErrorMessage().startsWith("Error in declaration."),
+                errorHandler.getErrorMessage());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("*.a { color: green; }", rule.getCssText());
+        assertEquals("*.a { color: green; }", rule.getCssText());
     }
 
     /**
@@ -2213,19 +2217,19 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
-        Assert.assertTrue(errorHandler.getErrorMessage(),
-                errorHandler.getErrorMessage().startsWith("Error in declaration."));
+        assertTrue(errorHandler.getErrorMessage().startsWith("Error in declaration."),
+                errorHandler.getErrorMessage());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("*.a { color: blue; background: green; }", rule.getCssText());
+        assertEquals("*.a { color: blue; background: green; }", rule.getCssText());
     }
 
     /**
@@ -2248,13 +2252,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
         final CSSStyleRuleImpl ruleImpl = (CSSStyleRuleImpl) rule;
@@ -2262,15 +2266,15 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         Property prop = declImpl.getPropertyDeclaration("-webkit-box-shadow");
         CSSValueImpl valueImpl = prop.getValue();
-        Assert.assertEquals("1px 4px 5px \"#{richSkin.additionalBackgroundColor}\"", valueImpl.getCssText());
+        assertEquals("1px 4px 5px \"#{richSkin.additionalBackgroundColor}\"", valueImpl.getCssText());
 
         prop = declImpl.getPropertyDeclaration("-moz-box-shadow");
         valueImpl = prop.getValue();
-        Assert.assertEquals("2px 4px 5px \"#{richSkin.additionalBackgroundColor}\"", valueImpl.getCssText());
+        assertEquals("2px 4px 5px \"#{richSkin.additionalBackgroundColor}\"", valueImpl.getCssText());
 
         prop = declImpl.getPropertyDeclaration("box-shadow");
         valueImpl = prop.getValue();
-        Assert.assertEquals("3px 4px 5px \"#{richSkin.additionalBackgroundColor}\"", valueImpl.getCssText());
+        assertEquals("3px 4px 5px \"#{richSkin.additionalBackgroundColor}\"", valueImpl.getCssText());
     }
 
     /**
@@ -2279,7 +2283,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionPercent() throws Exception {
         final CSSValueImpl value = dimension("2%");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_PERCENTAGE, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_PERCENTAGE, value.getPrimitiveType());
     }
 
     /**
@@ -2288,7 +2292,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionPX() throws Exception {
         final CSSValueImpl value = dimension("3px");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_PX, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_PX, value.getPrimitiveType());
     }
 
     /**
@@ -2297,7 +2301,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionCM() throws Exception {
         final CSSValueImpl value = dimension("5cm");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_CM, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_CM, value.getPrimitiveType());
     }
 
     /**
@@ -2306,7 +2310,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionMM() throws Exception {
         final CSSValueImpl value = dimension("7mm");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_MM, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_MM, value.getPrimitiveType());
     }
 
     /**
@@ -2315,7 +2319,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionIN() throws Exception {
         final CSSValueImpl value = dimension("11in");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_IN, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_IN, value.getPrimitiveType());
     }
 
     /**
@@ -2324,7 +2328,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionPT() throws Exception {
         final CSSValueImpl value = dimension("13pt");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_PT, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_PT, value.getPrimitiveType());
     }
 
     /**
@@ -2333,7 +2337,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionEMS() throws Exception {
         final CSSValueImpl value = dimension("17em");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_EMS, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_EMS, value.getPrimitiveType());
     }
 
     /**
@@ -2342,7 +2346,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionREM() throws Exception {
         final CSSValueImpl value = dimension("17rem");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_REM, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_REM, value.getPrimitiveType());
     }
 
     /**
@@ -2351,7 +2355,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionCh() throws Exception {
         final CSSValueImpl value = dimension("17ch");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_CH, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_CH, value.getPrimitiveType());
     }
 
     /**
@@ -2360,7 +2364,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionVw() throws Exception {
         final CSSValueImpl value = dimension("17vw");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_VW, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_VW, value.getPrimitiveType());
     }
 
     /**
@@ -2369,7 +2373,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionVh() throws Exception {
         final CSSValueImpl value = dimension("17vh");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_VH, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_VH, value.getPrimitiveType());
     }
 
     /**
@@ -2378,7 +2382,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionVMin() throws Exception {
         final CSSValueImpl value = dimension("17vmin");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_VMIN, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_VMIN, value.getPrimitiveType());
     }
 
     /**
@@ -2387,7 +2391,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionVMax() throws Exception {
         final CSSValueImpl value = dimension("17vmax");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_VMAX, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_VMAX, value.getPrimitiveType());
     }
 
     /**
@@ -2396,7 +2400,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionEXS() throws Exception {
         final CSSValueImpl value = dimension("19ex");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_EXS, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_EXS, value.getPrimitiveType());
     }
 
     /**
@@ -2405,7 +2409,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionDEG() throws Exception {
         final CSSValueImpl value = dimension("13deg");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_DEG, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_DEG, value.getPrimitiveType());
     }
 
     /**
@@ -2414,7 +2418,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionRAD() throws Exception {
         final CSSValueImpl value = dimension("99rad");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_RAD, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_RAD, value.getPrimitiveType());
     }
 
     /**
@@ -2423,7 +2427,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionGRAD() throws Exception {
         final CSSValueImpl value = dimension("31grad");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_GRAD, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_GRAD, value.getPrimitiveType());
     }
 
     /**
@@ -2432,7 +2436,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionMS() throws Exception {
         final CSSValueImpl value = dimension("37ms");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_MS, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_MS, value.getPrimitiveType());
     }
 
     /**
@@ -2441,7 +2445,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionS() throws Exception {
         final CSSValueImpl value = dimension("41s");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_S, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_S, value.getPrimitiveType());
     }
 
     /**
@@ -2450,7 +2454,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionHZ() throws Exception {
         final CSSValueImpl value = dimension("43Hz");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_HZ, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_HZ, value.getPrimitiveType());
     }
 
     /**
@@ -2459,7 +2463,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void dimensionKHZ() throws Exception {
         final CSSValueImpl value = dimension("47kHz");
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_KHZ, value.getPrimitiveType());
+        assertEquals(CSSPrimitiveValueType.CSS_KHZ, value.getPrimitiveType());
     }
 
     /**
@@ -2481,13 +2485,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("*.a { top: 0\\9; }", rule.getCssText());
+        assertEquals("*.a { top: 0\\9; }", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("*.b { top: -1.234newDim; }", rule.getCssText());
+        assertEquals("*.b { top: -1.234newDim; }", rule.getCssText());
     }
 
     /**
@@ -2505,21 +2509,21 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
 
         CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("-ms-filter");
-        Assert.assertEquals("\"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)\"", value.getCssText());
+        assertEquals("\"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)\"", value.getCssText());
 
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("filter");
-        Assert.assertEquals("alpha(opacity=90)", value.getCssText());
+        assertEquals("alpha(opacity=90)", value.getCssText());
 
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("-moz-opacity");
-        Assert.assertEquals("0.9", value.getCssText());
+        assertEquals("0.9", value.getCssText());
 
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("opacity");
-        Assert.assertEquals("0.9", value.getCssText());
+        assertEquals("0.9", value.getCssText());
     }
 
     /**
@@ -2544,34 +2548,34 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(4, rules.getLength());
+        assertEquals(4, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
         CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("filter");
-        Assert.assertEquals("progid:DXImageTransform.Microsoft.gradient("
+        assertEquals("progid:DXImageTransform.Microsoft.gradient("
                 + "GradientType=0, startColorstr=#6191bf, endColorstr=#cde6f9)", value.getCssText());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("color");
-        Assert.assertEquals("green", value.getCssText());
+        assertEquals("green", value.getCssText());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("color");
-        Assert.assertEquals("green", value.getCssText());
+        assertEquals("green", value.getCssText());
 
         rule = rules.getRules().get(1);
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("filter");
-        Assert.assertEquals("progid:DXImageTransform.Microsoft.gradient(GradientType=0)", value.getCssText());
+        assertEquals("progid:DXImageTransform.Microsoft.gradient(GradientType=0)", value.getCssText());
 
         rule = rules.getRules().get(2);
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("filter");
-        Assert.assertEquals("progid:DXImageTransform.Microsoft.gradient(GradientType=1)", value.getCssText());
+        assertEquals("progid:DXImageTransform.Microsoft.gradient(GradientType=1)", value.getCssText());
 
         rule = rules.getRules().get(3);
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("filter");
-        Assert.assertEquals("progid:", value.getCssText());
+        assertEquals("progid:", value.getCssText());
     }
 
     /**
@@ -2592,19 +2596,19 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
-        Assert.assertTrue(errorHandler.getErrorMessage(),
-                errorHandler.getErrorMessage().startsWith("Error in expression. (Invalid token \"(\"."));
+        assertTrue(errorHandler.getErrorMessage().startsWith("Error in expression. (Invalid token \"(\"."),
+                errorHandler.getErrorMessage());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("*.a { color: green; }", rule.getCssText());
+        assertEquals("*.a { color: green; }", rule.getCssText());
     }
 
     /**
@@ -2625,18 +2629,18 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
         CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("-ms-filter");
-        Assert.assertEquals("\"progid:DXImageTransform.Microsoft."
+        assertEquals("\"progid:DXImageTransform.Microsoft."
             + "gradient(GradientType=0, startColorstr=#6191bf, endColorstr=#cde6f9)\"", value.getCssText());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("color");
-        Assert.assertEquals("green", value.getCssText());
+        assertEquals("green", value.getCssText());
 
         rule = rules.getRules().get(1);
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("-ms-filter");
-        Assert.assertEquals("\"progid:DXImageTransform.Microsoft.MotionBlur(strength=50), "
+        assertEquals("\"progid:DXImageTransform.Microsoft.MotionBlur(strength=50), "
             + "progid:DXImageTransform.Microsoft.BasicImage(mirror=1)\"", value.getCssText());
     }
 
@@ -2650,24 +2654,24 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
 
         final CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("font");
-        Assert.assertEquals("normal normal normal 14px / 11 FontAwesome", value.getCssText());
+        assertEquals("normal normal normal 14px / 11 FontAwesome", value.getCssText());
 
-        Assert.assertEquals(CSSValueType.CSS_VALUE_LIST, value.getCssValueType());
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_UNKNOWN, value.getPrimitiveType());
+        assertEquals(CSSValueType.CSS_VALUE_LIST, value.getCssValueType());
+        assertEquals(CSSPrimitiveValueType.CSS_UNKNOWN, value.getPrimitiveType());
 
-        Assert.assertEquals(7, value.getLength());
-        Assert.assertEquals("normal", value.item(0).getStringValue());
-        Assert.assertEquals("normal", value.item(1).getStringValue());
-        Assert.assertEquals("normal", value.item(2).getStringValue());
-        Assert.assertEquals("14px", value.item(3).getCssText());
-        Assert.assertEquals("/", value.item(4).getCssText());
-        Assert.assertEquals("11", value.item(5).getCssText());
-        Assert.assertEquals("FontAwesome", value.item(6).getStringValue());
+        assertEquals(7, value.getLength());
+        assertEquals("normal", value.item(0).getStringValue());
+        assertEquals("normal", value.item(1).getStringValue());
+        assertEquals("normal", value.item(2).getStringValue());
+        assertEquals("14px", value.item(3).getCssText());
+        assertEquals("/", value.item(4).getCssText());
+        assertEquals("11", value.item(5).getCssText());
+        assertEquals("FontAwesome", value.item(6).getStringValue());
     }
 
     /**
@@ -2682,12 +2686,12 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
 
         final CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("transform");
-        Assert.assertEquals("rotateY(180deg)", value.getCssText());
+        assertEquals("rotateY(180deg)", value.getCssText());
     }
 
     /**
@@ -2702,17 +2706,17 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
 
         final CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().
                             getPropertyCSSValue("background-color");
-        Assert.assertEquals("rgba(0, 0, 0, 0.2)", value.getCssText());
+        assertEquals("rgba(0, 0, 0, 0.2)", value.getCssText());
 
-        Assert.assertEquals(CSSValueType.CSS_PRIMITIVE_VALUE, value.getCssValueType());
-        Assert.assertEquals(CSSPrimitiveValueType.CSS_STRING, value.getPrimitiveType());
-        Assert.assertEquals("rgba(0, 0, 0, 0.2)", value.getStringValue());
+        assertEquals(CSSValueType.CSS_PRIMITIVE_VALUE, value.getCssValueType());
+        assertEquals(CSSPrimitiveValueType.CSS_STRING, value.getPrimitiveType());
+        assertEquals("rgba(0, 0, 0, 0.2)", value.getStringValue());
     }
 
     /**
@@ -2728,23 +2732,23 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(4, rules.getLength());
+        assertEquals(4, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
         CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("background");
-        Assert.assertEquals("linear-gradient(top, rgb(255, 255, 255), rgb(242, 242, 242))", value.getCssText());
+        assertEquals("linear-gradient(top, rgb(255, 255, 255), rgb(242, 242, 242))", value.getCssText());
 
         rule = rules.getRules().get(1);
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("background");
-        Assert.assertEquals("linear-gradient(45deg, blue, red)", value.getCssText());
+        assertEquals("linear-gradient(45deg, blue, red)", value.getCssText());
 
         rule = rules.getRules().get(2);
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("background");
-        Assert.assertEquals("linear-gradient(to left top, rgb(0, 0, 255), red)", value.getCssText());
+        assertEquals("linear-gradient(to left top, rgb(0, 0, 255), red)", value.getCssText());
 
         rule = rules.getRules().get(3);
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("background");
-        Assert.assertEquals("linear-gradient(0 deg, blue, green 40%, red)", value.getCssText());
+        assertEquals("linear-gradient(0 deg, blue, green 40%, red)", value.getCssText());
     }
 
     /**
@@ -2754,7 +2758,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void prefixAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel^=val]");
         final ElementSelector selector = (ElementSelector) selectors.get(0);
-        Assert.assertTrue(selector.getConditions().get(0) instanceof PrefixAttributeCondition);
+        assertTrue(selector.getConditions().get(0) instanceof PrefixAttributeCondition);
     }
 
     /**
@@ -2764,7 +2768,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void suffixAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel$=val]");
         final ElementSelector selector = (ElementSelector) selectors.get(0);
-        Assert.assertTrue(selector.getConditions().get(0) instanceof SuffixAttributeCondition);
+        assertTrue(selector.getConditions().get(0) instanceof SuffixAttributeCondition);
     }
 
     /**
@@ -2774,7 +2778,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void substringAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel*=val]");
         final ElementSelector selector = (ElementSelector) selectors.get(0);
-        Assert.assertTrue(selector.getConditions().get(0) instanceof SubstringAttributeCondition);
+        assertTrue(selector.getConditions().get(0) instanceof SubstringAttributeCondition);
     }
 
     /**
@@ -2784,23 +2788,23 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void nth_child() throws Exception {
         String cssText = "div:nth-child(0)";
         SelectorList selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.get(0).toString());
+        assertEquals(cssText, selectors.get(0).toString());
 
         cssText = "div:nth-child(2n+1)";
         selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.get(0).toString());
+        assertEquals(cssText, selectors.get(0).toString());
 
         cssText = "div:nth-child(2n-1)";
         selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.get(0).toString());
+        assertEquals(cssText, selectors.get(0).toString());
 
         cssText = "div:nth-child(odd)";
         selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.get(0).toString());
+        assertEquals(cssText, selectors.get(0).toString());
 
         cssText = "div:nth-child(even)";
         selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.get(0).toString());
+        assertEquals(cssText, selectors.get(0).toString());
     }
 
     /**
@@ -2810,11 +2814,11 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void nth_last_child() throws Exception {
         String cssText = "div:nth-last-child(-n+2)";
         SelectorList selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.get(0).toString());
+        assertEquals(cssText, selectors.get(0).toString());
 
         cssText = "div:nth-last-child(odd)";
         selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.get(0).toString());
+        assertEquals(cssText, selectors.get(0).toString());
     }
 
     /**
@@ -2824,11 +2828,11 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void nth_of_type() throws Exception {
         String cssText = "div:nth-of-type(2n+1)";
         SelectorList selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.get(0).toString());
+        assertEquals(cssText, selectors.get(0).toString());
 
         cssText = "div:nth-of-type(2n)";
         selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.get(0).toString());
+        assertEquals(cssText, selectors.get(0).toString());
     }
 
     /**
@@ -2837,19 +2841,19 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void nth_preserveInnerWhitespace() throws Exception {
         SelectorList selectors = createSelectors("div:nth-child( 0 )");
-        Assert.assertEquals("div:nth-child(0)", selectors.get(0).toString());
+        assertEquals("div:nth-child(0)", selectors.get(0).toString());
 
         selectors = createSelectors("div:nth-child( + 4 n )");
-        Assert.assertEquals("div:nth-child(+ 4 n)", selectors.get(0).toString());
+        assertEquals("div:nth-child(+ 4 n)", selectors.get(0).toString());
 
         selectors = createSelectors("div:nth-child( - 5 n + 2 )");
-        Assert.assertEquals("div:nth-child(- 5 n + 2)", selectors.get(0).toString());
+        assertEquals("div:nth-child(- 5 n + 2)", selectors.get(0).toString());
 
         selectors = createSelectors("div:nth-child( - 5     n\t\t+ \t 2 )");
-        Assert.assertEquals("div:nth-child(- 5     n\t\t+ \t 2)", selectors.get(0).toString());
+        assertEquals("div:nth-child(- 5     n\t\t+ \t 2)", selectors.get(0).toString());
 
         selectors = createSelectors("div:nth-child( odd )");
-        Assert.assertEquals("div:nth-child(odd)", selectors.get(0).toString());
+        assertEquals("div:nth-child(odd)", selectors.get(0).toString());
     }
 
     /**
@@ -2859,7 +2863,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void generalAdjacentSelector() throws Exception {
         final String cssText = "div ~ hi";
         final SelectorList selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText, selectors.get(0).toString());
+        assertEquals(cssText, selectors.get(0).toString());
     }
 
     /**
@@ -2869,7 +2873,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void selectorTrimWhitespace() throws Exception {
         final String cssText = "  \t\r\n  div > hi  \t\r\n  ";
         final SelectorList selectors = createSelectors(cssText);
-        Assert.assertEquals(cssText.trim(), selectors.get(0).toString());
+        assertEquals(cssText.trim(), selectors.get(0).toString());
     }
 
     /**
@@ -2879,36 +2883,36 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void not() throws Exception {
         // element name
         SelectorList selectors = createSelectors("input:not(abc)");
-        Assert.assertEquals("input:not(abc)", selectors.get(0).toString());
+        assertEquals("input:not(abc)", selectors.get(0).toString());
 
         selectors = createSelectors("input:not(*)");
-        Assert.assertEquals("input:not(*)", selectors.get(0).toString());
+        assertEquals("input:not(*)", selectors.get(0).toString());
 
         // hash
         selectors = createSelectors("input:not(#test)");
-        Assert.assertEquals("input:not(#test)", selectors.get(0).toString());
+        assertEquals("input:not(#test)", selectors.get(0).toString());
 
         // class
         selectors = createSelectors("input:not(.home)");
-        Assert.assertEquals("input:not(.home)", selectors.get(0).toString());
+        assertEquals("input:not(.home)", selectors.get(0).toString());
 
         // attrib
         selectors = createSelectors("input:not([title])");
-        Assert.assertEquals("input:not([title])", selectors.get(0).toString());
+        assertEquals("input:not([title])", selectors.get(0).toString());
 
         selectors = createSelectors("input:not([type = 'file'])");
-        Assert.assertEquals("input:not([type=\"file\"])", selectors.get(0).toString());
+        assertEquals("input:not([type=\"file\"])", selectors.get(0).toString());
 
         selectors = createSelectors("input:not([type ~= 'file'])");
-        Assert.assertEquals("input:not([type~=\"file\"])", selectors.get(0).toString());
+        assertEquals("input:not([type~=\"file\"])", selectors.get(0).toString());
 
         // pseudo
         selectors = createSelectors("input:not(:last)");
-        Assert.assertEquals("input:not(:last)", selectors.get(0).toString());
+        assertEquals("input:not(:last)", selectors.get(0).toString());
 
         // whitespace
         selectors = createSelectors("input:not( .hi \t)");
-        Assert.assertEquals("input:not(.hi)", selectors.get(0).toString());
+        assertEquals("input:not(.hi)", selectors.get(0).toString());
     }
 
     /**
@@ -2921,10 +2925,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 0, 0, 0);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("*#stageList li:not(.memberStage) { display: none; }", rule.getCssText());
+        assertEquals("*#stageList li:not(.memberStage) { display: none; }", rule.getCssText());
 
         final CSSStyleSheetImpl theOutputSheet = new CSSStyleSheetImpl();
         theOutputSheet.insertRule(rule.getCssText(), 0);
@@ -2936,21 +2940,21 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void not_elementName() throws Exception {
         final SelectorList selectors = createSelectors("p:not(abc)");
-        Assert.assertEquals("p:not(abc)", selectors.get(0).toString());
+        assertEquals("p:not(abc)", selectors.get(0).toString());
 
-        Assert.assertEquals(1, selectors.size());
+        assertEquals(1, selectors.size());
         final Selector selector = selectors.get(0);
 
-        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
+        assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
         final ElementSelector elemSel = (ElementSelector) selector;
-        Assert.assertEquals(1, elemSel.getConditions().size());
+        assertEquals(1, elemSel.getConditions().size());
 
         final Condition condition = elemSel.getConditions().get(0);
-        Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        Assert.assertEquals("not(abc)", pseudo.getValue());
+        assertEquals("not(abc)", pseudo.getValue());
     }
 
     /**
@@ -2959,21 +2963,21 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void not_universal() throws Exception {
         final SelectorList selectors = createSelectors("p:not(*)");
-        Assert.assertEquals("p:not(*)", selectors.get(0).toString());
+        assertEquals("p:not(*)", selectors.get(0).toString());
 
-        Assert.assertEquals(1, selectors.size());
+        assertEquals(1, selectors.size());
         final Selector selector = selectors.get(0);
 
-        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
+        assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
         final ElementSelector elemSel = (ElementSelector) selector;
-        Assert.assertEquals(1, elemSel.getConditions().size());
+        assertEquals(1, elemSel.getConditions().size());
 
         final Condition condition = elemSel.getConditions().get(0);
-        Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        Assert.assertEquals("not(*)", pseudo.getValue());
+        assertEquals("not(*)", pseudo.getValue());
     }
 
     /**
@@ -2982,21 +2986,21 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void not_hash() throws Exception {
         final SelectorList selectors = createSelectors("p:not( #test)");
-        Assert.assertEquals("p:not(#test)", selectors.get(0).toString());
+        assertEquals("p:not(#test)", selectors.get(0).toString());
 
-        Assert.assertEquals(1, selectors.size());
+        assertEquals(1, selectors.size());
         final Selector selector = selectors.get(0);
 
-        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
+        assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
         final ElementSelector elemSel = (ElementSelector) selector;
-        Assert.assertEquals(1, elemSel.getConditions().size());
+        assertEquals(1, elemSel.getConditions().size());
 
         final Condition condition = elemSel.getConditions().get(0);
-        Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        Assert.assertEquals("not(#test)", pseudo.getValue());
+        assertEquals("not(#test)", pseudo.getValue());
     }
 
     /**
@@ -3006,21 +3010,21 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     public void not_class() throws Exception {
         // element name
         final SelectorList selectors = createSelectors("p:not(.klass)");
-        Assert.assertEquals("p:not(.klass)", selectors.get(0).toString());
+        assertEquals("p:not(.klass)", selectors.get(0).toString());
 
-        Assert.assertEquals(1, selectors.size());
+        assertEquals(1, selectors.size());
         final Selector selector = selectors.get(0);
 
-        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
+        assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
         final ElementSelector elemSel = (ElementSelector) selector;
-        Assert.assertEquals(1, elemSel.getConditions().size());
+        assertEquals(1, elemSel.getConditions().size());
 
         final Condition condition = elemSel.getConditions().get(0);
-        Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        Assert.assertEquals("not(.klass)", pseudo.getValue());
+        assertEquals("not(.klass)", pseudo.getValue());
     }
 
     /**
@@ -3029,21 +3033,21 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void not_attrib() throws Exception {
         final SelectorList selectors = createSelectors("p:not([type='file'])");
-        Assert.assertEquals("p:not([type=\"file\"])", selectors.get(0).toString());
+        assertEquals("p:not([type=\"file\"])", selectors.get(0).toString());
 
-        Assert.assertEquals(1, selectors.size());
+        assertEquals(1, selectors.size());
         final Selector selector = selectors.get(0);
 
-        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
+        assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
         final ElementSelector elemSel = (ElementSelector) selector;
-        Assert.assertEquals(1, elemSel.getConditions().size());
+        assertEquals(1, elemSel.getConditions().size());
 
         final Condition condition = elemSel.getConditions().get(0);
-        Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        Assert.assertEquals("not([type=\"file\"])", pseudo.getValue());
+        assertEquals("not([type=\"file\"])", pseudo.getValue());
     }
 
     /**
@@ -3052,21 +3056,21 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void not_pseudo() throws Exception {
         final SelectorList selectors = createSelectors("p:not(:first)");
-        Assert.assertEquals("p:not(:first)", selectors.get(0).toString());
+        assertEquals("p:not(:first)", selectors.get(0).toString());
 
-        Assert.assertEquals(1, selectors.size());
+        assertEquals(1, selectors.size());
         final Selector selector = selectors.get(0);
 
-        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
+        assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, selector.getSelectorType());
 
         final ElementSelector elemSel = (ElementSelector) selector;
-        Assert.assertEquals(1, elemSel.getConditions().size());
+        assertEquals(1, elemSel.getConditions().size());
 
         final Condition condition = elemSel.getConditions().get(0);
-        Assert.assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
         final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        Assert.assertEquals("not(:first)", pseudo.getValue());
+        assertEquals("not(:first)", pseudo.getValue());
     }
     /**
      * @throws Exception if any error occurs
@@ -3094,22 +3098,22 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
     @Test
     public void twoPseudo() throws Exception {
         SelectorList selectors = createSelectors("input:lang(en):lang(de)");
-        Assert.assertEquals("input:lang(en):lang(de)", selectors.get(0).toString());
+        assertEquals("input:lang(en):lang(de)", selectors.get(0).toString());
 
         selectors = createSelectors("input:foo(test):foo(rest)");
-        Assert.assertEquals("input:foo(test):foo(rest)", selectors.get(0).toString());
+        assertEquals("input:foo(test):foo(rest)", selectors.get(0).toString());
 
         selectors = createSelectors("input:foo(test):before");
-        Assert.assertEquals("input:foo(test):before", selectors.get(0).toString());
+        assertEquals("input:foo(test):before", selectors.get(0).toString());
 
         selectors = createSelectors("input:not(#test):not(#rest)");
-        Assert.assertEquals("input:not(#test):not(#rest)", selectors.get(0).toString());
+        assertEquals("input:not(#test):not(#rest)", selectors.get(0).toString());
 
         selectors = createSelectors("input:not(#test):nth-child(even)");
-        Assert.assertEquals("input:not(#test):nth-child(even)", selectors.get(0).toString());
+        assertEquals("input:not(#test):nth-child(even)", selectors.get(0).toString());
 
         selectors = createSelectors("input:not(#test):before");
-        Assert.assertEquals("input:not(#test):before", selectors.get(0).toString());
+        assertEquals("input:not(#test):before", selectors.get(0).toString());
     }
 
     /**
@@ -3195,55 +3199,55 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 6, 0, 6);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(15, rules.getLength());
+        assertEquals(15, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("OL { list-style-type: lower-alpha; }", rule.getCssText());
+        assertEquals("OL { list-style-type: lower-alpha; }", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("*.a { color: green; background: white none; }", rule.getCssText());
+        assertEquals("*.a { color: green; background: white none; }", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("*.a { color: green; background: white none; }", rule.getCssText());
+        assertEquals("*.a { color: green; background: white none; }", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("*.b { color: green; background: white none; }", rule.getCssText());
+        assertEquals("*.b { color: green; background: white none; }", rule.getCssText());
 
         rule = rules.getRules().get(3);
-        Assert.assertEquals("*.c { color: green; background: white none; }", rule.getCssText());
+        assertEquals("*.c { color: green; background: white none; }", rule.getCssText());
 
         rule = rules.getRules().get(4);
-        Assert.assertEquals("*.d { color: green; background: white none; }", rule.getCssText());
+        assertEquals("*.d { color: green; background: white none; }", rule.getCssText());
 
         rule = rules.getRules().get(5);
-        Assert.assertEquals("*.e { color: green; background: white none; }", rule.getCssText());
+        assertEquals("*.e { color: green; background: white none; }", rule.getCssText());
 
         rule = rules.getRules().get(6);
-        Assert.assertEquals("*.f { color: green; background: white none; }", rule.getCssText());
+        assertEquals("*.f { color: green; background: white none; }", rule.getCssText());
 
         rule = rules.getRules().get(7);
-        Assert.assertEquals("*.g { color: green; background: white none; }", rule.getCssText());
+        assertEquals("*.g { color: green; background: white none; }", rule.getCssText());
 
         rule = rules.getRules().get(8);
-        Assert.assertEquals("*.h { color: green; background: white none; }", rule.getCssText());
+        assertEquals("*.h { color: green; background: white none; }", rule.getCssText());
 
         rule = rules.getRules().get(9);
-        Assert.assertEquals("*.i { color: green; background: white none; }", rule.getCssText());
+        assertEquals("*.i { color: green; background: white none; }", rule.getCssText());
 
         rule = rules.getRules().get(10);
-        Assert.assertEquals("*.j { color: green; background: white none; }", rule.getCssText());
+        assertEquals("*.j { color: green; background: white none; }", rule.getCssText());
 
         rule = rules.getRules().get(11);
-        Assert.assertEquals("*.k { color: green; background: white none; }", rule.getCssText());
+        assertEquals("*.k { color: green; background: white none; }", rule.getCssText());
 
         rule = rules.getRules().get(12);
-//         Assert.assertEquals(".xb { }", rule.getCssText());
+//         assertEquals(".xb { }", rule.getCssText());
 
         rule = rules.getRules().get(13);
-        Assert.assertEquals("*.xc { }", rule.getCssText());
+        assertEquals("*.xc { }", rule.getCssText());
 
         rule = rules.getRules().get(14);
-        Assert.assertEquals("*.xd { }", rule.getCssText());
+        assertEquals("*.xd { }", rule.getCssText());
     }
 
     /**
@@ -3256,10 +3260,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 0, 0, 0);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("p { color: red; background: green; }", rule.getCssText());
+        assertEquals("p { color: red; background: green; }", rule.getCssText());
     }
 
     /**
@@ -3272,10 +3276,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 0, 0, 0);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("p { }", rule.getCssText());
+        assertEquals("p { }", rule.getCssText());
     }
 
     /**
@@ -3288,10 +3292,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 0, 0, 0);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("p { }", rule.getCssText());
+        assertEquals("p { }", rule.getCssText());
     }
 
     /**
@@ -3304,10 +3308,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 0, 0, 0);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("p { }", rule.getCssText());
+        assertEquals("p { }", rule.getCssText());
     }
 
     /**
@@ -3320,10 +3324,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 0, 0, 0);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("p { }", rule.getCssText());
+        assertEquals("p { }", rule.getCssText());
     }
 
     /**
@@ -3337,10 +3341,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 1, 0, 0);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("p { color: red; }", rule.getCssText());
+        assertEquals("p { color: red; }", rule.getCssText());
     }
 
     /**
@@ -3354,20 +3358,20 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         CSSStyleSheetImpl sheet = parse(css, 1, 0, 0);
 
         CSSRuleListImpl rules = sheet.getCssRules();
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("p { background: white; }", rule.getCssText());
+        assertEquals("p { background: white; }", rule.getCssText());
 
         css = "p { color: red; *background: white }"
                 + "h1 { color: blue; }";
         sheet = parse(css, 1, 0, 0);
 
         rules = sheet.getCssRules();
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
         rule = rules.getRules().get(0);
-        Assert.assertEquals("p { color: red; }", rule.getCssText());
+        assertEquals("p { color: red; }", rule.getCssText());
     }
 
     /**
@@ -3381,21 +3385,21 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         CSSStyleSheetImpl sheet = parse(css, 0, 0, 0);
 
         CSSRuleListImpl rules = sheet.getCssRules();
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("p { margin-top: 0px\\0; }", rule.getCssText());
+        assertEquals("p { margin-top: 0px\\0; }", rule.getCssText());
 
         css = "p { background: \\0green; }"
                 + "h1 { color: blue; }";
         sheet = parse(css, 0, 0, 0);
 
         rules = sheet.getCssRules();
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
         rule = rules.getRules().get(0);
         // spec says we have to replace U+0000 with U+FFFD
-        Assert.assertEquals("p { background: \uFFFDgreen; }", rule.getCssText());
+        assertEquals("p { background: \uFFFDgreen; }", rule.getCssText());
     }
 
     /**
@@ -3443,9 +3447,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals(expected, rule.getCssText());
+        assertEquals(expected, rule.getCssText());
     }
 
     /**
@@ -3453,9 +3457,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void unescapeBackslash() throws Exception {
-        Assert.assertEquals("abuv", new CSS3Parser().unescape("ab\\uv", false));
-        Assert.assertEquals("ab\\ab", new CSS3Parser().unescape("ab\\\\ab", false));
-        Assert.assertEquals("ab\\", new CSS3Parser().unescape("ab\\", false));
+        assertEquals("abuv", new CSS3Parser().unescape("ab\\uv", false));
+        assertEquals("ab\\ab", new CSS3Parser().unescape("ab\\\\ab", false));
+        assertEquals("ab\\", new CSS3Parser().unescape("ab\\", false));
     }
 
     /**
@@ -3463,8 +3467,8 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void unescapeOneHexDigit() throws Exception {
-        Assert.assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\9x", false));
-        Assert.assertEquals("ab\u0009", new CSS3Parser().unescape("ab\\9", false));
+        assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\9x", false));
+        assertEquals("ab\u0009", new CSS3Parser().unescape("ab\\9", false));
     }
 
     /**
@@ -3472,9 +3476,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void unescapeTwoHexDigits() throws Exception {
-        Assert.assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\09x", false));
-        Assert.assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\e9x", false));
-        Assert.assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9", false));
+        assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\09x", false));
+        assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\e9x", false));
+        assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9", false));
     }
 
     /**
@@ -3482,10 +3486,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void unescapeThreeHexDigits() throws Exception {
-        Assert.assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\009x", false));
-        Assert.assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\0e9x", false));
-        Assert.assertEquals("ab\u0ce9x", new CSS3Parser().unescape("ab\\ce9x", false));
-        Assert.assertEquals("ab\u0ce9", new CSS3Parser().unescape("ab\\ce9", false));
+        assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\009x", false));
+        assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\0e9x", false));
+        assertEquals("ab\u0ce9x", new CSS3Parser().unescape("ab\\ce9x", false));
+        assertEquals("ab\u0ce9", new CSS3Parser().unescape("ab\\ce9", false));
     }
 
     /**
@@ -3493,11 +3497,11 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void unescapeFourHexDigits() throws Exception {
-        Assert.assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\0009x", false));
-        Assert.assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\00e9x", false));
-        Assert.assertEquals("ab\u0ce9x", new CSS3Parser().unescape("ab\\0ce9x", false));
-        Assert.assertEquals("ab\u1ce9x", new CSS3Parser().unescape("ab\\1ce9x", false));
-        Assert.assertEquals("ab\u1ce9", new CSS3Parser().unescape("ab\\1ce9", false));
+        assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\0009x", false));
+        assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\00e9x", false));
+        assertEquals("ab\u0ce9x", new CSS3Parser().unescape("ab\\0ce9x", false));
+        assertEquals("ab\u1ce9x", new CSS3Parser().unescape("ab\\1ce9x", false));
+        assertEquals("ab\u1ce9", new CSS3Parser().unescape("ab\\1ce9", false));
     }
 
     /**
@@ -3505,12 +3509,12 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void unescapeFiveHexDigits() throws Exception {
-        Assert.assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\00009x", false));
-        Assert.assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\000e9x", false));
-        Assert.assertEquals("ab\u0ce9x", new CSS3Parser().unescape("ab\\00ce9x", false));
-        Assert.assertEquals("ab\u1ce9x", new CSS3Parser().unescape("ab\\01ce9x", false));
-        Assert.assertEquals("ab\ufffdx", new CSS3Parser().unescape("ab\\a1ce9x", false));
-        Assert.assertEquals("ab\ufffd", new CSS3Parser().unescape("ab\\a1ce9", false));
+        assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\00009x", false));
+        assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\000e9x", false));
+        assertEquals("ab\u0ce9x", new CSS3Parser().unescape("ab\\00ce9x", false));
+        assertEquals("ab\u1ce9x", new CSS3Parser().unescape("ab\\01ce9x", false));
+        assertEquals("ab\ufffdx", new CSS3Parser().unescape("ab\\a1ce9x", false));
+        assertEquals("ab\ufffd", new CSS3Parser().unescape("ab\\a1ce9", false));
     }
 
     /**
@@ -3518,13 +3522,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void unescapeSixHexDigits() throws Exception {
-        Assert.assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\000009x", false));
-        Assert.assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\0000e9x", false));
-        Assert.assertEquals("ab\u0ce9x", new CSS3Parser().unescape("ab\\000ce9x", false));
-        Assert.assertEquals("ab\u1ce9x", new CSS3Parser().unescape("ab\\001ce9x", false));
-        Assert.assertEquals("ab\ufffdx", new CSS3Parser().unescape("ab\\0a1ce9x", false));
-        Assert.assertEquals("ab\ufffdx", new CSS3Parser().unescape("ab\\3a1ce9x", false));
-        Assert.assertEquals("ab\ufffd", new CSS3Parser().unescape("ab\\3a1ce9", false));
+        assertEquals("ab\u0009x", new CSS3Parser().unescape("ab\\000009x", false));
+        assertEquals("ab\u00e9x", new CSS3Parser().unescape("ab\\0000e9x", false));
+        assertEquals("ab\u0ce9x", new CSS3Parser().unescape("ab\\000ce9x", false));
+        assertEquals("ab\u1ce9x", new CSS3Parser().unescape("ab\\001ce9x", false));
+        assertEquals("ab\ufffdx", new CSS3Parser().unescape("ab\\0a1ce9x", false));
+        assertEquals("ab\ufffdx", new CSS3Parser().unescape("ab\\3a1ce9x", false));
+        assertEquals("ab\ufffd", new CSS3Parser().unescape("ab\\3a1ce9", false));
     }
 
     /**
@@ -3532,14 +3536,14 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void unescapeSevenHexDigits() throws Exception {
-        Assert.assertEquals("ab\ufffd9x", new CSS3Parser().unescape("ab\\0000009x", false));
-        Assert.assertEquals("ab\u000e9x", new CSS3Parser().unescape("ab\\00000e9x", false));
-        Assert.assertEquals("ab\u00ce9x", new CSS3Parser().unescape("ab\\0000ce9x", false));
-        Assert.assertEquals("ab\u01ce9x", new CSS3Parser().unescape("ab\\0001ce9x", false));
-        Assert.assertEquals("ab\ua1ce9x", new CSS3Parser().unescape("ab\\00a1ce9x", false));
-        Assert.assertEquals("ab\ufffd9x", new CSS3Parser().unescape("ab\\03a1ce9x", false));
-        Assert.assertEquals("ab\ufffd9x", new CSS3Parser().unescape("ab\\73a1ce9x", false));
-        Assert.assertEquals("ab\ufffd9", new CSS3Parser().unescape("ab\\73a1ce9", false));
+        assertEquals("ab\ufffd9x", new CSS3Parser().unescape("ab\\0000009x", false));
+        assertEquals("ab\u000e9x", new CSS3Parser().unescape("ab\\00000e9x", false));
+        assertEquals("ab\u00ce9x", new CSS3Parser().unescape("ab\\0000ce9x", false));
+        assertEquals("ab\u01ce9x", new CSS3Parser().unescape("ab\\0001ce9x", false));
+        assertEquals("ab\ua1ce9x", new CSS3Parser().unescape("ab\\00a1ce9x", false));
+        assertEquals("ab\ufffd9x", new CSS3Parser().unescape("ab\\03a1ce9x", false));
+        assertEquals("ab\ufffd9x", new CSS3Parser().unescape("ab\\73a1ce9x", false));
+        assertEquals("ab\ufffd9", new CSS3Parser().unescape("ab\\73a1ce9", false));
     }
 
     /**
@@ -3547,33 +3551,33 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
      */
     @Test
     public void unescapeAutoterminate() throws Exception {
-        Assert.assertEquals("ab\uabcd", new CSS3Parser().unescape("ab\\abcd", false));
+        assertEquals("ab\uabcd", new CSS3Parser().unescape("ab\\abcd", false));
 
-        Assert.assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9 a", false));
-        Assert.assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9 ", false));
-        Assert.assertEquals("ab\u00e9 a", new CSS3Parser().unescape("ab\\e9  a", false));
-        Assert.assertEquals("ab\u00e9 a", new CSS3Parser().unescape("ab\\0000e9 a", false));
+        assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9 a", false));
+        assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9 ", false));
+        assertEquals("ab\u00e9 a", new CSS3Parser().unescape("ab\\e9  a", false));
+        assertEquals("ab\u00e9 a", new CSS3Parser().unescape("ab\\0000e9 a", false));
 
-        Assert.assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9\ta", false));
-        Assert.assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9\t", false));
-        Assert.assertEquals("ab\u00e9\ta", new CSS3Parser().unescape("ab\\e9\t\ta", false));
-        Assert.assertEquals("ab\u00e9\ta", new CSS3Parser().unescape("ab\\0000e9\ta", false));
+        assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9\ta", false));
+        assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9\t", false));
+        assertEquals("ab\u00e9\ta", new CSS3Parser().unescape("ab\\e9\t\ta", false));
+        assertEquals("ab\u00e9\ta", new CSS3Parser().unescape("ab\\0000e9\ta", false));
 
-        Assert.assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9\ra", false));
-        Assert.assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9\r", false));
-        Assert.assertEquals("ab\u00e9\ra", new CSS3Parser().unescape("ab\\e9\r\ra", false));
-        Assert.assertEquals("ab\u00e9\ra", new CSS3Parser().unescape("ab\\0000e9\ra", false));
-        Assert.assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9\r\na", false));
-        Assert.assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9\r\n", false));
-        Assert.assertEquals("ab\u00e9\ra", new CSS3Parser().unescape("ab\\e9\r\n\ra", false));
-        Assert.assertEquals("ab\u00e9\r", new CSS3Parser().unescape("ab\\e9\r\n\r", false));
-        Assert.assertEquals("ab\u00e9\na", new CSS3Parser().unescape("ab\\e9\r\n\na", false));
-        Assert.assertEquals("ab\u00e9\n", new CSS3Parser().unescape("ab\\e9\r\n\n", false));
+        assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9\ra", false));
+        assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9\r", false));
+        assertEquals("ab\u00e9\ra", new CSS3Parser().unescape("ab\\e9\r\ra", false));
+        assertEquals("ab\u00e9\ra", new CSS3Parser().unescape("ab\\0000e9\ra", false));
+        assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9\r\na", false));
+        assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9\r\n", false));
+        assertEquals("ab\u00e9\ra", new CSS3Parser().unescape("ab\\e9\r\n\ra", false));
+        assertEquals("ab\u00e9\r", new CSS3Parser().unescape("ab\\e9\r\n\r", false));
+        assertEquals("ab\u00e9\na", new CSS3Parser().unescape("ab\\e9\r\n\na", false));
+        assertEquals("ab\u00e9\n", new CSS3Parser().unescape("ab\\e9\r\n\n", false));
 
-        Assert.assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9\na", false));
-        Assert.assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9\n", false));
-        Assert.assertEquals("ab\u00e9\na", new CSS3Parser().unescape("ab\\e9\n\na", false));
-        Assert.assertEquals("ab\u00e9\na", new CSS3Parser().unescape("ab\\0000e9\na", false));
+        assertEquals("ab\u00e9a", new CSS3Parser().unescape("ab\\e9\na", false));
+        assertEquals("ab\u00e9", new CSS3Parser().unescape("ab\\e9\n", false));
+        assertEquals("ab\u00e9\na", new CSS3Parser().unescape("ab\\e9\n\na", false));
+        assertEquals("ab\u00e9\na", new CSS3Parser().unescape("ab\\0000e9\na", false));
     }
 
     /**
@@ -3816,13 +3820,13 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 final String media,
                 final int err, final int warn) throws Exception {
         final InputStream is = getClass().getClassLoader().getResourceAsStream(resourceName);
-        Assert.assertNotNull(is);
+        assertNotNull(is);
 
         final InputSource css = new InputSource(new InputStreamReader(is, "UTF-8"));
         final CSSStyleSheetImpl sheet = parse(css, err, 0, warn);
 
         final CSSRuleListImpl foundRules = sheet.getCssRules();
-        Assert.assertEquals(rules, foundRules.getLength());
+        assertEquals(rules, foundRules.getLength());
 
         int foundProperties = 0;
         for (int i = 0; i < foundRules.getLength(); i++) {
@@ -3831,7 +3835,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 foundProperties += ((CSSStyleRuleImpl) rule).getStyle().getLength();
             }
         }
-        Assert.assertEquals(properties, foundProperties);
+        assertEquals(properties, foundProperties);
 
         final Set<String> mediaQ = new TreeSet<String>();
         for (int i = 0; i < sheet.getCssRules().getLength(); i++) {
@@ -3840,7 +3844,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
                 final MediaListImpl mediaList = ((CSSMediaRuleImpl) cssRule).getMediaList();
                 for (int j = 0; j < mediaList.getLength(); j++) {
                     final MediaQuery mediaQuery = mediaList.mediaQuery(j);
-                    Assert.assertEquals(mediaQuery.toString(), mediaQuery.toString());
+                    assertEquals(mediaQuery.toString(), mediaQuery.toString());
                     mediaQ.add(mediaQuery.toString());
                 }
             }
@@ -3850,7 +3854,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
             queries.append(string);
             queries.append(";");
         }
-        Assert.assertEquals(media, queries.toString());
+        assertEquals(media, queries.toString());
     }
 
     /**
@@ -3866,7 +3870,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final InputSource source = new InputSource(reader);
         final CSSStyleSheetImpl sheet = parse(source, 0, 0, 0);
 
-        Assert.assertEquals(css, sheet.toString());
+        assertEquals(css, sheet.toString());
     }
 
     /**
@@ -3882,7 +3886,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final InputSource source = new InputSource(reader);
         final CSSStyleSheetImpl sheet = parse(source, 0, 0, 0);
 
-        Assert.assertEquals(css, sheet.toString());
+        assertEquals(css, sheet.toString());
     }
 
     /**
@@ -3896,7 +3900,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final InputSource source = new InputSource(reader);
         final CSSStyleSheetImpl sheet = parse(source, 0, 0, 0);
 
-        Assert.assertEquals("h1 { clip: rect(0px, 0px, 1px, 1px); }", sheet.toString());
+        assertEquals("h1 { clip: rect(0px, 0px, 1px, 1px); }", sheet.toString());
     }
 
     /**
@@ -3907,7 +3911,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = checkErrorSheet("h1 { clip: rect(0px); }",
                 "DOM exception: 'Rect misses second parameter.'");
 
-        Assert.assertEquals("h1 { }", sheet.toString());
+        assertEquals("h1 { }", sheet.toString());
     }
 
     /**
@@ -3949,9 +3953,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSRuleListImpl rules = sheet.getCssRules();
 
         if (err == 0) {
-            Assert.assertEquals(1, rules.getLength());
+            assertEquals(1, rules.getLength());
             final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-            Assert.assertEquals(expected, rule.getCssText());
+            assertEquals(expected, rule.getCssText());
         }
     }
 
@@ -3968,10 +3972,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("@keyframes background900 { "
+        assertEquals("@keyframes background900 { "
                 + "0% { background-position:0 0; } 100% { background-position:0 -900px; } }",
                    rule.getCssText());
     }
@@ -3988,16 +3992,16 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(3, rules.getLength());
+        assertEquals(3, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("h1 { box-shadow: inset 0 0 1em gold, 0 0 1em red; }", rule.getCssText());
+        assertEquals("h1 { box-shadow: inset 0 0 1em gold, 0 0 1em red; }", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("h2 { box-shadow: 0 0 0 1px rgb(255, 255, 255), 0 0 0 1px silver; }", rule.getCssText());
+        assertEquals("h2 { box-shadow: 0 0 0 1px rgb(255, 255, 255), 0 0 0 1px silver; }", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("h3 { box-shadow: 0 0 0 1px rgb(255, 255, 255) / 0 0 0 1px silver; }", rule.getCssText());
+        assertEquals("h3 { box-shadow: 0 0 0 1px rgb(255, 255, 255) / 0 0 0 1px silver; }", rule.getCssText());
     }
 
     /**
@@ -4011,10 +4015,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("h2 { color: blue; }", rule.getCssText());
+        assertEquals("h2 { color: blue; }", rule.getCssText());
     }
 
     /**
@@ -4028,10 +4032,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("h2 { color: blue; }", rule.getCssText());
+        assertEquals("h2 { color: blue; }", rule.getCssText());
     }
 
     /**
@@ -4043,7 +4047,7 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(0, rules.getLength());
+        assertEquals(0, rules.getLength());
     }
 
     /**
@@ -4056,11 +4060,11 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("h1:first-line { color: red; }", rule.toString());
-        Assert.assertEquals("h1:first-line { color: red; }", rule.getCssText());
+        assertEquals("h1:first-line { color: red; }", rule.toString());
+        assertEquals("h1:first-line { color: red; }", rule.getCssText());
     }
 
     /**
@@ -4073,11 +4077,11 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("h1::first-line { color: red; }", rule.toString());
-        Assert.assertEquals("h1::first-line { color: red; }", rule.getCssText());
+        assertEquals("h1::first-line { color: red; }", rule.toString());
+        assertEquals("h1::first-line { color: red; }", rule.getCssText());
     }
 
     /**
@@ -4090,11 +4094,11 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("h1::link { color: red; }", rule.toString());
-        Assert.assertEquals("h1::link { color: red; }", rule.getCssText());
+        assertEquals("h1::link { color: red; }", rule.toString());
+        assertEquals("h1::link { color: red; }", rule.getCssText());
     }
 
 //
@@ -4110,10 +4114,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 //        final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
 //        final CSSRuleListImpl rules = sheet.getCssRules();
 //
-//        Assert.assertEquals(1, rules.getLength());
+//        assertEquals(1, rules.getLength());
 //
 //        final CSSRule rule = rules.getRules().get(0);
-//        Assert.assertEquals("p { color: red; background: green }", rule.getCssText());
+//        assertEquals("p { color: red; background: green }", rule.getCssText());
 //    }
 //
 //    /**
@@ -4131,10 +4135,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 //        final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
 //        final CSSRuleListImpl rules = sheet.getCssRules();
 //
-//        Assert.assertEquals(1, rules.getLength());
+//        assertEquals(1, rules.getLength());
 //
 //        final CSSRule rule = rules.getRules().get(0);
-//        Assert.assertEquals("h1 { color: red; height: 20px }", rule.getCssText());
+//        assertEquals("h1 { color: red; height: 20px }", rule.getCssText());
 //    }
 //
 //    /**
@@ -4151,10 +4155,10 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 //        final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
 //        final CSSRuleListImpl rules = sheet.getCssRules();
 //
-//        Assert.assertEquals(1, rules.getLength());
+//        assertEquals(1, rules.getLength());
 //
 //        final CSSRule rule = rules.getRules().get(0);
-//        Assert.assertEquals("h1 { height: 20px }", rule.getCssText());
+//        assertEquals("h1 { height: 20px }", rule.getCssText());
 //    }
 //
 //    /**
@@ -4172,9 +4176,9 @@ public class CSS3ParserTest  extends AbstractCSSParserTest {
 //        final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
 //        final CSSRuleListImpl rules = sheet.getCssRules();
 //
-//        Assert.assertEquals(1, rules.getLength());
+//        assertEquals(1, rules.getLength());
 //
 //        final CSSRule rule = rules.getRules().get(0);
-//        Assert.assertEquals("h1 { color: red; height: 20px }", rule.getCssText());
+//        assertEquals("h1 { color: red; height: 20px }", rule.getCssText());
 //    }
 }

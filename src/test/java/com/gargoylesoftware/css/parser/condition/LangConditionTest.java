@@ -14,8 +14,10 @@
  */
 package com.gargoylesoftware.css.parser.condition;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 
@@ -31,10 +33,10 @@ public class LangConditionTest {
     @Test
     public void withoutValue() throws Exception {
         final LangCondition c = new LangCondition(null, null);
-        Assert.assertEquals(ConditionType.LANG_CONDITION, c.getConditionType());
-        Assert.assertNull(c.getValue());
+        assertEquals(ConditionType.LANG_CONDITION, c.getConditionType());
+        assertNull(c.getValue());
 
-        Assert.assertEquals(":lang()", c.toString());
+        assertEquals(":lang()", c.toString());
     }
 
     /**
@@ -43,10 +45,10 @@ public class LangConditionTest {
     @Test
     public void emptyValue() throws Exception {
         final LangCondition c = new LangCondition("", null);
-        Assert.assertEquals(ConditionType.LANG_CONDITION, c.getConditionType());
-        Assert.assertEquals("", c.getValue());
+        assertEquals(ConditionType.LANG_CONDITION, c.getConditionType());
+        assertEquals("", c.getValue());
 
-        Assert.assertEquals(":lang()", c.toString());
+        assertEquals(":lang()", c.toString());
     }
 
     /**
@@ -55,9 +57,9 @@ public class LangConditionTest {
     @Test
     public void withValue() throws Exception {
         final LangCondition c = new LangCondition("value", null);
-        Assert.assertEquals(ConditionType.LANG_CONDITION, c.getConditionType());
-        Assert.assertEquals("value", c.getValue());
+        assertEquals(ConditionType.LANG_CONDITION, c.getConditionType());
+        assertEquals("value", c.getValue());
 
-        Assert.assertEquals(":lang(value)", c.toString());
+        assertEquals(":lang(value)", c.toString());
     }
 }

@@ -14,10 +14,12 @@
  */
 package com.gargoylesoftware.css.dom;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
@@ -35,9 +37,9 @@ public class CSSRuleListImplTest {
     @Test
     public void defaultConstructor() throws Exception {
         final CSSRuleListImpl rl = new CSSRuleListImpl();
-        Assert.assertEquals("", rl.toString());
-        Assert.assertTrue(rl.getRules().isEmpty());
-        Assert.assertEquals(0, rl.getLength());
+        assertEquals("", rl.toString());
+        assertTrue(rl.getRules().isEmpty());
+        assertEquals(0, rl.getLength());
     }
 
     /**
@@ -46,16 +48,16 @@ public class CSSRuleListImplTest {
     @Test
     public void getLength() throws Exception {
         final CSSRuleListImpl rl = new CSSRuleListImpl();
-        Assert.assertEquals(0, rl.getLength());
+        assertEquals(0, rl.getLength());
 
         rl.add(new CSSFontFaceRuleImpl(null, null));
-        Assert.assertEquals(1, rl.getLength());
+        assertEquals(1, rl.getLength());
 
         rl.add(new CSSFontFaceRuleImpl(null, null));
-        Assert.assertEquals(2, rl.getLength());
+        assertEquals(2, rl.getLength());
 
         rl.add(new CSSFontFaceRuleImpl(null, null));
-        Assert.assertEquals(3, rl.getLength());
+        assertEquals(3, rl.getLength());
     }
 
     private CSSRuleListImpl parseRuleList(final String rules) throws Exception {
@@ -72,6 +74,6 @@ public class CSSRuleListImplTest {
     public void getCssTextFormated() throws Exception {
         final CSSRuleListImpl value = parseRuleList("h1 {} h2 {color:green}");
 
-        Assert.assertEquals("h1 { }\r\nh2 { color: green; }", value.toString());
+        assertEquals("h1 { }\r\nh2 { color: green; }", value.toString());
     }
 }

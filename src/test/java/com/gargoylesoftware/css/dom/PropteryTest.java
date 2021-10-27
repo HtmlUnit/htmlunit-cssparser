@@ -14,8 +14,12 @@
  */
 package com.gargoylesoftware.css.dom;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.LexicalUnit;
 import com.gargoylesoftware.css.parser.LexicalUnitImpl;
@@ -33,36 +37,36 @@ public class PropteryTest {
     @Test
     public void defaultConstructor() throws Exception {
         final Property prop = new Property(null, null, false);
-        Assert.assertEquals("null", prop.toString());
-        Assert.assertNull(prop.getName());
-        Assert.assertNull(prop.getValue());
-        Assert.assertFalse(prop.isImportant());
+        assertEquals("null", prop.toString());
+        assertNull(prop.getName());
+        assertNull(prop.getValue());
+        assertFalse(prop.isImportant());
 
         prop.setName("MyName");
-        Assert.assertEquals("MyName", prop.toString());
-        Assert.assertEquals("MyName", prop.getName());
-        Assert.assertNull(prop.getValue());
-        Assert.assertFalse(prop.isImportant());
+        assertEquals("MyName", prop.toString());
+        assertEquals("MyName", prop.getName());
+        assertNull(prop.getValue());
+        assertFalse(prop.isImportant());
 
         LexicalUnit lu = LexicalUnitImpl.createString(null, "MyValue");
         prop.setValue(new CSSValueImpl(lu, true));
-        Assert.assertEquals("MyName: \"MyValue\"", prop.toString());
-        Assert.assertEquals("MyName", prop.getName());
-        Assert.assertEquals("\"MyValue\"", prop.getValue().toString());
-        Assert.assertFalse(prop.isImportant());
+        assertEquals("MyName: \"MyValue\"", prop.toString());
+        assertEquals("MyName", prop.getName());
+        assertEquals("\"MyValue\"", prop.getValue().toString());
+        assertFalse(prop.isImportant());
 
         lu = LexicalUnitImpl.createPixel(null, 11);
         prop.setValue(new CSSValueImpl(lu, true));
-        Assert.assertEquals("MyName: 11px", prop.toString());
-        Assert.assertEquals("MyName", prop.getName());
-        Assert.assertEquals("11px", prop.getValue().toString());
-        Assert.assertFalse(prop.isImportant());
+        assertEquals("MyName: 11px", prop.toString());
+        assertEquals("MyName", prop.getName());
+        assertEquals("11px", prop.getValue().toString());
+        assertFalse(prop.isImportant());
 
         prop.setImportant(true);
-        Assert.assertEquals("MyName: 11px !important", prop.toString());
-        Assert.assertEquals("MyName", prop.getName());
-        Assert.assertEquals("11px", prop.getValue().toString());
-        Assert.assertTrue(prop.isImportant());
+        assertEquals("MyName: 11px !important", prop.toString());
+        assertEquals("MyName", prop.getName());
+        assertEquals("11px", prop.getValue().toString());
+        assertTrue(prop.isImportant());
     }
 
     /**
@@ -73,10 +77,10 @@ public class PropteryTest {
         final Property prop = new Property(null, null, false);
         prop.setName("MyName");
         prop.setImportant(true);
-        Assert.assertEquals("MyName !important", prop.toString());
-        Assert.assertEquals("MyName", prop.getName());
-        Assert.assertNull(prop.getValue());
-        Assert.assertTrue(prop.isImportant());
+        assertEquals("MyName !important", prop.toString());
+        assertEquals("MyName", prop.getName());
+        assertNull(prop.getValue());
+        assertTrue(prop.isImportant());
     }
 
     /**
@@ -86,9 +90,9 @@ public class PropteryTest {
     public void constructWithParams() throws Exception {
         final LexicalUnit lu = LexicalUnitImpl.createCentimeter(null, 13.2);
         final Property prop = new Property("MyName", new CSSValueImpl(lu, true), false);
-        Assert.assertEquals("MyName: 13.2cm", prop.toString());
-        Assert.assertEquals("MyName", prop.getName());
-        Assert.assertEquals("13.2cm", prop.getValue().toString());
-        Assert.assertFalse(prop.isImportant());
+        assertEquals("MyName: 13.2cm", prop.toString());
+        assertEquals("MyName", prop.getName());
+        assertEquals("13.2cm", prop.getValue().toString());
+        assertFalse(prop.isImportant());
     }
 }

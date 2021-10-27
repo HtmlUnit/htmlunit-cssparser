@@ -14,10 +14,11 @@
  */
 package com.gargoylesoftware.css.dom;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
@@ -36,8 +37,8 @@ public class CSSCharsetRuleImplTest {
     public void getCssText() throws Exception {
         final CSSCharsetRuleImpl value = parseCharsetRule("@charset \"utf-8\";");
 
-        Assert.assertEquals("@charset \"utf-8\";", value.getCssText());
-        Assert.assertEquals("@charset \"utf-8\";", value.toString());
+        assertEquals("@charset \"utf-8\";", value.getCssText());
+        assertEquals("@charset \"utf-8\";", value.toString());
     }
 
     /**
@@ -47,12 +48,12 @@ public class CSSCharsetRuleImplTest {
     public void setCssText() throws Exception {
         final CSSCharsetRuleImpl value = parseCharsetRule("@charset \"utf-8\";");
 
-        Assert.assertEquals("@charset \"utf-8\";", value.getCssText());
-        Assert.assertEquals("@charset \"utf-8\";", value.toString());
+        assertEquals("@charset \"utf-8\";", value.getCssText());
+        assertEquals("@charset \"utf-8\";", value.toString());
 
         value.setCssText("@charset \"ASCII\";");
-        Assert.assertEquals("@charset \"ASCII\";", value.getCssText());
-        Assert.assertEquals("@charset \"ASCII\";", value.toString());
+        assertEquals("@charset \"ASCII\";", value.getCssText());
+        assertEquals("@charset \"ASCII\";", value.toString());
 
     }
 
@@ -62,7 +63,7 @@ public class CSSCharsetRuleImplTest {
     @Test
     public void getSelectorText() throws Exception {
         final CSSCharsetRuleImpl value = parseCharsetRule("@charset \"Deutsch\";");
-        Assert.assertEquals("Deutsch", value.getEncoding());
+        assertEquals("Deutsch", value.getEncoding());
     }
 
     /**
@@ -72,7 +73,7 @@ public class CSSCharsetRuleImplTest {
     public void type() throws Exception {
         final CSSCharsetRuleImpl value = new CSSCharsetRuleImpl(null, null, null);
 
-        Assert.assertEquals("@charset \"\";", value.toString());
+        assertEquals("@charset \"\";", value.toString());
     }
 
     private CSSCharsetRuleImpl parseCharsetRule(final String rule) throws Exception {
@@ -89,7 +90,7 @@ public class CSSCharsetRuleImplTest {
     public void getCssTextFormated() throws Exception {
         final CSSCharsetRuleImpl value = parseCharsetRule("@charset \"utf-8\";");
 
-        Assert.assertEquals("@charset \"utf-8\";", value.toString());
-        Assert.assertEquals("@charset \"utf-8\";", value.getCssText());
+        assertEquals("@charset \"utf-8\";", value.toString());
+        assertEquals("@charset \"utf-8\";", value.getCssText());
     }
 }

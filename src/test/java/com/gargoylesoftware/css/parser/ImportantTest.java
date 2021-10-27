@@ -14,13 +14,15 @@
  */
 package com.gargoylesoftware.css.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.ErrorHandler;
 import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
@@ -48,9 +50,9 @@ public class ImportantTest {
     public void css3Error() throws Exception {
         final ErrorHandler errorHandler = parserError(new CSS3Parser());
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
     }
 
     private void css() throws Exception {
@@ -58,34 +60,34 @@ public class ImportantTest {
         new CSS3Parser().setErrorHandler(errorHandler);
 
         final InputStream is = getClass().getClassLoader().getResourceAsStream("important.css");
-        Assert.assertNotNull(is);
+        assertNotNull(is);
         final Reader r = new InputStreamReader(is);
         final InputSource source = new InputSource(r);
 
         final CSSOMParser parser = new CSSOMParser();
         final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         final CSSRuleListImpl rules = ss.getCssRules();
-        Assert.assertEquals(5, rules.getLength());
+        assertEquals(5, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals("*.sel1 { padding: 0 !important; }", rule.getCssText());
+        assertEquals("*.sel1 { padding: 0 !important; }", rule.getCssText());
 
         rule = rules.getRules().get(1);
-        Assert.assertEquals("*.sel2 { font-weight: normal !important; }", rule.getCssText());
+        assertEquals("*.sel2 { font-weight: normal !important; }", rule.getCssText());
 
         rule = rules.getRules().get(2);
-        Assert.assertEquals("*.sel3 { font-weight: normal !important; }", rule.getCssText());
+        assertEquals("*.sel3 { font-weight: normal !important; }", rule.getCssText());
 
         rule = rules.getRules().get(3);
-        Assert.assertEquals("*.sel4 { font-weight: normal !important; }", rule.getCssText());
+        assertEquals("*.sel4 { font-weight: normal !important; }", rule.getCssText());
 
         rule = rules.getRules().get(4);
-        Assert.assertEquals("*.important { font-weight: bold; }", rule.getCssText());
+        assertEquals("*.important { font-weight: bold; }", rule.getCssText());
     }
 
     private ErrorHandler parserError(final AbstractCSSParser cssParser) throws Exception {

@@ -14,10 +14,11 @@
  */
 package com.gargoylesoftware.css;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.dom.CSSRuleListImpl;
 import com.gargoylesoftware.css.dom.CSSStyleDeclarationImpl;
@@ -48,26 +49,26 @@ public class DomTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
         // Enumerate the properties and retrieve their values
-        Assert.assertEquals(5, style.getLength());
+        assertEquals(5, style.getLength());
 
         String name = style.getProperties().get(0).getName();
-        Assert.assertEquals("foo : 1.5", name + " : " + style.getPropertyValue(name));
+        assertEquals("foo : 1.5", name + " : " + style.getPropertyValue(name));
         name = style.getProperties().get(1).getName();
-        Assert.assertEquals("bogus : 3, 2, 1", name + " : " + style.getPropertyValue(name));
+        assertEquals("bogus : 3, 2, 1", name + " : " + style.getPropertyValue(name));
         name = style.getProperties().get(2).getName();
-        Assert.assertEquals("bar-color : rgb(15, 238, 208)", name + " : " + style.getPropertyValue(name));
+        assertEquals("bar-color : rgb(15, 238, 208)", name + " : " + style.getPropertyValue(name));
         name = style.getProperties().get(3).getName();
-        Assert.assertEquals("background : rgb(170, 187, 204)", name + " : " + style.getPropertyValue(name));
+        assertEquals("background : rgb(170, 187, 204)", name + " : " + style.getPropertyValue(name));
         name = style.getProperties().get(4).getName();
-        Assert.assertEquals("foreground : rgb(10, 20, 30)", name + " : " + style.getPropertyValue(name));
+        assertEquals("foreground : rgb(10, 20, 30)", name + " : " + style.getPropertyValue(name));
 
         // Get the style declaration as a single lump of text
-        Assert.assertEquals("foo: 1.5; "
+        assertEquals("foo: 1.5; "
                 + "bogus: 3, 2, 1; "
                 + "bar-color: rgb(15, 238, 208); "
                 + "background: rgb(170, 187, 204); "
@@ -75,59 +76,59 @@ public class DomTest {
 
         // Directly set the CSS style declaration
         style.setCssText("alpha: 2; beta: 20px; gamma: 40em; delta: 1mm; epsilon: 24pt");
-        Assert.assertEquals("alpha: 2; beta: 20px; gamma: 40em; delta: 1mm; epsilon: 24pt", style.getCssText());
+        assertEquals("alpha: 2; beta: 20px; gamma: 40em; delta: 1mm; epsilon: 24pt", style.getCssText());
 
         // Remove some properties, from the middle, beginning, and end
         style.removeProperty("gamma");
-        Assert.assertEquals("alpha: 2; beta: 20px; delta: 1mm; epsilon: 24pt", style.getCssText());
+        assertEquals("alpha: 2; beta: 20px; delta: 1mm; epsilon: 24pt", style.getCssText());
 
         style.removeProperty("alpha");
-        Assert.assertEquals("beta: 20px; delta: 1mm; epsilon: 24pt", style.getCssText());
+        assertEquals("beta: 20px; delta: 1mm; epsilon: 24pt", style.getCssText());
 
         style.removeProperty("epsilon");
-        Assert.assertEquals("beta: 20px; delta: 1mm", style.getCssText());
+        assertEquals("beta: 20px; delta: 1mm", style.getCssText());
 
         // Use the setProperty method to modify an existing property,
         // and add a new one.
         style.setProperty("beta", "40px", null);
-        Assert.assertEquals("beta: 40px; delta: 1mm", style.getCssText());
+        assertEquals("beta: 40px; delta: 1mm", style.getCssText());
 
         style.setProperty("omega", "1", "important");
-        Assert.assertEquals("beta: 40px; delta: 1mm; omega: 1 !important", style.getCssText());
+        assertEquals("beta: 40px; delta: 1mm; omega: 1 !important", style.getCssText());
 
         // Work with CSSValues
         CSSValueImpl value = style.getPropertyCSSValue("beta");
-        Assert.assertEquals("40px", value.getCssText());
-        Assert.assertEquals(40f, value.getDoubleValue(), 0.000000f);
+        assertEquals("40px", value.getCssText());
+        assertEquals(40f, value.getDoubleValue(), 0.000000f);
 
         value.setDoubleValue(100);
-        Assert.assertEquals("100", value.getCssText());
+        assertEquals("100", value.getCssText());
 
         style.setProperty("list-test", "100 200 300", null);
-        Assert.assertEquals("beta: 100; delta: 1mm; omega: 1 !important; list-test: 100 200 300", style.getCssText());
+        assertEquals("beta: 100; delta: 1mm; omega: 1 !important; list-test: 100 200 300", style.getCssText());
 
         value = style.getPropertyCSSValue("list-test");
-        Assert.assertEquals(CSSValueType.CSS_VALUE_LIST, value.getCssValueType());
+        assertEquals(CSSValueType.CSS_VALUE_LIST, value.getCssValueType());
 
         final CSSValueImpl vl = style.getPropertyCSSValue("list-test");
-        Assert.assertEquals(3, vl.getLength());
+        assertEquals(3, vl.getLength());
 
         value = vl.item(0);
-        Assert.assertEquals(100, value.getDoubleValue(), 0.000000f);
+        assertEquals(100, value.getDoubleValue(), 0.000000f);
 
         value = vl.item(1);
-        Assert.assertEquals(200, value.getDoubleValue(), 0.000000f);
+        assertEquals(200, value.getDoubleValue(), 0.000000f);
 
         value = vl.item(2);
-        Assert.assertEquals(300, value.getDoubleValue(), 0.000000f);
+        assertEquals(300, value.getDoubleValue(), 0.000000f);
 
         // When a CSSValue is modified, it modifies the declaration
-        Assert.assertEquals("beta: 100; delta: 1mm; omega: 1 !important; list-test: 100 200 300", style.getCssText());
+        assertEquals("beta: 100; delta: 1mm; omega: 1 !important; list-test: 100 200 300", style.getCssText());
 
         // Using the setCssText method, we can change the type of value
         vl.setCssText("bogus");
-        Assert.assertEquals(CSSValueType.CSS_PRIMITIVE_VALUE, value.getCssValueType());
-        Assert.assertEquals("beta: 100; delta: 1mm; omega: 1 !important; list-test: bogus", style.getCssText());
+        assertEquals(CSSValueType.CSS_PRIMITIVE_VALUE, value.getCssValueType());
+        assertEquals("beta: 100; delta: 1mm; omega: 1 !important; list-test: bogus", style.getCssText());
     }
 
     /**
@@ -142,9 +143,9 @@ public class DomTest {
         final CSSStyleSheetImpl css = cssomParser.parseStyleSheet(source, "http://www.example.org/css/style.css");
 
         final CSSRuleListImpl rules = css.getCssRules();
-        Assert.assertEquals(2, rules.getLength());
+        assertEquals(2, rules.getLength());
 
-        Assert.assertEquals("p { font-size: 2em; }", rules.getRules().get(0).getCssText());
-        Assert.assertEquals("p a:link { font-size: inherit; }", rules.getRules().get(1).getCssText());
+        assertEquals("p { font-size: 2em; }", rules.getRules().get(0).getCssText());
+        assertEquals("p a:link { font-size: inherit; }", rules.getRules().get(1).getCssText());
     }
 }

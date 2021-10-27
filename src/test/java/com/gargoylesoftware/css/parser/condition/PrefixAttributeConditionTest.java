@@ -14,8 +14,10 @@
  */
 package com.gargoylesoftware.css.parser.condition;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
 
@@ -31,11 +33,11 @@ public class PrefixAttributeConditionTest {
     @Test
     public void withoutValue() throws Exception {
         final PrefixAttributeCondition ac = new PrefixAttributeCondition("test", null);
-        Assert.assertEquals(ConditionType.PREFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
-        Assert.assertEquals("test", ac.getLocalName());
-        Assert.assertNull(ac.getValue());
+        assertEquals(ConditionType.PREFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
+        assertEquals("test", ac.getLocalName());
+        assertNull(ac.getValue());
 
-        Assert.assertEquals("[test]", ac.toString());
+        assertEquals("[test]", ac.toString());
     }
 
     /**
@@ -44,11 +46,11 @@ public class PrefixAttributeConditionTest {
     @Test
     public void emptyValue() throws Exception {
         final PrefixAttributeCondition ac = new PrefixAttributeCondition("test", "");
-        Assert.assertEquals(ConditionType.PREFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
-        Assert.assertEquals("test", ac.getLocalName());
-        Assert.assertEquals("", ac.getValue());
+        assertEquals(ConditionType.PREFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
+        assertEquals("test", ac.getLocalName());
+        assertEquals("", ac.getValue());
 
-        Assert.assertEquals("[test^=\"\"]", ac.toString());
+        assertEquals("[test^=\"\"]", ac.toString());
     }
 
     /**
@@ -57,11 +59,11 @@ public class PrefixAttributeConditionTest {
     @Test
     public void withValue() throws Exception {
         final PrefixAttributeCondition ac = new PrefixAttributeCondition("test", "value");
-        Assert.assertEquals(ConditionType.PREFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
-        Assert.assertEquals("test", ac.getLocalName());
-        Assert.assertEquals("value", ac.getValue());
+        assertEquals(ConditionType.PREFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
+        assertEquals("test", ac.getLocalName());
+        assertEquals("value", ac.getValue());
 
-        Assert.assertEquals("[test^=\"value\"]", ac.toString());
+        assertEquals("[test^=\"value\"]", ac.toString());
     }
 
     /**
@@ -70,11 +72,11 @@ public class PrefixAttributeConditionTest {
     @Test
     public void withoutValueAndSpecified() throws Exception {
         final PrefixAttributeCondition ac = new PrefixAttributeCondition("test", null);
-        Assert.assertEquals(ConditionType.PREFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
-        Assert.assertEquals("test", ac.getLocalName());
-        Assert.assertNull(ac.getValue());
+        assertEquals(ConditionType.PREFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
+        assertEquals("test", ac.getLocalName());
+        assertNull(ac.getValue());
 
-        Assert.assertEquals("[test]", ac.toString());
+        assertEquals("[test]", ac.toString());
     }
 
     /**
@@ -83,11 +85,11 @@ public class PrefixAttributeConditionTest {
     @Test
     public void emptyValueAndSpecified() throws Exception {
         final PrefixAttributeCondition ac = new PrefixAttributeCondition("test", "");
-        Assert.assertEquals(ConditionType.PREFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
-        Assert.assertEquals("test", ac.getLocalName());
-        Assert.assertEquals("", ac.getValue());
+        assertEquals(ConditionType.PREFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
+        assertEquals("test", ac.getLocalName());
+        assertEquals("", ac.getValue());
 
-        Assert.assertEquals("[test^=\"\"]", ac.toString());
+        assertEquals("[test^=\"\"]", ac.toString());
     }
 
     /**
@@ -96,10 +98,10 @@ public class PrefixAttributeConditionTest {
     @Test
     public void withValueAndSpecified() throws Exception {
         final PrefixAttributeCondition ac = new PrefixAttributeCondition("test", "value");
-        Assert.assertEquals(ConditionType.PREFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
-        Assert.assertEquals("test", ac.getLocalName());
-        Assert.assertEquals("value", ac.getValue());
+        assertEquals(ConditionType.PREFIX_ATTRIBUTE_CONDITION, ac.getConditionType());
+        assertEquals("test", ac.getLocalName());
+        assertEquals("value", ac.getValue());
 
-        Assert.assertEquals("[test^=\"value\"]", ac.toString());
+        assertEquals("[test^=\"value\"]", ac.toString());
     }
 }

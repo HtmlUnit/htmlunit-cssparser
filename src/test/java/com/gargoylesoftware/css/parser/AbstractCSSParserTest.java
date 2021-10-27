@@ -14,6 +14,10 @@
  */
 package com.gargoylesoftware.css.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,9 +25,8 @@ import java.io.StringReader;
 import java.util.List;
 import java.util.Locale;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import com.gargoylesoftware.css.ErrorHandler;
 import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
@@ -62,7 +65,7 @@ public abstract class AbstractCSSParserTest {
     /**
      * Before each test.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         systemLocale_ = Locale.getDefault();
         Locale.setDefault(Locale.ENGLISH);
@@ -71,7 +74,7 @@ public abstract class AbstractCSSParserTest {
     /**
      * After each test.
      */
-    @After
+    @AfterEach
     public void tearDown() {
         Locale.setDefault(systemLocale_);
     }
@@ -137,9 +140,9 @@ public abstract class AbstractCSSParserTest {
 
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(err, errorHandler.getErrorCount());
-        Assert.assertEquals(fatal, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(warn, errorHandler.getWarningCount());
+        assertEquals(err, errorHandler.getErrorCount());
+        assertEquals(fatal, errorHandler.getFatalErrorCount());
+        assertEquals(warn, errorHandler.getWarningCount());
 
         return sheet;
     }
@@ -152,9 +155,9 @@ public abstract class AbstractCSSParserTest {
 
         final MediaQueryList mediaList = parser.parseMedia(media);
 
-        Assert.assertEquals(err, errorHandler.getErrorCount());
-        Assert.assertEquals(fatal, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(warn, errorHandler.getWarningCount());
+        assertEquals(err, errorHandler.getErrorCount());
+        assertEquals(fatal, errorHandler.getFatalErrorCount());
+        assertEquals(warn, errorHandler.getWarningCount());
 
         return mediaList;
     }
@@ -174,7 +177,7 @@ public abstract class AbstractCSSParserTest {
         final List<Condition> conditions = createConditions(cssText);
 
         for (int i = 0; i < conditionTypes.length; i++) {
-            Assert.assertEquals(conditionTypes[i], conditions.get(i).getConditionType());
+            assertEquals(conditionTypes[i], conditions.get(i).getConditionType());
         }
     }
 
@@ -182,78 +185,78 @@ public abstract class AbstractCSSParserTest {
             final String value, final boolean specified) throws Exception {
 
         final List<Condition> conditions = createConditions(cssText);
-        Assert.assertEquals(1, conditions.size());
+        assertEquals(1, conditions.size());
 
         final Condition condition = conditions.get(0);
         switch (condition.getConditionType()) {
             case ATTRIBUTE_CONDITION:
                 final AttributeCondition attributeCondition = (AttributeCondition) condition;
-                Assert.assertEquals(name, attributeCondition.getLocalName());
-                Assert.assertEquals(value, attributeCondition.getValue());
+                assertEquals(name, attributeCondition.getLocalName());
+                assertEquals(value, attributeCondition.getValue());
                 break;
             case PSEUDO_CLASS_CONDITION:
                 final PseudoClassCondition pseudoClassCondition = (PseudoClassCondition) condition;
-                Assert.assertEquals(name, pseudoClassCondition.getLocalName());
-                Assert.assertEquals(value, pseudoClassCondition.getValue());
+                assertEquals(name, pseudoClassCondition.getLocalName());
+                assertEquals(value, pseudoClassCondition.getValue());
                 break;
             case CLASS_CONDITION:
                 final ClassCondition classCondition = (ClassCondition) condition;
-                Assert.assertEquals(name, classCondition.getLocalName());
-                Assert.assertEquals(value, classCondition.getValue());
+                assertEquals(name, classCondition.getLocalName());
+                assertEquals(value, classCondition.getValue());
                 break;
             case ID_CONDITION:
                 final IdCondition idCondition = (IdCondition) condition;
-                Assert.assertEquals(name, idCondition.getLocalName());
-                Assert.assertEquals(value, idCondition.getValue());
+                assertEquals(name, idCondition.getLocalName());
+                assertEquals(value, idCondition.getValue());
                 break;
             case ONE_OF_ATTRIBUTE_CONDITION:
                 final OneOfAttributeCondition oneOfAttributeCondition = (OneOfAttributeCondition) condition;
-                Assert.assertEquals(name, oneOfAttributeCondition.getLocalName());
-                Assert.assertEquals(value, oneOfAttributeCondition.getValue());
+                assertEquals(name, oneOfAttributeCondition.getLocalName());
+                assertEquals(value, oneOfAttributeCondition.getValue());
                 break;
             case BEGIN_HYPHEN_ATTRIBUTE_CONDITION:
                 final BeginHyphenAttributeCondition beginHyphenAttributeCondition
                                 = (BeginHyphenAttributeCondition) condition;
-                Assert.assertEquals(name, beginHyphenAttributeCondition.getLocalName());
-                Assert.assertEquals(value, beginHyphenAttributeCondition.getValue());
+                assertEquals(name, beginHyphenAttributeCondition.getLocalName());
+                assertEquals(value, beginHyphenAttributeCondition.getValue());
                 break;
             case PREFIX_ATTRIBUTE_CONDITION:
                 final PrefixAttributeCondition prefixAttributeCondition = (PrefixAttributeCondition) condition;
-                Assert.assertEquals(name, prefixAttributeCondition.getLocalName());
-                Assert.assertEquals(value, prefixAttributeCondition.getValue());
+                assertEquals(name, prefixAttributeCondition.getLocalName());
+                assertEquals(value, prefixAttributeCondition.getValue());
                 break;
             case SUFFIX_ATTRIBUTE_CONDITION:
                 final SuffixAttributeCondition suffixAttributeCondition = (SuffixAttributeCondition) condition;
-                Assert.assertEquals(name, suffixAttributeCondition.getLocalName());
-                Assert.assertEquals(value, suffixAttributeCondition.getValue());
+                assertEquals(name, suffixAttributeCondition.getLocalName());
+                assertEquals(value, suffixAttributeCondition.getValue());
                 break;
             case SUBSTRING_ATTRIBUTE_CONDITION:
                 final SubstringAttributeCondition substringAttributeCondition = (SubstringAttributeCondition) condition;
-                Assert.assertEquals(name, substringAttributeCondition.getLocalName());
-                Assert.assertEquals(value, substringAttributeCondition.getValue());
+                assertEquals(name, substringAttributeCondition.getLocalName());
+                assertEquals(value, substringAttributeCondition.getValue());
                 break;
 
             default:
-                Assert.fail("unsupported condition type " + condition.getConditionType());
+                fail("unsupported condition type " + condition.getConditionType());
                 break;
         }
     }
 
     protected void selectorList(final String cssText, final int length) throws Exception {
         final SelectorList selectors = createSelectors(cssText);
-        Assert.assertEquals(length, selectors.size());
+        assertEquals(length, selectors.size());
     }
 
     protected void selectorType(final String cssText, final SelectorType... selectorTypes) throws Exception {
         final SelectorList selectors = createSelectors(cssText);
         final Selector selector = selectors.get(0);
-        Assert.assertEquals(selectorTypes[0], selector.getSelectorType());
+        assertEquals(selectorTypes[0], selector.getSelectorType());
         if (selectorTypes[0] == SelectorType.DESCENDANT_SELECTOR) {
             final DescendantSelector descendantSelector = (DescendantSelector) selector;
             final Selector ancestor = descendantSelector.getAncestorSelector();
-            Assert.assertEquals(selectorTypes[1], ancestor.getSelectorType());
+            assertEquals(selectorTypes[1], ancestor.getSelectorType());
             final SimpleSelector simple = descendantSelector.getSimpleSelector();
-            Assert.assertEquals(selectorTypes[2], simple.getSelectorType());
+            assertEquals(selectorTypes[2], simple.getSelectorType());
         }
     }
 
@@ -264,12 +267,12 @@ public abstract class AbstractCSSParserTest {
 
         final SelectorList selectors = parser.parseSelectors(input);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
-        Assert.assertEquals(errorMsg, errorHandler.getErrorMessage());
-        Assert.assertNull(selectors);
+        assertEquals(errorMsg, errorHandler.getErrorMessage());
+        assertNull(selectors);
     }
 
     protected CSSStyleSheetImpl checkErrorSheet(final String input, final String errorMsg) throws IOException {
@@ -280,11 +283,11 @@ public abstract class AbstractCSSParserTest {
         final InputSource source = new InputSource(new StringReader(input));
         final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(1, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
 
-        Assert.assertEquals(errorMsg, errorHandler.getErrorMessage());
+        assertEquals(errorMsg, errorHandler.getErrorMessage());
         return sheet;
     }
 
@@ -294,9 +297,9 @@ public abstract class AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        Assert.assertEquals(css, rule.getCssText());
+        assertEquals(css, rule.getCssText());
 
         final CSSStyleRuleImpl ruleImpl = (CSSStyleRuleImpl) rule;
         final CSSStyleDeclarationImpl declImpl = ruleImpl.getStyle();

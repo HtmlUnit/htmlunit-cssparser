@@ -14,10 +14,11 @@
  */
 package com.gargoylesoftware.css.dom;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
@@ -36,8 +37,8 @@ public class CSSPageRuleImplTest {
     public void getCssText() throws Exception {
         final CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
 
-        Assert.assertEquals("@page { size: 21cm 29.7cm; }", value.getCssText());
-        Assert.assertEquals("@page { size: 21cm 29.7cm; }", value.toString());
+        assertEquals("@page { size: 21cm 29.7cm; }", value.getCssText());
+        assertEquals("@page { size: 21cm 29.7cm; }", value.toString());
     }
 
     /**
@@ -47,12 +48,12 @@ public class CSSPageRuleImplTest {
     public void setCssText() throws Exception {
         final CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
 
-        Assert.assertEquals("@page { size: 21cm 29.7cm; }", value.getCssText());
-        Assert.assertEquals("@page { size: 21cm 29.7cm; }", value.toString());
+        assertEquals("@page { size: 21cm 29.7cm; }", value.getCssText());
+        assertEquals("@page { size: 21cm 29.7cm; }", value.toString());
 
         value.setCssText("@page :pseudo { color: blue }");
-        Assert.assertEquals("@page :pseudo { color: blue; }", value.getCssText());
-        Assert.assertEquals("@page :pseudo { color: blue; }", value.toString());
+        assertEquals("@page :pseudo { color: blue; }", value.getCssText());
+        assertEquals("@page :pseudo { color: blue; }", value.toString());
 
     }
 
@@ -62,10 +63,10 @@ public class CSSPageRuleImplTest {
     @Test
     public void getSelectorText() throws Exception {
         CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
-        Assert.assertEquals("", value.getSelectorText());
+        assertEquals("", value.getSelectorText());
 
         value = parsePageRule("@page :pseudo {color: blue}");
-        Assert.assertEquals(":pseudo", value.getSelectorText());
+        assertEquals(":pseudo", value.getSelectorText());
     }
 
     /**
@@ -74,10 +75,10 @@ public class CSSPageRuleImplTest {
     @Test
     public void setPseudoPage() throws Exception {
         CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
-        Assert.assertEquals("", value.getSelectorText());
+        assertEquals("", value.getSelectorText());
 
         value = parsePageRule("@page :pseudo {color: blue}");
-        Assert.assertEquals(":pseudo", value.getSelectorText());
+        assertEquals(":pseudo", value.getSelectorText());
     }
 
     /**
@@ -86,10 +87,10 @@ public class CSSPageRuleImplTest {
     @Test
     public void getStyle() throws Exception {
         CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
-        Assert.assertEquals("size: 21cm 29.7cm", value.getStyle().toString());
+        assertEquals("size: 21cm 29.7cm", value.getStyle().toString());
 
         value = parsePageRule("@page :pseudo {color: blue}");
-        Assert.assertEquals("color: blue", value.getStyle().toString());
+        assertEquals("color: blue", value.getStyle().toString());
     }
 
     /**
@@ -99,7 +100,7 @@ public class CSSPageRuleImplTest {
     public void type() throws Exception {
         final CSSPageRuleImpl value = new CSSPageRuleImpl(null, null, null);
 
-        Assert.assertEquals("@page { }", value.toString());
+        assertEquals("@page { }", value.toString());
     }
 
     private CSSPageRuleImpl parsePageRule(final String pageRule) throws Exception {
@@ -117,7 +118,7 @@ public class CSSPageRuleImplTest {
     public void getCssTextFormated() throws Exception {
         final CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
 
-        Assert.assertEquals("@page { size: 21cm 29.7cm; }", value.toString());
-        Assert.assertEquals("@page { size: 21cm 29.7cm; }", value.getCssText());
+        assertEquals("@page { size: 21cm 29.7cm; }", value.toString());
+        assertEquals("@page { size: 21cm 29.7cm; }", value.getCssText());
     }
 }

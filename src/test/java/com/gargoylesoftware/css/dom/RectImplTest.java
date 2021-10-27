@@ -14,8 +14,10 @@
  */
 package com.gargoylesoftware.css.dom;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.DOMException;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
@@ -43,11 +45,11 @@ public class RectImplTest {
         lu = LexicalUnitImpl.createNumber(lu, 40);
 
         final RectImpl rect = new RectImpl(rectLU);
-        Assert.assertEquals("rect(10, 20, 30, 40)", rect.toString());
-        Assert.assertEquals("10", rect.getTop().getCssText());
-        Assert.assertEquals("20", rect.getRight().getCssText());
-        Assert.assertEquals("30", rect.getBottom().getCssText());
-        Assert.assertEquals("40", rect.getLeft().getCssText());
+        assertEquals("rect(10, 20, 30, 40)", rect.toString());
+        assertEquals("10", rect.getTop().getCssText());
+        assertEquals("20", rect.getRight().getCssText());
+        assertEquals("30", rect.getBottom().getCssText());
+        assertEquals("40", rect.getLeft().getCssText());
     }
 
     /**
@@ -61,11 +63,11 @@ public class RectImplTest {
         lu = LexicalUnitImpl.createNumber(lu, 40);
 
         final RectImpl rect = new RectImpl(rectLU);
-        Assert.assertEquals("rect(10, 20, 30, 40)", rect.toString());
-        Assert.assertEquals("10", rect.getTop().getCssText());
-        Assert.assertEquals("20", rect.getRight().getCssText());
-        Assert.assertEquals("30", rect.getBottom().getCssText());
-        Assert.assertEquals("40", rect.getLeft().getCssText());
+        assertEquals("rect(10, 20, 30, 40)", rect.toString());
+        assertEquals("10", rect.getTop().getCssText());
+        assertEquals("20", rect.getRight().getCssText());
+        assertEquals("30", rect.getBottom().getCssText());
+        assertEquals("40", rect.getLeft().getCssText());
     }
 
     /**
@@ -77,10 +79,10 @@ public class RectImplTest {
 
         try {
             new RectImpl(rectLU);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertEquals("Rect misses second parameter.", e.getMessage());
+            assertEquals("Rect misses second parameter.", e.getMessage());
         }
 
         rectLU = LexicalUnitImpl.createNumber(null, 10);
@@ -89,10 +91,10 @@ public class RectImplTest {
 
         try {
             new RectImpl(rectLU);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertEquals("Rect misses fourth parameter.", e.getMessage());
+            assertEquals("Rect misses fourth parameter.", e.getMessage());
         }
     }
 
@@ -109,10 +111,10 @@ public class RectImplTest {
 
         try {
             new RectImpl(rectLU);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertEquals("All or none rect parameters must be separated by ','.", e.getMessage());
+            assertEquals("All or none rect parameters must be separated by ','.", e.getMessage());
         }
     }
 
@@ -129,10 +131,10 @@ public class RectImplTest {
 
         try {
             new RectImpl(rectLU);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertEquals("All or none rect parameters must be separated by ','.", e.getMessage());
+            assertEquals("All or none rect parameters must be separated by ','.", e.getMessage());
         }
     }
 
@@ -152,10 +154,10 @@ public class RectImplTest {
 
         try {
             new RectImpl(rectLU);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertEquals("Too many parameters for rect function.", e.getMessage());
+            assertEquals("Too many parameters for rect function.", e.getMessage());
         }
     }
 
@@ -167,16 +169,16 @@ public class RectImplTest {
         final String testRule = "img { clip: rect(1px, 2px, -3px, 4px); }";
         final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule(testRule);
 
-        Assert.assertEquals(testRule, rule.getCssText());
+        assertEquals(testRule, rule.getCssText());
 
         final CSSStyleDeclarationImpl style = ((CSSStyleRuleImpl) rule).getStyle();
         final Property prop = style.getPropertyDeclaration("clip");
         final RectImpl rect = prop.getValue().getRectValue();
 
-        Assert.assertEquals("1px", rect.getTop().toString());
-        Assert.assertEquals("2px", rect.getRight().toString());
-        Assert.assertEquals("-3px", rect.getBottom().toString());
-        Assert.assertEquals("4px", rect.getLeft().toString());
+        assertEquals("1px", rect.getTop().toString());
+        assertEquals("2px", rect.getRight().toString());
+        assertEquals("-3px", rect.getBottom().toString());
+        assertEquals("4px", rect.getLeft().toString());
     }
 
     /**
@@ -194,6 +196,6 @@ public class RectImplTest {
 
         final RectImpl rect = new RectImpl(rectLU);
 
-        Assert.assertEquals("rect(10, 20, 30, 40)", rect.toString());
+        assertEquals("rect(10, 20, 30, 40)", rect.toString());
     }
 }

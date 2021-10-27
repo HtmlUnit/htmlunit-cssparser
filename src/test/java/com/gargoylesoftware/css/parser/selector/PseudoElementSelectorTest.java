@@ -14,8 +14,10 @@
  */
 package com.gargoylesoftware.css.parser.selector;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
@@ -31,10 +33,10 @@ public class PseudoElementSelectorTest {
     @Test
     public void withoutValue() throws Exception {
         final PseudoElementSelector c = new PseudoElementSelector(null, null, false);
-        Assert.assertNull(c.getLocalName());
-        Assert.assertEquals(SelectorType.PSEUDO_ELEMENT_SELECTOR, c.getSelectorType());
+        assertNull(c.getLocalName());
+        assertEquals(SelectorType.PSEUDO_ELEMENT_SELECTOR, c.getSelectorType());
 
-        Assert.assertNull(c.toString());
+        assertNull(c.toString());
     }
 
     /**
@@ -43,10 +45,10 @@ public class PseudoElementSelectorTest {
     @Test
     public void emptyValue() throws Exception {
         final PseudoElementSelector c = new PseudoElementSelector("", null, false);
-        Assert.assertEquals("", c.getLocalName());
-        Assert.assertEquals(SelectorType.PSEUDO_ELEMENT_SELECTOR, c.getSelectorType());
+        assertEquals("", c.getLocalName());
+        assertEquals(SelectorType.PSEUDO_ELEMENT_SELECTOR, c.getSelectorType());
 
-        Assert.assertEquals(":", c.toString());
+        assertEquals(":", c.toString());
     }
 
     /**
@@ -55,9 +57,9 @@ public class PseudoElementSelectorTest {
     @Test
     public void withValue() throws Exception {
         final PseudoElementSelector c = new PseudoElementSelector("value", null, false);
-        Assert.assertEquals("value", c.getLocalName());
-        Assert.assertEquals(SelectorType.PSEUDO_ELEMENT_SELECTOR, c.getSelectorType());
+        assertEquals("value", c.getLocalName());
+        assertEquals(SelectorType.PSEUDO_ELEMENT_SELECTOR, c.getSelectorType());
 
-        Assert.assertEquals(":value", c.toString());
+        assertEquals(":value", c.toString());
     }
 }

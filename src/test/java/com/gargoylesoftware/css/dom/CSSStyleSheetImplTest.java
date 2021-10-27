@@ -14,14 +14,17 @@
  */
 package com.gargoylesoftware.css.dom;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.DOMException;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
@@ -42,22 +45,22 @@ public class CSSStyleSheetImplTest {
         final CSSStyleSheetImpl ss = parseStyleSheet("");
 
         ss.insertRule(".testStyle { height: 42px; }", 0);
-        Assert.assertEquals("*.testStyle { height: 42px; }", ss.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyle { height: 42px; }", ss.getCssRules().getRules().get(0).getCssText());
 
         ss.insertRule(".testStyle { height: 43px; }", 0);
-        Assert.assertEquals("*.testStyle { height: 43px; }", ss.getCssRules().getRules().get(0).getCssText());
-        Assert.assertEquals("*.testStyle { height: 42px; }", ss.getCssRules().getRules().get(1).getCssText());
+        assertEquals("*.testStyle { height: 43px; }", ss.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyle { height: 42px; }", ss.getCssRules().getRules().get(1).getCssText());
 
         ss.insertRule(".testStyle { height: 44px; }", 2);
-        Assert.assertEquals("*.testStyle { height: 43px; }", ss.getCssRules().getRules().get(0).getCssText());
-        Assert.assertEquals("*.testStyle { height: 42px; }", ss.getCssRules().getRules().get(1).getCssText());
-        Assert.assertEquals("*.testStyle { height: 44px; }", ss.getCssRules().getRules().get(2).getCssText());
+        assertEquals("*.testStyle { height: 43px; }", ss.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyle { height: 42px; }", ss.getCssRules().getRules().get(1).getCssText());
+        assertEquals("*.testStyle { height: 44px; }", ss.getCssRules().getRules().get(2).getCssText());
 
         ss.insertRule(".testStyle { height: 45px; }", 2);
-        Assert.assertEquals("*.testStyle { height: 43px; }", ss.getCssRules().getRules().get(0).getCssText());
-        Assert.assertEquals("*.testStyle { height: 42px; }", ss.getCssRules().getRules().get(1).getCssText());
-        Assert.assertEquals("*.testStyle { height: 45px; }", ss.getCssRules().getRules().get(2).getCssText());
-        Assert.assertEquals("*.testStyle { height: 44px; }", ss.getCssRules().getRules().get(3).getCssText());
+        assertEquals("*.testStyle { height: 43px; }", ss.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyle { height: 42px; }", ss.getCssRules().getRules().get(1).getCssText());
+        assertEquals("*.testStyle { height: 45px; }", ss.getCssRules().getRules().get(2).getCssText());
+        assertEquals("*.testStyle { height: 44px; }", ss.getCssRules().getRules().get(3).getCssText());
     }
 
     /**
@@ -70,16 +73,16 @@ public class CSSStyleSheetImplTest {
         final CSSStyleSheetImpl ss = parseStyleSheet("");
 
         ss.insertRule(" .testStyleDef { height: 42px; }", 0);
-        Assert.assertEquals("*.testStyleDef { height: 42px; }", ss.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyleDef { height: 42px; }", ss.getCssRules().getRules().get(0).getCssText());
 
         ss.insertRule("      .testStyleDef { height: 43px;}   ", 0);
-        Assert.assertEquals("*.testStyleDef { height: 43px; }", ss.getCssRules().getRules().get(0).getCssText());
-        Assert.assertEquals("*.testStyleDef { height: 42px; }", ss.getCssRules().getRules().get(1).getCssText());
+        assertEquals("*.testStyleDef { height: 43px; }", ss.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyleDef { height: 42px; }", ss.getCssRules().getRules().get(1).getCssText());
 
         ss.insertRule("\t.testStyleDef { height: 44px }\r\n", 0);
-        Assert.assertEquals("*.testStyleDef { height: 44px; }", ss.getCssRules().getRules().get(0).getCssText());
-        Assert.assertEquals("*.testStyleDef { height: 43px; }", ss.getCssRules().getRules().get(1).getCssText());
-        Assert.assertEquals("*.testStyleDef { height: 42px; }", ss.getCssRules().getRules().get(2).getCssText());
+        assertEquals("*.testStyleDef { height: 44px; }", ss.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyleDef { height: 43px; }", ss.getCssRules().getRules().get(1).getCssText());
+        assertEquals("*.testStyleDef { height: 42px; }", ss.getCssRules().getRules().get(2).getCssText());
     }
 
     /**
@@ -93,11 +96,11 @@ public class CSSStyleSheetImplTest {
 
         try {
             ss.insertRule(".testStyleDef", 0);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertTrue(e.getMessage(), e.getMessage().startsWith("Syntax error"));
-            Assert.assertEquals(0, ss.getCssRules().getLength());
+            assertTrue(e.getMessage().startsWith("Syntax error"), e.getMessage());
+            assertEquals(0, ss.getCssRules().getLength());
         }
     }
 
@@ -111,10 +114,10 @@ public class CSSStyleSheetImplTest {
         ss.insertRule("@charset \"US-ASCII\";", 0);
         try {
             ss.insertRule("@charset \"US-ASCII\";", 0);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertTrue(e.getMessage(), e.getMessage().startsWith("A charset rule already exists"));
+            assertTrue(e.getMessage().startsWith("A charset rule already exists"), e.getMessage());
         }
     }
 
@@ -132,11 +135,11 @@ public class CSSStyleSheetImplTest {
 
         try {
             ss.insertRule("testStyleDef { height: 42px }", 0);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertTrue(e.getMessage(),
-                    e.getMessage().startsWith("Can't insert a rule before the last charset or import rule"));
+            assertTrue(e.getMessage().startsWith("Can't insert a rule before the last charset or import rule"),
+                    e.getMessage());
         }
     }
 
@@ -159,11 +162,11 @@ public class CSSStyleSheetImplTest {
 
         try {
             ss.deleteRule(7);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertTrue(e.getMessage(), e.getMessage().startsWith("Index out of bounds error"));
-            Assert.assertEquals(0, ss.getCssRules().getLength());
+            assertTrue(e.getMessage().startsWith("Index out of bounds error"), e.getMessage());
+            assertEquals(0, ss.getCssRules().getLength());
         }
     }
 
@@ -197,7 +200,7 @@ public class CSSStyleSheetImplTest {
         final byte[] bytes = baos.toByteArray();
         final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
         final Object o = ois.readObject();
-        Assert.assertEquals(css.toString(), o.toString());
+        assertEquals(css.toString(), o.toString());
     }
 
     private CSSStyleSheetImpl parseStyleSheet(final String rule) throws Exception {
@@ -214,6 +217,6 @@ public class CSSStyleSheetImplTest {
     public void getCssTextFormated() throws Exception {
         final CSSStyleSheetImpl value = parseStyleSheet("h1{color:blue}");
 
-        Assert.assertEquals("h1 { color: blue; }", value.toString());
+        assertEquals("h1 { color: blue; }", value.toString());
     }
 }

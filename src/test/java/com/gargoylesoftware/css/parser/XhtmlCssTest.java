@@ -14,10 +14,11 @@
  */
 package com.gargoylesoftware.css.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.ErrorHandler;
 import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
@@ -49,8 +50,8 @@ public class XhtmlCssTest {
 
         cssParser.parseStyleSheet(source);
 
-        Assert.assertEquals(0, errorHandler.getFatalErrorCount());
-        Assert.assertEquals(0, errorHandler.getErrorCount());
-        Assert.assertEquals(0, errorHandler.getWarningCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
     }
 }

@@ -14,8 +14,10 @@
  */
 package com.gargoylesoftware.css.parser.selector;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
@@ -32,10 +34,10 @@ public class ElementSelectorTest {
     @Test
     public void withoutValue() throws Exception {
         final ElementSelector s = new ElementSelector(null, null);
-        Assert.assertNull(s.getLocalName());
-        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, s.getSelectorType());
+        assertNull(s.getLocalName());
+        assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, s.getSelectorType());
 
-        Assert.assertEquals("*", s.toString());
+        assertEquals("*", s.toString());
     }
 
     /**
@@ -44,10 +46,10 @@ public class ElementSelectorTest {
     @Test
     public void emptyValue() throws Exception {
         final ElementSelector s = new ElementSelector("", null);
-        Assert.assertEquals("", s.getLocalName());
-        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, s.getSelectorType());
+        assertEquals("", s.getLocalName());
+        assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, s.getSelectorType());
 
-        Assert.assertEquals("", s.toString());
+        assertEquals("", s.toString());
     }
 
     /**
@@ -56,9 +58,9 @@ public class ElementSelectorTest {
     @Test
     public void withValue() throws Exception {
         final ElementSelector s = new ElementSelector("value", null);
-        Assert.assertEquals("value", s.getLocalName());
-        Assert.assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, s.getSelectorType());
+        assertEquals("value", s.getLocalName());
+        assertEquals(SelectorType.ELEMENT_NODE_SELECTOR, s.getSelectorType());
 
-        Assert.assertEquals("value", s.toString());
+        assertEquals("value", s.toString());
     }
 }

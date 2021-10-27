@@ -14,8 +14,10 @@
  */
 package com.gargoylesoftware.css.dom;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.LexicalUnit;
 import com.gargoylesoftware.css.parser.LexicalUnitImpl;
@@ -35,16 +37,16 @@ public class CounterImplTest {
         final LexicalUnit counterLu = LexicalUnitImpl.createString(null, "ident");
 
         CounterImpl counter = new CounterImpl(false, counterLu);
-        Assert.assertEquals("counter(ident)", counter.toString());
-        Assert.assertEquals("ident", counter.getIdentifier());
-        Assert.assertNull(counter.getSeparator());
-        Assert.assertNull(counter.getListStyle());
+        assertEquals("counter(ident)", counter.toString());
+        assertEquals("ident", counter.getIdentifier());
+        assertNull(counter.getSeparator());
+        assertNull(counter.getListStyle());
 
         counter = new CounterImpl(true, counterLu);
-        Assert.assertEquals("counter(ident)", counter.toString());
-        Assert.assertEquals("ident", counter.getIdentifier());
-        Assert.assertNull(counter.getSeparator());
-        Assert.assertNull(counter.getListStyle());
+        assertEquals("counter(ident)", counter.toString());
+        assertEquals("ident", counter.getIdentifier());
+        assertNull(counter.getSeparator());
+        assertNull(counter.getListStyle());
     }
 
     /**
@@ -57,16 +59,16 @@ public class CounterImplTest {
         lu = LexicalUnitImpl.createString(lu, "sep");
 
         CounterImpl counter = new CounterImpl(false, counterLu);
-        Assert.assertEquals("counter(ident, sep)", counter.toString());
-        Assert.assertEquals("ident", counter.getIdentifier());
-        Assert.assertNull(counter.getSeparator());
-        Assert.assertEquals("sep", counter.getListStyle());
+        assertEquals("counter(ident, sep)", counter.toString());
+        assertEquals("ident", counter.getIdentifier());
+        assertNull(counter.getSeparator());
+        assertEquals("sep", counter.getListStyle());
 
         counter = new CounterImpl(true, counterLu);
-        Assert.assertEquals("counters(ident, \"sep\")", counter.toString());
-        Assert.assertEquals("ident", counter.getIdentifier());
-        Assert.assertEquals("sep", counter.getSeparator());
-        Assert.assertNull(counter.getListStyle());
+        assertEquals("counters(ident, \"sep\")", counter.toString());
+        assertEquals("ident", counter.getIdentifier());
+        assertEquals("sep", counter.getSeparator());
+        assertNull(counter.getListStyle());
     }
 
     /**
@@ -81,10 +83,10 @@ public class CounterImplTest {
         lu = LexicalUnitImpl.createString(lu, "list");
 
         final CounterImpl counter = new CounterImpl(true, counterLu);
-        Assert.assertEquals("counters(ident, \"sep\", list)", counter.toString());
-        Assert.assertEquals("ident", counter.getIdentifier());
-        Assert.assertEquals("sep", counter.getSeparator());
-        Assert.assertEquals("list", counter.getListStyle());
+        assertEquals("counters(ident, \"sep\", list)", counter.toString());
+        assertEquals("ident", counter.getIdentifier());
+        assertEquals("sep", counter.getSeparator());
+        assertEquals("list", counter.getListStyle());
     }
 
     /**
@@ -100,6 +102,6 @@ public class CounterImplTest {
 
         final CounterImpl counter = new CounterImpl(true, counterLu);
 
-        Assert.assertEquals("counters(ident, \"sep\", list)", counter.toString());
+        assertEquals("counters(ident, \"sep\", list)", counter.toString());
     }
 }

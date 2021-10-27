@@ -14,6 +14,8 @@
  */
 package com.gargoylesoftware.css.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -27,8 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
 import com.gargoylesoftware.css.dom.CSSCharsetRuleImpl;
@@ -77,7 +78,7 @@ public class LocatorTest {
      * @throws Exception in case of failure
      */
     @Test
-    public void locationsCSS3() {
+    public void locationsCSS3() throws IOException {
         final String cssCode = CHARSET_RULE
             + IMPORT_RULE
             + UNKNOWN_AT_RULE
@@ -125,7 +126,7 @@ public class LocatorTest {
     }
 
     private void locations(final AbstractCSSParser cssParser, final String cssCode,
-            final Map<Character, List<Integer[]>> positions) {
+            final Map<Character, List<Integer[]>> positions) throws IOException {
         final Reader r = new StringReader(cssCode);
         final InputSource source = new InputSource(r);
         final CSSOMParser cssomParser = new CSSOMParser();
@@ -134,14 +135,10 @@ public class LocatorTest {
         counts.put('M', 0);
         counts.put('P', 0);
         counts.put('V', 0);
-        try {
-            final CSSStyleSheetImpl cssStyleSheet = cssomParser.parseStyleSheet(source, null);
-            final CSSRuleListImpl cssRules = cssStyleSheet.getCssRules();
-            cssRules(cssRules, positions, counts);
-        }
-        catch (final IOException e) {
-            Assert.assertFalse(e.getLocalizedMessage(), true);
-        }
+
+        final CSSStyleSheetImpl cssStyleSheet = cssomParser.parseStyleSheet(source, null);
+        final CSSRuleListImpl cssRules = cssStyleSheet.getCssRules();
+        cssRules(cssRules, positions, counts);
     }
 
     private void cssRules(final CSSRuleListImpl cssRules, final Map<Character, List<Integer[]>> positions,
@@ -158,8 +155,8 @@ public class LocatorTest {
         final int expectedLine = expected[0];
         final int expectedColumn = expected[1];
 
-        Assert.assertEquals(expectedLine, locator.getLineNumber());
-        Assert.assertEquals(expectedColumn, locator.getColumnNumber());
+        assertEquals(expectedLine, locator.getLineNumber());
+        assertEquals(expectedColumn, locator.getColumnNumber());
         counts.put('R', counts.get('R') + 1);
 
         if (cssRule instanceof CSSUnknownRuleImpl) {
@@ -214,8 +211,8 @@ public class LocatorTest {
             final int expectedLine = expected[0];
             final int expectedColumn = expected[1];
 
-            Assert.assertEquals(expectedLine, locator.getLineNumber());
-            Assert.assertEquals(expectedColumn, locator.getColumnNumber());
+            assertEquals(expectedLine, locator.getLineNumber());
+            assertEquals(expectedColumn, locator.getColumnNumber());
             counts.put('M', counts.get('M') + 1);
         }
     }
@@ -228,8 +225,8 @@ public class LocatorTest {
         final int expectedLine = expected[0];
         final int expectedColumn = expected[1];
 
-        Assert.assertEquals(expectedLine, locator.getLineNumber());
-        Assert.assertEquals(expectedColumn, locator.getColumnNumber());
+        assertEquals(expectedLine, locator.getLineNumber());
+        assertEquals(expectedColumn, locator.getColumnNumber());
         counts.put('P', counts.get('P') + 1);
         cssValue(property.getValue(), positions, counts);
     }
@@ -245,8 +242,8 @@ public class LocatorTest {
         if (locator == null) {
             System.out.println("#");
         }
-        Assert.assertEquals(expectedLine, locator.getLineNumber());
-        Assert.assertEquals(expectedColumn, locator.getColumnNumber());
+        assertEquals(expectedLine, locator.getLineNumber());
+        assertEquals(expectedColumn, locator.getColumnNumber());
         counts.put('V', counts.get('V') + 1);
 
         if (cssValue.getCssValueType() == CSSValueType.CSS_VALUE_LIST) {
@@ -272,6 +269,6 @@ public class LocatorTest {
         final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
         final Object o = ois.readObject();
 
-        Assert.assertEquals(locator, o);
+        assertEquals(locator, o);
     }
 }

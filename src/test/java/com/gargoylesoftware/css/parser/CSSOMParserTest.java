@@ -14,11 +14,14 @@
  */
 package com.gargoylesoftware.css.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.io.Reader;
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
 import com.gargoylesoftware.css.dom.CSSPageRuleImpl;
@@ -53,7 +56,7 @@ public class CSSOMParserTest {
     @Test
     public void defaultConstructor() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
-        Assert.assertNotNull(parser);
+        assertNotNull(parser);
     }
 
     /**
@@ -62,7 +65,7 @@ public class CSSOMParserTest {
     @Test
     public void defineParserInstance() throws Exception {
         final CSSOMParser parser = new CSSOMParser();
-        Assert.assertNotNull(parser);
+        assertNotNull(parser);
     }
 
     /**
@@ -78,13 +81,13 @@ public class CSSOMParserTest {
         final AbstractCSSRuleImpl rule = rl.getRules().get(0);
 
         final CSSStyleRuleImpl sr = (CSSStyleRuleImpl) rule;
-        Assert.assertEquals(testSelector_, sr.getSelectorText());
+        assertEquals(testSelector_, sr.getSelectorText());
 
         final CSSStyleDeclarationImpl style = sr.getStyle();
-        Assert.assertEquals(testItem_, style.getProperties().get(0).getName());
+        assertEquals(testItem_, style.getProperties().get(0).getName());
 
         final CSSValueImpl value = style.getPropertyCSSValue(style.getProperties().get(0).getName());
-        Assert.assertEquals(testValue_, value.getCssText());
+        assertEquals(testValue_, value.getCssText());
     }
 
     /**
@@ -98,15 +101,15 @@ public class CSSOMParserTest {
         final InputSource is = new InputSource(r);
         final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
         final CSSRuleListImpl rl = ss.getCssRules();
-        Assert.assertEquals(2, rl.getLength());
+        assertEquals(2, rl.getLength());
 
         AbstractCSSRuleImpl rule = rl.getRules().get(0);
         CSSStyleRuleImpl sr = (CSSStyleRuleImpl) rule;
-        Assert.assertEquals("p { filter: alpha(opacity=33.3); opacity: 0.333; }", sr.getCssText());
+        assertEquals("p { filter: alpha(opacity=33.3); opacity: 0.333; }", sr.getCssText());
 
         rule = rl.getRules().get(1);
         sr = (CSSStyleRuleImpl) rule;
-        Assert.assertEquals("a { color: rgb(18, 52, 86); }", sr.getCssText());
+        assertEquals("a { color: rgb(18, 52, 86); }", sr.getCssText());
     }
 
     /**
@@ -116,7 +119,7 @@ public class CSSOMParserTest {
     public void parseSelectors() throws Exception {
         final SelectorList sl = new CSSOMParser().parseSelectors(testSelector_);
 
-        Assert.assertEquals(testSelector_, sl.get(0).toString());
+        assertEquals(testSelector_, sl.get(0).toString());
     }
 
     /**
@@ -126,7 +129,7 @@ public class CSSOMParserTest {
     public void parseSelectorsEscapedChars() throws Exception {
         final SelectorList sl = new CSSOMParser().parseSelectors("#id\\:withColon");
 
-        Assert.assertEquals("*#id:withColon", sl.get(0).toString());
+        assertEquals("*#id:withColon", sl.get(0).toString());
     }
 
     /**
@@ -136,7 +139,7 @@ public class CSSOMParserTest {
     public void parseSelectorsParseException() throws Exception {
         final SelectorList sl = new CSSOMParser().parseSelectors("table==td");
 
-        Assert.assertNull(sl);
+        assertNull(sl);
     }
 
     /**
@@ -146,7 +149,7 @@ public class CSSOMParserTest {
     public void parsePropertyValue() throws Exception {
         final CSSValueImpl pv = new CSSOMParser().parsePropertyValue(testPropertyValue_);
 
-        Assert.assertEquals(testPropertyValue_, pv.toString());
+        assertEquals(testPropertyValue_, pv.toString());
     }
 
     /**
@@ -156,7 +159,7 @@ public class CSSOMParserTest {
     public void parsePropertyValueParseException() throws Exception {
         final CSSValueImpl pv = new CSSOMParser().parsePropertyValue("@a");
 
-        Assert.assertNull(pv);
+        assertNull(pv);
     }
 
     /**
@@ -166,7 +169,7 @@ public class CSSOMParserTest {
     public void parseMedia() throws Exception {
         final MediaQueryList ml = new CSSOMParser().parseMedia(testParseMedia_);
 
-        Assert.assertEquals(2, ml.getLength());
+        assertEquals(2, ml.getLength());
     }
 
     /**
@@ -176,7 +179,7 @@ public class CSSOMParserTest {
     public void parseMediaParseException() throws Exception {
         final MediaQueryList ml = new CSSOMParser().parseMedia("~xx");
 
-        Assert.assertEquals(0, ml.getLength());
+        assertEquals(0, ml.getLength());
     }
 
     /**
@@ -186,7 +189,7 @@ public class CSSOMParserTest {
     public void parseRule() throws Exception {
         final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule(testParseRule_);
 
-        Assert.assertEquals(testParseRule_, rule.getCssText());
+        assertEquals(testParseRule_, rule.getCssText());
     }
 
     /**
@@ -196,7 +199,7 @@ public class CSSOMParserTest {
     public void parseRuleParseException() throws Exception {
         final AbstractCSSRuleImpl rule = new CSSOMParser().parseRule("~xx");
 
-        Assert.assertNull(rule);
+        assertNull(rule);
     }
 
     /**
@@ -206,7 +209,7 @@ public class CSSOMParserTest {
     public void parseStyleDeclaration() throws Exception {
         final CSSStyleDeclarationImpl sd = new CSSOMParser().parseStyleDeclaration(testStyleDeclaration_);
 
-        Assert.assertEquals(testStyleDeclaration_, sd.toString());
+        assertEquals(testStyleDeclaration_, sd.toString());
     }
 
     /**
@@ -216,7 +219,7 @@ public class CSSOMParserTest {
     public void parseStyleDeclarationParseException() throws Exception {
         final CSSStyleDeclarationImpl sd = new CSSOMParser().parseStyleDeclaration("@abc");
 
-        Assert.assertEquals(sd.getLength(), 0);
+        assertEquals(sd.getLength(), 0);
     }
 
     /**
@@ -229,7 +232,7 @@ public class CSSOMParserTest {
     public void parseStyleDeclarationWithoutBrace() throws Exception {
         final CSSStyleDeclarationImpl declaration = new CSSOMParser().parseStyleDeclaration("background-color: white");
 
-        Assert.assertEquals(1, declaration.getLength());
+        assertEquals(1, declaration.getLength());
     }
 
     /**
@@ -240,17 +243,17 @@ public class CSSOMParserTest {
      */
     @Test
     public void urlGreedy() throws Exception {
-        Assert.assertEquals(
+        assertEquals(
             "background: url(\"images/bottom-angle.png\"); background-image: url(\"background.png\")",
             getCssTextFromDeclaration(
                     new CSS3Parser(),
                     "background:url('images/bottom-angle.png');background-image:url('background.png');"));
-        Assert.assertEquals(
+        assertEquals(
             "background: url(\"images/bottom-angle.png\"); background-image: url(\"background.png\")",
             getCssTextFromDeclaration(
                     new CSS3Parser(),
                     "background:url(\"images/bottom-angle.png\");background-image:url(\"background.png\");"));
-        Assert.assertEquals(
+        assertEquals(
             "background: rgb(60, 90, 118) url(\"/images/status_bg.png?2\") no-repeat center; "
             + "font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif",
             getCssTextFromDeclaration(
@@ -267,11 +270,11 @@ public class CSSOMParserTest {
      */
     @Test
     public void commaList() throws Exception {
-        Assert.assertEquals(
+        assertEquals(
             "font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif",
             getCssTextFromDeclaration(new CSS3Parser(),
                     "font-family: Arial,'Helvetica Neue',Helvetica,sans-serif"));
-        Assert.assertEquals(
+        assertEquals(
             "font-family: Arial, \"Helvetica Neue\", Helvetica, sans-serif",
             getCssTextFromDeclaration(new CSS3Parser(),
                     "font-family: Arial, 'Helvetica Neue', Helvetica,  sans-serif"));
@@ -285,14 +288,14 @@ public class CSSOMParserTest {
      */
     @Test
     public void colorFirst() throws Exception {
-        Assert.assertEquals(
+        assertEquals(
             "background: rgb(232, 239, 245) url(\"images/bottom-angle.png\") no-repeat",
             getCssTextFromDeclaration(new CSS3Parser(),
                     "background: #e8eff5 url(images/bottom-angle.png) no-repeat"));
-        Assert.assertEquals(
+        assertEquals(
             "background: red url(\"images/bottom-angle.png\") no-repeat",
             getCssTextFromDeclaration(new CSS3Parser(), "background: red url(images/bottom-angle.png) no-repeat"));
-        Assert.assertEquals(
+        assertEquals(
             "background: rgb(8, 3, 6) url(\"images/bottom-angle.png\") no-repeat",
             getCssTextFromDeclaration(new CSS3Parser(),
                     "background: rgb(8, 3, 6) url(images/bottom-angle.png) no-repeat"));
@@ -303,11 +306,11 @@ public class CSSOMParserTest {
      */
     @Test
     public void speciaChars() throws Exception {
-        Assert.assertEquals("content: \"�\"",
+        assertEquals("content: \"�\"",
                 getCssTextFromDeclaration(new CSS3Parser(), "content: '�';"));
-        Assert.assertEquals("content: \"\u0122\"",
+        assertEquals("content: \"\u0122\"",
             getCssTextFromDeclaration(new CSS3Parser(), "content: '\u0122';"));
-        Assert.assertEquals("content: \"\u0422\"",
+        assertEquals("content: \"\u0422\"",
             getCssTextFromDeclaration(new CSS3Parser(), "content: '\u0422';"));
     }
 
@@ -328,7 +331,7 @@ public class CSSOMParserTest {
         final CSSOMParser parser = new CSSOMParser();
         final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(0, ss.getCssRules().getLength());
+        assertEquals(0, ss.getCssRules().getLength());
     }
 
     /**
@@ -348,7 +351,7 @@ public class CSSOMParserTest {
         final CSSOMParser parser = new CSSOMParser();
         final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
 
-        Assert.assertEquals(0, ss.getCssRules().getLength());
+        assertEquals(0, ss.getCssRules().getLength());
     }
 
     /**
@@ -369,7 +372,7 @@ public class CSSOMParserTest {
         final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
 
         // second rule is not detected, because the closing semicolon is missed
-        Assert.assertEquals(1, ss.getCssRules().getLength());
+        assertEquals(1, ss.getCssRules().getLength());
     }
 
     /**
@@ -385,37 +388,37 @@ public class CSSOMParserTest {
     }
 
     private void escapedChars(final AbstractCSSParser p) throws Exception {
-        Assert.assertEquals("bogus0: \"abc\"", getCssTextFromDeclaration(p, "bogus0: 'a\\\rbc'"));
-        Assert.assertEquals("bogus1: \"abc\"", getCssTextFromDeclaration(p, "bogus1: 'a\\\nbc'"));
-        Assert.assertEquals("bogus2: \"abc\"", getCssTextFromDeclaration(p, "bogus2: 'a\\\fbc'"));
-        Assert.assertEquals("bogus3: \"abc\"", getCssTextFromDeclaration(p, "bogus3: 'abc\\\r\n'"));
-        Assert.assertEquals("bogus4: \"abc\"", getCssTextFromDeclaration(p, "bogus4: 'a\\\r\nbc'"));
-        Assert.assertEquals("bogus5: \"abx\"", getCssTextFromDeclaration(p, "bogus5: '\\61\\62x'"));
-        Assert.assertEquals("bogus6: \"abc\"", getCssTextFromDeclaration(p, "bogus6: '\\61\\62\\63'"));
-        Assert.assertEquals("bogus7: \"abx\"", getCssTextFromDeclaration(p, "bogus7: '\\61 \\62x'"));
-        Assert.assertEquals("bogus8: \"abx\"", getCssTextFromDeclaration(p, "bogus8: '\\61\t\\62x'"));
-        Assert.assertEquals("bogus9: \"abx\"", getCssTextFromDeclaration(p, "bogus9: '\\61\n\\62x'"));
-        Assert.assertEquals("bogus10: \"a'bc\"", getCssTextFromDeclaration(p, "bogus10: 'a\\'bc'"));
-        Assert.assertEquals("bogus11: \"a'bc\"", getCssTextFromDeclaration(p, "bogus11: \"a\\'bc\""));
-        Assert.assertEquals("bogus12: \"a\\\"bc\"", getCssTextFromDeclaration(p, "bogus12: 'a\\\"bc'"));
+        assertEquals("bogus0: \"abc\"", getCssTextFromDeclaration(p, "bogus0: 'a\\\rbc'"));
+        assertEquals("bogus1: \"abc\"", getCssTextFromDeclaration(p, "bogus1: 'a\\\nbc'"));
+        assertEquals("bogus2: \"abc\"", getCssTextFromDeclaration(p, "bogus2: 'a\\\fbc'"));
+        assertEquals("bogus3: \"abc\"", getCssTextFromDeclaration(p, "bogus3: 'abc\\\r\n'"));
+        assertEquals("bogus4: \"abc\"", getCssTextFromDeclaration(p, "bogus4: 'a\\\r\nbc'"));
+        assertEquals("bogus5: \"abx\"", getCssTextFromDeclaration(p, "bogus5: '\\61\\62x'"));
+        assertEquals("bogus6: \"abc\"", getCssTextFromDeclaration(p, "bogus6: '\\61\\62\\63'"));
+        assertEquals("bogus7: \"abx\"", getCssTextFromDeclaration(p, "bogus7: '\\61 \\62x'"));
+        assertEquals("bogus8: \"abx\"", getCssTextFromDeclaration(p, "bogus8: '\\61\t\\62x'"));
+        assertEquals("bogus9: \"abx\"", getCssTextFromDeclaration(p, "bogus9: '\\61\n\\62x'"));
+        assertEquals("bogus10: \"a'bc\"", getCssTextFromDeclaration(p, "bogus10: 'a\\'bc'"));
+        assertEquals("bogus11: \"a'bc\"", getCssTextFromDeclaration(p, "bogus11: \"a\\'bc\""));
+        assertEquals("bogus12: \"a\\\"bc\"", getCssTextFromDeclaration(p, "bogus12: 'a\\\"bc'"));
 
         // regression for 2891851
         // double backslashes are needed
         // see http://www.developershome.com/wap/wcss/wcss_tutorial.asp?page=inputExtension2
-        Assert.assertEquals("bogus13: \"NNNNN\\-NNNN\"", getCssTextFromDeclaration(p, "bogus13: 'NNNNN\\\\-NNNN'"));
-        Assert.assertEquals("bogus14: \"NNNNN\\-NNNN\"", getCssTextFromDeclaration(p, "bogus14: \"NNNNN\\\\-NNNN\""));
+        assertEquals("bogus13: \"NNNNN\\-NNNN\"", getCssTextFromDeclaration(p, "bogus13: 'NNNNN\\\\-NNNN'"));
+        assertEquals("bogus14: \"NNNNN\\-NNNN\"", getCssTextFromDeclaration(p, "bogus14: \"NNNNN\\\\-NNNN\""));
 
-        Assert.assertEquals("bogus15: \"\u00a4\"", getCssTextFromDeclaration(p, "bogus15: '\\a4'"));
-        Assert.assertEquals("bogus16: \"\\A 4\"", getCssTextFromDeclaration(p, "bogus16: '\\a 4'"));
-        Assert.assertEquals("bogus17: \"\\A o\"", getCssTextFromDeclaration(p, "bogus17: '\\ao'"));
-        Assert.assertEquals("bogus18: \"\\A o\"", getCssTextFromDeclaration(p, "bogus18: '\\a o'"));
-        Assert.assertEquals("bogus19: \"\\A  o\"", getCssTextFromDeclaration(p, "bogus19: '\\A  o'"));
+        assertEquals("bogus15: \"\u00a4\"", getCssTextFromDeclaration(p, "bogus15: '\\a4'"));
+        assertEquals("bogus16: \"\\A 4\"", getCssTextFromDeclaration(p, "bogus16: '\\a 4'"));
+        assertEquals("bogus17: \"\\A o\"", getCssTextFromDeclaration(p, "bogus17: '\\ao'"));
+        assertEquals("bogus18: \"\\A o\"", getCssTextFromDeclaration(p, "bogus18: '\\a o'"));
+        assertEquals("bogus19: \"\\A  o\"", getCssTextFromDeclaration(p, "bogus19: '\\A  o'"));
 
-        Assert.assertEquals("bogus20: \"\u00d4\"", getCssTextFromDeclaration(p, "bogus20: '\\d4'"));
-        Assert.assertEquals("bogus21: \"\\D 4\"", getCssTextFromDeclaration(p, "bogus21: '\\d 4'"));
-        Assert.assertEquals("bogus22: \"\\D o\"", getCssTextFromDeclaration(p, "bogus22: '\\do'"));
-        Assert.assertEquals("bogus23: \"\\D o\"", getCssTextFromDeclaration(p, "bogus23: '\\d o'"));
-        Assert.assertEquals("bogus24: \"\\D  o\"", getCssTextFromDeclaration(p, "bogus24: '\\D  o'"));
+        assertEquals("bogus20: \"\u00d4\"", getCssTextFromDeclaration(p, "bogus20: '\\d4'"));
+        assertEquals("bogus21: \"\\D 4\"", getCssTextFromDeclaration(p, "bogus21: '\\d 4'"));
+        assertEquals("bogus22: \"\\D o\"", getCssTextFromDeclaration(p, "bogus22: '\\do'"));
+        assertEquals("bogus23: \"\\D o\"", getCssTextFromDeclaration(p, "bogus23: '\\d o'"));
+        assertEquals("bogus24: \"\\D  o\"", getCssTextFromDeclaration(p, "bogus24: '\\D  o'"));
     }
 
     private String getCssTextFromDeclaration(final AbstractCSSParser p, final String s) throws Exception {
@@ -433,18 +436,18 @@ public class CSSOMParserTest {
         final InputSource is = new InputSource(r);
         final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        Assert.assertEquals("@page :pageStyle { size: 21cm 29.7cm; }", ss.toString().trim());
+        assertEquals("@page :pageStyle { size: 21cm 29.7cm; }", ss.toString().trim());
 
         final CSSRuleListImpl rules = ss.getCssRules();
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
 
-        Assert.assertEquals("@page :pageStyle { size: 21cm 29.7cm; }", rule.getCssText());
+        assertEquals("@page :pageStyle { size: 21cm 29.7cm; }", rule.getCssText());
 
         final CSSPageRuleImpl pageRule = (CSSPageRuleImpl) rule;
-        Assert.assertEquals(":pageStyle", pageRule.getSelectorText());
-        Assert.assertEquals("size: 21cm 29.7cm", pageRule.getStyle().getCssText());
+        assertEquals(":pageStyle", pageRule.getSelectorText());
+        assertEquals("size: 21cm 29.7cm", pageRule.getStyle().getCssText());
     }
 
     /**
@@ -456,18 +459,18 @@ public class CSSOMParserTest {
         final InputSource is = new InputSource(r);
         final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        Assert.assertEquals("@page { size: 21cm 29.7cm; }", ss.toString().trim());
+        assertEquals("@page { size: 21cm 29.7cm; }", ss.toString().trim());
 
         final CSSRuleListImpl rules = ss.getCssRules();
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
 
-        Assert.assertEquals("@page { size: 21cm 29.7cm; }", rule.getCssText());
+        assertEquals("@page { size: 21cm 29.7cm; }", rule.getCssText());
 
         final CSSPageRuleImpl pageRule = (CSSPageRuleImpl) rule;
-        Assert.assertEquals("", pageRule.getSelectorText());
-        Assert.assertEquals("size: 21cm 29.7cm", pageRule.getStyle().getCssText());
+        assertEquals("", pageRule.getSelectorText());
+        assertEquals("size: 21cm 29.7cm", pageRule.getStyle().getCssText());
     }
 
     /**
@@ -485,50 +488,50 @@ public class CSSOMParserTest {
         final InputSource is = new InputSource(r);
         final CSSStyleSheetImpl sheet = new CSSOMParser().parseStyleSheet(is, null);
 
-        Assert.assertEquals("p { background: rgb(0, 0, 0); "
+        assertEquals("p { background: rgb(0, 0, 0); "
                 + "background-repeat: repeat-y; "
                 + "background: url(\"img/test.png\") no-repeat; "
                 + "background-size: 190px 48px; }",
                 sheet.toString().trim());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
-        Assert.assertEquals(1, rules.getLength());
+        assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
         final CSSStyleRuleImpl ruleImpl = (CSSStyleRuleImpl) rule;
         final CSSStyleDeclarationImpl declImpl = ruleImpl.getStyle();
 
-        Assert.assertEquals(4, declImpl.getLength());
+        assertEquals(4, declImpl.getLength());
 
-        Assert.assertEquals("background", declImpl.getProperties().get(0).getName());
-        Assert.assertEquals("url(\"img/test.png\") no-repeat", declImpl.getPropertyCSSValue("background").getCssText());
+        assertEquals("background", declImpl.getProperties().get(0).getName());
+        assertEquals("url(\"img/test.png\") no-repeat", declImpl.getPropertyCSSValue("background").getCssText());
 
-        Assert.assertEquals("background-repeat", declImpl.getProperties().get(1).getName());
-        Assert.assertEquals("repeat-y", declImpl.getPropertyCSSValue("background-repeat").getCssText());
+        assertEquals("background-repeat", declImpl.getProperties().get(1).getName());
+        assertEquals("repeat-y", declImpl.getPropertyCSSValue("background-repeat").getCssText());
 
-        Assert.assertEquals("background", declImpl.getProperties().get(2).getName());
-        Assert.assertEquals("url(\"img/test.png\") no-repeat", declImpl.getPropertyCSSValue("background").getCssText());
+        assertEquals("background", declImpl.getProperties().get(2).getName());
+        assertEquals("url(\"img/test.png\") no-repeat", declImpl.getPropertyCSSValue("background").getCssText());
 
-        Assert.assertEquals("background-size", declImpl.getProperties().get(3).getName());
-        Assert.assertEquals("190px 48px", declImpl.getPropertyCSSValue("background-size").getCssText());
+        assertEquals("background-size", declImpl.getProperties().get(3).getName());
+        assertEquals("190px 48px", declImpl.getPropertyCSSValue("background-size").getCssText());
 
         // now check the core results
-        Assert.assertEquals(4, declImpl.getProperties().size());
+        assertEquals(4, declImpl.getProperties().size());
 
         Property prop = declImpl.getProperties().get(0);
-        Assert.assertEquals("background", prop.getName());
-        Assert.assertEquals("rgb(0, 0, 0)", prop.getValue().getCssText());
+        assertEquals("background", prop.getName());
+        assertEquals("rgb(0, 0, 0)", prop.getValue().getCssText());
 
         prop = declImpl.getProperties().get(1);
-        Assert.assertEquals("background-repeat", prop.getName());
-        Assert.assertEquals("repeat-y", prop.getValue().getCssText());
+        assertEquals("background-repeat", prop.getName());
+        assertEquals("repeat-y", prop.getValue().getCssText());
 
         prop = declImpl.getProperties().get(2);
-        Assert.assertEquals("background", prop.getName());
-        Assert.assertEquals("url(\"img/test.png\") no-repeat", prop.getValue().getCssText());
+        assertEquals("background", prop.getName());
+        assertEquals("url(\"img/test.png\") no-repeat", prop.getValue().getCssText());
 
         prop = declImpl.getProperties().get(3);
-        Assert.assertEquals("background-size", prop.getName());
-        Assert.assertEquals("190px 48px", prop.getValue().getCssText());
+        assertEquals("background-size", prop.getName());
+        assertEquals("190px 48px", prop.getValue().getCssText());
     }
 }

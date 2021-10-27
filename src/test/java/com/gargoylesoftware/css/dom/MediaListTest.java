@@ -14,11 +14,12 @@
  */
 package com.gargoylesoftware.css.dom;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link MediaListImpl}.
@@ -33,9 +34,9 @@ public class MediaListTest {
     @Test
     public void defaultConstructor() throws Exception {
         final MediaListImpl ml = new MediaListImpl(null);
-        Assert.assertEquals("", ml.toString());
-        Assert.assertEquals("", ml.getMediaText());
-        Assert.assertEquals(0, ml.getLength());
+        assertEquals("", ml.toString());
+        assertEquals("", ml.getMediaText());
+        assertEquals(0, ml.getLength());
     }
 
     /**
@@ -44,7 +45,7 @@ public class MediaListTest {
     @Test
     public void getMediaText() throws Exception {
         final MediaListImpl ml = new MediaListImpl(null);
-        Assert.assertEquals("", ml.getMediaText());
+        assertEquals("", ml.getMediaText());
     }
 
     /**
@@ -53,7 +54,7 @@ public class MediaListTest {
     @Test
     public void getLength() throws Exception {
         final MediaListImpl ml = new MediaListImpl(null);
-        Assert.assertEquals(0, ml.getLength());
+        assertEquals(0, ml.getLength());
     }
 
     /**
@@ -62,20 +63,20 @@ public class MediaListTest {
     @Test
     public void setMedia() throws Exception {
         final MediaListImpl ml = new MediaListImpl(null);
-        Assert.assertEquals(0, ml.getLength());
-        Assert.assertEquals("", ml.getMediaText());
+        assertEquals(0, ml.getLength());
+        assertEquals("", ml.getMediaText());
 
         ml.setMedia(Arrays.asList("newMedium", "anotherMedium", "lastMedium"));
-        Assert.assertEquals(3, ml.getLength());
-        Assert.assertEquals("newMedium, anotherMedium, lastMedium", ml.getMediaText());
+        assertEquals(3, ml.getLength());
+        assertEquals("newMedium, anotherMedium, lastMedium", ml.getMediaText());
 
         ml.setMedia(Arrays.asList("somethingElse"));
-        Assert.assertEquals(1, ml.getLength());
-        Assert.assertEquals("somethingElse", ml.getMediaText());
+        assertEquals(1, ml.getLength());
+        assertEquals("somethingElse", ml.getMediaText());
 
         ml.setMedia(new ArrayList<String>());
-        Assert.assertEquals(0, ml.getLength());
-        Assert.assertEquals("", ml.getMediaText());
+        assertEquals(0, ml.getLength());
+        assertEquals("", ml.getMediaText());
     }
 
     /**
@@ -86,10 +87,10 @@ public class MediaListTest {
         final MediaListImpl ml = new MediaListImpl(null);
 
         ml.setMediaText("MyMediaText");
-        Assert.assertEquals("MyMediaText", ml.toString());
-        Assert.assertEquals("MyMediaText", ml.getMediaText());
-        Assert.assertEquals(1, ml.getLength());
-        Assert.assertEquals("MyMediaText", ml.mediaQuery(0).getMedia());
+        assertEquals("MyMediaText", ml.toString());
+        assertEquals("MyMediaText", ml.getMediaText());
+        assertEquals(1, ml.getLength());
+        assertEquals("MyMediaText", ml.mediaQuery(0).getMedia());
     }
 
     /**
@@ -100,7 +101,7 @@ public class MediaListTest {
         final MediaListImpl ml = new MediaListImpl(null);
         ml.setMedia(Arrays.asList("newMedium"));
 
-        Assert.assertEquals("newMedium", ml.toString());
-        Assert.assertEquals("newMedium", ml.getMediaText());
+        assertEquals("newMedium", ml.toString());
+        assertEquals("newMedium", ml.getMediaText());
     }
 }

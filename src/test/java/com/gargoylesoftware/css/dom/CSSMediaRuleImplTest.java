@@ -14,10 +14,13 @@
  */
 package com.gargoylesoftware.css.dom;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.DOMException;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
@@ -40,7 +43,7 @@ public class CSSMediaRuleImplTest {
         final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
         final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().getRules().get(0);
 
-        Assert.assertEquals("@media print {\n  body { font-size: 10pt; }\n}", mediaRule.getCssText());
+        assertEquals("@media print {\n  body { font-size: 10pt; }\n}", mediaRule.getCssText());
     }
 
     /**
@@ -54,23 +57,23 @@ public class CSSMediaRuleImplTest {
         final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().getRules().get(0);
 
         mediaRule.insertRule(".testStyle { height: 42px; }", 0);
-        Assert.assertEquals("*.testStyle { height: 42px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
-        Assert.assertEquals("@media print {\n  *.testStyle { height: 42px; }\n}", mediaRule.getCssRules().getRules().get(0).getParentRule().getCssText());
+        assertEquals("*.testStyle { height: 42px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
+        assertEquals("@media print {\n  *.testStyle { height: 42px; }\n}", mediaRule.getCssRules().getRules().get(0).getParentRule().getCssText());
 
         mediaRule.insertRule(".testStyle { height: 43px; }", 0);
-        Assert.assertEquals("*.testStyle { height: 43px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
-        Assert.assertEquals("*.testStyle { height: 42px; }", mediaRule.getCssRules().getRules().get(1).getCssText());
+        assertEquals("*.testStyle { height: 43px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyle { height: 42px; }", mediaRule.getCssRules().getRules().get(1).getCssText());
 
         mediaRule.insertRule(".testStyle { height: 44px; }", 2);
-        Assert.assertEquals("*.testStyle { height: 43px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
-        Assert.assertEquals("*.testStyle { height: 42px; }", mediaRule.getCssRules().getRules().get(1).getCssText());
-        Assert.assertEquals("*.testStyle { height: 44px; }", mediaRule.getCssRules().getRules().get(2).getCssText());
+        assertEquals("*.testStyle { height: 43px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyle { height: 42px; }", mediaRule.getCssRules().getRules().get(1).getCssText());
+        assertEquals("*.testStyle { height: 44px; }", mediaRule.getCssRules().getRules().get(2).getCssText());
 
         mediaRule.insertRule(".testStyle { height: 45px; }", 2);
-        Assert.assertEquals("*.testStyle { height: 43px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
-        Assert.assertEquals("*.testStyle { height: 42px; }", mediaRule.getCssRules().getRules().get(1).getCssText());
-        Assert.assertEquals("*.testStyle { height: 45px; }", mediaRule.getCssRules().getRules().get(2).getCssText());
-        Assert.assertEquals("*.testStyle { height: 44px; }", mediaRule.getCssRules().getRules().get(3).getCssText());
+        assertEquals("*.testStyle { height: 43px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyle { height: 42px; }", mediaRule.getCssRules().getRules().get(1).getCssText());
+        assertEquals("*.testStyle { height: 45px; }", mediaRule.getCssRules().getRules().get(2).getCssText());
+        assertEquals("*.testStyle { height: 44px; }", mediaRule.getCssRules().getRules().get(3).getCssText());
     }
 
     /**
@@ -86,16 +89,16 @@ public class CSSMediaRuleImplTest {
         final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().getRules().get(0);
 
         mediaRule.insertRule(" .testStyleDef { height: 42px; }", 0);
-        Assert.assertEquals("*.testStyleDef { height: 42px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyleDef { height: 42px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
 
         mediaRule.insertRule("      .testStyleDef { height: 43px;}   ", 0);
-        Assert.assertEquals("*.testStyleDef { height: 43px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
-        Assert.assertEquals("*.testStyleDef { height: 42px; }", mediaRule.getCssRules().getRules().get(1).getCssText());
+        assertEquals("*.testStyleDef { height: 43px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyleDef { height: 42px; }", mediaRule.getCssRules().getRules().get(1).getCssText());
 
         mediaRule.insertRule("\t.testStyleDef { height: 44px; }\r\n", 0);
-        Assert.assertEquals("*.testStyleDef { height: 44px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
-        Assert.assertEquals("*.testStyleDef { height: 43px; }", mediaRule.getCssRules().getRules().get(1).getCssText());
-        Assert.assertEquals("*.testStyleDef { height: 42px; }", mediaRule.getCssRules().getRules().get(2).getCssText());
+        assertEquals("*.testStyleDef { height: 44px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
+        assertEquals("*.testStyleDef { height: 43px; }", mediaRule.getCssRules().getRules().get(1).getCssText());
+        assertEquals("*.testStyleDef { height: 42px; }", mediaRule.getCssRules().getRules().get(2).getCssText());
     }
 
     /**
@@ -112,11 +115,11 @@ public class CSSMediaRuleImplTest {
 
         try {
             mediaRule.insertRule(".testStyleDef", 0);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertTrue(e.getMessage(), e.getMessage().startsWith("Syntax error"));
-            Assert.assertEquals(0, mediaRule.getCssRules().getLength());
+            assertTrue(e.getMessage().startsWith("Syntax error"), e.getMessage());
+            assertEquals(0, mediaRule.getCssRules().getLength());
         }
     }
 
@@ -133,15 +136,15 @@ public class CSSMediaRuleImplTest {
         final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().getRules().get(0);
 
         mediaRule.insertRule("li:not(.shiny) { height: 44px }", 0);
-        Assert.assertEquals("li:not(.shiny) { height: 44px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
+        assertEquals("li:not(.shiny) { height: 44px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
 
         try {
             mediaRule.insertRule("li:not(*.shiny) { height: 44px }", 0);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertTrue(e.getMessage(), e.getMessage().startsWith("Syntax error"));
-            Assert.assertEquals(1, mediaRule.getCssRules().getLength());
+            assertTrue(e.getMessage().startsWith("Syntax error"), e.getMessage());
+            assertEquals(1, mediaRule.getCssRules().getLength());
         }
     }
 
@@ -156,7 +159,7 @@ public class CSSMediaRuleImplTest {
         final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().getRules().get(0);
 
         mediaRule.deleteRule(0);
-        Assert.assertEquals(0, mediaRule.getCssRules().getLength());
+        assertEquals(0, mediaRule.getCssRules().getLength());
     }
 
     /**
@@ -171,11 +174,11 @@ public class CSSMediaRuleImplTest {
 
         try {
             mediaRule.deleteRule(7);
-            Assert.fail("DOMException expected");
+            fail("DOMException expected");
         }
         catch (final DOMException e) {
-            Assert.assertTrue(e.getMessage(), e.getMessage().startsWith("Index out of bounds error"));
-            Assert.assertEquals(0, mediaRule.getCssRules().getLength());
+            assertTrue(e.getMessage().startsWith("Index out of bounds error"), e.getMessage());
+            assertEquals(0, mediaRule.getCssRules().getLength());
         }
     }
 
@@ -189,6 +192,6 @@ public class CSSMediaRuleImplTest {
         final CSSStyleSheetImpl ss = parser.parseStyleSheet(source, null);
         final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().getRules().get(0);
 
-        Assert.assertEquals("@media print {\n  body { font-size: 10pt; }\n}", mediaRule.toString());
+        assertEquals("@media print {\n  body { font-size: 10pt; }\n}", mediaRule.toString());
     }
 }

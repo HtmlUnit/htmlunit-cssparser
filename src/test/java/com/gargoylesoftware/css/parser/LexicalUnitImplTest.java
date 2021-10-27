@@ -14,13 +14,15 @@
  */
 package com.gargoylesoftware.css.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 
@@ -38,20 +40,20 @@ public class LexicalUnitImplTest {
     public void setLexicalUnitType() throws Exception {
         final LexicalUnitImpl unit = new LexicalUnitImpl(null, LexicalUnitType.OPERATOR_GT);
 
-        Assert.assertEquals(LexicalUnitType.OPERATOR_GT, unit.getLexicalUnitType());
-        Assert.assertEquals(0d, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertNull(unit.getDimension());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.OPERATOR_GT, unit.getLexicalUnitType());
+        assertEquals(0d, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertNull(unit.getDimension());
+        assertEquals("", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals(">", unit.toString());
-        Assert.assertEquals("OPERATOR_GT", unit.toDebugString());
+        assertEquals(">", unit.toString());
+        assertEquals("OPERATOR_GT", unit.toDebugString());
     }
 
     /**
@@ -62,20 +64,20 @@ public class LexicalUnitImplTest {
         final LexicalUnitImpl unit = new LexicalUnitImpl(null, LexicalUnitType.KILOHERTZ);
         unit.setDoubleValue(7.1234);
 
-        Assert.assertEquals(LexicalUnitType.KILOHERTZ, unit.getLexicalUnitType());
-        Assert.assertEquals(7.1234, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(7, unit.getIntegerValue());
-        Assert.assertNull(unit.getDimension());
-        Assert.assertEquals("kHz", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.KILOHERTZ, unit.getLexicalUnitType());
+        assertEquals(7.1234, unit.getDoubleValue(), 0.0001);
+        assertEquals(7, unit.getIntegerValue());
+        assertNull(unit.getDimension());
+        assertEquals("kHz", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("7.1234kHz", unit.toString());
-        Assert.assertEquals("KILOHERTZ(7.1234kHz)", unit.toDebugString());
+        assertEquals("7.1234kHz", unit.toString());
+        assertEquals("KILOHERTZ(7.1234kHz)", unit.toDebugString());
     }
 
     /**
@@ -86,20 +88,20 @@ public class LexicalUnitImplTest {
         final LexicalUnitImpl unit = new LexicalUnitImpl(null, LexicalUnitType.DIMENSION);
         unit.setDimension("Watt");
 
-        Assert.assertEquals(LexicalUnitType.DIMENSION, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("Watt", unit.getDimension());
-        Assert.assertEquals("Watt", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.DIMENSION, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("Watt", unit.getDimension());
+        assertEquals("Watt", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("0Watt", unit.toString());
-        Assert.assertEquals("DIMENSION(0Watt)", unit.toDebugString());
+        assertEquals("0Watt", unit.toString());
+        assertEquals("DIMENSION(0Watt)", unit.toDebugString());
     }
 
     /**
@@ -110,20 +112,20 @@ public class LexicalUnitImplTest {
         final LexicalUnitImpl unit = new LexicalUnitImpl(null, LexicalUnitType.FUNCTION);
         unit.setFunctionName("sqrt");
 
-        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertNull(unit.getDimension());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertEquals("sqrt", unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertNull(unit.getDimension());
+        assertEquals("", unit.getDimensionUnitText());
+        assertEquals("sqrt", unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("sqrt()", unit.toString());
-        Assert.assertEquals("FUNCTION(sqrt())", unit.toDebugString());
+        assertEquals("sqrt()", unit.toString());
+        assertEquals("FUNCTION(sqrt())", unit.toDebugString());
     }
 
     /**
@@ -135,20 +137,20 @@ public class LexicalUnitImplTest {
         unit.setFunctionName("sqrt");
         unit.setParameters(LexicalUnitImpl.createCentimeter(null, 14));
 
-        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertNull(unit.getDimension());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertEquals("sqrt", unit.getFunctionName());
-        Assert.assertEquals("14cm", unit.getParameters().toString());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertNull(unit.getDimension());
+        assertEquals("", unit.getDimensionUnitText());
+        assertEquals("sqrt", unit.getFunctionName());
+        assertEquals("14cm", unit.getParameters().toString());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("sqrt(14cm)", unit.toString());
-        Assert.assertEquals("FUNCTION(sqrt(14cm))", unit.toDebugString());
+        assertEquals("sqrt(14cm)", unit.toString());
+        assertEquals("FUNCTION(sqrt(14cm))", unit.toDebugString());
     }
 
     /**
@@ -159,20 +161,20 @@ public class LexicalUnitImplTest {
         final LexicalUnitImpl unit = new LexicalUnitImpl(null, LexicalUnitType.UNICODERANGE);
         unit.setStringValue("testValue");
 
-        Assert.assertEquals(LexicalUnitType.UNICODERANGE, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertNull(unit.getDimension());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertEquals("testValue", unit.getStringValue());
+        assertEquals(LexicalUnitType.UNICODERANGE, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertNull(unit.getDimension());
+        assertEquals("", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertEquals("testValue", unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("testValue", unit.toString());
-        Assert.assertEquals("UNICODERANGE(testValue)", unit.toDebugString());
+        assertEquals("testValue", unit.toString());
+        assertEquals("UNICODERANGE(testValue)", unit.toDebugString());
     }
 
     /**
@@ -183,20 +185,20 @@ public class LexicalUnitImplTest {
         final LexicalUnitImpl unit = new LexicalUnitImpl(null, LexicalUnitType.UNICODERANGE);
         unit.setStringValue(null);
 
-        Assert.assertEquals(LexicalUnitType.UNICODERANGE, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertNull(unit.getDimension());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.UNICODERANGE, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertNull(unit.getDimension());
+        assertEquals("", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("", unit.toString());
-        Assert.assertEquals("UNICODERANGE(null)", unit.toDebugString());
+        assertEquals("", unit.toString());
+        assertEquals("UNICODERANGE(null)", unit.toDebugString());
     }
 
     /**
@@ -205,11 +207,11 @@ public class LexicalUnitImplTest {
     @Test
     public void nextLexicalUnit() throws Exception {
         final LexicalUnitImpl unit = new LexicalUnitImpl(null, null);
-        Assert.assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
 
         final LexicalUnitImpl next = new LexicalUnitImpl(null, null);
         unit.setNextLexicalUnit(next);
-        Assert.assertEquals(next, unit.getNextLexicalUnit());
+        assertEquals(next, unit.getNextLexicalUnit());
     }
 
     /**
@@ -218,11 +220,11 @@ public class LexicalUnitImplTest {
     @Test
     public void previousLexicalUnit() throws Exception {
         final LexicalUnitImpl unit = new LexicalUnitImpl(null, null);
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
         final LexicalUnitImpl prev = new LexicalUnitImpl(null, null);
         unit.setPreviousLexicalUnit(prev);
-        Assert.assertEquals(prev, unit.getPreviousLexicalUnit());
+        assertEquals(prev, unit.getPreviousLexicalUnit());
     }
 
     /**
@@ -231,36 +233,36 @@ public class LexicalUnitImplTest {
     @Test
     public void refreshToStringCache() throws Exception {
         LexicalUnitImpl unit = new LexicalUnitImpl(null, LexicalUnitType.OPERATOR_COMMA);
-        Assert.assertEquals(",", unit.toString());
+        assertEquals(",", unit.toString());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.KILOHERTZ);
-        Assert.assertEquals("0kHz", unit.toString());
+        assertEquals("0kHz", unit.toString());
 
         unit.setDoubleValue(7.1234);
-        Assert.assertEquals("7.1234kHz", unit.toString());
+        assertEquals("7.1234kHz", unit.toString());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.DIMENSION);
-        Assert.assertEquals("0", unit.toString());
+        assertEquals("0", unit.toString());
 
         unit.setDoubleValue(7.1234);
-        Assert.assertEquals("7.1234", unit.toString());
+        assertEquals("7.1234", unit.toString());
         unit.setDimension("Ohm");
-        Assert.assertEquals("7.1234Ohm", unit.toString());
+        assertEquals("7.1234Ohm", unit.toString());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.FUNCTION);
-        Assert.assertEquals("()", unit.toString());
+        assertEquals("()", unit.toString());
         unit.setFunctionName("pow");
-        Assert.assertEquals("pow()", unit.toString());
+        assertEquals("pow()", unit.toString());
 
         unit.setParameters(LexicalUnitImpl.createPixel(null, 4));
-        Assert.assertEquals("pow(4px)", unit.toString());
+        assertEquals("pow(4px)", unit.toString());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.SUB_EXPRESSION);
-        Assert.assertEquals("", unit.toString());
+        assertEquals("", unit.toString());
         unit.setStringValue("value");
 
-        Assert.assertEquals("value", unit.toString());
-        Assert.assertEquals("SUB_EXPRESSION(value)", unit.toDebugString());
+        assertEquals("value", unit.toString());
+        assertEquals("SUB_EXPRESSION(value)", unit.toDebugString());
     }
 
     /**
@@ -269,74 +271,74 @@ public class LexicalUnitImplTest {
     @Test
     public void getDimensionUnitText() throws Exception {
         LexicalUnitImpl unit = new LexicalUnitImpl(null, LexicalUnitType.EM);
-        Assert.assertEquals("em", unit.getDimensionUnitText());
+        assertEquals("em", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.REM);
-        Assert.assertEquals("rem", unit.getDimensionUnitText());
+        assertEquals("rem", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.EX);
-        Assert.assertEquals("ex", unit.getDimensionUnitText());
+        assertEquals("ex", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.CH);
-        Assert.assertEquals("ch", unit.getDimensionUnitText());
+        assertEquals("ch", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.VW);
-        Assert.assertEquals("vw", unit.getDimensionUnitText());
+        assertEquals("vw", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.VH);
-        Assert.assertEquals("vh", unit.getDimensionUnitText());
+        assertEquals("vh", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.VMIN);
-        Assert.assertEquals("vmin", unit.getDimensionUnitText());
+        assertEquals("vmin", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.VMAX);
-        Assert.assertEquals("vmax", unit.getDimensionUnitText());
+        assertEquals("vmax", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.PIXEL);
-        Assert.assertEquals("px", unit.getDimensionUnitText());
+        assertEquals("px", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.INCH);
-        Assert.assertEquals("in", unit.getDimensionUnitText());
+        assertEquals("in", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.CENTIMETER);
-        Assert.assertEquals("cm", unit.getDimensionUnitText());
+        assertEquals("cm", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.MILLIMETER);
-        Assert.assertEquals("mm", unit.getDimensionUnitText());
+        assertEquals("mm", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.POINT);
-        Assert.assertEquals("pt", unit.getDimensionUnitText());
+        assertEquals("pt", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.PICA);
-        Assert.assertEquals("pc", unit.getDimensionUnitText());
+        assertEquals("pc", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.PERCENTAGE);
-        Assert.assertEquals("%", unit.getDimensionUnitText());
+        assertEquals("%", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.DEGREE);
-        Assert.assertEquals("deg", unit.getDimensionUnitText());
+        assertEquals("deg", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.GRADIAN);
-        Assert.assertEquals("grad", unit.getDimensionUnitText());
+        assertEquals("grad", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.RADIAN);
-        Assert.assertEquals("rad", unit.getDimensionUnitText());
+        assertEquals("rad", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.MILLISECOND);
-        Assert.assertEquals("ms", unit.getDimensionUnitText());
+        assertEquals("ms", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.SECOND);
-        Assert.assertEquals("s", unit.getDimensionUnitText());
+        assertEquals("s", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.HERTZ);
-        Assert.assertEquals("Hz", unit.getDimensionUnitText());
+        assertEquals("Hz", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.KILOHERTZ);
-        Assert.assertEquals("kHz", unit.getDimensionUnitText());
+        assertEquals("kHz", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.DIMENSION);
         unit.setDimension("test");
-        Assert.assertEquals("test", unit.getDimensionUnitText());
+        assertEquals("test", unit.getDimensionUnitText());
     }
 
     /**
@@ -346,19 +348,19 @@ public class LexicalUnitImplTest {
     public void createNumberFromInt() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createNumber(null, 17);
 
-        Assert.assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
-        Assert.assertEquals(17, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(17, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
+        assertEquals(17, unit.getDoubleValue(), 0.0001);
+        assertEquals(17, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("17", unit.toString());
-        Assert.assertEquals("INTEGER(17)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("17", unit.toString());
+        assertEquals("INTEGER(17)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -368,19 +370,19 @@ public class LexicalUnitImplTest {
     public void createNumberFromDouble() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createNumber(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7", unit.toString());
-        Assert.assertEquals("REAL(1.7)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7", unit.toString());
+        assertEquals("REAL(1.7)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -390,19 +392,19 @@ public class LexicalUnitImplTest {
     public void createNumberFromDoublePecision() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createNumber(null, 1.234567654321);
 
-        Assert.assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
-        Assert.assertEquals(1.2345676, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
+        assertEquals(1.2345676, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.234567654321", unit.toString());
-        Assert.assertEquals("REAL(1.234567654321)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.234567654321", unit.toString());
+        assertEquals("REAL(1.234567654321)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -412,19 +414,19 @@ public class LexicalUnitImplTest {
     public void createNumberFromDoublePecisionWithoutExponent() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createNumber(null, 0.0001);
 
-        Assert.assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
-        Assert.assertEquals(0.0001, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.REAL, unit.getLexicalUnitType());
+        assertEquals(0.0001, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("0.0001", unit.toString());
-        Assert.assertEquals("REAL(0.0001)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("0.0001", unit.toString());
+        assertEquals("REAL(0.0001)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -434,19 +436,19 @@ public class LexicalUnitImplTest {
     public void createPercentage() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createPercentage(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.PERCENTAGE, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("%", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.PERCENTAGE, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("%", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7%", unit.toString());
-        Assert.assertEquals("PERCENTAGE(1.7%)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7%", unit.toString());
+        assertEquals("PERCENTAGE(1.7%)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -456,19 +458,19 @@ public class LexicalUnitImplTest {
     public void createPixel() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createPixel(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("px", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("px", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7px", unit.toString());
-        Assert.assertEquals("PIXEL(1.7px)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7px", unit.toString());
+        assertEquals("PIXEL(1.7px)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -478,19 +480,19 @@ public class LexicalUnitImplTest {
     public void createCentimeter() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createCentimeter(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.CENTIMETER, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("cm", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.CENTIMETER, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("cm", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7cm", unit.toString());
-        Assert.assertEquals("CENTIMETER(1.7cm)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7cm", unit.toString());
+        assertEquals("CENTIMETER(1.7cm)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -500,19 +502,19 @@ public class LexicalUnitImplTest {
     public void createMillimeter() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createMillimeter(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.MILLIMETER, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("mm", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.MILLIMETER, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("mm", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7mm", unit.toString());
-        Assert.assertEquals("MILLIMETER(1.7mm)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7mm", unit.toString());
+        assertEquals("MILLIMETER(1.7mm)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -522,19 +524,19 @@ public class LexicalUnitImplTest {
     public void createInch() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createInch(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.INCH, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("in", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.INCH, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("in", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7in", unit.toString());
-        Assert.assertEquals("INCH(1.7in)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7in", unit.toString());
+        assertEquals("INCH(1.7in)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -544,19 +546,19 @@ public class LexicalUnitImplTest {
     public void createPoint() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createPoint(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.POINT, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("pt", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.POINT, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("pt", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7pt", unit.toString());
-        Assert.assertEquals("POINT(1.7pt)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7pt", unit.toString());
+        assertEquals("POINT(1.7pt)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -566,19 +568,19 @@ public class LexicalUnitImplTest {
     public void createPica() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createPica(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.PICA, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("pc", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.PICA, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("pc", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7pc", unit.toString());
-        Assert.assertEquals("PICA(1.7pc)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7pc", unit.toString());
+        assertEquals("PICA(1.7pc)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -588,19 +590,19 @@ public class LexicalUnitImplTest {
     public void createEm() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createEm(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.EM, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("em", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.EM, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("em", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7em", unit.toString());
-        Assert.assertEquals("EM(1.7em)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7em", unit.toString());
+        assertEquals("EM(1.7em)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -610,19 +612,19 @@ public class LexicalUnitImplTest {
     public void createRem() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createRem(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.REM, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("rem", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.REM, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("rem", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7rem", unit.toString());
-        Assert.assertEquals("REM(1.7rem)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7rem", unit.toString());
+        assertEquals("REM(1.7rem)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -632,19 +634,19 @@ public class LexicalUnitImplTest {
     public void createCh() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createCh(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.CH, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("ch", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.CH, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("ch", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7ch", unit.toString());
-        Assert.assertEquals("CH(1.7ch)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7ch", unit.toString());
+        assertEquals("CH(1.7ch)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -654,19 +656,19 @@ public class LexicalUnitImplTest {
     public void createVw() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createVw(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.VW, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("vw", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.VW, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("vw", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7vw", unit.toString());
-        Assert.assertEquals("VW(1.7vw)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7vw", unit.toString());
+        assertEquals("VW(1.7vw)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -676,19 +678,19 @@ public class LexicalUnitImplTest {
     public void createVh() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createVh(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.VH, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("vh", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.VH, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("vh", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7vh", unit.toString());
-        Assert.assertEquals("VH(1.7vh)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7vh", unit.toString());
+        assertEquals("VH(1.7vh)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -698,19 +700,19 @@ public class LexicalUnitImplTest {
     public void createVMin() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createVMin(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.VMIN, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("vmin", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.VMIN, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("vmin", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7vmin", unit.toString());
-        Assert.assertEquals("VMIN(1.7vmin)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7vmin", unit.toString());
+        assertEquals("VMIN(1.7vmin)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -720,19 +722,19 @@ public class LexicalUnitImplTest {
     public void createVMax() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createVMax(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.VMAX, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("vmax", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.VMAX, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("vmax", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7vmax", unit.toString());
-        Assert.assertEquals("VMAX(1.7vmax)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7vmax", unit.toString());
+        assertEquals("VMAX(1.7vmax)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -742,19 +744,19 @@ public class LexicalUnitImplTest {
     public void createEx() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createEx(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.EX, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("ex", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.EX, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("ex", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7ex", unit.toString());
-        Assert.assertEquals("EX(1.7ex)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7ex", unit.toString());
+        assertEquals("EX(1.7ex)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -764,19 +766,19 @@ public class LexicalUnitImplTest {
     public void createDegree() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createDegree(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.DEGREE, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("deg", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.DEGREE, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("deg", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7deg", unit.toString());
-        Assert.assertEquals("DEGREE(1.7deg)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7deg", unit.toString());
+        assertEquals("DEGREE(1.7deg)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -786,19 +788,19 @@ public class LexicalUnitImplTest {
     public void createRadian() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createRadian(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.RADIAN, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("rad", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.RADIAN, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("rad", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7rad", unit.toString());
-        Assert.assertEquals("RADIAN(1.7rad)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7rad", unit.toString());
+        assertEquals("RADIAN(1.7rad)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -808,19 +810,19 @@ public class LexicalUnitImplTest {
     public void createGradian() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createGradian(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.GRADIAN, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("grad", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.GRADIAN, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("grad", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7grad", unit.toString());
-        Assert.assertEquals("GRADIAN(1.7grad)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7grad", unit.toString());
+        assertEquals("GRADIAN(1.7grad)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -830,19 +832,19 @@ public class LexicalUnitImplTest {
     public void createMillisecond() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createMillisecond(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.MILLISECOND, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("ms", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.MILLISECOND, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("ms", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7ms", unit.toString());
-        Assert.assertEquals("MILLISECOND(1.7ms)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7ms", unit.toString());
+        assertEquals("MILLISECOND(1.7ms)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -852,19 +854,19 @@ public class LexicalUnitImplTest {
     public void createSecond() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createSecond(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.SECOND, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("s", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.SECOND, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("s", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7s", unit.toString());
-        Assert.assertEquals("SECOND(1.7s)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7s", unit.toString());
+        assertEquals("SECOND(1.7s)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -874,19 +876,19 @@ public class LexicalUnitImplTest {
     public void createHertz() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createHertz(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.HERTZ, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("Hz", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.HERTZ, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("Hz", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7Hz", unit.toString());
-        Assert.assertEquals("HERTZ(1.7Hz)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7Hz", unit.toString());
+        assertEquals("HERTZ(1.7Hz)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -896,19 +898,19 @@ public class LexicalUnitImplTest {
     public void createDimension() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createDimension(null, 1.7, "Ohm");
 
-        Assert.assertEquals(LexicalUnitType.DIMENSION, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("Ohm", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.DIMENSION, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("Ohm", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7Ohm", unit.toString());
-        Assert.assertEquals("DIMENSION(1.7Ohm)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7Ohm", unit.toString());
+        assertEquals("DIMENSION(1.7Ohm)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -918,19 +920,19 @@ public class LexicalUnitImplTest {
     public void createKiloHertz() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createKiloHertz(null, 1.7);
 
-        Assert.assertEquals(LexicalUnitType.KILOHERTZ, unit.getLexicalUnitType());
-        Assert.assertEquals(1.7, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(1, unit.getIntegerValue());
-        Assert.assertEquals("kHz", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.KILOHERTZ, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("kHz", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("1.7kHz", unit.toString());
-        Assert.assertEquals("KILOHERTZ(1.7kHz)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("1.7kHz", unit.toString());
+        assertEquals("KILOHERTZ(1.7kHz)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -941,19 +943,19 @@ public class LexicalUnitImplTest {
         final LexicalUnit value = LexicalUnitImpl.createIdent(null, "CounterValue");
         final LexicalUnit unit = LexicalUnitImpl.createCounter(null, value);
 
-        Assert.assertEquals(LexicalUnitType.COUNTER_FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertEquals("counter", unit.getFunctionName());
-        Assert.assertEquals("CounterValue", unit.getParameters().toString());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.COUNTER_FUNCTION, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertEquals("counter", unit.getFunctionName());
+        assertEquals("CounterValue", unit.getParameters().toString());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("counter(CounterValue)", unit.toString());
-        Assert.assertEquals("COUNTER_FUNCTION(counter(CounterValue))", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("counter(CounterValue)", unit.toString());
+        assertEquals("COUNTER_FUNCTION(counter(CounterValue))", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -963,19 +965,19 @@ public class LexicalUnitImplTest {
     public void createCounterNoValue() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createCounter(null, null);
 
-        Assert.assertEquals(LexicalUnitType.COUNTER_FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertEquals("counter", unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.COUNTER_FUNCTION, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertEquals("counter", unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("counter()", unit.toString());
-        Assert.assertEquals("COUNTER_FUNCTION(counter())", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("counter()", unit.toString());
+        assertEquals("COUNTER_FUNCTION(counter())", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -987,19 +989,19 @@ public class LexicalUnitImplTest {
         LexicalUnitImpl.createIdent(LexicalUnitImpl.createComma(value1), "Second");
         final LexicalUnit unit = LexicalUnitImpl.createCounters(null, value1);
 
-        Assert.assertEquals(LexicalUnitType.COUNTERS_FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertEquals("counters", unit.getFunctionName());
-        Assert.assertEquals("CounterValue", unit.getParameters().toString());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.COUNTERS_FUNCTION, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertEquals("counters", unit.getFunctionName());
+        assertEquals("CounterValue", unit.getParameters().toString());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("counters(CounterValue, Second)", unit.toString());
-        Assert.assertEquals("COUNTERS_FUNCTION(counters(CounterValue, Second))",
+        assertEquals("counters(CounterValue, Second)", unit.toString());
+        assertEquals("COUNTERS_FUNCTION(counters(CounterValue, Second))",
                 ((LexicalUnitImpl) unit).toDebugString());
     }
 
@@ -1010,19 +1012,19 @@ public class LexicalUnitImplTest {
     public void createCountersNoValue() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createCounters(null, null);
 
-        Assert.assertEquals(LexicalUnitType.COUNTERS_FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertEquals("counters", unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.COUNTERS_FUNCTION, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertEquals("counters", unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("counters()", unit.toString());
-        Assert.assertEquals("COUNTERS_FUNCTION(counters())", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("counters()", unit.toString());
+        assertEquals("COUNTERS_FUNCTION(counters())", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -1032,19 +1034,19 @@ public class LexicalUnitImplTest {
     public void createAttr() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createAttr(null, "attrValue");
 
-        Assert.assertEquals(LexicalUnitType.ATTR, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertEquals("name", unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertEquals("attrValue", unit.getStringValue());
+        assertEquals(LexicalUnitType.ATTR, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertEquals("name", unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertEquals("attrValue", unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("attr(attrValue)", unit.toString());
-        Assert.assertEquals("ATTR(attr(attrValue))", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("attr(attrValue)", unit.toString());
+        assertEquals("ATTR(attr(attrValue))", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -1060,19 +1062,19 @@ public class LexicalUnitImplTest {
 
         final LexicalUnit unit = LexicalUnitImpl.createRect(null, x1);
 
-        Assert.assertEquals(LexicalUnitType.RECT_FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertEquals("rect", unit.getFunctionName());
-        Assert.assertEquals("1", unit.getParameters().toString());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.RECT_FUNCTION, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertEquals("rect", unit.getFunctionName());
+        assertEquals("1", unit.getParameters().toString());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("rect(1, 2, 3, 4)", unit.toString());
-        Assert.assertEquals("RECT_FUNCTION(rect(1, 2, 3, 4))", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("rect(1, 2, 3, 4)", unit.toString());
+        assertEquals("RECT_FUNCTION(rect(1, 2, 3, 4))", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -1085,19 +1087,19 @@ public class LexicalUnitImplTest {
         LexicalUnitImpl.createNumber(LexicalUnitImpl.createComma(g), 0);
         final LexicalUnit unit = LexicalUnitImpl.createRgbColor(null, r);
 
-        Assert.assertEquals(LexicalUnitType.RGBCOLOR, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertEquals("rgb", unit.getFunctionName());
-        Assert.assertEquals("255", unit.getParameters().toString());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.RGBCOLOR, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertEquals("rgb", unit.getFunctionName());
+        assertEquals("255", unit.getParameters().toString());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("rgb(255, 128, 0)", unit.toString());
-        Assert.assertEquals("RGBCOLOR(rgb(255, 128, 0))", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("rgb(255, 128, 0)", unit.toString());
+        assertEquals("RGBCOLOR(rgb(255, 128, 0))", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -1108,19 +1110,19 @@ public class LexicalUnitImplTest {
         final LexicalUnit unit = LexicalUnitImpl.createFunction(null, "foo",
                 LexicalUnitImpl.createString(null, "param"));
 
-        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertEquals("foo", unit.getFunctionName());
-        Assert.assertEquals("\"param\"", unit.getParameters().toString());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertEquals("foo", unit.getFunctionName());
+        assertEquals("\"param\"", unit.getParameters().toString());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("foo(\"param\")", unit.toString());
-        Assert.assertEquals("FUNCTION(foo(\"param\"))", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("foo(\"param\")", unit.toString());
+        assertEquals("FUNCTION(foo(\"param\"))", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -1134,19 +1136,19 @@ public class LexicalUnitImplTest {
 
         final LexicalUnit unit = LexicalUnitImpl.createFunction(null, "foo", x);
 
-        Assert.assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertEquals("foo", unit.getFunctionName());
-        Assert.assertEquals("10", unit.getParameters().toString());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertEquals("foo", unit.getFunctionName());
+        assertEquals("10", unit.getParameters().toString());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("foo(10, 11)", unit.toString());
-        Assert.assertEquals("FUNCTION(foo(10,11))", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("foo(10, 11)", unit.toString());
+        assertEquals("FUNCTION(foo(10,11))", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -1156,19 +1158,19 @@ public class LexicalUnitImplTest {
     public void createString() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createString(null, "RBRi");
 
-        Assert.assertEquals(LexicalUnitType.STRING_VALUE, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertEquals("RBRi", unit.getStringValue());
+        assertEquals(LexicalUnitType.STRING_VALUE, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertEquals("RBRi", unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("\"RBRi\"", unit.toString());
-        Assert.assertEquals("STRING_VALUE(\"RBRi\")", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("\"RBRi\"", unit.toString());
+        assertEquals("STRING_VALUE(\"RBRi\")", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -1178,19 +1180,19 @@ public class LexicalUnitImplTest {
     public void createStringContainingNewLine() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createString(null, "RBRi\ntest");
 
-        Assert.assertEquals(LexicalUnitType.STRING_VALUE, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertEquals("RBRi\ntest", unit.getStringValue());
+        assertEquals(LexicalUnitType.STRING_VALUE, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertEquals("RBRi\ntest", unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("\"RBRi\\A test\"", unit.toString());
-        Assert.assertEquals("STRING_VALUE(\"RBRi\ntest\")", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("\"RBRi\\A test\"", unit.toString());
+        assertEquals("STRING_VALUE(\"RBRi\ntest\")", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -1200,19 +1202,19 @@ public class LexicalUnitImplTest {
     public void createIdent() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createIdent(null, "css");
 
-        Assert.assertEquals(LexicalUnitType.IDENT, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertEquals("css", unit.getStringValue());
+        assertEquals(LexicalUnitType.IDENT, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertEquals("css", unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("css", unit.toString());
-        Assert.assertEquals("IDENT(css)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("css", unit.toString());
+        assertEquals("IDENT(css)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -1222,19 +1224,19 @@ public class LexicalUnitImplTest {
     public void createURI() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createURI(null, "www.wetator.org");
 
-        Assert.assertEquals(LexicalUnitType.URI, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertEquals("www.wetator.org", unit.getStringValue());
+        assertEquals(LexicalUnitType.URI, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertEquals("www.wetator.org", unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals("url(\"www.wetator.org\")", unit.toString());
-        Assert.assertEquals("URI(url(www.wetator.org))", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("url(\"www.wetator.org\")", unit.toString());
+        assertEquals("URI(url(www.wetator.org))", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -1244,19 +1246,19 @@ public class LexicalUnitImplTest {
     public void createComma() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createComma(null);
 
-        Assert.assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
-        Assert.assertEquals(0, unit.getDoubleValue(), 0.0001);
-        Assert.assertEquals(0, unit.getIntegerValue());
-        Assert.assertEquals("", unit.getDimensionUnitText());
-        Assert.assertNull(unit.getFunctionName());
-        Assert.assertNull(unit.getParameters());
-        Assert.assertNull(unit.getStringValue());
+        assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
 
-        Assert.assertNull(unit.getNextLexicalUnit());
-        Assert.assertNull(unit.getPreviousLexicalUnit());
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
 
-        Assert.assertEquals(",", unit.toString());
-        Assert.assertEquals("OPERATOR_COMMA", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals(",", unit.toString());
+        assertEquals("OPERATOR_COMMA", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**
@@ -1274,7 +1276,7 @@ public class LexicalUnitImplTest {
         final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
         final Object o = ois.readObject();
 
-        Assert.assertEquals(unit.toString(), o.toString());
+        assertEquals(unit.toString(), o.toString());
     }
 
     /**
@@ -1285,9 +1287,9 @@ public class LexicalUnitImplTest {
         final LexicalUnitImpl unit = new LexicalUnitImpl(null, LexicalUnitType.STRING_VALUE);
         unit.setStringValue("abc \n def");
 
-        Assert.assertEquals("abc \n def", unit.getStringValue());
+        assertEquals("abc \n def", unit.getStringValue());
         // CSS unicode escaping eats up the space char after the escape sequence
         // because of this we have to add this on reconstruction
-        Assert.assertEquals("\"abc \\A  def\"", unit.getCssText());
+        assertEquals("\"abc \\A  def\"", unit.getCssText());
     }
 }

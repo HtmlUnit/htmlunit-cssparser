@@ -14,10 +14,11 @@
  */
 package com.gargoylesoftware.css.dom;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
@@ -36,8 +37,8 @@ public class CSSFontFaceRuleImplTest {
     public void getCssText() throws Exception {
         final CSSFontFaceRuleImpl value = parseFontFaceRule("@font-face { font-family: 'Scarface' }");
 
-        Assert.assertEquals("@font-face { font-family: \"Scarface\"; }", value.getCssText());
-        Assert.assertEquals("@font-face { font-family: \"Scarface\"; }", value.toString());
+        assertEquals("@font-face { font-family: \"Scarface\"; }", value.getCssText());
+        assertEquals("@font-face { font-family: \"Scarface\"; }", value.toString());
     }
 
     /**
@@ -47,12 +48,12 @@ public class CSSFontFaceRuleImplTest {
     public void setCssText() throws Exception {
         final CSSFontFaceRuleImpl value = parseFontFaceRule("@font-face { font-family: 'Scarface' }");
 
-        Assert.assertEquals("@font-face { font-family: \"Scarface\"; }", value.getCssText());
-        Assert.assertEquals("@font-face { font-family: \"Scarface\"; }", value.toString());
+        assertEquals("@font-face { font-family: \"Scarface\"; }", value.getCssText());
+        assertEquals("@font-face { font-family: \"Scarface\"; }", value.toString());
 
         value.setCssText("@font-face { font-family: 'Ariel'; font-style: 'cute'; }");
-        Assert.assertEquals("@font-face { font-family: \"Ariel\"; font-style: \"cute\"; }", value.getCssText());
-        Assert.assertEquals("@font-face { font-family: \"Ariel\"; font-style: \"cute\"; }", value.toString());
+        assertEquals("@font-face { font-family: \"Ariel\"; font-style: \"cute\"; }", value.getCssText());
+        assertEquals("@font-face { font-family: \"Ariel\"; font-style: \"cute\"; }", value.toString());
 
     }
 
@@ -62,10 +63,10 @@ public class CSSFontFaceRuleImplTest {
     @Test
     public void getStyle() throws Exception {
         CSSFontFaceRuleImpl value = parseFontFaceRule("@font-face { font-family: 'Scarface' }");
-        Assert.assertEquals("font-family: \"Scarface\"", value.getStyle().toString());
+        assertEquals("font-family: \"Scarface\"", value.getStyle().toString());
 
         value = parseFontFaceRule("@font-face { font-style: cute; }");
-        Assert.assertEquals("font-style: cute", value.getStyle().toString());
+        assertEquals("font-style: cute", value.getStyle().toString());
     }
 
     /**
@@ -75,7 +76,7 @@ public class CSSFontFaceRuleImplTest {
     public void type() throws Exception {
         final CSSFontFaceRuleImpl value = new CSSFontFaceRuleImpl(null, null);
 
-        Assert.assertEquals("@font-face {  }", value.toString());
+        assertEquals("@font-face {  }", value.toString());
     }
 
     private CSSFontFaceRuleImpl parseFontFaceRule(final String rule) throws Exception {
@@ -93,7 +94,7 @@ public class CSSFontFaceRuleImplTest {
     public void getCssTextFormated() throws Exception {
         final CSSFontFaceRuleImpl value = parseFontFaceRule("@font-face { font-family: 'Scarface' }");
 
-        Assert.assertEquals("@font-face { font-family: \"Scarface\"; }", value.toString());
-        Assert.assertEquals("@font-face { font-family: \"Scarface\"; }", value.getCssText());
+        assertEquals("@font-face { font-family: \"Scarface\"; }", value.toString());
+        assertEquals("@font-face { font-family: \"Scarface\"; }", value.getCssText());
     }
 }

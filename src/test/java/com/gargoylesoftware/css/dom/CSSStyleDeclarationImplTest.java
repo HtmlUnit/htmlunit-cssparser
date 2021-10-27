@@ -14,6 +14,11 @@
  */
 package com.gargoylesoftware.css.dom;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,8 +28,7 @@ import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
 
@@ -41,24 +45,24 @@ public class CSSStyleDeclarationImplTest {
     public void defaultConstructor() throws Exception {
         final CSSStyleDeclarationImpl style = new CSSStyleDeclarationImpl(null);
 
-        Assert.assertEquals("", style.getCssText());
-        Assert.assertEquals(0, style.getLength());
+        assertEquals("", style.getCssText());
+        assertEquals(0, style.getLength());
 
-        Assert.assertNull(style.getParentRule());
-        Assert.assertEquals("", style.getPropertyValue("unknown"));
-        Assert.assertEquals("", style.getPropertyPriority("unknown"));
-        Assert.assertNull(style.getPropertyCSSValue("unknown"));
+        assertNull(style.getParentRule());
+        assertEquals("", style.getPropertyValue("unknown"));
+        assertEquals("", style.getPropertyPriority("unknown"));
+        assertNull(style.getPropertyCSSValue("unknown"));
 
-        Assert.assertEquals("", style.getPropertyValue(null));
-        Assert.assertEquals("", style.getPropertyPriority(null));
-        Assert.assertNull(style.getPropertyCSSValue(null));
+        assertEquals("", style.getPropertyValue(null));
+        assertEquals("", style.getPropertyPriority(null));
+        assertNull(style.getPropertyCSSValue(null));
 
         // remove
-        Assert.assertEquals("", style.removeProperty("unknown"));
-        Assert.assertEquals(0, style.getLength());
+        assertEquals("", style.removeProperty("unknown"));
+        assertEquals(0, style.getLength());
 
-        Assert.assertEquals("", style.removeProperty(null));
-        Assert.assertEquals(0, style.getLength());
+        assertEquals("", style.removeProperty(null));
+        assertEquals(0, style.getLength());
     }
 
     /**
@@ -68,24 +72,24 @@ public class CSSStyleDeclarationImplTest {
     public void emptyRule() throws Exception {
         final CSSStyleDeclarationImpl style = parseStyleDeclaration("");
 
-        Assert.assertEquals("", style.getCssText());
-        Assert.assertEquals(0, style.getLength());
+        assertEquals("", style.getCssText());
+        assertEquals(0, style.getLength());
 
-        Assert.assertNull(style.getParentRule());
-        Assert.assertEquals("", style.getPropertyValue("unknown"));
-        Assert.assertEquals("", style.getPropertyPriority("unknown"));
-        Assert.assertNull(style.getPropertyCSSValue("unknown"));
+        assertNull(style.getParentRule());
+        assertEquals("", style.getPropertyValue("unknown"));
+        assertEquals("", style.getPropertyPriority("unknown"));
+        assertNull(style.getPropertyCSSValue("unknown"));
 
-        Assert.assertEquals("", style.getPropertyValue(null));
-        Assert.assertEquals("", style.getPropertyPriority(null));
-        Assert.assertNull(style.getPropertyCSSValue(null));
+        assertEquals("", style.getPropertyValue(null));
+        assertEquals("", style.getPropertyPriority(null));
+        assertNull(style.getPropertyCSSValue(null));
 
         // remove
-        Assert.assertEquals("", style.removeProperty("unknown"));
-        Assert.assertEquals(0, style.getLength());
+        assertEquals("", style.removeProperty("unknown"));
+        assertEquals(0, style.getLength());
 
-        Assert.assertEquals("", style.removeProperty(null));
-        Assert.assertEquals(0, style.getLength());
+        assertEquals("", style.removeProperty(null));
+        assertEquals(0, style.getLength());
     }
 
     /**
@@ -95,32 +99,32 @@ public class CSSStyleDeclarationImplTest {
     public void simpleRule() throws Exception {
         final CSSStyleDeclarationImpl style = parseStyleDeclaration("prop: value");
 
-        Assert.assertEquals("prop: value", style.getCssText());
-        Assert.assertEquals(1, style.getLength());
+        assertEquals("prop: value", style.getCssText());
+        assertEquals(1, style.getLength());
 
-        Assert.assertNull(style.getParentRule());
-        Assert.assertEquals("value", style.getPropertyValue("prop"));
-        Assert.assertEquals("", style.getPropertyPriority("prop"));
-        Assert.assertEquals("value", style.getPropertyCSSValue("prop").getCssText());
+        assertNull(style.getParentRule());
+        assertEquals("value", style.getPropertyValue("prop"));
+        assertEquals("", style.getPropertyPriority("prop"));
+        assertEquals("value", style.getPropertyCSSValue("prop").getCssText());
 
-        Assert.assertEquals("", style.getPropertyValue("unknown"));
-        Assert.assertEquals("", style.getPropertyPriority("unknown"));
-        Assert.assertNull(style.getPropertyCSSValue("unknown"));
+        assertEquals("", style.getPropertyValue("unknown"));
+        assertEquals("", style.getPropertyPriority("unknown"));
+        assertNull(style.getPropertyCSSValue("unknown"));
 
-        Assert.assertEquals("", style.getPropertyValue(null));
-        Assert.assertEquals("", style.getPropertyPriority(null));
-        Assert.assertNull(style.getPropertyCSSValue(null));
+        assertEquals("", style.getPropertyValue(null));
+        assertEquals("", style.getPropertyPriority(null));
+        assertNull(style.getPropertyCSSValue(null));
 
         // remove
-        Assert.assertEquals("", style.removeProperty("unknown"));
-        Assert.assertEquals(1, style.getLength());
+        assertEquals("", style.removeProperty("unknown"));
+        assertEquals(1, style.getLength());
 
-        Assert.assertEquals("", style.removeProperty(null));
-        Assert.assertEquals(1, style.getLength());
+        assertEquals("", style.removeProperty(null));
+        assertEquals(1, style.getLength());
 
-        Assert.assertEquals("value", style.removeProperty("prop"));
-        Assert.assertEquals(0, style.getLength());
-        Assert.assertEquals("", style.getPropertyValue("prop"));
+        assertEquals("value", style.removeProperty("prop"));
+        assertEquals(0, style.getLength());
+        assertEquals("", style.getPropertyValue("prop"));
     }
 
     /**
@@ -130,40 +134,40 @@ public class CSSStyleDeclarationImplTest {
     public void twoRules() throws Exception {
         final CSSStyleDeclarationImpl style = parseStyleDeclaration("prop: value; color: red !important;");
 
-        Assert.assertEquals("prop: value; color: red !important", style.getCssText());
-        Assert.assertEquals(2, style.getLength());
+        assertEquals("prop: value; color: red !important", style.getCssText());
+        assertEquals(2, style.getLength());
 
-        Assert.assertNull(style.getParentRule());
-        Assert.assertEquals("value", style.getPropertyValue("prop"));
-        Assert.assertEquals("", style.getPropertyPriority("prop"));
-        Assert.assertEquals("value", style.getPropertyCSSValue("prop").getCssText());
+        assertNull(style.getParentRule());
+        assertEquals("value", style.getPropertyValue("prop"));
+        assertEquals("", style.getPropertyPriority("prop"));
+        assertEquals("value", style.getPropertyCSSValue("prop").getCssText());
 
-        Assert.assertEquals("red", style.getPropertyValue("color"));
-        Assert.assertEquals("important", style.getPropertyPriority("color"));
-        Assert.assertEquals("red", style.getPropertyCSSValue("color").getCssText());
+        assertEquals("red", style.getPropertyValue("color"));
+        assertEquals("important", style.getPropertyPriority("color"));
+        assertEquals("red", style.getPropertyCSSValue("color").getCssText());
 
-        Assert.assertEquals("", style.getPropertyValue("unknown"));
-        Assert.assertEquals("", style.getPropertyPriority("unknown"));
-        Assert.assertNull(style.getPropertyCSSValue("unknown"));
+        assertEquals("", style.getPropertyValue("unknown"));
+        assertEquals("", style.getPropertyPriority("unknown"));
+        assertNull(style.getPropertyCSSValue("unknown"));
 
-        Assert.assertEquals("", style.getPropertyValue(null));
-        Assert.assertEquals("", style.getPropertyPriority(null));
-        Assert.assertNull(style.getPropertyCSSValue(null));
+        assertEquals("", style.getPropertyValue(null));
+        assertEquals("", style.getPropertyPriority(null));
+        assertNull(style.getPropertyCSSValue(null));
 
         // remove
-        Assert.assertEquals("", style.removeProperty("unknown"));
-        Assert.assertEquals(2, style.getLength());
+        assertEquals("", style.removeProperty("unknown"));
+        assertEquals(2, style.getLength());
 
-        Assert.assertEquals("", style.removeProperty(null));
-        Assert.assertEquals(2, style.getLength());
+        assertEquals("", style.removeProperty(null));
+        assertEquals(2, style.getLength());
 
-        Assert.assertEquals("value", style.removeProperty("prop"));
-        Assert.assertEquals(1, style.getLength());
-        Assert.assertEquals("", style.getPropertyValue("prop"));
+        assertEquals("value", style.removeProperty("prop"));
+        assertEquals(1, style.getLength());
+        assertEquals("", style.getPropertyValue("prop"));
 
-        Assert.assertEquals("red", style.removeProperty("color"));
-        Assert.assertEquals(0, style.getLength());
-        Assert.assertEquals("", style.getPropertyValue("color"));
+        assertEquals("red", style.removeProperty("color"));
+        assertEquals(0, style.getLength());
+        assertEquals("", style.getPropertyValue("color"));
     }
 
     /**
@@ -174,17 +178,17 @@ public class CSSStyleDeclarationImplTest {
     @Test
     public void cssTextHasNoCurlyBraces() throws Exception {
         final InputStream is = getClass().getClassLoader().getResourceAsStream("basic.css");
-        Assert.assertNotNull(is);
+        assertNotNull(is);
 
         final CSSOMParser parser = new CSSOMParser();
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(IOUtils.toString(is, StandardCharsets.UTF_8));
 
-        Assert.assertFalse(style.getCssText().contains("{"));
-        Assert.assertFalse(style.getCssText().contains("}"));
+        assertFalse(style.getCssText().contains("{"));
+        assertFalse(style.getCssText().contains("}"));
 
         style.setCssText("color: red;");
-        Assert.assertEquals("color: red", style.getCssText());
+        assertEquals("color: red", style.getCssText());
     }
 
     /**
@@ -196,10 +200,10 @@ public class CSSStyleDeclarationImplTest {
     public void emptyUrl() throws Exception {
         final CSSStyleDeclarationImpl style = parseStyleDeclaration("background: url()");
 
-        Assert.assertEquals("background: url(\"\")", style.getCssText());
-        Assert.assertEquals(1, style.getLength());
-        Assert.assertEquals("background", style.getProperties().get(0).getName());
-        Assert.assertEquals("url(\"\")", style.getPropertyValue("background"));
+        assertEquals("background: url(\"\")", style.getCssText());
+        assertEquals(1, style.getLength());
+        assertEquals("background", style.getProperties().get(0).getName());
+        assertEquals("url(\"\")", style.getPropertyValue("background"));
     }
 
     /**
@@ -210,7 +214,7 @@ public class CSSStyleDeclarationImplTest {
     @Test
     public void serialize() throws Exception {
         final InputStream is = getClass().getClassLoader().getResourceAsStream("basic.css");
-        Assert.assertNotNull(is);
+        assertNotNull(is);
 
         final CSSOMParser parser = new CSSOMParser();
 
@@ -223,7 +227,7 @@ public class CSSStyleDeclarationImplTest {
         final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(baos.toByteArray()));
         final Object o = ois.readObject();
         ois.close();
-        Assert.assertEquals(style, o);
+        assertEquals(style, o);
     }
 
     /**
@@ -233,16 +237,16 @@ public class CSSStyleDeclarationImplTest {
     public void setProperty() throws Exception {
         final CSSStyleDeclarationImpl style = new CSSStyleDeclarationImpl(null);
         style.setProperty("display", "value", "false");
-        Assert.assertEquals("value", style.getPropertyValue("display"));
-        Assert.assertEquals("", style.getPropertyPriority("display"));
+        assertEquals("value", style.getPropertyValue("display"));
+        assertEquals("", style.getPropertyPriority("display"));
 
         style.setProperty("display", "value2", "imPOrTant");
-        Assert.assertEquals("value2", style.getPropertyValue("display"));
-        Assert.assertEquals("important", style.getPropertyPriority("display"));
+        assertEquals("value2", style.getPropertyValue("display"));
+        assertEquals("important", style.getPropertyPriority("display"));
 
         style.setProperty("display", "value2", "TrUE");
-        Assert.assertEquals("value2", style.getPropertyValue("display"));
-        Assert.assertEquals("", style.getPropertyPriority("display"));
+        assertEquals("value2", style.getPropertyValue("display"));
+        assertEquals("", style.getPropertyPriority("display"));
     }
 
     /**
@@ -252,8 +256,8 @@ public class CSSStyleDeclarationImplTest {
     public void setPropertyNull() throws Exception {
         final CSSStyleDeclarationImpl style = new CSSStyleDeclarationImpl(null);
         style.setProperty("display", "value", null);
-        Assert.assertEquals("value", style.getPropertyValue("display"));
-        Assert.assertEquals("", style.getPropertyPriority("display"));
+        assertEquals("value", style.getPropertyValue("display"));
+        assertEquals("", style.getPropertyPriority("display"));
     }
 
     /**
@@ -265,7 +269,7 @@ public class CSSStyleDeclarationImplTest {
         final CSSValueImpl value = parsePropertyValue("none");
         style.addProperty(new Property("display", value, false));
         style.setProperty("display", "newValue", "false");
-        Assert.assertEquals("newValue", style.getPropertyValue("display"));
+        assertEquals("newValue", style.getPropertyValue("display"));
     }
 
     /**
@@ -277,7 +281,7 @@ public class CSSStyleDeclarationImplTest {
         final CSSValueImpl value = parsePropertyValue("none");
         style.addProperty(new Property("display", value, false));
         style.setProperty("display", "", "false");
-        Assert.assertEquals("", style.getPropertyValue("display"));
+        assertEquals("", style.getPropertyValue("display"));
     }
 
     /**
@@ -289,7 +293,7 @@ public class CSSStyleDeclarationImplTest {
         final CSSValueImpl value = parsePropertyValue("none");
         style.addProperty(new Property("display", value, false));
         style.setProperty("display", " \t \r \n", "false");
-        Assert.assertEquals("", style.getPropertyValue("display"));
+        assertEquals("", style.getPropertyValue("display"));
     }
 
     /**
@@ -300,7 +304,7 @@ public class CSSStyleDeclarationImplTest {
         final CSSStyleDeclarationImpl style = new CSSStyleDeclarationImpl(null);
         final CSSValueImpl value = parsePropertyValue("none");
         style.addProperty(new Property("display", value, false));
-        Assert.assertEquals("none", style.removeProperty("display"));
+        assertEquals("none", style.removeProperty("display"));
     }
 
     /**
@@ -311,7 +315,7 @@ public class CSSStyleDeclarationImplTest {
         final CSSStyleDeclarationImpl style = new CSSStyleDeclarationImpl(null);
         final CSSValueImpl value = parsePropertyValue("");
         style.addProperty(new Property("display", value, false));
-        Assert.assertEquals("", style.removeProperty("display"));
+        assertEquals("", style.removeProperty("display"));
     }
 
     /**
@@ -322,7 +326,7 @@ public class CSSStyleDeclarationImplTest {
         final CSSStyleDeclarationImpl style = new CSSStyleDeclarationImpl(null);
         final CSSValueImpl value = parsePropertyValue("  \t  ");
         style.addProperty(new Property("display", value, false));
-        Assert.assertEquals("", style.removeProperty("display"));
+        assertEquals("", style.removeProperty("display"));
     }
 
     private CSSStyleDeclarationImpl parseStyleDeclaration(final String value) throws IOException {

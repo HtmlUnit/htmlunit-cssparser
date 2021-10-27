@@ -14,8 +14,9 @@
  */
 package com.gargoylesoftware.css.parser.media;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.dom.CSSValueImpl;
 import com.gargoylesoftware.css.dom.Property;
@@ -32,16 +33,16 @@ public class MediaQueryTest {
     @Test
     public void testToString() throws Exception {
         MediaQuery mq = new MediaQuery("test");
-        Assert.assertEquals("test", mq.toString());
+        assertEquals("test", mq.toString());
 
         mq = new MediaQuery("test", false, false);
-        Assert.assertEquals("test", mq.toString());
+        assertEquals("test", mq.toString());
 
         mq = new MediaQuery("test", true, false);
-        Assert.assertEquals("only test", mq.toString());
+        assertEquals("only test", mq.toString());
 
         mq = new MediaQuery("test", false, true);
-        Assert.assertEquals("not test", mq.toString());
+        assertEquals("not test", mq.toString());
     }
 
     /**
@@ -52,20 +53,20 @@ public class MediaQueryTest {
         Property prop = new Property("prop", new CSSValueImpl(null), false);
         MediaQuery mq = new MediaQuery("test");
         mq.addMediaProperty(prop);
-        Assert.assertEquals("test and (prop: )", mq.toString());
+        assertEquals("test and (prop: )", mq.toString());
 
         final CSSValueImpl value = new CSSValueImpl(null);
         value.setCssText("10dpi");
         prop = new Property("prop", value, false);
         mq = new MediaQuery("test", true, false);
         mq.addMediaProperty(prop);
-        Assert.assertEquals("only test and (prop: 10dpi)", mq.toString());
+        assertEquals("only test and (prop: 10dpi)", mq.toString());
 
-        Assert.assertEquals(1, mq.getProperties().size());
+        assertEquals(1, mq.getProperties().size());
 
         prop = new Property("min-foo", value, false);
         mq.addMediaProperty(prop);
-        Assert.assertEquals("only test and (prop: 10dpi) and (min-foo: 10dpi)", mq.toString());
+        assertEquals("only test and (prop: 10dpi) and (min-foo: 10dpi)", mq.toString());
     }
 
     /**
@@ -74,6 +75,6 @@ public class MediaQueryTest {
     @Test
     public void media() throws Exception {
         final MediaQuery mq = new MediaQuery("test");
-        Assert.assertEquals("test", mq.getMedia());
+        assertEquals("test", mq.getMedia());
     }
 }

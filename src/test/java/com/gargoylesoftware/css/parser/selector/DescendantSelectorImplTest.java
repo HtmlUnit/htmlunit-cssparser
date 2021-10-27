@@ -14,8 +14,9 @@
  */
 package com.gargoylesoftware.css.parser.selector;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
@@ -33,9 +34,9 @@ public class DescendantSelectorImplTest {
         final ElementSelector parent = new ElementSelector("p", null);
         final ElementSelector descendant = new ElementSelector("a", null);
         final DescendantSelector selector = new DescendantSelector(parent, descendant);
-        Assert.assertEquals(parent, selector.getAncestorSelector());
+        assertEquals(parent, selector.getAncestorSelector());
 
-        Assert.assertEquals("p a", selector.toString());
+        assertEquals("p a", selector.toString());
     }
 
     /**
@@ -46,9 +47,9 @@ public class DescendantSelectorImplTest {
         final ElementSelector parent = new ElementSelector("p", null);
         final ElementSelector descendant = new ElementSelector("a", null);
         final DescendantSelector selector = new DescendantSelector(parent, descendant);
-        Assert.assertEquals(descendant, selector.getSimpleSelector());
+        assertEquals(descendant, selector.getSimpleSelector());
 
-        Assert.assertEquals("p a", selector.toString());
+        assertEquals("p a", selector.toString());
     }
 
     /**
@@ -59,9 +60,9 @@ public class DescendantSelectorImplTest {
         final ElementSelector parent = new ElementSelector("p", null);
         final ElementSelector descendant = new ElementSelector("a", null);
         final DescendantSelector selector = new DescendantSelector(parent, descendant);
-        Assert.assertEquals(SelectorType.DESCENDANT_SELECTOR, selector.getSelectorType());
+        assertEquals(SelectorType.DESCENDANT_SELECTOR, selector.getSelectorType());
 
-        Assert.assertEquals("p a", selector.toString());
+        assertEquals("p a", selector.toString());
     }
 
     /**
@@ -72,7 +73,7 @@ public class DescendantSelectorImplTest {
         final ElementSelector parent = new ElementSelector("p", null);
         final ElementSelector descendant = new ElementSelector("a", null);
         final DescendantSelector selector = new DescendantSelector(parent, descendant);
-        Assert.assertEquals("p a", selector.toString());
+        assertEquals("p a", selector.toString());
     }
 
     /**
@@ -84,6 +85,6 @@ public class DescendantSelectorImplTest {
         final PseudoElementSelector descendant = new PseudoElementSelector("after", null, false);
         final DescendantSelector selector = new DescendantSelector(parent, descendant);
 
-        Assert.assertEquals("a:after", selector.toString());
+        assertEquals("a:after", selector.toString());
     }
 }

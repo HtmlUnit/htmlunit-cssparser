@@ -14,8 +14,10 @@
  */
 package com.gargoylesoftware.css.parser.selector;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.selector.Selector.SelectorType;
 
@@ -31,11 +33,11 @@ public class ChildSelectorTest {
     @Test
     public void withoutParentSimple() throws Exception {
         final ChildSelector s = new ChildSelector(null, null);
-        Assert.assertEquals(SelectorType.CHILD_SELECTOR, s.getSelectorType());
-        Assert.assertNull(s.getAncestorSelector());
-        Assert.assertNull(s.getSimpleSelector());
+        assertEquals(SelectorType.CHILD_SELECTOR, s.getSelectorType());
+        assertNull(s.getAncestorSelector());
+        assertNull(s.getSimpleSelector());
 
-        Assert.assertEquals(" > ", s.toString());
+        assertEquals(" > ", s.toString());
     }
 
     /**
@@ -45,11 +47,11 @@ public class ChildSelectorTest {
     public void parentOnly() throws Exception {
         final ElementSelector parent = new ElementSelector("p", null);
         final ChildSelector s = new ChildSelector(parent, null);
-        Assert.assertEquals(SelectorType.CHILD_SELECTOR, s.getSelectorType());
-        Assert.assertEquals(parent, s.getAncestorSelector());
-        Assert.assertNull(s.getSimpleSelector());
+        assertEquals(SelectorType.CHILD_SELECTOR, s.getSelectorType());
+        assertEquals(parent, s.getAncestorSelector());
+        assertNull(s.getSimpleSelector());
 
-        Assert.assertEquals("p > ", s.toString());
+        assertEquals("p > ", s.toString());
     }
 
     /**
@@ -59,11 +61,11 @@ public class ChildSelectorTest {
     public void simpleOnly() throws Exception {
         final ElementSelector simple = new ElementSelector("c", null);
         final ChildSelector s = new ChildSelector(null, simple);
-        Assert.assertEquals(SelectorType.CHILD_SELECTOR, s.getSelectorType());
-        Assert.assertNull(s.getAncestorSelector());
-        Assert.assertEquals(simple, s.getSimpleSelector());
+        assertEquals(SelectorType.CHILD_SELECTOR, s.getSelectorType());
+        assertNull(s.getAncestorSelector());
+        assertEquals(simple, s.getSimpleSelector());
 
-        Assert.assertEquals(" > c", s.toString());
+        assertEquals(" > c", s.toString());
     }
 
     /**
@@ -74,10 +76,10 @@ public class ChildSelectorTest {
         final ElementSelector parent = new ElementSelector("p", null);
         final ElementSelector simple = new ElementSelector("c", null);
         final ChildSelector s = new ChildSelector(parent, simple);
-        Assert.assertEquals(SelectorType.CHILD_SELECTOR, s.getSelectorType());
-        Assert.assertEquals(parent, s.getAncestorSelector());
-        Assert.assertEquals(simple, s.getSimpleSelector());
+        assertEquals(SelectorType.CHILD_SELECTOR, s.getSelectorType());
+        assertEquals(parent, s.getAncestorSelector());
+        assertEquals(simple, s.getSimpleSelector());
 
-        Assert.assertEquals("p > c", s.toString());
+        assertEquals("p > c", s.toString());
     }
 }

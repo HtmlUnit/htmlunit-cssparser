@@ -14,10 +14,11 @@
  */
 package com.gargoylesoftware.css.dom;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.StringReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
@@ -36,8 +37,8 @@ public class CSSStyleRuleImplTest {
     public void getCssText() throws Exception {
         final CSSStyleRuleImpl value = parseStyleRule("h1 { color: blue }");
 
-        Assert.assertEquals("h1 { color: blue; }", value.getCssText());
-        Assert.assertEquals("h1 { color: blue; }", value.toString());
+        assertEquals("h1 { color: blue; }", value.getCssText());
+        assertEquals("h1 { color: blue; }", value.toString());
     }
 
     /**
@@ -47,12 +48,12 @@ public class CSSStyleRuleImplTest {
     public void setCssText() throws Exception {
         final CSSStyleRuleImpl value = parseStyleRule("h1 { color: blue }");
 
-        Assert.assertEquals("h1 { color: blue; }", value.getCssText());
-        Assert.assertEquals("h1 { color: blue; }", value.toString());
+        assertEquals("h1 { color: blue; }", value.getCssText());
+        assertEquals("h1 { color: blue; }", value.toString());
 
         value.setCssText("p { width: 10px; };");
-        Assert.assertEquals("p { width: 10px; }", value.getCssText());
-        Assert.assertEquals("p { width: 10px; }", value.toString());
+        assertEquals("p { width: 10px; }", value.getCssText());
+        assertEquals("p { width: 10px; }", value.toString());
 
     }
 
@@ -62,10 +63,10 @@ public class CSSStyleRuleImplTest {
     @Test
     public void getSelectorText() throws Exception {
         CSSStyleRuleImpl value = parseStyleRule("h1 { color: blue }");
-        Assert.assertEquals("h1", value.getSelectorText());
+        assertEquals("h1", value.getSelectorText());
 
         value = parseStyleRule("h1, h2,\r\nb { color: blue }");
-        Assert.assertEquals("h1, h2, b", value.getSelectorText());
+        assertEquals("h1, h2, b", value.getSelectorText());
     }
 
     /**
@@ -75,7 +76,7 @@ public class CSSStyleRuleImplTest {
     public void type() throws Exception {
         final CSSStyleRuleImpl value = new CSSStyleRuleImpl(null, null, null);
 
-        Assert.assertEquals("", value.toString());
+        assertEquals("", value.toString());
     }
 
     private CSSStyleRuleImpl parseStyleRule(final String rule) throws Exception {
@@ -93,7 +94,7 @@ public class CSSStyleRuleImplTest {
     public void getCssTextFormated() throws Exception {
         final CSSStyleRuleImpl value = parseStyleRule("h1{color:blue}");
 
-        Assert.assertEquals("h1 { color: blue; }", value.toString());
-        Assert.assertEquals("h1 { color: blue; }", value.getCssText());
+        assertEquals("h1 { color: blue; }", value.toString());
+        assertEquals("h1 { color: blue; }", value.getCssText());
     }
 }

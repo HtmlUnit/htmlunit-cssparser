@@ -14,8 +14,9 @@
  */
 package com.gargoylesoftware.css.parser;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Ronald Brill
@@ -27,15 +28,15 @@ public class ParserUtilsTest {
      */
     @Test
     public void trimBy() {
-        Assert.assertEquals("test", ParserUtils.trimBy(new StringBuilder("test"), 0, 0));
+        assertEquals("test", ParserUtils.trimBy(new StringBuilder("test"), 0, 0));
 
-        Assert.assertEquals("est", ParserUtils.trimBy(new StringBuilder("test"), 1, 0));
-        Assert.assertEquals("st", ParserUtils.trimBy(new StringBuilder("test"), 2, 0));
+        assertEquals("est", ParserUtils.trimBy(new StringBuilder("test"), 1, 0));
+        assertEquals("st", ParserUtils.trimBy(new StringBuilder("test"), 2, 0));
 
-        Assert.assertEquals("tes", ParserUtils.trimBy(new StringBuilder("test"), 0, 1));
-        Assert.assertEquals("te", ParserUtils.trimBy(new StringBuilder("test"), 0, 2));
+        assertEquals("tes", ParserUtils.trimBy(new StringBuilder("test"), 0, 1));
+        assertEquals("te", ParserUtils.trimBy(new StringBuilder("test"), 0, 2));
 
-        Assert.assertEquals("e", ParserUtils.trimBy(new StringBuilder("test"), 1, 2));
+        assertEquals("e", ParserUtils.trimBy(new StringBuilder("test"), 1, 2));
     }
 
     /**
@@ -43,12 +44,12 @@ public class ParserUtilsTest {
      */
     @Test
     public void trimUrl() {
-        Assert.assertEquals("test", ParserUtils.trimUrl(new StringBuilder("url(test)")));
-        Assert.assertEquals("", ParserUtils.trimUrl(new StringBuilder("url()")));
+        assertEquals("test", ParserUtils.trimUrl(new StringBuilder("url(test)")));
+        assertEquals("", ParserUtils.trimUrl(new StringBuilder("url()")));
 
-        Assert.assertEquals("test", ParserUtils.trimUrl(new StringBuilder("url('test')")));
-        Assert.assertEquals("test", ParserUtils.trimUrl(new StringBuilder("url(\"test\")")));
+        assertEquals("test", ParserUtils.trimUrl(new StringBuilder("url('test')")));
+        assertEquals("test", ParserUtils.trimUrl(new StringBuilder("url(\"test\")")));
 
-        Assert.assertEquals("test", ParserUtils.trimUrl(new StringBuilder("url(   test \t )")));
+        assertEquals("test", ParserUtils.trimUrl(new StringBuilder("url(   test \t )")));
     }
 }

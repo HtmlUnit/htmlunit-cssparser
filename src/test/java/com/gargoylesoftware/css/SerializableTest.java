@@ -14,6 +14,8 @@
  */
 package com.gargoylesoftware.css;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,8 +27,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Reader;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.gargoylesoftware.css.dom.AbstractCSSRuleImpl;
 import com.gargoylesoftware.css.dom.CSSRuleListImpl;
@@ -45,7 +46,7 @@ public class SerializableTest {
     @Test
     public void test() throws Exception {
         final InputStream is = getClass().getClassLoader().getResourceAsStream("html40.css");
-        Assert.assertNotNull(is);
+        assertNotNull(is);
 
         final CSSOMParser parser = new CSSOMParser();
 
