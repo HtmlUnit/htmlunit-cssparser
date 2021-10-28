@@ -748,7 +748,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         // i know this is uggly - suggestions are welcome
         final String str = Double.toString(d);
         if (str.contains("E")) {
-            final DecimalFormat decimalFormat = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+            final DecimalFormat decimalFormat =
+                    new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
             decimalFormat.setGroupingUsed(false);
             decimalFormat.setMaximumFractionDigits(7);
             return decimalFormat.format(d);
