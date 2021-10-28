@@ -101,7 +101,6 @@ public class CSSStyleDeclarationImpl implements Serializable {
         }
     }
 
-
     /**
      * @param propertyName the property name
      * @return the property value
