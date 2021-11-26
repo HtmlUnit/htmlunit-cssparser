@@ -40,7 +40,7 @@ public class RGBColorImpl implements Serializable {
      */
     public RGBColorImpl(final LexicalUnit lu) throws DOMException {
         LexicalUnit next = lu;
-        red_ = new CSSValueImpl(next, true);
+        red_ = getPart(next);
 
         next = next.getNextLexicalUnit();
         if (next == null) {
@@ -53,7 +53,7 @@ public class RGBColorImpl implements Serializable {
                 throw new DOMException(DOMException.SYNTAX_ERR, "rgb requires at least three values");
             }
 
-            green_ = new CSSValueImpl(next, true);
+            green_ = getPart(next);
             next = next.getNextLexicalUnit();
             if (next == null) {
                 throw new DOMException(DOMException.SYNTAX_ERR, "rgb requires at least three values");
@@ -63,7 +63,7 @@ public class RGBColorImpl implements Serializable {
                 throw new DOMException(DOMException.SYNTAX_ERR, "rgb parameters must be separated by ','.");
             }
             next = next.getNextLexicalUnit();
-            blue_ = new CSSValueImpl(next, true);
+            blue_ = getPart(next);
             next = next.getNextLexicalUnit();
             if (next != null) {
                 throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for rgb function.");
@@ -72,7 +72,7 @@ public class RGBColorImpl implements Serializable {
             return;
         }
 
-        green_ = new CSSValueImpl(next, true);
+        green_ = getPart(next);
         next = next.getNextLexicalUnit();
         if (next == null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "rgb requires at least three values");
@@ -82,12 +82,22 @@ public class RGBColorImpl implements Serializable {
             throw new DOMException(DOMException.SYNTAX_ERR, "all rgb parameters must be separated by blank");
         }
 
-        blue_ = new CSSValueImpl(next, true);
+        blue_ = getPart(next);
 
         next = next.getNextLexicalUnit();
         if (next != null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for rgb function.");
         }
+    }
+
+    private static CSSValueImpl getPart(LexicalUnit next) {
+        if (LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()
+                || LexicalUnitType.INTEGER == next.getLexicalUnitType()
+                || LexicalUnitType.REAL == next.getLexicalUnitType()) {
+            return new CSSValueImpl(next, true);
+        }
+
+        throw new DOMException(DOMException.SYNTAX_ERR, "Color part has to be numeric or percentage.");
     }
 
     /**

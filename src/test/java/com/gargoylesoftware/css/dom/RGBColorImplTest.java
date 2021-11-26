@@ -54,7 +54,8 @@ public class RGBColorImplTest {
     @Test
     public void constructByLUException() throws Exception {
         LexicalUnit rgbLU = LexicalUnitImpl.createNumber(null, 10);
-        LexicalUnit lu = LexicalUnitImpl.createNumber(rgbLU, 20);
+        LexicalUnit lu = LexicalUnitImpl.createDivide(rgbLU);
+        lu = LexicalUnitImpl.createNumber(lu, 20);
         lu = LexicalUnitImpl.createNumber(lu, 30);
 
         try {
@@ -62,7 +63,7 @@ public class RGBColorImplTest {
             fail("DOMException expected");
         }
         catch (final DOMException e) {
-            assertEquals("rgb parameters must be separated by ','.", e.getMessage());
+            assertEquals("Color part has to be numeric or percentage.", e.getMessage());
         }
 
         rgbLU = LexicalUnitImpl.createNumber(null, 10);

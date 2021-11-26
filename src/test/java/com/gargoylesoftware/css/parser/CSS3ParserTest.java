@@ -880,6 +880,10 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     @Test
     public void rgbComma() throws Exception {
         rgb("foreground: rgb(10, 20, 30)", "foreground: rgb( 10, 20, 30 )");
+
+        rgb("foreground: rgb(10%, 20, 30)", "foreground: rgb( 10%, 20, 30 )");
+        rgb("foreground: rgb(10, 20%, 30)", "foreground: rgb( 10, 20%, 30 )");
+        rgb("foreground: rgb(10%, 20, 30%)", "foreground: rgb( 10%, 20, 30% )");
     }
 
     /**
@@ -888,6 +892,10 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     @Test
     public void rgbBlank() throws Exception {
         rgb("foreground: rgb(10, 20, 30)", "foreground: rgb(10 20 30)");
+
+        rgb("foreground: rgb(10%, 20, 30)", "foreground: rgb(10% 20 30)");
+        rgb("foreground: rgb(10, 20%, 30)", "foreground: rgb(10 20% 30)");
+        rgb("foreground: rgb(10%, 20, 30%)", "foreground: rgb(10% 20 30%)");
     }
 
     /**
@@ -904,6 +912,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, <DIMENSION>, "
                 + "<UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION>, \"progid:\".)",
                 "foreground: rgb(10, 20, 30,)");
+
+        rgb(1, "DOM exception: 'Color part has to be numeric or percentage.'", "foreground: rgb(10 20px, 30)");
     }
 
     /**
