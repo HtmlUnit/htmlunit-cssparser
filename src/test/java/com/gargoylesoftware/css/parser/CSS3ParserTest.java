@@ -870,26 +870,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void hexColor() throws Exception {
-        final String cssText = "color: #ccc; background: #1c1d00;";
-
-        final CSSOMParser parser = new CSSOMParser();
-        final ErrorHandler errorHandler = new ErrorHandler();
-        parser.setErrorHandler(errorHandler);
-
-        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
-
-        assertEquals(0, errorHandler.getErrorCount());
-        assertEquals(0, errorHandler.getFatalErrorCount());
-        assertEquals(0, errorHandler.getWarningCount());
-
-        // Enumerate the properties and retrieve their values
-        assertEquals(2, style.getLength());
-
-        String name = style.getProperties().get(0).getName();
-        assertEquals("color : rgb(204, 204, 204)", name + " : " + style.getPropertyValue(name));
-
-        name = style.getProperties().get(1).getName();
-        assertEquals("background : rgb(28, 29, 0)", name + " : " + style.getPropertyValue(name));
+        rgb("color: rgb(204, 204, 204)", "color: #ccc;");
+        rgb("background: rgb(28, 29, 0)", "background: #1c1d00;");
     }
 
     /**
@@ -897,23 +879,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbComma() throws Exception {
-        final String cssText = "foreground: rgb( 10, 20, 30 )";
-
-        final CSSOMParser parser = new CSSOMParser();
-        final ErrorHandler errorHandler = new ErrorHandler();
-        parser.setErrorHandler(errorHandler);
-
-        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
-
-        assertEquals(0, errorHandler.getErrorCount());
-        assertEquals(0, errorHandler.getFatalErrorCount());
-        assertEquals(0, errorHandler.getWarningCount());
-
-        // Enumerate the properties and retrieve their values
-        assertEquals(1, style.getLength());
-
-        final String name = style.getProperties().get(0).getName();
-        assertEquals("foreground : rgb(10, 20, 30)", name + " : " + style.getPropertyValue(name));
+        rgb("foreground: rgb(10, 20, 30)", "foreground: rgb( 10, 20, 30 )");
     }
 
     /**
@@ -921,46 +887,61 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbBlank() throws Exception {
-        final String cssText = "foreground: rgb(10 20 30)";
-
-        final CSSOMParser parser = new CSSOMParser();
-        final ErrorHandler errorHandler = new ErrorHandler();
-        parser.setErrorHandler(errorHandler);
-
-        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
-
-        assertEquals(0, errorHandler.getErrorCount());
-        assertEquals(0, errorHandler.getFatalErrorCount());
-        assertEquals(0, errorHandler.getWarningCount());
-
-        // Enumerate the properties and retrieve their values
-        assertEquals(1, style.getLength());
-
-        final String name = style.getProperties().get(0).getName();
-        assertEquals("foreground : rgb(10, 20, 30)", name + " : " + style.getPropertyValue(name));
+        rgb("foreground: rgb(10, 20, 30)", "foreground: rgb(10 20 30)");
     }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void rgbVariousErrors() throws Exception {
+        rgb(1, "DOM exception: 'rgb parameters must be separated by ','.'", "foreground: rgb(10, 20 30)");
+        rgb(1, "DOM exception: 'all rgb parameters must be separated by blank'", "foreground: rgb(10 20, 30)");
+
+        rgb(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
+                + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, <VW>, <VH>, <VMIN>, <VMAX>, <LENGTH_PX>, "
+                + "<LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, "
+                + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, <DIMENSION>, "
+                + "<UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION>, \"progid:\".)",
+                "foreground: rgb(10, 20, 30,)");
+    }
+
     /**
      * @throws Exception in case of failure
      */
     @Test
     public void rgbInsideFunction() throws Exception {
-        final String cssText = "color: foo(#cd4);";
+        rgb("color: foo(rgb(204, 221, 68))", "color: foo(#cd4);");
+    }
 
+    private void rgb(String expected, String cssText) throws Exception {
+        rgb(0, expected, cssText);
+    }
+
+    private void rgb(int errorCount, String expected, String cssText) throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(errorCount, errorHandler.getErrorCount());
+        if (errorCount > 0) {
+            assertEquals(expected, errorHandler.getErrorMessage());
+        }
+
         assertEquals(0, errorHandler.getFatalErrorCount());
         assertEquals(0, errorHandler.getWarningCount());
+
+        if (errorCount > 0) {
+            return;
+        }
 
         // Enumerate the properties and retrieve their values
         assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        assertEquals("color: foo(rgb(204, 221, 68))", name + ": " + style.getPropertyValue(name));
+        assertEquals(expected, name + ": " + style.getPropertyValue(name));
     }
 
     /**

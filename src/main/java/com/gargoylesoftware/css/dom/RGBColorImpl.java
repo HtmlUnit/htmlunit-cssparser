@@ -41,33 +41,52 @@ public class RGBColorImpl implements Serializable {
     public RGBColorImpl(final LexicalUnit lu) throws DOMException {
         LexicalUnit next = lu;
         red_ = new CSSValueImpl(next, true);
-        next = next.getNextLexicalUnit();   // ,
-        if (next != null) {
+
+        next = next.getNextLexicalUnit();
+        if (next == null) {
+            throw new DOMException(DOMException.SYNTAX_ERR, "rgb requires at least three values");
+        }
+
+        if (next.getLexicalUnitType() == LexicalUnitType.OPERATOR_COMMA) {
+            next = next.getNextLexicalUnit();
+            if (next == null) {
+                throw new DOMException(DOMException.SYNTAX_ERR, "rgb requires at least three values");
+            }
+
+            green_ = new CSSValueImpl(next, true);
+            next = next.getNextLexicalUnit();
+            if (next == null) {
+                throw new DOMException(DOMException.SYNTAX_ERR, "rgb requires at least three values");
+            }
+
             if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_COMMA) {
-                // error
-                throw new DOMException(DOMException.SYNTAX_ERR,
-                    "rgb parameters must be separated by ','.");
+                throw new DOMException(DOMException.SYNTAX_ERR, "rgb parameters must be separated by ','.");
             }
             next = next.getNextLexicalUnit();
+            blue_ = new CSSValueImpl(next, true);
+            next = next.getNextLexicalUnit();
             if (next != null) {
-                green_ = new CSSValueImpl(next, true);
-                next = next.getNextLexicalUnit();   // ,
-                if (next != null) {
-                    if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_COMMA) {
-                        // error
-                        throw new DOMException(DOMException.SYNTAX_ERR,
-                            "rgb parameters must be separated by ','.");
-                    }
-                    next = next.getNextLexicalUnit();
-                    blue_ = new CSSValueImpl(next, true);
-                    next = next.getNextLexicalUnit();
-                    if (next != null) {
-                        // error
-                        throw new DOMException(DOMException.SYNTAX_ERR,
-                            "Too many parameters for rgb function.");
-                    }
-                }
+                throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for rgb function.");
             }
+
+            return;
+        }
+
+        green_ = new CSSValueImpl(next, true);
+        next = next.getNextLexicalUnit();
+        if (next == null) {
+            throw new DOMException(DOMException.SYNTAX_ERR, "rgb requires at least three values");
+        }
+
+        if (next.getLexicalUnitType() == LexicalUnitType.OPERATOR_COMMA) {
+            throw new DOMException(DOMException.SYNTAX_ERR, "all rgb parameters must be separated by blank");
+        }
+
+        blue_ = new CSSValueImpl(next, true);
+
+        next = next.getNextLexicalUnit();
+        if (next != null) {
+            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for rgb function.");
         }
     }
 
