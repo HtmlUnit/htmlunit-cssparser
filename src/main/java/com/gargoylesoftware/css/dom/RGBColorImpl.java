@@ -90,7 +90,7 @@ public class RGBColorImpl implements Serializable {
         }
     }
 
-    private static CSSValueImpl getPart(LexicalUnit next) {
+    private static CSSValueImpl getPart(final LexicalUnit next) {
         if (LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()
                 || LexicalUnitType.INTEGER == next.getLexicalUnitType()
                 || LexicalUnitType.REAL == next.getLexicalUnitType()) {

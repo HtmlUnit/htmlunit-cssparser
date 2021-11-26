@@ -924,11 +924,11 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         rgb("color: foo(rgb(204, 221, 68))", "color: foo(#cd4);");
     }
 
-    private void rgb(String expected, String cssText) throws Exception {
+    private void rgb(final String expected, final String cssText) throws Exception {
         rgb(0, expected, cssText);
     }
 
-    private void rgb(int errorCount, String expected, String cssText) throws Exception {
+    private void rgb(final int errorCount, final String expected, final String cssText) throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
@@ -1532,7 +1532,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         rule = rules.getRules().get(1);
         assertEquals("H2:before { content: counter(section, upper-roman) \" - \"; }", rule.getCssText());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        assertEquals("counter(section, upper-roman)",value.item(0).getValue().toString());
+        assertEquals("counter(section, upper-roman)", value.item(0).getValue().toString());
 
         rule = rules.getRules().get(2);
         assertEquals("BLOCKQUOTE:after { content: \" [\" counter(bq, lower-greek) \"]\"; }", rule.getCssText());
