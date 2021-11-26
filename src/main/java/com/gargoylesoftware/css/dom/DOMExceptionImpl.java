@@ -45,24 +45,18 @@ public class DOMExceptionImpl extends DOMException {
     public static final int FLOAT_ERROR = 9;
     /** STRING_ERROR = 10. */
     public static final int STRING_ERROR = 10;
-    /** COUNTER_ERROR = 11. */
-    public static final int COUNTER_ERROR = 11;
-    /** RECT_ERROR = 12. */
-    public static final int RECT_ERROR = 12;
-    /** RGBCOLOR_ERROR = 13. */
-    public static final int RGBCOLOR_ERROR = 13;
-    /** CHARSET_NOT_FIRST = 14. */
-    public static final int CHARSET_NOT_FIRST = 14;
-    /** CHARSET_NOT_UNIQUE = 15. */
-    public static final int CHARSET_NOT_UNIQUE = 15;
-    /** IMPORT_NOT_FIRST = 16. */
-    public static final int IMPORT_NOT_FIRST = 16;
-    /** NOT_FOUND = 17. */
-    public static final int NOT_FOUND = 17;
-    /** NOT_IMPLEMENTED = 18. */
-    public static final int NOT_IMPLEMENTED = 18;
-    /** INSERT_BEFORE_IMPORT = 19. */
-    public static final int INSERT_BEFORE_IMPORT = 19;
+    /** CHARSET_NOT_FIRST = 11. */
+    public static final int CHARSET_NOT_FIRST = 11;
+    /** CHARSET_NOT_UNIQUE = 12. */
+    public static final int CHARSET_NOT_UNIQUE = 12;
+    /** IMPORT_NOT_FIRST = 13. */
+    public static final int IMPORT_NOT_FIRST = 13;
+    /** NOT_FOUND = 14. */
+    public static final int NOT_FOUND = 14;
+    /** NOT_IMPLEMENTED = 15. */
+    public static final int NOT_IMPLEMENTED = 15;
+    /** INSERT_BEFORE_IMPORT = 16. */
+    public static final int INSERT_BEFORE_IMPORT = 16;
 
     static final String[] messages = {
         "Syntax error",
@@ -76,9 +70,6 @@ public class DOMExceptionImpl extends DOMException {
         "The text does not represent a page rule",
         "This isn't a Float type",
         "This isn't a String type",
-        "This isn't a Counter type",
-        "This isn't a Rect type",
-        "This isn't an RGBColor type",
         "A charset rule must be the first rule",
         "A charset rule already exists",
         "An import rule must preceed all other rules",

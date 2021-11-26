@@ -461,48 +461,6 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
-     * @return the counter value
-     * @throws DOMException in case of error
-     */
-    public CounterImpl getCounterValue() throws DOMException {
-        if (value_ instanceof CounterImpl) {
-            return (CounterImpl) value_;
-        }
-
-        throw new DOMExceptionImpl(
-                DOMException.INVALID_ACCESS_ERR,
-                DOMExceptionImpl.COUNTER_ERROR);
-    }
-
-    /**
-     * @return the rect
-     * @throws DOMException in case of error
-     */
-    public RectImpl getRectValue() throws DOMException {
-        if (value_ instanceof RectImpl) {
-            return (RectImpl) value_;
-        }
-
-        throw new DOMExceptionImpl(
-                DOMException.INVALID_ACCESS_ERR,
-                DOMExceptionImpl.RECT_ERROR);
-    }
-
-    /**
-     * @return the rgb
-     * @throws DOMException in case of error
-     */
-    public RGBColorImpl getRGBColorValue() throws DOMException {
-        if (value_ instanceof RGBColorImpl) {
-            return (RGBColorImpl) value_;
-        }
-
-        throw new DOMExceptionImpl(
-            DOMException.INVALID_ACCESS_ERR,
-            DOMExceptionImpl.RGBCOLOR_ERROR);
-    }
-
-    /**
      * @return the length
      * @throws DOMException in case of error
      */

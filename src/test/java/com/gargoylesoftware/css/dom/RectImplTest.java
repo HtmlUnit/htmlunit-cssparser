@@ -173,7 +173,7 @@ public class RectImplTest {
 
         final CSSStyleDeclarationImpl style = ((CSSStyleRuleImpl) rule).getStyle();
         final Property prop = style.getPropertyDeclaration("clip");
-        final RectImpl rect = prop.getValue().getRectValue();
+        final RectImpl rect = (RectImpl) prop.getValue().getValue();
 
         assertEquals("1px", rect.getTop().toString());
         assertEquals("2px", rect.getRight().toString());

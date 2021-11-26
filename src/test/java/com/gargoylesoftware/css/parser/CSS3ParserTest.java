@@ -896,7 +896,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      * @throws Exception in case of failure
      */
     @Test
-    public void rgb() throws Exception {
+    public void rgbComma() throws Exception {
         final String cssText = "foreground: rgb( 10, 20, 30 )";
 
         final CSSOMParser parser = new CSSOMParser();
@@ -916,6 +916,29 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("foreground : rgb(10, 20, 30)", name + " : " + style.getPropertyValue(name));
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void rgbBlank() throws Exception {
+        final String cssText = "foreground: rgb(10 20 30)";
+
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        assertEquals(1, style.getLength());
+
+        final String name = style.getProperties().get(0).getName();
+        assertEquals("foreground : rgb(10, 20, 30)", name + " : " + style.getPropertyValue(name));
+    }
     /**
      * @throws Exception in case of failure
      */
@@ -1513,28 +1536,27 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
         assertEquals("H1:before { content: counter(chno, upper-latin) \". \"; }", rule.getCssText());
         CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        assertEquals("counter(chno, upper-latin)", value.item(0).getCounterValue().toString());
+        assertEquals("counter(chno, upper-latin)", value.item(0).getValue().toString());
 
         rule = rules.getRules().get(1);
         assertEquals("H2:before { content: counter(section, upper-roman) \" - \"; }", rule.getCssText());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        assertEquals("counter(section, upper-roman)",
-                value.item(0).getCounterValue().toString());
+        assertEquals("counter(section, upper-roman)",value.item(0).getValue().toString());
 
         rule = rules.getRules().get(2);
         assertEquals("BLOCKQUOTE:after { content: \" [\" counter(bq, lower-greek) \"]\"; }", rule.getCssText());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        assertEquals("counter(bq, lower-greek)", value.item(1).getCounterValue().toString());
+        assertEquals("counter(bq, lower-greek)", value.item(1).getValue().toString());
 
         rule = rules.getRules().get(3);
         assertEquals("DIV.note:before { content: counter(notecntr, disc) \" \"; }", rule.getCssText());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        assertEquals("counter(notecntr, disc)", value.item(0).getCounterValue().toString());
+        assertEquals("counter(notecntr, disc)", value.item(0).getValue().toString());
 
         rule = rules.getRules().get(4);
         assertEquals("P:before { content: counter(p, none); }", rule.getCssText());
         value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        assertEquals("counter(p, none)", value.getCounterValue().toString());
+        assertEquals("counter(p, none)", value.getValue().toString());
     }
 
     /**
@@ -1555,7 +1577,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("LI:before { content: counters(item, \".\") \" \"; counter-increment: item; }",
                 rule.getCssText());
         final CSSValueImpl value = ((CSSStyleRuleImpl) rule).getStyle().getPropertyCSSValue("content");
-        assertEquals("counters(item, \".\")", value.item(0).getCounterValue().toString());
+        assertEquals("counters(item, \".\")", value.item(0).getValue().toString());
     }
 
     /**
