@@ -398,6 +398,11 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 appendParams(sb);
                 sb.append(")");
                 break;
+            case HSLCOLOR:
+                sb.append("hsl(");
+                appendParams(sb);
+                sb.append(")");
+                break;
             case IDENT:
                 sb.append(getStringValue());
                 break;
@@ -665,6 +670,11 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 break;
             case RGBCOLOR:
                 sb.append("RGBCOLOR(rgb(");
+                appendParams(sb);
+                sb.append("))");
+                break;
+            case HSLCOLOR:
+                sb.append("HSLCOLOR(hsl(");
                 appendParams(sb);
                 sb.append("))");
                 break;
@@ -1029,6 +1039,16 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
      */
     public static LexicalUnit createRgbColor(final LexicalUnit prev, final String funct, final LexicalUnit params) {
         return new LexicalUnitImpl(prev, LexicalUnitType.RGBCOLOR, funct, params);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param funct the name rgb or rgba
+     * @param params the params
+     * @return lexical unit with type rgb color
+     */
+    public static LexicalUnit createHslColor(final LexicalUnit prev, final String funct, final LexicalUnit params) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.HSLCOLOR, funct, params);
     }
 
     /**

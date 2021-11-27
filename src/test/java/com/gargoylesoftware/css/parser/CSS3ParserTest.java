@@ -872,6 +872,12 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     public void hexColor() throws Exception {
         rgb("color: rgb(204, 204, 204)", "color: #ccc;");
         rgb("background: rgb(28, 29, 0)", "background: #1c1d00;");
+
+        rgb("color: rgba(51, 170, 51, 0)", "color: #3a30;");
+        rgb("color: rgba(51, 170, 51, 1)", "color: #3a3F;");
+
+        rgb("color: rgba(51, 170, 51, 0)", "color: #33aa3300;");
+        rgb("color: rgba(51, 170, 51, 0.502)", "color: #33AA3380;");
     }
 
     /**
@@ -1711,14 +1717,16 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION_RGB>, <FUNCTION>, \"progid:\".)"
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
                         + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION_RGB>, <FUNCTION>, \"progid:\".)"
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)"
                 + " Error in style rule. (Invalid token \" \". Was expecting one of: <EOF>, \"}\", \";\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)";
@@ -2014,7 +2022,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION_RGB>, <FUNCTION>, \"progid:\".)";
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("3", errorHandler.getErrorLines());
         assertEquals("16", errorHandler.getErrorColumns());

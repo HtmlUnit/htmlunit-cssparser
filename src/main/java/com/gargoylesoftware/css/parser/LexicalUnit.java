@@ -59,6 +59,7 @@ public interface LexicalUnit {
         COUNTER_FUNCTION,
         COUNTERS_FUNCTION,
         RGBCOLOR,
+        HSLCOLOR,
         DEGREE,
         GRADIAN,
         RADIAN,

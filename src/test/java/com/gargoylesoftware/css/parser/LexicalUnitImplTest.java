@@ -1106,6 +1106,31 @@ public class LexicalUnitImplTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void createHslColor() throws Exception {
+        final LexicalUnit r = LexicalUnitImpl.createNumber(null, 255);
+        final LexicalUnit g = LexicalUnitImpl.createPercentage(LexicalUnitImpl.createComma(r), 128);
+        LexicalUnitImpl.createPercentage(LexicalUnitImpl.createComma(g), 0);
+        final LexicalUnit unit = LexicalUnitImpl.createHslColor(null, "hsl", r);
+
+        assertEquals(LexicalUnitType.HSLCOLOR, unit.getLexicalUnitType());
+        assertEquals(0, unit.getDoubleValue(), 0.0001);
+        assertEquals(0, unit.getIntegerValue());
+        assertEquals("", unit.getDimensionUnitText());
+        assertEquals("hsl", unit.getFunctionName());
+        assertEquals("255", unit.getParameters().toString());
+        assertNull(unit.getStringValue());
+
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
+
+        assertEquals("hsl(255, 128%, 0%)", unit.toString());
+        assertEquals("HSLCOLOR(hsl(255, 128%, 0%))", ((LexicalUnitImpl) unit).toDebugString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void createFunction() throws Exception {
         final LexicalUnit unit = LexicalUnitImpl.createFunction(null, "foo",
                 LexicalUnitImpl.createString(null, "param"));

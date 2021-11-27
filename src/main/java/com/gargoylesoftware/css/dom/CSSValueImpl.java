@@ -188,6 +188,10 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
                 // RGBColor
                 value_ = new RGBColorImpl(value.getFunctionName(), value.getParameters());
             }
+            else if (value.getLexicalUnitType() == LexicalUnitType.HSLCOLOR) {
+                // HSLColor
+                value_ = new HSLColorImpl(value.getFunctionName(), value.getParameters());
+            }
             else if (value.getLexicalUnitType() == LexicalUnitType.COUNTER_FUNCTION) {
                 // Counter
                 value_ = new CounterImpl(false, value.getParameters());

@@ -413,6 +413,8 @@ TOKEN_MGR_DECLS :
 
 | < FUNCTION_RGB: "rgb" ("a")? <LROUND> >
 
+| < FUNCTION_HSL: "hsl" ("a")? <LROUND> >
+
 | < CUSTOM_PROPERTY_NAME: < MINUS > <MINUS > <NMSTART> ( <NMCHAR> )* >
 
 // {ident} "("          {return FUNCTION;}
@@ -1577,6 +1579,7 @@ LexicalUnit term(LexicalUnit prev) :
             | value = percentage(prev, op)
             | value = function(prev)
             | value = rgbColor(prev)
+            | value = hslColor(prev)
             | value = calc(prev)
             | value = var(prev)
         )
@@ -1981,7 +1984,86 @@ LexicalUnit rgbColor(LexicalUnit prev) :
 
     <RROUND>
     {
-        return colorInternal(prev, funct, param);
+        return rgbColorInternal(prev, funct, param);
+    }
+}
+
+
+// hsl() / hsla()
+//
+LexicalUnit hslColor(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit param = null;
+    LexicalUnit next = null;
+    String funct;
+}
+{
+    t = <FUNCTION_HSL> { funct = unescape(t.image.substring(0, t.image.length() - 1), false); }
+    ( <S> )*
+
+    (
+        (op = unaryOperator() )?
+        (
+            param = number(null, op)
+            | <ANGLE_DEG>         { param = LexicalUnitImpl.createDegree(null, doubleValue(op, t.image)); }
+            | t = <ANGLE_RAD>     { param = LexicalUnitImpl.createRadian(null, doubleValue(op, t.image)); }
+            | t = <ANGLE_GRAD>    { param = LexicalUnitImpl.createGradian(null, doubleValue(op, t.image)); }
+        )
+    )
+    { op = ' '; next = param; }
+
+    ( <S> )*
+    (
+        <COMMA> { next = LexicalUnitImpl.createComma(next); }
+        ( <S> )*
+    )?
+
+    (
+        (op = unaryOperator() )?
+        (
+            next = percentage(next, op)
+        )
+    )
+    { op = ' ';  }
+
+    ( <S> )*
+    (
+        <COMMA> { next = LexicalUnitImpl.createComma(next); }
+        ( <S> )*
+    )?
+
+    (
+        (op = unaryOperator() )?
+        (
+            next = percentage(next, op)
+        )
+    )
+    { op = ' ';  }
+
+    ( <S> )*
+    (
+        (
+            (
+                <COMMA> { next = LexicalUnitImpl.createComma(next); }
+                | <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
+            )
+            ( <S> )*
+        )?
+  
+        (op = unaryOperator() )?
+        (
+            next = number(next, op)
+            | next = percentage(next, op)
+        )
+
+        ( <S> )*
+    )?
+
+    <RROUND>
+    {
+        return hslColorInternal(prev, funct, param);
     }
 }
 
@@ -2127,7 +2209,7 @@ LexicalUnit hexcolor(LexicalUnit prev) :
 {
     t = <HASH>
     {
-        return hexcolorInternal(prev, t);
+        return hexColorInternal(prev, t);
     }
 }
 
