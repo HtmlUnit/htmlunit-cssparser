@@ -664,7 +664,7 @@ public class CSSValueImplTest {
         param = LexicalUnitImpl.createComma(param);
         param = LexicalUnitImpl.createNumber(param, 0);
 
-        final LexicalUnit lu = LexicalUnitImpl.createRgbColor(null, color);
+        final LexicalUnit lu = LexicalUnitImpl.createRgbColor(null, "rgb", color);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         assertEquals("rgb(255, 128, 0)", value.getCssText());

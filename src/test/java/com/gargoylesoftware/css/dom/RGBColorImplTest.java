@@ -41,7 +41,7 @@ public class RGBColorImplTest {
         lu = LexicalUnitImpl.createComma(lu);
         lu = LexicalUnitImpl.createNumber(lu, 30);
 
-        final RGBColorImpl rgb = new RGBColorImpl(rgbLU);
+        final RGBColorImpl rgb = new RGBColorImpl("rgb", rgbLU);
         assertEquals("rgb(10, 20, 30)", rgb.toString());
         assertEquals("10", rgb.getRed().getCssText());
         assertEquals("20", rgb.getGreen().getCssText());
@@ -54,12 +54,11 @@ public class RGBColorImplTest {
     @Test
     public void constructByLUException() throws Exception {
         LexicalUnit rgbLU = LexicalUnitImpl.createNumber(null, 10);
-        LexicalUnit lu = LexicalUnitImpl.createDivide(rgbLU);
-        lu = LexicalUnitImpl.createNumber(lu, 20);
-        lu = LexicalUnitImpl.createNumber(lu, 30);
+        LexicalUnit lu = LexicalUnitImpl.createComma(rgbLU);
+        lu = LexicalUnitImpl.createDivide(lu);
 
         try {
-            new RGBColorImpl(rgbLU);
+            new RGBColorImpl("rgb", rgbLU);
             fail("DOMException expected");
         }
         catch (final DOMException e) {
@@ -72,7 +71,7 @@ public class RGBColorImplTest {
         lu = LexicalUnitImpl.createNumber(lu, 30);
 
         try {
-            new RGBColorImpl(rgbLU);
+            new RGBColorImpl("rgb", rgbLU);
             fail("DOMException expected");
         }
         catch (final DOMException e) {
@@ -91,9 +90,11 @@ public class RGBColorImplTest {
         lu = LexicalUnitImpl.createComma(lu);
         lu = LexicalUnitImpl.createNumber(lu, 30);
         lu = LexicalUnitImpl.createComma(lu);
+        lu = LexicalUnitImpl.createNumber(lu, 0.1);
+        lu = LexicalUnitImpl.createComma(lu);
 
         try {
-            new RGBColorImpl(rgbLU);
+            new RGBColorImpl("rgb", rgbLU);
             fail("DOMException expected");
         }
         catch (final DOMException e) {
@@ -112,7 +113,7 @@ public class RGBColorImplTest {
         lu = LexicalUnitImpl.createComma(lu);
         lu = LexicalUnitImpl.createNumber(lu, 30);
 
-        final RGBColorImpl rgb = new RGBColorImpl(rgbLu);
+        final RGBColorImpl rgb = new RGBColorImpl("rgb", rgbLu);
 
         assertEquals("rgb(10, 20, 30)", rgb.toString());
     }

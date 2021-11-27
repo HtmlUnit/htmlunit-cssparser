@@ -1023,11 +1023,12 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
 
     /**
      * @param prev the previous LexicalUnit
+     * @param funct the name rgb or rgba
      * @param params the params
      * @return lexical unit with type rgb color
      */
-    public static LexicalUnit createRgbColor(final LexicalUnit prev, final LexicalUnit params) {
-        return new LexicalUnitImpl(prev, LexicalUnitType.RGBCOLOR, "rgb", params);
+    public static LexicalUnit createRgbColor(final LexicalUnit prev, final String funct, final LexicalUnit params) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.RGBCOLOR, funct, params);
     }
 
     /**
@@ -1082,6 +1083,14 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
      */
     public static LexicalUnit createComma(final LexicalUnit prev) {
         return new LexicalUnitImpl(prev, LexicalUnitType.OPERATOR_COMMA);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @return lexical unit with type slash
+     */
+    public static LexicalUnit createSlash(final LexicalUnit prev) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.OPERATOR_SLASH);
     }
 
     /**

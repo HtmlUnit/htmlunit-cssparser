@@ -884,6 +884,15 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         rgb("foreground: rgb(10%, 20, 30)", "foreground: rgb( 10%, 20, 30 )");
         rgb("foreground: rgb(10, 20%, 30)", "foreground: rgb( 10, 20%, 30 )");
         rgb("foreground: rgb(10%, 20, 30%)", "foreground: rgb( 10%, 20, 30% )");
+
+        rgb("foreground: rgb(255, 0, 153)", "foreground: rgb(2.55e2, 0e0, 1.53e2)");
+
+        // alpha
+        rgb("foreground: rgb(10, 20, 30, 0.1)", "foreground: rgb( 10, 20, 30, 0.1 )");
+
+        rgb("foreground: rgb(10%, 20, 30, 7%)", "foreground: rgb( 10%, 20, 30, 7% )");
+        rgb("foreground: rgb(10, 20%, 30, 0.2)", "foreground: rgb( 10, 20%, 30, 0.2 )");
+        rgb("foreground: rgb(10%, 20, 30%, 100%)", "foreground: rgb( 10%, 20, 30%, 100% )");
     }
 
     /**
@@ -891,11 +900,62 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbBlank() throws Exception {
-        rgb("foreground: rgb(10, 20, 30)", "foreground: rgb(10 20 30)");
+        rgb("foreground: rgb(10 20 30)", "foreground: rgb(10 20 30)");
 
-        rgb("foreground: rgb(10%, 20, 30)", "foreground: rgb(10% 20 30)");
-        rgb("foreground: rgb(10, 20%, 30)", "foreground: rgb(10 20% 30)");
-        rgb("foreground: rgb(10%, 20, 30%)", "foreground: rgb(10% 20 30%)");
+        rgb("foreground: rgb(10% 20 30)", "foreground: rgb(10% 20 30)");
+        rgb("foreground: rgb(10 20% 30)", "foreground: rgb(10 20% 30)");
+        rgb("foreground: rgb(10% 20 30%)", "foreground: rgb(10% 20 30%)");
+
+        rgb("foreground: rgb(255 100% 0.153)", "foreground: rgb(2.55e2 1e2% 1.53e-1)");
+
+        // alpha
+        rgb("foreground: rgb(10 20 30 / 0.1)", "foreground: rgb(10 20 30 / 0.1)");
+
+        rgb("foreground: rgb(10% 20 30 / 7%)", "foreground: rgb(10% 20 30 / 7%)");
+        rgb("foreground: rgb(10 20% 30 / 0.2)", "foreground: rgb(10 20% 30 / 0.2)");
+        rgb("foreground: rgb(10% 20 30% / 100%)", "foreground: rgb(10% 20 30%/100%)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void rgbaComma() throws Exception {
+        rgb("foreground: rgba(10, 20, 30)", "foreground: rgba( 10, 20, 30 )");
+
+        rgb("foreground: rgba(10%, 20, 30)", "foreground: rgba( 10%, 20, 30 )");
+        rgb("foreground: rgba(10, 20%, 30)", "foreground: rgba( 10, 20%, 30 )");
+        rgb("foreground: rgba(10%, 20, 30%)", "foreground: rgba( 10%, 20, 30% )");
+
+        rgb("foreground: rgba(255, 0, 153)", "foreground: rgba(2.55e2, 0e0, 1.53e2)");
+
+        // alpha
+        rgb("foreground: rgba(10, 20, 30, 0.1)", "foreground: rgba( 10, 20, 30, 0.1 )");
+
+        rgb("foreground: rgba(10%, 20, 30, 7%)", "foreground: rgba( 10%, 20, 30, 7% )");
+        rgb("foreground: rgba(10, 20%, 30, 0.2)", "foreground: rgba( 10, 20%, 30, 0.2 )");
+        rgb("foreground: rgba(10%, 20, 30%, 100%)", "foreground: rgba( 10%, 20, 30%, 100% )");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void rgbaBlank() throws Exception {
+        rgb("foreground: rgba(10 20 30)", "foreground: rgba(10 20 30)");
+
+        rgb("foreground: rgba(10% 20 30)", "foreground: rgba(10% 20 30)");
+        rgb("foreground: rgba(10 20% 30)", "foreground: rgba(10 20% 30)");
+        rgb("foreground: rgba(10% 20 30%)", "foreground: rgba(10% 20 30%)");
+
+        rgb("foreground: rgba(255 100% 0.153)", "foreground: rgba(2.55e2 1e2% 1.53e-1)");
+
+        // alpha
+        rgb("foreground: rgba(10 20 30 / 0.1)", "foreground: rgba(10 20 30 / 0.1)");
+
+        rgb("foreground: rgba(10% 20 30 / 7%)", "foreground: rgba(10% 20 30 / 7%)");
+        rgb("foreground: rgba(10 20% 30 / 0.2)", "foreground: rgba(10 20% 30 / 0.2)");
+        rgb("foreground: rgba(10% 20 30% / 100%)", "foreground: rgba(10% 20 30%/100%)");
     }
 
     /**
@@ -904,16 +964,13 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     @Test
     public void rgbVariousErrors() throws Exception {
         rgb(1, "DOM exception: 'rgb parameters must be separated by ','.'", "foreground: rgb(10, 20 30)");
-        rgb(1, "DOM exception: 'all rgb parameters must be separated by blank'", "foreground: rgb(10 20, 30)");
+        rgb(1, "DOM exception: 'rgb requires consitent separators (blank or comma)'", "foreground: rgb(10 20, 30)");
 
-        rgb(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
-                + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, <VW>, <VH>, <VMIN>, <VMAX>, <LENGTH_PX>, "
-                + "<LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, "
-                + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, <DIMENSION>, "
-                + "<UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION>, \"progid:\".)",
+        rgb(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
                 "foreground: rgb(10, 20, 30,)");
 
-        rgb(1, "DOM exception: 'Color part has to be numeric or percentage.'", "foreground: rgb(10 20px, 30)");
+        rgb(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <COMMA>, <PERCENTAGE>.)",
+                "foreground: rgb(10 20px, 30)");
     }
 
     /**
@@ -1654,14 +1711,14 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION>, \"progid:\".)"
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION_RGB>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
                         + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION>, \"progid:\".)"
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION_RGB>, <FUNCTION>, \"progid:\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)"
                 + " Error in style rule. (Invalid token \" \". Was expecting one of: <EOF>, \"}\", \";\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)";
@@ -1957,7 +2014,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
                         + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
                         + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION>, \"progid:\".)";
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, <FUNCTION_RGB>, <FUNCTION>, \"progid:\".)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("3", errorHandler.getErrorLines());
         assertEquals("16", errorHandler.getErrorColumns());
@@ -2728,8 +2785,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("rgba(0, 0, 0, 0.2)", value.getCssText());
 
         assertEquals(CSSValueType.CSS_PRIMITIVE_VALUE, value.getCssValueType());
-        assertEquals(CSSPrimitiveValueType.CSS_STRING, value.getPrimitiveType());
-        assertEquals("rgba(0, 0, 0, 0.2)", value.getStringValue());
+        assertEquals(CSSPrimitiveValueType.CSS_RGBCOLOR, value.getPrimitiveType());
+        assertEquals("rgba(0, 0, 0, 0.2)", value.toString());
     }
 
     /**

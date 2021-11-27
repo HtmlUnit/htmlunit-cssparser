@@ -15,6 +15,7 @@
 package com.gargoylesoftware.css.dom;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import org.w3c.dom.DOMException;
 
@@ -27,66 +28,112 @@ import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
  * @author Ronald Brill
  */
 public class RGBColorImpl implements Serializable {
+    private String function_;
 
     private CSSValueImpl red_;
     private CSSValueImpl green_;
     private CSSValueImpl blue_;
+    private CSSValueImpl alpha_;
+    private boolean commaSeparated_;
 
     /**
      * Constructor that reads the values from the given
      * chain of LexicalUnits.
+     * @param function the name of the function; rgb or rgba
      * @param lu the values
      * @throws DOMException in case of error
      */
-    public RGBColorImpl(final LexicalUnit lu) throws DOMException {
+    public RGBColorImpl(final String function, final LexicalUnit lu) throws DOMException {
+        final String functionLC = function.toLowerCase(Locale.ROOT);
+        if (!"rgb".equals(functionLC) && !"rgba".equals(functionLC)
+                && !"hsl".equals(functionLC) && !"hsla".equals(functionLC)) {
+            throw new DOMException(DOMException.SYNTAX_ERR, "color space '" + functionLC + "' not supported");
+        }
+
+        function_ = functionLC;
+
         LexicalUnit next = lu;
-        red_ = getPart(next);
+        red_ = new CSSValueImpl(next, true);
 
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "rgb requires at least three values");
+            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values");
         }
 
         if (next.getLexicalUnitType() == LexicalUnitType.OPERATOR_COMMA) {
+            commaSeparated_ = true;
+
             next = next.getNextLexicalUnit();
             if (next == null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, "rgb requires at least three values");
+                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values");
             }
 
             green_ = getPart(next);
             next = next.getNextLexicalUnit();
             if (next == null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, "rgb requires at least three values");
+                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values");
             }
 
             if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_COMMA) {
-                throw new DOMException(DOMException.SYNTAX_ERR, "rgb parameters must be separated by ','.");
-            }
-            next = next.getNextLexicalUnit();
-            blue_ = getPart(next);
-            next = next.getNextLexicalUnit();
-            if (next != null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for rgb function.");
+                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " parameters must be separated by ','.");
             }
 
+            next = next.getNextLexicalUnit();
+            if (next == null) {
+                throw new DOMException(DOMException.SYNTAX_ERR, function_ + "b requires at least three values");
+            }
+
+            blue_ = getPart(next);
+
+            next = next.getNextLexicalUnit();
+            if (next == null) {
+                return;
+            }
+
+            if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_COMMA) {
+                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " parameters must be separated by ','.");
+            }
+            next = next.getNextLexicalUnit();
+            if (next == null) {
+                throw new DOMException(DOMException.SYNTAX_ERR, "missing alpha value");
+            }
+
+            alpha_ = getPart(next);
+            next = next.getNextLexicalUnit();
+            if (next != null) {
+                throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for " + function_ +  " function.");
+            }
             return;
         }
 
         green_ = getPart(next);
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "rgb requires at least three values");
+            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values");
         }
-
         if (next.getLexicalUnitType() == LexicalUnitType.OPERATOR_COMMA) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "all rgb parameters must be separated by blank");
+            throw new DOMException(DOMException.SYNTAX_ERR,
+                    function_ + " requires consitent separators (blank or comma)");
         }
 
         blue_ = getPart(next);
+        next = next.getNextLexicalUnit();
+        if (next == null) {
+            return;
+        }
 
+        if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_SLASH) {
+            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " alpha value must be separated by '/'.");
+        }
+        next = next.getNextLexicalUnit();
+        if (next == null) {
+            throw new DOMException(DOMException.SYNTAX_ERR, "missing alpha value");
+        }
+
+        alpha_ = getPart(next);
         next = next.getNextLexicalUnit();
         if (next != null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for rgb function.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for " + function_ +  " function.");
         }
     }
 
@@ -153,13 +200,34 @@ public class RGBColorImpl implements Serializable {
         final StringBuilder sb = new StringBuilder();
 
         sb
-            .append("rgb(")
-            .append(red_)
-            .append(", ")
-            .append(green_)
-            .append(", ")
-            .append(blue_)
-            .append(")");
+            .append(function_)
+            .append("(")
+            .append(red_);
+        if (commaSeparated_) {
+            sb
+                .append(", ")
+                .append(green_)
+                .append(", ")
+                .append(blue_);
+
+            if (null != alpha_) {
+                sb.append(", ").append(alpha_);
+            }
+        }
+        else {
+            sb
+                .append(" ")
+                .append(green_)
+                .append(" ")
+                .append(blue_);
+
+            if (null != alpha_) {
+                sb.append(" / ").append(alpha_);
+            }
+        }
+
+        sb.append(")");
+
         return sb.toString();
     }
 }

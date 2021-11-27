@@ -763,9 +763,6 @@ public abstract class AbstractCSSParser {
         else if ("rect(".equalsIgnoreCase(funct)) {
             return LexicalUnitImpl.createRect(prev, params);
         }
-        else if ("rgb(".equalsIgnoreCase(funct)) {
-            return LexicalUnitImpl.createRgbColor(prev, params);
-        }
         else if ("calc(".equalsIgnoreCase(funct)) {
             return LexicalUnitImpl.createCalc(prev, params);
         }
@@ -773,6 +770,11 @@ public abstract class AbstractCSSParser {
             prev,
             funct.substring(0, funct.length() - 1),
             params);
+    }
+
+    protected LexicalUnit colorInternal(final LexicalUnit prev, final String funct,
+            final LexicalUnit param) {
+        return LexicalUnitImpl.createRgbColor(prev, funct, param);
     }
 
     /**
@@ -818,7 +820,7 @@ public abstract class AbstractCSSParser {
             final LexicalUnit lc2 = LexicalUnitImpl.createComma(lg);
             LexicalUnitImpl.createNumber(lc2, b);
 
-            return LexicalUnitImpl.createRgbColor(prev, lr);
+            return LexicalUnitImpl.createRgbColor(prev, "rgb", lr);
         }
         catch (final NumberFormatException ex) {
             final String pattern = getParserMessage("invalidColor");

@@ -177,7 +177,7 @@ TOKEN_MGR_DECLS :
 | < #NAME: ( <NMCHAR> )+ >
 
 // num      [0-9]+|[0-9]*"."[0-9]+
-| < NUM: ( ["0"-"9"] )+ | ( ["0"-"9"] )* "." ( ["0"-"9"] )+ >
+| < NUM: ( ( ["0"-"9"] )+ | ( ["0"-"9"] )* "." ( ["0"-"9"] )+ ) (["e", "E"] ( ["+", "-"] )? ( ["0"-"9"] )+)? >
 
 // string       {string1}|{string2}
 // {string}        {return STRING;}
@@ -342,22 +342,22 @@ TOKEN_MGR_DECLS :
 | < VMAX: <NUM> "vmax" > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
 
 // {num}{P}{X}          {return LENGTH;}
-| < LENGTH_PX: <NUM> <P_LETTER> <X_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+| < LENGTH_PX: <NUM> "px" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
 // {num}{C}{M}          {return LENGTH;}
-| < LENGTH_CM: <NUM> <C_LETTER> <M_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+| < LENGTH_CM: <NUM> "cm" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
 // {num}{M}{M}          {return LENGTH;}
-| < LENGTH_MM: <NUM> <M_LETTER> <M_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+| < LENGTH_MM: <NUM> "mm" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
 // {num}{I}{N}          {return LENGTH;}
-| < LENGTH_IN: <NUM> <I_LETTER> <N_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+| < LENGTH_IN: <NUM> "in" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
 // {num}{P}{T}          {return LENGTH;}
-| < LENGTH_PT: <NUM> <P_LETTER> <T_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+| < LENGTH_PT: <NUM> "pt" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
 // {num}{P}{C}          {return LENGTH;}
-| < LENGTH_PC: <NUM> <P_LETTER> <C_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
+| < LENGTH_PC: <NUM> "pc" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
 // {num}{D}{E}{G}       {return ANGLE;}
 | < ANGLE_DEG: <NUM> <D_LETTER> <E_LETTER> <G_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
@@ -410,6 +410,8 @@ TOKEN_MGR_DECLS :
 
 // {V}{A}{R} "("        {return FUNCTION_VAR;}
 | < FUNCTION_VAR: "var" <LROUND> >
+
+| < FUNCTION_RGB: "rgb" ("a")? <LROUND> >
 
 | < CUSTOM_PROPERTY_NAME: < MINUS > <MINUS > <NMSTART> ( <NMCHAR> )* >
 
@@ -1574,6 +1576,7 @@ LexicalUnit term(LexicalUnit prev) :
             | value = dimension(prev, op)
             | value = percentage(prev, op)
             | value = function(prev)
+            | value = rgbColor(prev)
             | value = calc(prev)
             | value = var(prev)
         )
@@ -1901,6 +1904,84 @@ LexicalUnit var(LexicalUnit prev) :
     <RROUND>
     {
         return functionInternal(prev, funct, propertyName);
+    }
+}
+
+// rgb() / rgba()
+//
+LexicalUnit rgbColor(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit param = null;
+    LexicalUnit next = null;
+    String funct;
+}
+{
+    t = <FUNCTION_RGB> { funct = unescape(t.image.substring(0, t.image.length() - 1), false); }
+    ( <S> )*
+
+    (
+        (op = unaryOperator() )?
+        (
+            param = number(null, op)
+            | param = percentage(null, op)
+        )
+    )
+    { op = ' '; next = param; }
+
+    ( <S> )*
+    (
+        <COMMA> { next = LexicalUnitImpl.createComma(next); }
+        ( <S> )*
+    )?
+
+    (
+        (op = unaryOperator() )?
+        (
+            next = number(next, op)
+            | next = percentage(next, op)
+        )
+    )
+    { op = ' ';  }
+
+    ( <S> )*
+    (
+        <COMMA> { next = LexicalUnitImpl.createComma(next); }
+        ( <S> )*
+    )?
+
+    (
+        (op = unaryOperator() )?
+        (
+            next = number(next, op)
+            | next = percentage(next, op)
+        )
+    )
+    { op = ' ';  }
+
+    ( <S> )*
+    (
+        (
+            (
+                <COMMA> { next = LexicalUnitImpl.createComma(next); }
+                | <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
+            )
+            ( <S> )*
+        )?
+  
+        (op = unaryOperator() )?
+        (
+            next = number(next, op)
+            | next = percentage(next, op)
+        )
+
+        ( <S> )*
+    )?
+
+    <RROUND>
+    {
+        return colorInternal(prev, funct, param);
     }
 }
 

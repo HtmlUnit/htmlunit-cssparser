@@ -1085,7 +1085,7 @@ public class LexicalUnitImplTest {
         final LexicalUnit r = LexicalUnitImpl.createNumber(null, 255);
         final LexicalUnit g = LexicalUnitImpl.createNumber(LexicalUnitImpl.createComma(r), 128);
         LexicalUnitImpl.createNumber(LexicalUnitImpl.createComma(g), 0);
-        final LexicalUnit unit = LexicalUnitImpl.createRgbColor(null, r);
+        final LexicalUnit unit = LexicalUnitImpl.createRgbColor(null, "rgb", r);
 
         assertEquals(LexicalUnitType.RGBCOLOR, unit.getLexicalUnitType());
         assertEquals(0, unit.getDoubleValue(), 0.0001);
