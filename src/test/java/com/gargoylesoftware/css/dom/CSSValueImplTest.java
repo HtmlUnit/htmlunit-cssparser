@@ -113,6 +113,27 @@ public class CSSValueImplTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void turn() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createTurn(null, 1.2);
+        final CSSValueImpl value = new CSSValueImpl(lu, false);
+
+        assertEquals("1.2turn", value.getCssText());
+        assertEquals(CSSPrimitiveValueType.CSS_TURN, value.getPrimitiveType());
+        assertEquals(LexicalUnit.LexicalUnitType.TURN, value.getLexicalUnitType());
+        assertEquals(1.2, value.getDoubleValue(), 0.00001);
+        try {
+            value.getStringValue();
+            fail("DomException expected");
+        }
+        catch (final DOMException e) {
+            // expected
+        }
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void dimension() throws Exception {
         final LexicalUnit lu = LexicalUnitImpl.createDimension(null, 1.2, "lumen");
         final CSSValueImpl value = new CSSValueImpl(lu, false);

@@ -261,6 +261,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 return "grad";
             case RADIAN:
                 return "rad";
+            case TURN:
+                return "turn";
             case MILLISECOND:
                 return "ms";
             case SECOND:
@@ -369,6 +371,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
             case DEGREE:
             case GRADIAN:
             case RADIAN:
+            case TURN:
             case MILLISECOND:
             case SECOND:
             case HERTZ:
@@ -619,6 +622,12 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 break;
             case RADIAN:
                 sb.append("RADIAN(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case TURN:
+                sb.append("TURN(")
                     .append(getTrimedDoubleValue())
                     .append(getDimensionUnitText())
                     .append(")");
@@ -945,6 +954,15 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
      */
     public static LexicalUnit createGradian(final LexicalUnit prev, final double d) {
         return new LexicalUnitImpl(prev, LexicalUnitType.GRADIAN, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type turn
+     */
+    public static LexicalUnit createTurn(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.TURN, d);
     }
 
     /**

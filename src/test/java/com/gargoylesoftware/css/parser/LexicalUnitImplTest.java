@@ -324,6 +324,9 @@ public class LexicalUnitImplTest {
         unit = new LexicalUnitImpl(null, LexicalUnitType.RADIAN);
         assertEquals("rad", unit.getDimensionUnitText());
 
+        unit = new LexicalUnitImpl(null, LexicalUnitType.TURN);
+        assertEquals("turn", unit.getDimensionUnitText());
+
         unit = new LexicalUnitImpl(null, LexicalUnitType.MILLISECOND);
         assertEquals("ms", unit.getDimensionUnitText());
 
@@ -823,6 +826,28 @@ public class LexicalUnitImplTest {
 
         assertEquals("1.7grad", unit.toString());
         assertEquals("GRADIAN(1.7grad)", ((LexicalUnitImpl) unit).toDebugString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void createTurn() throws Exception {
+        final LexicalUnit unit = LexicalUnitImpl.createTurn(null, 1.7);
+
+        assertEquals(LexicalUnitType.TURN, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("turn", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
+
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
+
+        assertEquals("1.7turn", unit.toString());
+        assertEquals("TURN(1.7turn)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**

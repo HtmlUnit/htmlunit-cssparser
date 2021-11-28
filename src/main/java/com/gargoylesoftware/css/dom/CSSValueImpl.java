@@ -125,6 +125,9 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         /** CSS_RAD. */
         CSS_RAD,
 
+        /** CSS_TURN. */
+        CSS_TURN,
+
         /** CSS_MS. */
         CSS_MS,
 
@@ -357,6 +360,8 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
                     return CSSPrimitiveValueType.CSS_GRAD;
                 case RADIAN:
                     return CSSPrimitiveValueType.CSS_RAD;
+                case TURN:
+                    return CSSPrimitiveValueType.CSS_TURN;
                 case MILLISECOND:
                     return CSSPrimitiveValueType.CSS_MS;
                 case SECOND:

@@ -368,6 +368,9 @@ TOKEN_MGR_DECLS :
 // {num}{G}{R}{A}{D}    {return ANGLE;}
 | < ANGLE_GRAD: <NUM> <G_LETTER> <R_LETTER> <A_LETTER> <D_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
 
+// {num}{T}{U}{R}{N}    {return ANGLE;}
+| < ANGLE_TURN: <NUM> <T_LETTER> <U_LETTER> <R_LETTER> <N_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
+
 // {num}{M}{S}          {return TIME;}
 | < TIME_MS: <NUM> <M_LETTER> <S_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
@@ -2010,6 +2013,7 @@ LexicalUnit hslColor(LexicalUnit prev) :
             | t = <ANGLE_DEG>     { param = LexicalUnitImpl.createDegree(null, doubleValue(op, t.image)); }
             | t = <ANGLE_RAD>     { param = LexicalUnitImpl.createRadian(null, doubleValue(op, t.image)); }
             | t = <ANGLE_GRAD>    { param = LexicalUnitImpl.createGradian(null, doubleValue(op, t.image)); }
+            | t = <ANGLE_TURN>    { param = LexicalUnitImpl.createTurn(null, doubleValue(op, t.image)); }
         )
     )
     { op = ' '; next = param; }
@@ -2166,6 +2170,7 @@ LexicalUnit dimension(LexicalUnit prev, char op) :
         | t = <ANGLE_DEG>         { value = LexicalUnitImpl.createDegree(prev, doubleValue(op, t.image)); }
         | t = <ANGLE_RAD>         { value = LexicalUnitImpl.createRadian(prev, doubleValue(op, t.image)); }
         | t = <ANGLE_GRAD>        { value = LexicalUnitImpl.createGradian(prev, doubleValue(op, t.image)); }
+        | t = <ANGLE_TURN>        { value = LexicalUnitImpl.createTurn(prev, doubleValue(op, t.image)); }
         | t = <TIME_MS>           { value = LexicalUnitImpl.createMillisecond(prev, doubleValue(op, t.image)); }
         | t = <TIME_S>            { value = LexicalUnitImpl.createSecond(prev, doubleValue(op, t.image)); }
         | t = <FREQ_HZ>           { value = LexicalUnitImpl.createHertz(prev, doubleValue(op, t.image)); }
@@ -2330,6 +2335,10 @@ void appendUnit(Token t, StringBuilder sb) {
     }
     if (t.kind == ANGLE_GRAD) {
       sb.append("grad");
+      return;
+    }
+    if (t.kind == ANGLE_TURN) {
+      sb.append("turn");
       return;
     }
     if (t.kind == TIME_MS) {

@@ -1117,10 +1117,10 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color(1, "DOM exception: 'hsl requires consitent separators (blank or comma).'", "foreground: hsl(10 20%, 30%)");
 
         color(1, "Error in expression. (Invalid token \"10\". "
-                + "Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>.)",
+                + "Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
                 "foreground: hsl('10', 20% 30%)");
         color(1, "Error in expression. (Invalid token \"10\". "
-                + "Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>.)",
+                + "Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
                 "foreground: hsl(10px, 20% 30%)");
 
         color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"-\", <PLUS>, <PERCENTAGE>.)",
@@ -1857,16 +1857,16 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
-                        + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
-                        + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
+                        + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
+                        + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
                         + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
-                        + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
-                        + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
+                        + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
+                        + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)"
@@ -2162,8 +2162,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, "
-                        + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <TIME_MS>, "
-                        + "<TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
+                        + "<LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
+                        + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)";
         assertEquals(expected, errorHandler.getErrorMessage());
@@ -2649,6 +2649,15 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     public void dimensionGRAD() throws Exception {
         final CSSValueImpl value = dimension("31grad");
         assertEquals(CSSPrimitiveValueType.CSS_GRAD, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionTURN() throws Exception {
+        final CSSValueImpl value = dimension("7.1turn");
+        assertEquals(CSSPrimitiveValueType.CSS_TURN, value.getPrimitiveType());
     }
 
     /**

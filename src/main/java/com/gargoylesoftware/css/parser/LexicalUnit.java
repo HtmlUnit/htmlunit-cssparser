@@ -63,6 +63,7 @@ public interface LexicalUnit {
         DEGREE,
         GRADIAN,
         RADIAN,
+        TURN,
         MILLISECOND,
         SECOND,
         HERTZ,
