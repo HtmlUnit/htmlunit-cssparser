@@ -1026,11 +1026,13 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hsl(270deg, 60%, 70%)", "foreground: hsl(270deg, 60%, 70%)");
         color("foreground: hsl(270rad, 60%, 70%)", "foreground: hsl(270rad, 60%, 70%)");
         color("foreground: hsl(270grad, 60%, 70%)", "foreground: hsl(270grad, 60%, 70%)");
+        color("foreground: hsl(2.1turn, 60%, 70%)", "foreground: hsl(2.1turn, 60%, 70%)");
 
         color("foreground: hsl(255, 0%, 15.37%)", "foreground: hsl(2.55e2, 0e0%, 1537e-2%)");
         color("foreground: hsl(255deg, 0%, 15.37%)", "foreground: hsl(2.55e2deg, 0e0%, 1537e-2%)");
         color("foreground: hsl(255rad, 0%, 15.37%)", "foreground: hsl(2.55e2rad, 0e0%, 1537e-2%)");
         color("foreground: hsl(255grad, 0%, 15.37%)", "foreground: hsl(2.55e2grad, 0e0%, 1537e-2%)");
+        color("foreground: hsl(255turn, 0%, 15.37%)", "foreground: hsl(2.55e2turn, 0e0%, 1537e-2%)");
 
         // alpha
         color("foreground: hsl(270, 60%, 70%, 0.1)", "foreground: hsl(270,60%,70%,0.1)");
@@ -1049,11 +1051,13 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hsl(270deg 60% 70%)", "foreground: hsl(270deg  60%  70%)");
         color("foreground: hsl(270rad 60% 70%)", "foreground: hsl(270rad 60% 70%)");
         color("foreground: hsl(270grad 60% 70%)", "foreground: hsl(270grad 60% 70%)");
+        color("foreground: hsl(2.1turn 60% 70%)", "foreground: hsl(2.1turn 60% 70%)");
 
         color("foreground: hsl(255 0% 15.37%)", "foreground: hsl(2.55e2 0e0% 1537e-2%)");
         color("foreground: hsl(255deg 0% 15.37%)", "foreground: hsl(2.55e2deg 0e0% 1537e-2%)");
         color("foreground: hsl(255rad 0% 15.37%)", "foreground: hsl(2.55e2rad 0e0% 1537e-2%)");
         color("foreground: hsl(255grad 0% 15.37%)", "foreground: hsl(2.55e2grad 0e0% 1537e-2%)");
+        color("foreground: hsl(255turn 0% 15.37%)", "foreground: hsl(2.55e2turn 0e0% 1537e-2%)");
 
         // alpha
         color("foreground: hsl(270 60% 70% / 0.1)", "foreground: hsl(270 60% 70%/0.1)");
@@ -1072,11 +1076,13 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hsla(270deg, 60%, 70%)", "foreground: hsla(270deg, 60%, 70%)");
         color("foreground: hsla(270rad, 60%, 70%)", "foreground: hsla(270rad, 60%, 70%)");
         color("foreground: hsla(270grad, 60%, 70%)", "foreground: hsla(270grad, 60%, 70%)");
+        color("foreground: hsla(2.1turn, 60%, 70%)", "foreground: hsla(2.1turn, 60%, 70%)");
 
         color("foreground: hsla(255, 0%, 15.37%)", "foreground: hsla(2.55e2, 0e0%, 1537e-2%)");
         color("foreground: hsla(255deg, 0%, 15.37%)", "foreground: hsla(2.55e2deg, 0e0%, 1537e-2%)");
         color("foreground: hsla(255rad, 0%, 15.37%)", "foreground: hsla(2.55e2rad, 0e0%, 1537e-2%)");
         color("foreground: hsla(255grad, 0%, 15.37%)", "foreground: hsla(2.55e2grad, 0e0%, 1537e-2%)");
+        color("foreground: hsla(255turn, 0%, 15.37%)", "foreground: hsla(2.55e2turn, 0e0%, 1537e-2%)");
 
         // alpha
         color("foreground: hsla(270, 60%, 70%, 0.1)", "foreground: hsla(270,60%,70%,0.1)");
@@ -1095,11 +1101,13 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hsla(270deg 60% 70%)", "foreground: hsla(270deg  60%  70%)");
         color("foreground: hsla(270rad 60% 70%)", "foreground: hsla(270rad 60% 70%)");
         color("foreground: hsla(270grad 60% 70%)", "foreground: hsla(270grad 60% 70%)");
+        color("foreground: hsla(2.1turn 60% 70%)", "foreground: hsla(2.1turn 60% 70%)");
 
         color("foreground: hsla(255 0% 15.37%)", "foreground: hsla(2.55e2 0e0% 1537e-2%)");
         color("foreground: hsla(255deg 0% 15.37%)", "foreground: hsla(2.55e2deg 0e0% 1537e-2%)");
         color("foreground: hsla(255rad 0% 15.37%)", "foreground: hsla(2.55e2rad 0e0% 1537e-2%)");
         color("foreground: hsla(255grad 0% 15.37%)", "foreground: hsla(2.55e2grad 0e0% 1537e-2%)");
+        color("foreground: hsla(255turn 0% 15.37%)", "foreground: hsla(2.55e2turn 0e0% 1537e-2%)");
 
         // alpha
         color("foreground: hsla(270 60% 70% / 0.1)", "foreground: hsla(270 60% 70%/0.1)");
