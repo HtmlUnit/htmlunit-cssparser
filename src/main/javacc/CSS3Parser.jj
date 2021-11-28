@@ -359,6 +359,9 @@ TOKEN_MGR_DECLS :
 // {num}{P}{C}          {return LENGTH;}
 | < LENGTH_PC: <NUM> "pc" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
+// {num}{Q}             {return LENGTH;}
+| < LENGTH_Q: <NUM> "Q" > { matchedToken.image = ParserUtils.trimBy(image, 0, 1); }
+
 // {num}{D}{E}{G}       {return ANGLE;}
 | < ANGLE_DEG: <NUM> "deg" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
 
@@ -2159,6 +2162,7 @@ LexicalUnit dimension(LexicalUnit prev, char op) :
         | t = <LENGTH_IN>         { value = LexicalUnitImpl.createInch(prev, doubleValue(op, t.image)); }
         | t = <LENGTH_PT>         { value = LexicalUnitImpl.createPoint(prev, doubleValue(op, t.image)); }
         | t = <LENGTH_PC>         { value = LexicalUnitImpl.createPica(prev, doubleValue(op, t.image)); }
+        | t = <LENGTH_Q>          { value = LexicalUnitImpl.createQuater(prev, doubleValue(op, t.image)); }
         | t = <EMS>               { value = LexicalUnitImpl.createEm(prev, doubleValue(op, t.image)); }
         | t = <REM>               { value = LexicalUnitImpl.createRem(prev, doubleValue(op, t.image)); }
         | t = <EXS>               { value = LexicalUnitImpl.createEx(prev, doubleValue(op, t.image)); }
@@ -2323,6 +2327,10 @@ void appendUnit(Token t, StringBuilder sb) {
     }
     if (t.kind == LENGTH_PC) {
       sb.append("pc");
+      return;
+    }
+    if (t.kind == LENGTH_Q) {
+      sb.append("Q");
       return;
     }
     if (t.kind == ANGLE_DEG) {

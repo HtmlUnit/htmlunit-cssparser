@@ -312,6 +312,9 @@ public class LexicalUnitImplTest {
         unit = new LexicalUnitImpl(null, LexicalUnitType.PICA);
         assertEquals("pc", unit.getDimensionUnitText());
 
+        unit = new LexicalUnitImpl(null, LexicalUnitType.QUATER);
+        assertEquals("Q", unit.getDimensionUnitText());
+
         unit = new LexicalUnitImpl(null, LexicalUnitType.PERCENTAGE);
         assertEquals("%", unit.getDimensionUnitText());
 
@@ -584,6 +587,28 @@ public class LexicalUnitImplTest {
 
         assertEquals("1.7pc", unit.toString());
         assertEquals("PICA(1.7pc)", ((LexicalUnitImpl) unit).toDebugString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void createQuater() throws Exception {
+        final LexicalUnit unit = LexicalUnitImpl.createQuater(null, 1.7);
+
+        assertEquals(LexicalUnitType.QUATER, unit.getLexicalUnitType());
+        assertEquals(1.7, unit.getDoubleValue(), 0.0001);
+        assertEquals(1, unit.getIntegerValue());
+        assertEquals("Q", unit.getDimensionUnitText());
+        assertNull(unit.getFunctionName());
+        assertNull(unit.getParameters());
+        assertNull(unit.getStringValue());
+
+        assertNull(unit.getNextLexicalUnit());
+        assertNull(unit.getPreviousLexicalUnit());
+
+        assertEquals("1.7Q", unit.toString());
+        assertEquals("QUATER(1.7Q)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**

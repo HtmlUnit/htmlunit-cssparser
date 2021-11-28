@@ -253,6 +253,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 return "pt";
             case PICA:
                 return "pc";
+            case QUATER:
+                return "Q";
             case PERCENTAGE:
                 return "%";
             case DEGREE:
@@ -367,6 +369,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
             case MILLIMETER:
             case POINT:
             case PICA:
+            case QUATER:
             case PERCENTAGE:
             case DEGREE:
             case GRADIAN:
@@ -598,6 +601,12 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 break;
             case PICA:
                 sb.append("PICA(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case QUATER:
+                sb.append("QUATER(")
                     .append(getTrimedDoubleValue())
                     .append(getDimensionUnitText())
                     .append(")");
@@ -855,6 +864,15 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
      */
     public static LexicalUnit createPica(final LexicalUnit prev, final double d) {
         return new LexicalUnitImpl(prev, LexicalUnitType.PICA, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type quater
+     */
+    public static LexicalUnit createQuater(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.QUATER, d);
     }
 
     /**

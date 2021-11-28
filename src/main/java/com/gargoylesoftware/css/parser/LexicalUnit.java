@@ -54,6 +54,7 @@ public interface LexicalUnit {
         MILLIMETER,
         POINT,
         PICA,
+        QUATER,
         PERCENTAGE,
         URI,
         COUNTER_FUNCTION,

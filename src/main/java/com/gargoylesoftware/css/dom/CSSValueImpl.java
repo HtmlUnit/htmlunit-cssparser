@@ -104,6 +104,9 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         /** CSS_PC. */
         CSS_PC,
 
+        /** CSS_Q. */
+        CSS_Q,
+
         /** CSS_PERCENTAGE. */
         CSS_PERCENTAGE,
 
@@ -345,6 +348,8 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
                     return CSSPrimitiveValueType.CSS_PT;
                 case PICA:
                     return CSSPrimitiveValueType.CSS_PC;
+                case QUATER:
+                    return CSSPrimitiveValueType.CSS_Q;
                 case PERCENTAGE:
                     return CSSPrimitiveValueType.CSS_PERCENTAGE;
                 case URI:
