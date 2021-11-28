@@ -53,7 +53,7 @@ public class RGBColorImpl implements Serializable {
 
         LexicalUnit next = lu;
 
-        boolean percentage = LexicalUnitType.PERCENTAGE == next.getLexicalUnitType();
+        final boolean percentage = LexicalUnitType.PERCENTAGE == next.getLexicalUnitType();
         red_ = getPart(next);
 
         next = next.getNextLexicalUnit();
