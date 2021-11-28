@@ -117,4 +117,35 @@ public class RGBColorImplTest {
 
         assertEquals("rgb(10, 20, 30)", rgb.toString());
     }
-}
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void getCssTextFunctionName() throws Exception {
+        final LexicalUnit rgbLu = LexicalUnitImpl.createNumber(null, 10);
+
+        try {
+            new RGBColorImpl(null, rgbLu);
+            fail("DOMException expected");
+        }
+        catch (final DOMException e) {
+            assertEquals("Color space rgb or rgba is required.", e.getMessage());
+        }
+
+        try {
+            new RGBColorImpl("", rgbLu);
+            fail("DOMException expected");
+        }
+        catch (final DOMException e) {
+            assertEquals("Color space '' not supported.", e.getMessage());
+        }
+
+        try {
+            new RGBColorImpl("xyz", rgbLu);
+            fail("DOMException expected");
+        }
+        catch (final DOMException e) {
+            assertEquals("Color space 'xyz' not supported.", e.getMessage());
+        }
+    }}

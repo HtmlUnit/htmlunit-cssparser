@@ -978,21 +978,21 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     @Test
     public void rgbVariousErrors() throws Exception {
         color(1, "DOM exception: 'rgb parameters must be separated by ','.'", "foreground: rgb(10, 20 30)");
-        color(1, "DOM exception: 'rgb requires consitent separators (blank or comma)'", "foreground: rgb(10 20, 30)");
+        color(1, "DOM exception: 'rgb requires consitent separators (blank or comma).'", "foreground: rgb(10 20, 30)");
 
-        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10%, 20, 30)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10%, 20%, 30)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10, 20%, 30)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10, 20%, 30%)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10, 20, 30%)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10%, 20, 30%)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20, 30)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20%, 30)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10, 20%, 30)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10, 20%, 30%)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10, 20, 30%)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20, 30%)");
 
-        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10% 20 30)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10% 20% 30)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10 20% 30)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10 20% 30%)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10 20 30%)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10% 20 30%)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20 30)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20% 30)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20% 30)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20% 30%)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20 30%)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20 30%)");
 
         color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
                 "foreground: rgb(10, 20, 30,)");
@@ -1114,7 +1114,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     @Test
     public void hslVariousErrors() throws Exception {
         color(1, "DOM exception: 'hsl parameters must be separated by ','.'", "foreground: hsl(10, 20% 30%)");
-        color(1, "DOM exception: 'hsl requires consitent separators (blank or comma)'", "foreground: hsl(10 20%, 30%)");
+        color(1, "DOM exception: 'hsl requires consitent separators (blank or comma).'", "foreground: hsl(10 20%, 30%)");
 
         color(1, "Error in expression. (Invalid token \"10\". "
                 + "Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>.)",

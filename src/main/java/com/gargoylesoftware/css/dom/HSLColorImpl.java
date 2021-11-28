@@ -34,7 +34,7 @@ public class HSLColorImpl implements Serializable {
     private CSSValueImpl saturation_;
     private CSSValueImpl lightness_;
     private CSSValueImpl alpha_;
-    private boolean commaSeparated_;
+    private final boolean commaSeparated_;
 
     /**
      * Constructor that reads the values from the given
@@ -44,11 +44,13 @@ public class HSLColorImpl implements Serializable {
      * @throws DOMException in case of error
      */
     public HSLColorImpl(final String function, final LexicalUnit lu) throws DOMException {
+        if (function == null) {
+            throw new DOMException(DOMException.SYNTAX_ERR, "Color space rgb or rgba is requiredc");
+        }
         final String functionLC = function.toLowerCase(Locale.ROOT);
         if (!"hsl".equals(functionLC) && !"hsla".equals(functionLC)) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "color space '" + functionLC + "' not supported");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Color space '" + functionLC + "' not supported.");
         }
-
         function_ = functionLC;
 
         LexicalUnit next = lu;
@@ -56,15 +58,14 @@ public class HSLColorImpl implements Serializable {
 
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values");
+            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
         }
 
-        if (next.getLexicalUnitType() == LexicalUnitType.OPERATOR_COMMA) {
-            commaSeparated_ = true;
-
+        commaSeparated_ = next.getLexicalUnitType() == LexicalUnitType.OPERATOR_COMMA;
+        if (commaSeparated_) {
             next = next.getNextLexicalUnit();
             if (next == null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values");
+                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
             }
 
             if (LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
@@ -74,7 +75,7 @@ public class HSLColorImpl implements Serializable {
 
             next = next.getNextLexicalUnit();
             if (next == null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values");
+                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
             }
 
             if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_COMMA) {
@@ -83,7 +84,7 @@ public class HSLColorImpl implements Serializable {
 
             next = next.getNextLexicalUnit();
             if (next == null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + "b requires at least three values");
+                throw new DOMException(DOMException.SYNTAX_ERR, function_ + "b requires at least three values.");
             }
 
             if (LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
@@ -101,7 +102,7 @@ public class HSLColorImpl implements Serializable {
             }
             next = next.getNextLexicalUnit();
             if (next == null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, "missing alpha value");
+                throw new DOMException(DOMException.SYNTAX_ERR, "Missing alpha value.");
             }
 
             if (LexicalUnitType.INTEGER != next.getLexicalUnitType()
@@ -124,11 +125,11 @@ public class HSLColorImpl implements Serializable {
 
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values");
+            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
         }
         if (next.getLexicalUnitType() == LexicalUnitType.OPERATOR_COMMA) {
             throw new DOMException(DOMException.SYNTAX_ERR,
-                    function_ + " requires consitent separators (blank or comma)");
+                    function_ + " requires consitent separators (blank or comma).");
         }
 
         if (LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
@@ -145,7 +146,7 @@ public class HSLColorImpl implements Serializable {
         }
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "missing alpha value");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Missing alpha value.");
         }
 
         if (LexicalUnitType.INTEGER != next.getLexicalUnitType()
