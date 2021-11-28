@@ -148,4 +148,5 @@ public class RGBColorImplTest {
         catch (final DOMException e) {
             assertEquals("Color space 'xyz' not supported.", e.getMessage());
         }
-    }}
+    }
+}
