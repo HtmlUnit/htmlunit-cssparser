@@ -360,16 +360,16 @@ TOKEN_MGR_DECLS :
 | < LENGTH_PC: <NUM> "pc" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
 // {num}{D}{E}{G}       {return ANGLE;}
-| < ANGLE_DEG: <NUM> <D_LETTER> <E_LETTER> <G_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < ANGLE_DEG: <NUM> "deg" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
 
 // {num}{R}{A}{D}       {return ANGLE;}
-| < ANGLE_RAD: <NUM> <R_LETTER> <A_LETTER> <D_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < ANGLE_RAD: <NUM> "rad" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
 
 // {num}{G}{R}{A}{D}    {return ANGLE;}
-| < ANGLE_GRAD: <NUM> <G_LETTER> <R_LETTER> <A_LETTER> <D_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
+| < ANGLE_GRAD: <NUM> "grad" > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
 
 // {num}{T}{U}{R}{N}    {return ANGLE;}
-| < ANGLE_TURN: <NUM> <T_LETTER> <U_LETTER> <R_LETTER> <N_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
+| < ANGLE_TURN: <NUM> "turn" > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
 
 // {num}{M}{S}          {return TIME;}
 | < TIME_MS: <NUM> <M_LETTER> <S_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
