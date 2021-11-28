@@ -2007,7 +2007,7 @@ LexicalUnit hslColor(LexicalUnit prev) :
         (op = unaryOperator() )?
         (
             param = number(null, op)
-            | <ANGLE_DEG>         { param = LexicalUnitImpl.createDegree(null, doubleValue(op, t.image)); }
+            | t = <ANGLE_DEG>     { param = LexicalUnitImpl.createDegree(null, doubleValue(op, t.image)); }
             | t = <ANGLE_RAD>     { param = LexicalUnitImpl.createRadian(null, doubleValue(op, t.image)); }
             | t = <ANGLE_GRAD>    { param = LexicalUnitImpl.createGradian(null, doubleValue(op, t.image)); }
         )

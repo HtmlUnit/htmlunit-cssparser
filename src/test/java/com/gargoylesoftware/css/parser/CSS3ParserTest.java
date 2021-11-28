@@ -870,14 +870,14 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void hexColor() throws Exception {
-        rgb("color: rgb(204, 204, 204)", "color: #ccc;");
-        rgb("background: rgb(28, 29, 0)", "background: #1c1d00;");
+        color("color: rgb(204, 204, 204)", "color: #ccc;");
+        color("background: rgb(28, 29, 0)", "background: #1c1d00;");
 
-        rgb("color: rgba(51, 170, 51, 0)", "color: #3a30;");
-        rgb("color: rgba(51, 170, 51, 1)", "color: #3a3F;");
+        color("color: rgba(51, 170, 51, 0)", "color: #3a30;");
+        color("color: rgba(51, 170, 51, 1)", "color: #3a3F;");
 
-        rgb("color: rgba(51, 170, 51, 0)", "color: #33aa3300;");
-        rgb("color: rgba(51, 170, 51, 0.502)", "color: #33AA3380;");
+        color("color: rgba(51, 170, 51, 0)", "color: #33aa3300;");
+        color("color: rgba(51, 170, 51, 0.502)", "color: #33AA3380;");
     }
 
     /**
@@ -885,22 +885,22 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbComma() throws Exception {
-        rgb("foreground: rgb(255, 0, 153)", "foreground: rgb(255,0,153)");
-        rgb("foreground: rgb(255, 0, 153)", "foreground: rgb(255, 0, 153.0)");
-        rgb("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%,0%,60%)");
-        rgb("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%, 0%, 60%)");
+        color("foreground: rgb(255, 0, 153)", "foreground: rgb(255,0,153)");
+        color("foreground: rgb(255, 0, 153)", "foreground: rgb(255, 0, 153.0)");
+        color("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%,0%,60%)");
+        color("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%, 0%, 60%)");
 
-        rgb("foreground: rgb(255, 0, 153)", "foreground: rgb(2.55e2, 0e0, 1.53e2)");
+        color("foreground: rgb(255, 0, 153)", "foreground: rgb(2.55e2, 0e0, 1.53e2)");
 
         // alpha
-        rgb("foreground: rgb(10, 20, 30, 0.1)", "foreground: rgb(10,20,30,0.1)");
-        rgb("foreground: rgb(10, 20, 30, 0.1)", "foreground: rgb( 10, 20, 30, 0.1 )");
-        rgb("foreground: rgb(10, 20, 30, 0.7)", "foreground: rgb( 10, 20, 30, .7 )");
-        rgb("foreground: rgb(10, 20, 30, 10%)", "foreground: rgb(10, 20, 30, 10%)");
+        color("foreground: rgb(10, 20, 30, 0.1)", "foreground: rgb(10,20,30,0.1)");
+        color("foreground: rgb(10, 20, 30, 0.1)", "foreground: rgb( 10, 20, 30, 0.1 )");
+        color("foreground: rgb(10, 20, 30, 0.7)", "foreground: rgb( 10, 20, 30, .7 )");
+        color("foreground: rgb(10, 20, 30, 10%)", "foreground: rgb(10, 20, 30, 10%)");
 
-        rgb("foreground: rgb(10%, 20%, 30%, 7%)", "foreground: rgb(10%, 20%, 30%, 7%)");
-        rgb("foreground: rgb(10%, 20%, 30%, 0.13%)", "foreground: rgb(10%, 20%, 30%, 1.3e-1%)");
-        rgb("foreground: rgb(10%, 20%, 30%, 0.5)", "foreground: rgb(10%, 20%, 30%, 0.5)");
+        color("foreground: rgb(10%, 20%, 30%, 7%)", "foreground: rgb(10%, 20%, 30%, 7%)");
+        color("foreground: rgb(10%, 20%, 30%, 0.13%)", "foreground: rgb(10%, 20%, 30%, 1.3e-1%)");
+        color("foreground: rgb(10%, 20%, 30%, 0.5)", "foreground: rgb(10%, 20%, 30%, 0.5)");
     }
 
     /**
@@ -908,22 +908,22 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbBlank() throws Exception {
-        rgb("foreground: rgb(255 0 153)", "foreground: rgb(255 0 153)");
-        rgb("foreground: rgb(255 0 153)", "foreground: rgb(255  0  153.0)");
-        rgb("foreground: rgb(100% 0% 60%)", "foreground: rgb(100% 0% 60%)");
-        rgb("foreground: rgb(100% 0% 60%)", "foreground: rgb(100%  0%  60%)");
+        color("foreground: rgb(255 0 153)", "foreground: rgb(255 0 153)");
+        color("foreground: rgb(255 0 153)", "foreground: rgb(255  0  153.0)");
+        color("foreground: rgb(100% 0% 60%)", "foreground: rgb(100% 0% 60%)");
+        color("foreground: rgb(100% 0% 60%)", "foreground: rgb(100%  0%  60%)");
 
-        rgb("foreground: rgb(255 0 153)", "foreground: rgb(2.55e2 0e0 1.53e2)");
+        color("foreground: rgb(255 0 153)", "foreground: rgb(2.55e2 0e0 1.53e2)");
 
         // alpha
-        rgb("foreground: rgb(10 20 30 / 0.1)", "foreground: rgb(10 20 30/0.1)");
-        rgb("foreground: rgb(10 20 30 / 0.1)", "foreground: rgb( 10  20 30 / 0.1 )");
-        rgb("foreground: rgb(10 20 30 / 0.7)", "foreground: rgb( 10  20 30 / .7 )");
-        rgb("foreground: rgb(10 20 30 / 10%)", "foreground: rgb(10 20 30 / 10%)");
+        color("foreground: rgb(10 20 30 / 0.1)", "foreground: rgb(10 20 30/0.1)");
+        color("foreground: rgb(10 20 30 / 0.1)", "foreground: rgb( 10  20 30 / 0.1 )");
+        color("foreground: rgb(10 20 30 / 0.7)", "foreground: rgb( 10  20 30 / .7 )");
+        color("foreground: rgb(10 20 30 / 10%)", "foreground: rgb(10 20 30 / 10%)");
 
-        rgb("foreground: rgb(10% 20% 30% / 7%)", "foreground: rgb(10% 20% 30% / 7%)");
-        rgb("foreground: rgb(10% 20% 30% / 0.13%)", "foreground: rgb(10% 20% 30% / 1.3e-1%)");
-        rgb("foreground: rgb(10% 20% 30% / 0.5)", "foreground: rgb(10% 20% 30% / 0.5)");
+        color("foreground: rgb(10% 20% 30% / 7%)", "foreground: rgb(10% 20% 30% / 7%)");
+        color("foreground: rgb(10% 20% 30% / 0.13%)", "foreground: rgb(10% 20% 30% / 1.3e-1%)");
+        color("foreground: rgb(10% 20% 30% / 0.5)", "foreground: rgb(10% 20% 30% / 0.5)");
     }
 
     /**
@@ -931,22 +931,22 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbaComma() throws Exception {
-        rgb("foreground: rgba(255, 0, 153)", "foreground: rgba(255,0,153)");
-        rgb("foreground: rgba(255, 0, 153)", "foreground: rgba(255, 0, 153.0)");
-        rgb("foreground: rgba(100%, 0%, 60%)", "foreground: rgba(100%,0%,60%)");
-        rgb("foreground: rgba(100%, 0%, 60%)", "foreground: rgba(100%, 0%, 60%)");
+        color("foreground: rgba(255, 0, 153)", "foreground: rgba(255,0,153)");
+        color("foreground: rgba(255, 0, 153)", "foreground: rgba(255, 0, 153.0)");
+        color("foreground: rgba(100%, 0%, 60%)", "foreground: rgba(100%,0%,60%)");
+        color("foreground: rgba(100%, 0%, 60%)", "foreground: rgba(100%, 0%, 60%)");
 
-        rgb("foreground: rgba(255, 0, 153)", "foreground: rgba(2.55e2, 0e0, 1.53e2)");
+        color("foreground: rgba(255, 0, 153)", "foreground: rgba(2.55e2, 0e0, 1.53e2)");
 
         // alpha
-        rgb("foreground: rgba(10, 20, 30, 0.1)", "foreground: rgba(10,20,30,0.1)");
-        rgb("foreground: rgba(10, 20, 30, 0.1)", "foreground: rgba( 10, 20, 30, 0.1 )");
-        rgb("foreground: rgba(10, 20, 30, 0.7)", "foreground: rgba( 10, 20, 30, .7 )");
-        rgb("foreground: rgba(10, 20, 30, 10%)", "foreground: rgba(10, 20, 30, 10%)");
+        color("foreground: rgba(10, 20, 30, 0.1)", "foreground: rgba(10,20,30,0.1)");
+        color("foreground: rgba(10, 20, 30, 0.1)", "foreground: rgba( 10, 20, 30, 0.1 )");
+        color("foreground: rgba(10, 20, 30, 0.7)", "foreground: rgba( 10, 20, 30, .7 )");
+        color("foreground: rgba(10, 20, 30, 10%)", "foreground: rgba(10, 20, 30, 10%)");
 
-        rgb("foreground: rgba(10%, 20%, 30%, 7%)", "foreground: rgba(10%, 20%, 30%, 7%)");
-        rgb("foreground: rgba(10%, 20%, 30%, 0.13%)", "foreground: rgba(10%, 20%, 30%, 1.3e-1%)");
-        rgb("foreground: rgba(10%, 20%, 30%, 0.5)", "foreground: rgba(10%, 20%, 30%, 0.5)");
+        color("foreground: rgba(10%, 20%, 30%, 7%)", "foreground: rgba(10%, 20%, 30%, 7%)");
+        color("foreground: rgba(10%, 20%, 30%, 0.13%)", "foreground: rgba(10%, 20%, 30%, 1.3e-1%)");
+        color("foreground: rgba(10%, 20%, 30%, 0.5)", "foreground: rgba(10%, 20%, 30%, 0.5)");
     }
 
     /**
@@ -954,22 +954,22 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbaBlank() throws Exception {
-        rgb("foreground: rgba(255 0 153)", "foreground: rgba(255 0 153)");
-        rgb("foreground: rgba(255 0 153)", "foreground: rgba(255  0  153.0)");
-        rgb("foreground: rgba(100% 0% 60%)", "foreground: rgba(100% 0% 60%)");
-        rgb("foreground: rgba(100% 0% 60%)", "foreground: rgba(100%  0%  60%)");
+        color("foreground: rgba(255 0 153)", "foreground: rgba(255 0 153)");
+        color("foreground: rgba(255 0 153)", "foreground: rgba(255  0  153.0)");
+        color("foreground: rgba(100% 0% 60%)", "foreground: rgba(100% 0% 60%)");
+        color("foreground: rgba(100% 0% 60%)", "foreground: rgba(100%  0%  60%)");
 
-        rgb("foreground: rgba(255 0 153)", "foreground: rgba(2.55e2 0e0 1.53e2)");
+        color("foreground: rgba(255 0 153)", "foreground: rgba(2.55e2 0e0 1.53e2)");
 
         // alpha
-        rgb("foreground: rgba(10 20 30 / 0.1)", "foreground: rgba(10 20 30/0.1)");
-        rgb("foreground: rgba(10 20 30 / 0.1)", "foreground: rgba( 10  20 30 / 0.1 )");
-        rgb("foreground: rgba(10 20 30 / 0.7)", "foreground: rgba( 10  20 30 / .7 )");
-        rgb("foreground: rgba(10 20 30 / 10%)", "foreground: rgba(10 20 30 / 10%)");
+        color("foreground: rgba(10 20 30 / 0.1)", "foreground: rgba(10 20 30/0.1)");
+        color("foreground: rgba(10 20 30 / 0.1)", "foreground: rgba( 10  20 30 / 0.1 )");
+        color("foreground: rgba(10 20 30 / 0.7)", "foreground: rgba( 10  20 30 / .7 )");
+        color("foreground: rgba(10 20 30 / 10%)", "foreground: rgba(10 20 30 / 10%)");
 
-        rgb("foreground: rgba(10% 20% 30% / 7%)", "foreground: rgba(10% 20% 30% / 7%)");
-        rgb("foreground: rgba(10% 20% 30% / 0.13%)", "foreground: rgba(10% 20% 30% / 1.3e-1%)");
-        rgb("foreground: rgba(10% 20% 30% / 0.5)", "foreground: rgba(10% 20% 30% / 0.5)");
+        color("foreground: rgba(10% 20% 30% / 7%)", "foreground: rgba(10% 20% 30% / 7%)");
+        color("foreground: rgba(10% 20% 30% / 0.13%)", "foreground: rgba(10% 20% 30% / 1.3e-1%)");
+        color("foreground: rgba(10% 20% 30% / 0.5)", "foreground: rgba(10% 20% 30% / 0.5)");
     }
 
     /**
@@ -977,32 +977,35 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbVariousErrors() throws Exception {
-        rgb(1, "DOM exception: 'rgb parameters must be separated by ','.'", "foreground: rgb(10, 20 30)");
-        rgb(1, "DOM exception: 'rgb requires consitent separators (blank or comma)'", "foreground: rgb(10 20, 30)");
+        color(1, "DOM exception: 'rgb parameters must be separated by ','.'", "foreground: rgb(10, 20 30)");
+        color(1, "DOM exception: 'rgb requires consitent separators (blank or comma)'", "foreground: rgb(10 20, 30)");
 
-        rgb(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10%, 20, 30)");
-        rgb(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10%, 20%, 30)");
-        rgb(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10, 20%, 30)");
-        rgb(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10, 20%, 30%)");
-        rgb(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10, 20, 30%)");
-        rgb(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10%, 20, 30%)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10%, 20, 30)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10%, 20%, 30)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10, 20%, 30)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10, 20%, 30%)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10, 20, 30%)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10%, 20, 30%)");
 
-        rgb(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10% 20 30)");
-        rgb(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10% 20% 30)");
-        rgb(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10 20% 30)");
-        rgb(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10 20% 30%)");
-        rgb(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10 20 30%)");
-        rgb(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10% 20 30%)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10% 20 30)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10% 20% 30)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10 20% 30)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10 20% 30%)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10 20 30%)");
+        color(1, "DOM exception: 'rgb mixing numbers and percentages'", "foreground: rgb(10% 20 30%)");
 
-        rgb(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
                 "foreground: rgb(10, 20, 30,)");
-        rgb(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
                 "foreground: rgb(10, 20, 30/)");
 
-        rgb(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
                 "foreground: rgb(10, 20px, 30)");
-        rgb(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <COMMA>, <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <COMMA>, <PERCENTAGE>.)",
                 "foreground: rgb(10 20px 30)");
+
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
+                "foreground: rgb('10', 20, 30,)");
     }
 
     /**
@@ -1010,14 +1013,127 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbInsideFunction() throws Exception {
-        rgb("color: foo(rgb(204, 221, 68))", "color: foo(#cd4);");
+        color("color: foo(rgb(204, 221, 68))", "color: foo(#cd4);");
     }
 
-    private void rgb(final String expected, final String cssText) throws Exception {
-        rgb(0, expected, cssText);
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void hslComma() throws Exception {
+        color("foreground: hsl(270, 60%, 70%)", "foreground: hsl(270,60%,70%)");
+        color("foreground: hsl(-270, 60%, 70%)", "foreground: hsl(-270, 60%, 70%)");
+        color("foreground: hsl(270deg, 60%, 70%)", "foreground: hsl(270deg, 60%, 70%)");
+        color("foreground: hsl(270rad, 60%, 70%)", "foreground: hsl(270rad, 60%, 70%)");
+        color("foreground: hsl(270grad, 60%, 70%)", "foreground: hsl(270grad, 60%, 70%)");
+
+        color("foreground: hsl(255, 0%, 15.37%)", "foreground: hsl(2.55e2, 0e0%, 1537e-2%)");
+        color("foreground: hsl(255deg, 0%, 15.37%)", "foreground: hsl(2.55e2deg, 0e0%, 1537e-2%)");
+        color("foreground: hsl(255rad, 0%, 15.37%)", "foreground: hsl(2.55e2rad, 0e0%, 1537e-2%)");
+        color("foreground: hsl(255grad, 0%, 15.37%)", "foreground: hsl(2.55e2grad, 0e0%, 1537e-2%)");
+
+        // alpha
+        color("foreground: hsl(270, 60%, 70%, 0.1)", "foreground: hsl(270,60%,70%,0.1)");
+        color("foreground: hsl(-270, 60%, 70%, 0.1)", "foreground: hsl(-270, 60%, 70%, 0.1)");
+        color("foreground: hsl(-270, 60%, 70%, 0.1)", "foreground: hsl(-270, 60%, 70%, .1)");
+        color("foreground: hsl(-270, 60%, 70%, 10%)", "foreground: hsl(-270, 60%, 70%, 10%)");
     }
 
-    private void rgb(final int errorCount, final String expected, final String cssText) throws Exception {
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void hslBlank() throws Exception {
+        color("foreground: hsl(270 60% 70%)", "foreground: hsl(270 60% 70%)");
+        color("foreground: hsl(-270 60% 70%)", "foreground: hsl(-270  60%  70%)");
+        color("foreground: hsl(270deg 60% 70%)", "foreground: hsl(270deg  60%  70%)");
+        color("foreground: hsl(270rad 60% 70%)", "foreground: hsl(270rad 60% 70%)");
+        color("foreground: hsl(270grad 60% 70%)", "foreground: hsl(270grad 60% 70%)");
+
+        color("foreground: hsl(255 0% 15.37%)", "foreground: hsl(2.55e2 0e0% 1537e-2%)");
+        color("foreground: hsl(255deg 0% 15.37%)", "foreground: hsl(2.55e2deg 0e0% 1537e-2%)");
+        color("foreground: hsl(255rad 0% 15.37%)", "foreground: hsl(2.55e2rad 0e0% 1537e-2%)");
+        color("foreground: hsl(255grad 0% 15.37%)", "foreground: hsl(2.55e2grad 0e0% 1537e-2%)");
+
+        // alpha
+        color("foreground: hsl(270 60% 70% / 0.1)", "foreground: hsl(270 60% 70%/0.1)");
+        color("foreground: hsl(-270 60% 70% / 0.1)", "foreground: hsl(-270  60%  70%  / 0.1)");
+        color("foreground: hsl(-270 60% 70% / 0.1)", "foreground: hsl(-270 60% 70% / .1)");
+        color("foreground: hsl(-270 60% 70% / 10%)", "foreground: hsl(-270 60% 70% / 10%)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void hslaComma() throws Exception {
+        color("foreground: hsla(270, 60%, 70%)", "foreground: hsla(270,60%,70%)");
+        color("foreground: hsla(-270, 60%, 70%)", "foreground: hsla(-270, 60%, 70%)");
+        color("foreground: hsla(270deg, 60%, 70%)", "foreground: hsla(270deg, 60%, 70%)");
+        color("foreground: hsla(270rad, 60%, 70%)", "foreground: hsla(270rad, 60%, 70%)");
+        color("foreground: hsla(270grad, 60%, 70%)", "foreground: hsla(270grad, 60%, 70%)");
+
+        color("foreground: hsla(255, 0%, 15.37%)", "foreground: hsla(2.55e2, 0e0%, 1537e-2%)");
+        color("foreground: hsla(255deg, 0%, 15.37%)", "foreground: hsla(2.55e2deg, 0e0%, 1537e-2%)");
+        color("foreground: hsla(255rad, 0%, 15.37%)", "foreground: hsla(2.55e2rad, 0e0%, 1537e-2%)");
+        color("foreground: hsla(255grad, 0%, 15.37%)", "foreground: hsla(2.55e2grad, 0e0%, 1537e-2%)");
+
+        // alpha
+        color("foreground: hsla(270, 60%, 70%, 0.1)", "foreground: hsla(270,60%,70%,0.1)");
+        color("foreground: hsla(-270, 60%, 70%, 0.1)", "foreground: hsla(-270, 60%, 70%, 0.1)");
+        color("foreground: hsla(-270, 60%, 70%, 0.1)", "foreground: hsla(-270, 60%, 70%, .1)");
+        color("foreground: hsla(-270, 60%, 70%, 10%)", "foreground: hsla(-270, 60%, 70%, 10%)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void hslaBlank() throws Exception {
+        color("foreground: hsla(270 60% 70%)", "foreground: hsla(270 60% 70%)");
+        color("foreground: hsla(-270 60% 70%)", "foreground: hsla(-270  60%  70%)");
+        color("foreground: hsla(270deg 60% 70%)", "foreground: hsla(270deg  60%  70%)");
+        color("foreground: hsla(270rad 60% 70%)", "foreground: hsla(270rad 60% 70%)");
+        color("foreground: hsla(270grad 60% 70%)", "foreground: hsla(270grad 60% 70%)");
+
+        color("foreground: hsla(255 0% 15.37%)", "foreground: hsla(2.55e2 0e0% 1537e-2%)");
+        color("foreground: hsla(255deg 0% 15.37%)", "foreground: hsla(2.55e2deg 0e0% 1537e-2%)");
+        color("foreground: hsla(255rad 0% 15.37%)", "foreground: hsla(2.55e2rad 0e0% 1537e-2%)");
+        color("foreground: hsla(255grad 0% 15.37%)", "foreground: hsla(2.55e2grad 0e0% 1537e-2%)");
+
+        // alpha
+        color("foreground: hsla(270 60% 70% / 0.1)", "foreground: hsla(270 60% 70%/0.1)");
+        color("foreground: hsla(-270 60% 70% / 0.1)", "foreground: hsla(-270  60%  70%  / 0.1)");
+        color("foreground: hsla(-270 60% 70% / 0.1)", "foreground: hsla(-270 60% 70% / .1)");
+        color("foreground: hsla(-270 60% 70% / 10%)", "foreground: hsla(-270 60% 70% / 10%)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void hslVariousErrors() throws Exception {
+        color(1, "DOM exception: 'hsl parameters must be separated by ','.'", "foreground: hsl(10, 20% 30%)");
+        color(1, "DOM exception: 'hsl requires consitent separators (blank or comma)'", "foreground: hsl(10 20%, 30%)");
+
+        color(1, "Error in expression. (Invalid token \"10\". "
+                + "Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>.)",
+                "foreground: hsl('10', 20% 30%)");
+        color(1, "Error in expression. (Invalid token \"10\". "
+                + "Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>.)",
+                "foreground: hsl(10px, 20% 30%)");
+
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"-\", <PLUS>, <PERCENTAGE>.)",
+                "foreground: hsl(10, 20, 30%)");
+        color(1, "Error in expression. (Invalid token \"30\". Was expecting one of: <S>, \"-\", <PLUS>, <PERCENTAGE>.)",
+                "foreground: hsl(10, 20%, 30)");
+    }
+
+    private void color(final String expected, final String cssText) throws Exception {
+        color(0, expected, cssText);
+    }
+
+    private void color(final int errorCount, final String expected, final String cssText) throws Exception {
         final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
