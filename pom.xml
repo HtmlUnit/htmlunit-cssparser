@@ -337,6 +337,9 @@
         <contributor>
             <name>Christian Morgner</name>
         </contributor>
+        <contributor>
+            <name>Paul Selormey</name>
+        </contributor>
     </contributors>
 
     <dependencies>

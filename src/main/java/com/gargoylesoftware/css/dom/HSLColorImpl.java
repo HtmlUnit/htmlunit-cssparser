@@ -108,7 +108,7 @@ public class HSLColorImpl implements Serializable {
             if (LexicalUnitType.INTEGER != next.getLexicalUnitType()
                     && LexicalUnitType.REAL != next.getLexicalUnitType()
                     && LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
-                new DOMException(DOMException.SYNTAX_ERR, "Alpha part has to be numeric or percentage.");
+                throw new DOMException(DOMException.SYNTAX_ERR, "Alpha part has to be numeric or percentage.");
             }
             alpha_ = new CSSValueImpl(next, true);
             next = next.getNextLexicalUnit();
@@ -152,7 +152,7 @@ public class HSLColorImpl implements Serializable {
         if (LexicalUnitType.INTEGER != next.getLexicalUnitType()
                 && LexicalUnitType.REAL != next.getLexicalUnitType()
                 && LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
-            new DOMException(DOMException.SYNTAX_ERR, "Alpha part has to be numeric or percentage.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Alpha part has to be numeric or percentage.");
         }
         alpha_ = new CSSValueImpl(next, true);
 
@@ -216,7 +216,7 @@ public class HSLColorImpl implements Serializable {
 
     /**
      * Sets the alpha part to a new value.
-     * @param lightness the new CSSPrimitiveValue
+     * @param alpha the new CSSPrimitiveValue
      */
     public void setAlpha(final CSSValueImpl alpha) {
         alpha_ = alpha;
