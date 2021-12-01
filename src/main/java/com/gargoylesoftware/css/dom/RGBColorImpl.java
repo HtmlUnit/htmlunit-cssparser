@@ -227,7 +227,7 @@ public class RGBColorImpl implements Serializable {
 
     /**
      * Sets the alpha part to a new value.
-     * @param lightness the new CSSPrimitiveValue
+     * @param alpha the new CSSPrimitiveValue
      */
     public void setAlpha(final CSSValueImpl alpha) {
         alpha_ = alpha;
