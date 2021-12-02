@@ -27,25 +27,26 @@ import com.gargoylesoftware.css.parser.LexicalUnitImpl;
  * Unit tests for {@link RGBColorImpl}.
  *
  * @author Ronald Brill
+ * @author Paul Selormey
  */
-public class RGBColorImplTest {
+public class HSLColorImplTest {
 
     /**
      * @throws Exception if any error occurs
      */
     @Test
     public void constructByLU() throws Exception {
-        final LexicalUnit rgbLU = LexicalUnitImpl.createNumber(null, 10);
-        LexicalUnit lu = LexicalUnitImpl.createComma(rgbLU);
-        lu = LexicalUnitImpl.createNumber(lu, 20);
+        final LexicalUnit hslLU = LexicalUnitImpl.createDegree(null, 10);
+        LexicalUnit lu = LexicalUnitImpl.createComma(hslLU);
+        lu = LexicalUnitImpl.createPercentage(lu, 20);
         lu = LexicalUnitImpl.createComma(lu);
-        LexicalUnitImpl.createNumber(lu, 30);
+        LexicalUnitImpl.createPercentage(lu, 30);
 
-        final RGBColorImpl rgb = new RGBColorImpl("rgb", rgbLU);
-        assertEquals("rgb(10, 20, 30)", rgb.toString());
-        assertEquals("10", rgb.getRed().getCssText());
-        assertEquals("20", rgb.getGreen().getCssText());
-        assertEquals("30", rgb.getBlue().getCssText());
+        final HSLColorImpl hsl = new HSLColorImpl("hsl", hslLU);
+        assertEquals("hsl(10deg, 20%, 30%)", hsl.toString());
+        assertEquals("10deg", hsl.getHue().getCssText());
+        assertEquals("20%", hsl.getSaturation().getCssText());
+        assertEquals("30%", hsl.getLightness().getCssText());
     }
 
     /**
@@ -53,29 +54,29 @@ public class RGBColorImplTest {
      */
     @Test
     public void constructByLUException() throws Exception {
-        LexicalUnit rgbLU = LexicalUnitImpl.createNumber(null, 10);
-        LexicalUnit lu = LexicalUnitImpl.createComma(rgbLU);
+        LexicalUnit hslLU = LexicalUnitImpl.createNumber(null, 10);
+        LexicalUnit lu = LexicalUnitImpl.createComma(hslLU);
         LexicalUnitImpl.createDivide(lu);
 
         try {
-            new RGBColorImpl("rgb", rgbLU);
-            fail("DOMException expected");
-        }
-        catch (final DOMException e) {
-            assertEquals("Color part has to be numeric or percentage.", e.getMessage());
-        }
-
-        rgbLU = LexicalUnitImpl.createNumber(null, 10);
-        lu = LexicalUnitImpl.createComma(rgbLU);
-        lu = LexicalUnitImpl.createNumber(lu, 20);
-        LexicalUnitImpl.createNumber(lu, 30);
-
-        try {
-            RGBColorImpl color = new RGBColorImpl("rgb", rgbLU);
+            HSLColorImpl color = new HSLColorImpl("hsl", hslLU);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("rgb parameters must be separated by ','.", e.getMessage());
+            assertEquals("Saturation part has to be percentage.", e.getMessage());
+        }
+
+        hslLU = LexicalUnitImpl.createDegree(null, 10);
+        lu = LexicalUnitImpl.createComma(hslLU);
+        lu = LexicalUnitImpl.createPercentage(lu, 20);
+        LexicalUnitImpl.createPercentage(lu, 30);
+
+        try {
+            HSLColorImpl color = new HSLColorImpl("hsl", hslLU);
+            fail("DOMException expected: " + color);
+        }
+        catch (final DOMException e) {
+            assertEquals("hsl parameters must be separated by ','.", e.getMessage());
         }
     }
 
@@ -84,21 +85,21 @@ public class RGBColorImplTest {
      */
     @Test
     public void constructByLUTooManyValuesException() throws Exception {
-        final LexicalUnit rgbLU = LexicalUnitImpl.createNumber(null, 10);
-        LexicalUnit lu = LexicalUnitImpl.createComma(rgbLU);
-        lu = LexicalUnitImpl.createNumber(lu, 20);
+        final LexicalUnit hslLU = LexicalUnitImpl.createNumber(null, 100);
+        LexicalUnit lu = LexicalUnitImpl.createComma(hslLU);
+        lu = LexicalUnitImpl.createPercentage(lu, 20);
         lu = LexicalUnitImpl.createComma(lu);
-        lu = LexicalUnitImpl.createNumber(lu, 30);
+        lu = LexicalUnitImpl.createPercentage(lu, 30);
         lu = LexicalUnitImpl.createComma(lu);
-        lu = LexicalUnitImpl.createNumber(lu, 0.1);
+        lu = LexicalUnitImpl.createPercentage(lu, 0.1);
         LexicalUnitImpl.createComma(lu);
 
         try {
-            RGBColorImpl color = new RGBColorImpl("rgb", rgbLU);
+            HSLColorImpl color = new HSLColorImpl("hsl", hslLU);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("Too many parameters for rgb function.", e.getMessage());
+            assertEquals("Too many parameters for hsl function.", e.getMessage());
         }
     }
 
@@ -107,15 +108,15 @@ public class RGBColorImplTest {
      */
     @Test
     public void getCssText() throws Exception {
-        final LexicalUnit rgbLu = LexicalUnitImpl.createNumber(null, 10);
-        LexicalUnit lu = LexicalUnitImpl.createComma(rgbLu);
-        lu = LexicalUnitImpl.createNumber(lu, 20);
+        final LexicalUnit hslLu = LexicalUnitImpl.createNumber(null, 235);
+        LexicalUnit lu = LexicalUnitImpl.createComma(hslLu);
+        lu = LexicalUnitImpl.createPercentage(lu, 20);
         lu = LexicalUnitImpl.createComma(lu);
-        LexicalUnitImpl.createNumber(lu, 30);
+        LexicalUnitImpl.createPercentage(lu, 30);
 
-        final RGBColorImpl rgb = new RGBColorImpl("rgb", rgbLu);
+        final HSLColorImpl hsl = new HSLColorImpl("hsl", hslLu);
 
-        assertEquals("rgb(10, 20, 30)", rgb.toString());
+        assertEquals("hsl(235, 20%, 30%)", hsl.toString());
     }
 
     /**
@@ -123,18 +124,18 @@ public class RGBColorImplTest {
      */
     @Test
     public void getCssTextFunctionName() throws Exception {
-        final LexicalUnit rgbLu = LexicalUnitImpl.createNumber(null, 10);
+        final LexicalUnit hslLu = LexicalUnitImpl.createNumber(null, 45);
 
         try {
-            RGBColorImpl color = new RGBColorImpl(null, rgbLu);
+            HSLColorImpl color = new HSLColorImpl(null, hslLu);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("Color space rgb or rgba is required.", e.getMessage());
+            assertEquals("Color space hsl or hsla is required.", e.getMessage());
         }
 
         try {
-            RGBColorImpl color = new RGBColorImpl("", rgbLu);
+            HSLColorImpl color = new HSLColorImpl("", hslLu);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
@@ -142,7 +143,7 @@ public class RGBColorImplTest {
         }
 
         try {
-            RGBColorImpl color = new RGBColorImpl("xyz", rgbLu);
+            HSLColorImpl color = new HSLColorImpl("xyz", hslLu);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {

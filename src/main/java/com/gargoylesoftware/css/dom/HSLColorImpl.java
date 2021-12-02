@@ -23,7 +23,7 @@ import com.gargoylesoftware.css.parser.LexicalUnit;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 
 /**
- * Implementation of RGBColor.
+ * Implementation of HSLColor.
  *
  * @author Ronald Brill
  */
@@ -39,13 +39,13 @@ public class HSLColorImpl implements Serializable {
     /**
      * Constructor that reads the values from the given
      * chain of LexicalUnits.
-     * @param function the name of the function; rgb or rgba
+     * @param function the name of the function; hsl or hsla
      * @param lu the values
      * @throws DOMException in case of error
      */
     public HSLColorImpl(final String function, final LexicalUnit lu) throws DOMException {
         if (function == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Color space rgb or rgba is requiredc");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Color space hsl or hsla is required.");
         }
         final String functionLC = function.toLowerCase(Locale.ROOT);
         if (!"hsl".equals(functionLC) && !"hsla".equals(functionLC)) {
