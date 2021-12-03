@@ -97,7 +97,7 @@ public class Property extends AbstractLocatable implements Serializable {
         sb.append(name_);
         if (null != value_) {
             sb.append(": ");
-            sb.append(value_.toString());
+            sb.append(value_);
         }
         if (important_) {
             sb.append(" !important");

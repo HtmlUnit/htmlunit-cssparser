@@ -23,19 +23,19 @@ import com.gargoylesoftware.css.parser.CSSParseException;
 public class ErrorHandler implements com.gargoylesoftware.css.parser.CSSErrorHandler {
 
     private int errorCount_;
-    private StringBuilder errorMsg_ = new StringBuilder();
-    private StringBuilder errorLines_ = new StringBuilder();
-    private StringBuilder errorColumns_ = new StringBuilder();
+    private final StringBuilder errorMsg_ = new StringBuilder();
+    private final StringBuilder errorLines_ = new StringBuilder();
+    private final StringBuilder errorColumns_ = new StringBuilder();
 
     private int fatalErrorCount_;
-    private StringBuilder fatalErrorMsg_ = new StringBuilder();
-    private StringBuilder fatalErrorLines_ = new StringBuilder();
-    private StringBuilder fatalErrorColumns_ = new StringBuilder();
+    private final StringBuilder fatalErrorMsg_ = new StringBuilder();
+    private final StringBuilder fatalErrorLines_ = new StringBuilder();
+    private final StringBuilder fatalErrorColumns_ = new StringBuilder();
 
     private int warningCount_;
-    private StringBuilder warningMsg_ = new StringBuilder();
-    private StringBuilder warningLines_ = new StringBuilder();
-    private StringBuilder warningColumns_ = new StringBuilder();
+    private final StringBuilder warningMsg_ = new StringBuilder();
+    private final StringBuilder warningLines_ = new StringBuilder();
+    private final StringBuilder warningColumns_ = new StringBuilder();
 
     @Override
     public void error(final CSSParseException e) throws CSSException {

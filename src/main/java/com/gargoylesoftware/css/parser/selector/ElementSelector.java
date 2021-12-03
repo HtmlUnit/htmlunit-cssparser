@@ -102,7 +102,7 @@ public class ElementSelector extends AbstractSelector implements SimpleSelector 
 
     @Override
     public String toString() {
-        final StringBuffer result = new StringBuffer();
+        final StringBuilder result = new StringBuilder();
         result.append(getElementName());
 
         if (conditions_ != null) {

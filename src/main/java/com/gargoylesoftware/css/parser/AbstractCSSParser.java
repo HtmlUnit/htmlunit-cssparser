@@ -215,7 +215,7 @@ public abstract class AbstractCSSParser {
                 default:
                     if (ch < 0x20 || ch > 0x7e) {
                         final String s = "0000" + Integer.toString(ch, 16);
-                        sb.append("\\u" + s.substring(s.length() - 4, s.length()));
+                        sb.append("\\u").append(s.substring(s.length() - 4));
                     }
                     else {
                         sb.append(ch);
@@ -264,10 +264,10 @@ public abstract class AbstractCSSParser {
         final StringBuilder message = new StringBuilder(getParserMessage(key));
         message.append(" (");
         if (e.expectedTokenSequences.length == 1) {
-            message.append(MessageFormat.format(messagePattern1, new Object[] {invalid, expected}));
+            message.append(MessageFormat.format(messagePattern1, invalid, expected));
         }
         else {
-            message.append(MessageFormat.format(messagePattern2, new Object[] {invalid, expected}));
+            message.append(MessageFormat.format(messagePattern2, invalid, expected));
         }
         message.append(")");
         return new CSSParseException(message.toString(),
@@ -833,7 +833,7 @@ public abstract class AbstractCSSParser {
             else {
                 final String pattern = getParserMessage("invalidColor");
                 throw new CSSParseException(MessageFormat.format(
-                    pattern, new Object[] {t}),
+                    pattern, t),
                     getInputSource().getURI(), t.beginLine,
                     t.beginColumn);
             }
@@ -856,7 +856,7 @@ public abstract class AbstractCSSParser {
         catch (final NumberFormatException ex) {
             final String pattern = getParserMessage("invalidColor");
             throw new CSSParseException(MessageFormat.format(
-                pattern, new Object[] {t}),
+                pattern, t),
                 getInputSource().getURI(), t.beginLine,
                 t.beginColumn, ex);
         }
@@ -936,7 +936,7 @@ public abstract class AbstractCSSParser {
 
                 if (c == '\\' || (c == '\"')) {
                     buf = new StringBuilder(len);
-                    buf.append(s.substring(0, index));
+                    buf.append(s, 0, index);
                     index--;
                     break;
                 }
@@ -946,7 +946,7 @@ public abstract class AbstractCSSParser {
             while (index < len) {
                 if ('\\' == s.charAt(++index)) {
                     buf = new StringBuilder(len);
-                    buf.append(s.substring(0, index));
+                    buf.append(s, 0, index);
                     index--;
                     break;
                 }

@@ -28,7 +28,7 @@ import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
  * @author Ronald Brill
  */
 public class RGBColorImpl implements Serializable {
-    private String function_;
+    private final String function_;
 
     private CSSValueImpl red_;
     private CSSValueImpl green_;

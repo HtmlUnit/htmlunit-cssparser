@@ -43,7 +43,7 @@ import com.gargoylesoftware.css.parser.selector.SelectorList;
  */
 public class CSSOMParser {
 
-    private AbstractCSSParser parser_;
+    private final AbstractCSSParser parser_;
     private CSSStyleSheetImpl parentStyleSheet_;
 
     /**
@@ -198,7 +198,7 @@ public class CSSOMParser {
     }
 
     class CSSOMHandler implements DocumentHandler {
-        private Stack<Object> nodeStack_;
+        private final Stack<Object> nodeStack_;
         private Object root_;
         private String href_;
 

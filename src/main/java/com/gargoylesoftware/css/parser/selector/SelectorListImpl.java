@@ -31,7 +31,7 @@ import com.gargoylesoftware.css.parser.AbstractLocatable;
  */
 public class SelectorListImpl extends AbstractLocatable implements SelectorList, Serializable {
 
-    private List<Selector> selectors_ = new ArrayList<>();
+    private final List<Selector> selectors_ = new ArrayList<>();
 
     /**
      * @return the list of selectors.

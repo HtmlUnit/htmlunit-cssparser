@@ -25,7 +25,7 @@ import java.io.Reader;
  */
 public class InputSource implements Closeable {
     private String uri_;
-    private Reader reader_;
+    private final Reader reader_;
     private String media_;
     private String title_;
 

@@ -105,7 +105,7 @@ public class HandlerBase implements DocumentHandler, CSSErrorHandler {
             .append(exception.getColumnNumber())
             .append("] ")
             .append(exception.getMessage());
-        System.err.println(sb.toString());
+        System.err.println(sb);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class HandlerBase implements DocumentHandler, CSSErrorHandler {
             .append(exception.getColumnNumber())
             .append("] ")
             .append(exception.getMessage());
-        System.err.println(sb.toString());
+        System.err.println(sb);
     }
 
     @Override
@@ -131,6 +131,6 @@ public class HandlerBase implements DocumentHandler, CSSErrorHandler {
             .append(exception.getColumnNumber())
             .append("] ")
             .append(exception.getMessage());
-        System.err.println(sb.toString());
+        System.err.println(sb);
     }
 }

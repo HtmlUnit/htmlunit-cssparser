@@ -34,8 +34,8 @@ public class CSSStyleDeclarationImpl implements Serializable {
 
     private static final String PRIORITY_IMPORTANT = "important";
 
-    private AbstractCSSRuleImpl parentRule_;
-    private List<Property> properties_ = new ArrayList<>();
+    private final AbstractCSSRuleImpl parentRule_;
+    private final List<Property> properties_ = new ArrayList<>();
 
     /**
      * Ctor.
@@ -61,7 +61,7 @@ public class CSSStyleDeclarationImpl implements Serializable {
         for (int i = 0; i < properties_.size(); ++i) {
             final Property p = properties_.get(i);
             if (p != null) {
-                sb.append(p.toString());
+                sb.append(p);
             }
             if (i < properties_.size() - 1) {
                 sb.append(";");

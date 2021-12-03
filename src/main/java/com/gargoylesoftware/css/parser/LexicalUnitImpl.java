@@ -26,7 +26,7 @@ import java.util.Locale;
  */
 public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, Serializable {
 
-    private LexicalUnitType lexicalUnitType_;
+    private final LexicalUnitType lexicalUnitType_;
     private LexicalUnit nextLexicalUnit_;
     private LexicalUnit previousLexicalUnit_;
     private double doubleValue_;
@@ -733,7 +733,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                     .append("(");
                 LexicalUnit l = parameters_;
                 while (l != null) {
-                    sb.append(l.toString());
+                    sb.append(l);
                     l = l.getNextLexicalUnit();
                 }
                 sb.append("))");
@@ -747,7 +747,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     private void appendParams(final StringBuilder sb) {
         LexicalUnit l = parameters_;
         if (l != null) {
-            sb.append(l.toString());
+            sb.append(l);
 
             LexicalUnit last = l;
             l = l.getNextLexicalUnit();
@@ -757,7 +757,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                         && !"=".equals(last.toString())) {
                     sb.append(" ");
                 }
-                sb.append(l.toString());
+                sb.append(l);
 
                 last = l;
                 l = l.getNextLexicalUnit();

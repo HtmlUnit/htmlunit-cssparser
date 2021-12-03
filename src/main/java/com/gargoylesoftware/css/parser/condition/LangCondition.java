@@ -25,7 +25,7 @@ import com.gargoylesoftware.css.parser.Locator;
  */
 public class LangCondition extends AbstractLocatable implements Condition, Serializable {
 
-    private String lang_;
+    private final String lang_;
 
     /**
      * Ctor.

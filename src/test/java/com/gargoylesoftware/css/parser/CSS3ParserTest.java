@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -163,27 +164,27 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("html:lang(fr-ca) { }", rule.getCssText());
         ElementSelector selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
-        assertEquals("fr-ca", ((LangCondition) selector.getConditions().get(0)).getValue());
+        assertEquals("fr-ca", selector.getConditions().get(0).getValue());
 
         rule = rules.getRules().get(1);
         assertEquals("html:lang(de) { }", rule.getCssText());
         selector = (ElementSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
-        assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getValue());
+        assertEquals("de", selector.getConditions().get(0).getValue());
 
         rule = rules.getRules().get(2);
         assertEquals("*:lang(fr) > Q { }", rule.getCssText());
         ChildSelector childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         selector = (ElementSelector) childSelector.getAncestorSelector();
         assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
-        assertEquals("fr", ((LangCondition) selector.getConditions().get(0)).getValue());
+        assertEquals("fr", selector.getConditions().get(0).getValue());
 
         rule = rules.getRules().get(3);
         assertEquals("*:lang(de) > Q { }", rule.getCssText());
         childSelector = (ChildSelector) ((CSSStyleRuleImpl) rule).getSelectors().get(0);
         selector = (ElementSelector) childSelector.getAncestorSelector();
         assertEquals(ConditionType.LANG_CONDITION, selector.getConditions().get(0).getConditionType());
-        assertEquals("de", ((LangCondition) selector.getConditions().get(0)).getValue());
+        assertEquals("de", selector.getConditions().get(0).getValue());
     }
 
     /**
@@ -1282,7 +1283,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("width : calc(100% + 80px)",
                 name + " : " + style.getPropertyValue(name));
 
-        final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
+        final CSSValueImpl value = style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
         assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
         assertEquals("calc", unit.getFunctionName());
@@ -1322,7 +1323,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("width : calc(42 - 16.4em)",
                 name + " : " + style.getPropertyValue(name));
 
-        final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
+        final CSSValueImpl value = style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
         assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
         assertEquals("calc", unit.getFunctionName());
@@ -1446,7 +1447,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("width : calc(14.1pc * 40mm / 1.2)",
                 name + " : " + style.getPropertyValue(name));
 
-        final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
+        final CSSValueImpl value = style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
         assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
         assertEquals("calc", unit.getFunctionName());
@@ -1493,7 +1494,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("width : calc(14.1pc * (40mm / 1.2))",
                 name + " : " + style.getPropertyValue(name));
 
-        final CSSValueImpl value = (CSSValueImpl) style.getPropertyCSSValue(name);
+        final CSSValueImpl value = style.getPropertyCSSValue(name);
         LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
         assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
         assertEquals("calc", unit.getFunctionName());
@@ -4068,7 +4069,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         final InputStream is = getClass().getClassLoader().getResourceAsStream(resourceName);
         assertNotNull(is);
 
-        final InputSource css = new InputSource(new InputStreamReader(is, "UTF-8"));
+        final InputSource css = new InputSource(new InputStreamReader(is, StandardCharsets.UTF_8));
         final CSSStyleSheetImpl sheet = parse(css, err, 0, warn);
 
         final CSSRuleListImpl foundRules = sheet.getCssRules();
@@ -4083,7 +4084,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         }
         assertEquals(properties, foundProperties);
 
-        final Set<String> mediaQ = new TreeSet<String>();
+        final Set<String> mediaQ = new TreeSet<>();
         for (int i = 0; i < sheet.getCssRules().getLength(); i++) {
             final AbstractCSSRuleImpl cssRule = sheet.getCssRules().getRules().get(i);
             if (cssRule instanceof CSSMediaRuleImpl) {
@@ -4112,7 +4113,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     public void unicodeInputByteStream() throws Exception {
         final String css = "h1:before { content: \"\u04c5 - \u0666\"; }";
 
-        final Reader reader = new InputStreamReader(new ByteArrayInputStream(css.getBytes("UTF-8")), "UTF-8");
+        final Reader reader = new InputStreamReader(new ByteArrayInputStream(css.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
         final InputSource source = new InputSource(reader);
         final CSSStyleSheetImpl sheet = parse(source, 0, 0, 0);
 

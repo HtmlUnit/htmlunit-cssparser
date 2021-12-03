@@ -36,7 +36,7 @@ import com.gargoylesoftware.css.util.ThrowCssExceptionErrorHandler;
  */
 public class MediaListImpl extends AbstractLocatable implements Serializable {
 
-    private List<MediaQuery> mediaQueries_;
+    private final List<MediaQuery> mediaQueries_;
 
     /**
      * Creates new MediaList.
@@ -55,7 +55,7 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
      * @return the media text
      */
     public String getMediaText() {
-        final StringBuilder sb = new StringBuilder("");
+        final StringBuilder sb = new StringBuilder();
         boolean isNotFirst = false;
         for (final MediaQuery mediaQuery : mediaQueries_) {
             if (isNotFirst) {

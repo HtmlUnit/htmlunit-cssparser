@@ -19,8 +19,8 @@ package com.gargoylesoftware.css.parser.selector;
  */
 public class ChildSelector extends AbstractSelector {
 
-    private Selector ancestorSelector_;
-    private SimpleSelector simpleSelector_;
+    private final Selector ancestorSelector_;
+    private final SimpleSelector simpleSelector_;
 
     /**
      * Ctor.
@@ -58,13 +58,13 @@ public class ChildSelector extends AbstractSelector {
         final StringBuilder sb = new StringBuilder();
 
         if (null != ancestorSelector_) {
-            sb.append(ancestorSelector_.toString());
+            sb.append(ancestorSelector_);
         }
 
         sb.append(" > ");
 
         if (null != simpleSelector_) {
-            sb.append(simpleSelector_.toString());
+            sb.append(simpleSelector_);
         }
 
         return sb.toString();

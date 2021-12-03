@@ -21,9 +21,9 @@ package com.gargoylesoftware.css.parser;
  */
 public class CSSParseException extends CSSException {
 
-    private String uri_;
-    private int lineNumber_;
-    private int columnNumber_;
+    private final String uri_;
+    private final int lineNumber_;
+    private final int columnNumber_;
 
     /**
      * Create a new CSSParseException from a message and a Locator.

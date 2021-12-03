@@ -41,14 +41,14 @@ import com.gargoylesoftware.css.parser.selector.SelectorList;
  */
 public class CSSOMParserTest {
 
-    private String testStyleDeclaration_ = "align: right";
-    private String testParseMedia_ = "print, screen";
-    private String testParseRule_ = "p { " + testStyleDeclaration_ + "; }";
-    private String testSelector_ = "FOO";
-    private String testItem_ = "color";
-    private String testValue_ = "rgb(1, 2, 3)";
-    private String testString_ = testSelector_ + "{ " + testItem_ + ": " + testValue_ + " }";
-    private String testPropertyValue_ = "sans-serif";
+    private final String testStyleDeclaration_ = "align: right";
+    private final String testParseMedia_ = "print, screen";
+    private final String testParseRule_ = "p { " + testStyleDeclaration_ + "; }";
+    private final String testSelector_ = "FOO";
+    private final String testItem_ = "color";
+    private final String testValue_ = "rgb(1, 2, 3)";
+    private final String testString_ = testSelector_ + "{ " + testItem_ + ": " + testValue_ + " }";
+    private final String testPropertyValue_ = "sans-serif";
 
     /**
      * @throws Exception if any error occurs

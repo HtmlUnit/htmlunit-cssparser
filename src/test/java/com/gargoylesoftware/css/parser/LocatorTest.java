@@ -88,8 +88,8 @@ public class LocatorTest {
             + STYLE_RULE
             + "}\n";
 
-        final Map<Character, List<Integer[]>> positions = new Hashtable<Character, List<Integer[]>>();
-        final List<Integer[]> rPos = new ArrayList<Integer[]>();
+        final Map<Character, List<Integer[]>> positions = new Hashtable<>();
+        final List<Integer[]> rPos = new ArrayList<>();
         rPos.add(new Integer[] {1, 1});
         rPos.add(new Integer[] {2, 1});
         rPos.add(new Integer[] {3, 1});
@@ -98,11 +98,11 @@ public class LocatorTest {
         rPos.add(new Integer[] {11, 1});
         rPos.add(new Integer[] {12, 1});
         positions.put('R', rPos);
-        final List<Integer[]> mPos = new ArrayList<Integer[]>();
+        final List<Integer[]> mPos = new ArrayList<>();
         mPos.add(new Integer[] {2, 29});
         mPos.add(new Integer[] {11, 8});
         positions.put('M', mPos);
-        final List<Integer[]> pPos = new ArrayList<Integer[]>();
+        final List<Integer[]> pPos = new ArrayList<>();
         pPos.add(new Integer[] {5, 3});
         pPos.add(new Integer[] {8, 3});
         pPos.add(new Integer[] {9, 3});
@@ -110,7 +110,7 @@ public class LocatorTest {
         pPos.add(new Integer[] {14, 3});
         pPos.add(new Integer[] {15, 3});
         positions.put('P', pPos);
-        final List<Integer[]> vPos = new ArrayList<Integer[]>();
+        final List<Integer[]> vPos = new ArrayList<>();
         vPos.add(new Integer[] {5, 11});
         vPos.add(new Integer[] {8, 16});
         vPos.add(new Integer[] {9, 8});
@@ -130,7 +130,7 @@ public class LocatorTest {
         final Reader r = new StringReader(cssCode);
         final InputSource source = new InputSource(r);
         final CSSOMParser cssomParser = new CSSOMParser();
-        final Map<Character, Integer> counts = new Hashtable<Character, Integer>();
+        final Map<Character, Integer> counts = new Hashtable<>();
         counts.put('R', 0);
         counts.put('M', 0);
         counts.put('P', 0);

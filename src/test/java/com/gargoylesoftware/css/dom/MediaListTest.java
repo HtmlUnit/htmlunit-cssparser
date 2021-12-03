@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
@@ -70,11 +71,11 @@ public class MediaListTest {
         assertEquals(3, ml.getLength());
         assertEquals("newMedium, anotherMedium, lastMedium", ml.getMediaText());
 
-        ml.setMedia(Arrays.asList("somethingElse"));
+        ml.setMedia(Collections.singletonList("somethingElse"));
         assertEquals(1, ml.getLength());
         assertEquals("somethingElse", ml.getMediaText());
 
-        ml.setMedia(new ArrayList<String>());
+        ml.setMedia(new ArrayList<>());
         assertEquals(0, ml.getLength());
         assertEquals("", ml.getMediaText());
     }
@@ -99,7 +100,7 @@ public class MediaListTest {
     @Test
     public void getMediaTextFormated() throws Exception {
         final MediaListImpl ml = new MediaListImpl(null);
-        ml.setMedia(Arrays.asList("newMedium"));
+        ml.setMedia(Collections.singletonList("newMedium"));
 
         assertEquals("newMedium", ml.toString());
         assertEquals("newMedium", ml.getMediaText());
