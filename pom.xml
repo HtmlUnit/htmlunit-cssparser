@@ -45,7 +45,7 @@
             <plugin>
               <groupId>org.owasp</groupId>
               <artifactId>dependency-check-maven</artifactId>
-              <version>6.3.1</version>
+              <version>6.5.0</version>
                 <configuration>
                     <failBuildOnCVSS>0</failBuildOnCVSS>
                 </configuration>
@@ -143,7 +143,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.1.2</version>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
                     <suppressionsLocation>checkstyle_suppressions.xml</suppressionsLocation>
@@ -155,7 +155,7 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>8.38</version>
+                        <version>9.2</version>
                     </dependency>
                 </dependencies>
             </plugin>

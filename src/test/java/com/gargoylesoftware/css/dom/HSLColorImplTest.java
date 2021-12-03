@@ -59,7 +59,7 @@ public class HSLColorImplTest {
         LexicalUnitImpl.createDivide(lu);
 
         try {
-            HSLColorImpl color = new HSLColorImpl("hsl", hslLU);
+            final HSLColorImpl color = new HSLColorImpl("hsl", hslLU);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
@@ -72,7 +72,7 @@ public class HSLColorImplTest {
         LexicalUnitImpl.createPercentage(lu, 30);
 
         try {
-            HSLColorImpl color = new HSLColorImpl("hsl", hslLU);
+            final HSLColorImpl color = new HSLColorImpl("hsl", hslLU);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
@@ -95,7 +95,7 @@ public class HSLColorImplTest {
         LexicalUnitImpl.createComma(lu);
 
         try {
-            HSLColorImpl color = new HSLColorImpl("hsl", hslLU);
+            final HSLColorImpl color = new HSLColorImpl("hsl", hslLU);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
@@ -127,7 +127,7 @@ public class HSLColorImplTest {
         final LexicalUnit hslLu = LexicalUnitImpl.createNumber(null, 45);
 
         try {
-            HSLColorImpl color = new HSLColorImpl(null, hslLu);
+            final HSLColorImpl color = new HSLColorImpl(null, hslLu);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
@@ -135,7 +135,7 @@ public class HSLColorImplTest {
         }
 
         try {
-            HSLColorImpl color = new HSLColorImpl("", hslLu);
+            final HSLColorImpl color = new HSLColorImpl("", hslLu);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
@@ -143,7 +143,7 @@ public class HSLColorImplTest {
         }
 
         try {
-            HSLColorImpl color = new HSLColorImpl("xyz", hslLu);
+            final HSLColorImpl color = new HSLColorImpl("xyz", hslLu);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {

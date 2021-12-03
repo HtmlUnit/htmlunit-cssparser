@@ -25,11 +25,17 @@ public interface Selector extends Locatable {
      * SelectorType enum.
      */
     enum SelectorType {
+        /** CHILD_SELECTOR. */
         CHILD_SELECTOR,
+        /** DESCENDANT_SELECTOR. */
         DESCENDANT_SELECTOR,
+        /** DIRECT_ADJACENT_SELECTOR. */
         DIRECT_ADJACENT_SELECTOR,
+        /** ELEMENT_NODE_SELECTOR. */
         ELEMENT_NODE_SELECTOR,
+        /** GENERAL_ADJACENT_SELECTOR. */
         GENERAL_ADJACENT_SELECTOR,
+        /** PSEUDO_ELEMENT_SELECTOR. */
         PSEUDO_ELEMENT_SELECTOR
     }
 

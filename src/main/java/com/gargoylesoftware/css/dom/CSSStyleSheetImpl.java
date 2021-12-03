@@ -404,7 +404,7 @@ public class CSSStyleSheetImpl implements Serializable {
             private final Map<String, List<SelectorEntry>> keyToSelectors_ = new HashMap<>();
 
             void add(final String key, final SelectorEntry selector) {
-                List<SelectorEntry> entry = keyToSelectors_.computeIfAbsent(key, k -> new ArrayList<>());
+                final List<SelectorEntry> entry = keyToSelectors_.computeIfAbsent(key, k -> new ArrayList<>());
                 entry.add(selector);
             }
 

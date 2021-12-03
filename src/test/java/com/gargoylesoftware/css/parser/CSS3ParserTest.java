@@ -47,7 +47,6 @@ import com.gargoylesoftware.css.dom.Property;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 import com.gargoylesoftware.css.parser.condition.Condition;
 import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
-import com.gargoylesoftware.css.parser.condition.LangCondition;
 import com.gargoylesoftware.css.parser.condition.PrefixAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.PseudoClassCondition;
 import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;

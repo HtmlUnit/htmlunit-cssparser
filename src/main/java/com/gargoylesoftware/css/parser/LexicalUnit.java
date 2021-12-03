@@ -25,58 +25,111 @@ public interface LexicalUnit {
      * Enum for the various unit types.
      */
     enum LexicalUnitType {
+        /** OPERATOR_COMMA. */
         OPERATOR_COMMA,
+        /** OPERATOR_PLUS. */
         OPERATOR_PLUS,
+        /** OPERATOR_MINUS. */
         OPERATOR_MINUS,
+        /** OPERATOR_MULTIPLY. */
         OPERATOR_MULTIPLY,
+        /** OPERATOR_SLASH. */
         OPERATOR_SLASH,
+        /** OPERATOR_MOD. */
         OPERATOR_MOD,
+        /** OPERATOR_EXP. */
         OPERATOR_EXP,
+        /** OPERATOR_LT. */
         OPERATOR_LT,
+        /** OPERATOR_GT. */
         OPERATOR_GT,
+        /** OPERATOR_LE. */
         OPERATOR_LE,
+        /** OPERATOR_GE. */
         OPERATOR_GE,
+        /** OPERATOR_TILDE. */
         OPERATOR_TILDE,
+        /** INHERIT. */
         INHERIT,
+        /** INTEGER. */
         INTEGER,
+        /** REAL. */
         REAL,
+        /** EM. */
         EM,
+        /** REM. */
         REM,
+        /** EX. */
         EX,
+        /** CH. */
         CH,
+        /** VW. */
         VW,
+        /** VH. */
         VH,
+        /** VMIN. */
         VMIN,
+        /** VMAX. */
         VMAX,
+        /** PIXEL. */
         PIXEL,
+        /** INCH. */
         INCH,
+        /** CENTIMETER. */
         CENTIMETER,
+        /** MILLIMETER. */
         MILLIMETER,
+        /** POINT. */
         POINT,
+        /** PICA. */
         PICA,
+        /** QUATER. */
         QUATER,
+        /** PERCENTAGE. */
         PERCENTAGE,
+        /** URI. */
         URI,
+        /** COUNTER_FUNCTION. */
         COUNTER_FUNCTION,
+        /** COUNTERS_FUNCTION. */
         COUNTERS_FUNCTION,
+        /** RGBCOLOR. */
         RGBCOLOR,
+        /** HSLCOLOR. */
         HSLCOLOR,
+        /** DEGREE. */
         DEGREE,
+        /** GRADIAN. */
         GRADIAN,
+        /** RADIAN. */
         RADIAN,
+        /** TURN. */
         TURN,
+        /** MILLISECOND. */
         MILLISECOND,
+        /** SECOND. */
         SECOND,
+        /** HERTZ. */
         HERTZ,
+        /** KILOHERTZ. */
         KILOHERTZ,
+        /** IDENT. */
         IDENT,
+        /** STRING_VALUE. */
         STRING_VALUE,
+        /** ATTR. */
         ATTR,
+        /** RECT_FUNCTION. */
         RECT_FUNCTION,
+        /** UNICODERANGE. */
         UNICODERANGE,
+        /** SUB_EXPRESSION. */
         SUB_EXPRESSION,
+        /** FUNCTION. */
         FUNCTION,
+        /** FUNCTION_CALC. */
         FUNCTION_CALC,
+        /** DIMENSION. */
         DIMENSION
     }
 

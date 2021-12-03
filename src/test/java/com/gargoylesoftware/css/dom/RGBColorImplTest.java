@@ -71,7 +71,7 @@ public class RGBColorImplTest {
         LexicalUnitImpl.createNumber(lu, 30);
 
         try {
-            RGBColorImpl color = new RGBColorImpl("rgb", rgbLU);
+            final RGBColorImpl color = new RGBColorImpl("rgb", rgbLU);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
@@ -94,7 +94,7 @@ public class RGBColorImplTest {
         LexicalUnitImpl.createComma(lu);
 
         try {
-            RGBColorImpl color = new RGBColorImpl("rgb", rgbLU);
+            final RGBColorImpl color = new RGBColorImpl("rgb", rgbLU);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
@@ -126,7 +126,7 @@ public class RGBColorImplTest {
         final LexicalUnit rgbLu = LexicalUnitImpl.createNumber(null, 10);
 
         try {
-            RGBColorImpl color = new RGBColorImpl(null, rgbLu);
+            final RGBColorImpl color = new RGBColorImpl(null, rgbLu);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
@@ -134,7 +134,7 @@ public class RGBColorImplTest {
         }
 
         try {
-            RGBColorImpl color = new RGBColorImpl("", rgbLu);
+            final RGBColorImpl color = new RGBColorImpl("", rgbLu);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
@@ -142,7 +142,7 @@ public class RGBColorImplTest {
         }
 
         try {
-            RGBColorImpl color = new RGBColorImpl("xyz", rgbLu);
+            final RGBColorImpl color = new RGBColorImpl("xyz", rgbLu);
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
