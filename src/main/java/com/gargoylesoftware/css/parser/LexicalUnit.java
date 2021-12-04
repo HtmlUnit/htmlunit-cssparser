@@ -123,8 +123,6 @@ public interface LexicalUnit {
         RECT_FUNCTION,
         /** UNICODERANGE. */
         UNICODERANGE,
-        /** SUB_EXPRESSION. */
-        SUB_EXPRESSION,
         /** FUNCTION. */
         FUNCTION,
         /** FUNCTION_CALC. */

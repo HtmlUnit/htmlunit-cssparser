@@ -438,12 +438,6 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                     sb.append(range);
                 }
                 break;
-            case SUB_EXPRESSION:
-                final String subExpression = getStringValue();
-                if (null != subExpression) {
-                    sb.append(subExpression);
-                }
-                break;
             case FUNCTION:
             case FUNCTION_CALC:
                 final String functName = getFunctionName();
@@ -718,11 +712,6 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 break;
             case UNICODERANGE:
                 sb.append("UNICODERANGE(")
-                    .append(getStringValue())
-                    .append(")");
-                break;
-            case SUB_EXPRESSION:
-                sb.append("SUB_EXPRESSION(")
                     .append(getStringValue())
                     .append(")");
                 break;

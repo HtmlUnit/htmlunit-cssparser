@@ -384,7 +384,6 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     //            case RECT_FUNCTION:
     //                return CSSPrimitiveValueType.CSS_RECT;
                 case UNICODERANGE:
-                case SUB_EXPRESSION:
                 case FUNCTION:
                 case FUNCTION_CALC:
                     return CSSPrimitiveValueType.CSS_STRING;

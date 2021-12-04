@@ -256,13 +256,6 @@ public class LexicalUnitImplTest {
 
         unit.setParameters(LexicalUnitImpl.createPixel(null, 4));
         assertEquals("pow(4px)", unit.toString());
-
-        unit = new LexicalUnitImpl(null, LexicalUnitType.SUB_EXPRESSION);
-        assertEquals("", unit.toString());
-        unit.setStringValue("value");
-
-        assertEquals("value", unit.toString());
-        assertEquals("SUB_EXPRESSION(value)", unit.toDebugString());
     }
 
     /**
