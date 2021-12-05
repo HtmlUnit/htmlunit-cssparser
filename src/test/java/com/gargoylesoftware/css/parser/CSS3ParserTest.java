@@ -1020,6 +1020,18 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      * @throws Exception in case of failure
      */
     @Test
+    public void hexAndRgbAreSame() throws Exception {
+        color("color: rgb(138, 43, 226)", "color: rgb(138,43,226);");
+        color("color: rgb(138, 43, 226)", "color: #8A2BE2;");
+
+        color("color: rgba(138, 43, 226, 80)", "color: rgba(138,43,226, 80);");
+        color("color: rgba(138, 43, 226, 80)", "color: #8A2BE2CC;");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
     public void hslComma() throws Exception {
         color("foreground: hsl(270, 60%, 70%)", "foreground: hsl(270,60%,70%)");
         color("foreground: hsl(-270, 60%, 70%)", "foreground: hsl(-270, 60%, 70%)");

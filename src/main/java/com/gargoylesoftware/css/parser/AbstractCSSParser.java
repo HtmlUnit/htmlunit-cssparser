@@ -816,7 +816,7 @@ public abstract class AbstractCSSParser {
                 g = (g << 4) | g;
                 b = (b << 4) | b;
                 ai = (ai << 4) | ai;
-                a = ai / 255d;
+                a = ai / 2.55d;
             }
             else if (len == 6) {
                 r = Integer.parseInt(t.image.substring(i + 0, i + 2), 16);
@@ -828,7 +828,7 @@ public abstract class AbstractCSSParser {
                 g = Integer.parseInt(t.image.substring(i + 2, i + 4), 16);
                 b = Integer.parseInt(t.image.substring(i + 4, i + 6), 16);
                 final int ai = Integer.parseInt(t.image.substring(i + 6, i + 8), 16);
-                a = ai / 255d;
+                a = ai / 2.55d;
             }
             else {
                 final String pattern = getParserMessage("invalidColor");
