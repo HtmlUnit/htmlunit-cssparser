@@ -874,10 +874,10 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("background: rgb(28, 29, 0)", "background: #1c1d00;");
 
         color("color: rgba(51, 170, 51, 0)", "color: #3a30;");
-        color("color: rgba(51, 170, 51, 100)", "color: #3a3F;");
+        color("color: rgba(51, 170, 51, 1)", "color: #3a3F;");
 
         color("color: rgba(51, 170, 51, 0)", "color: #33aa3300;");
-        color("color: rgba(51, 170, 51, 50.196)", "color: #33AA3380;");
+        color("color: rgba(51, 170, 51, 0.502)", "color: #33AA3380;");
     }
 
     /**
@@ -1024,8 +1024,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("color: rgb(138, 43, 226)", "color: rgb(138,43,226);");
         color("color: rgb(138, 43, 226)", "color: #8A2BE2;");
 
-        color("color: rgba(138, 43, 226, 80)", "color: rgba(138,43,226, 80);");
-        color("color: rgba(138, 43, 226, 80)", "color: #8A2BE2CC;");
+        color("color: rgba(138, 43, 226, 0.8)", "color: rgba(138,43,226, 0.8);");
+        color("color: rgba(138, 43, 226, 0.8)", "color: #8A2BE2CC;");
     }
 
     /**
