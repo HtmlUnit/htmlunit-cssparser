@@ -1,5 +1,4 @@
-HtmlUnit - CSSParser
---------
+# HtmlUnit - CSSParser
 
 This is the code repository of the CSS parser used by HtmlUnit starting with version 1.30.
 
@@ -11,9 +10,44 @@ We will try to stay in sync with CSSParser regarding the features in the future.
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.sourceforge.htmlunit/htmlunit-cssparser/badge.svg)](https://maven-badges.herokuapp.com/maven-central/net.sourceforge.htmlunit/htmlunit-cssparser)
 
+:heart: [Sponsor](https://github.com/sponsors/rbri)
 
-Getting Started
---------
+### Project News
+[HtmlUnit@Twitter][3]
+
+### Latest release Version 1.11.0 / December 11, 2021
+
+For maven, you would add:
+
+    <dependency>
+        <groupId>net.sourceforge.htmlunit</groupId>
+        <artifactId>htmlunit-cssparser</artifactId>
+        <version>1.11.0</version>
+    </dependency>
+
+### Latest CI build
+The latest builds are available from our
+[Jenkins CI build server][2]
+
+[![Build Status](https://jenkins.wetator.org/buildStatus/icon?job=HtmlUnit+-+CSS+Parser)](https://jenkins.wetator.org/job/HtmlUnit%20-%20CSS%20Parser/)
+
+If you use maven please add:
+
+    <dependency>
+        <groupId>net.sourceforge.htmlunit</groupId>
+        <artifactId>htmlunit-cssparser</artifactId>
+        <version>1.12.0-SNAPSHOT</version>
+    </dependency>
+
+You have to add the sonatype snapshot repository to your pom distributionManagement section also:
+
+    <snapshotRepository>
+        <id>sonatype-nexus-snapshots</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+
+
+## Start HtmlUnit - CSSParser Development
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
@@ -38,12 +72,10 @@ mvn compile
 mvn test
 ```
 
-Contributing
---------
+## Contributing
 
-
-TODO
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Pull Requests and and all other Community Contributions are essential for open source software.
+Every contribution - from bug reports to feature requests, typos to full new features - are greatly appreciated.
 
 ## Deployment and Versioning
 
@@ -51,7 +83,7 @@ This part is intended for committer who are packaging a release.
 
 * Check all your files are checked in
 * Execute "mvn clean test" to be sure all tests are passing
-* Update the version number in pom.xml
+* Update the version number in pom.xml and README.md
 * Execute "mvn clean test" to be sure all tests are passing
 * Commit the changes
 
@@ -80,18 +112,19 @@ This part is intended for committer who are packaging a release.
 * Update the version number in pom.xml to start next snapshot development
 * Update the htmlunit pom to use the new release
 
-Authors
---------
+## Authors
 
 * **RBRi**
 * all the contributors to CSSParser
 
-License
---------
+## License
 
 This project is licensed under the Apache 2.0 License
 
-Acknowledgments
---------
+## Acknowledgments
 
 Many thanks to all of you contributing to HtmlUnit/CSSParser/Rhino in the past.
+
+
+[2]: https://jenkins.wetator.org/job/HtmlUnit%20-%20CSS%20Parser/ "HtmlUnit - CSS Parser CI"
+[3]: https://twitter.com/HtmlUnit "https://twitter.com/HtmlUnit"
