@@ -108,13 +108,46 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
     }
 
     /**
-     * @return the selector text
+     * @return the current selector text
      */
     public String getSelectorText() {
         if (null == pseudoPage_) {
             return "";
         }
         return pseudoPage_;
+    }
+
+    /**
+     * Sets the selector text.
+     * @param selectorText the new selector text
+     */
+    public void setSelectorText(final String selectorText) throws DOMException {
+        try {
+            final CSSOMParser parser = new CSSOMParser();
+            final AbstractCSSRuleImpl r = parser.parseRule("@page " + selectorText + " {}");
+
+            // The rule must be a page rule
+            if (r instanceof CSSPageRuleImpl) {
+                pseudoPage_ = ((CSSPageRuleImpl) r).pseudoPage_;
+            }
+            else {
+                throw new DOMExceptionImpl(
+                    DOMException.INVALID_MODIFICATION_ERR,
+                    DOMExceptionImpl.EXPECTING_PAGE_RULE);
+            }
+        }
+        catch (final CSSException e) {
+            throw new DOMExceptionImpl(
+                DOMException.SYNTAX_ERR,
+                DOMExceptionImpl.SYNTAX_ERROR,
+                e.getMessage());
+        }
+        catch (final IOException e) {
+            throw new DOMExceptionImpl(
+                DOMException.SYNTAX_ERR,
+                DOMExceptionImpl.SYNTAX_ERROR,
+                e.getMessage());
+        }
     }
 
     /**

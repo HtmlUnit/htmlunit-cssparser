@@ -44,9 +44,9 @@ public abstract class AbstractCSSRuleImpl extends AbstractLocatable implements S
 
     /**
      * Sets the css text.
-     * @param text the new css text
+     * @param cssText the new css text
      */
-    public abstract void setCssText(String text);
+    public abstract void setCssText(String cssText);
 
     /**
      * Sets the parent style sheet.

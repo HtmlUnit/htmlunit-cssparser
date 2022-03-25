@@ -73,6 +73,23 @@ public class CSSPageRuleImplTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void setSelectorText() throws Exception {
+        final CSSPageRuleImpl value = parsePageRule("@page { color: blue; }");
+        assertEquals("", value.getSelectorText());
+
+        value.setSelectorText(":pseudo");
+        assertEquals("@page :pseudo { color: blue; }", value.getCssText());
+        assertEquals("@page :pseudo { color: blue; }", value.toString());
+
+        value.setSelectorText("");
+        assertEquals("@page { color: blue; }", value.getCssText());
+        assertEquals("@page { color: blue; }", value.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void setPseudoPage() throws Exception {
         CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
         assertEquals("", value.getSelectorText());
