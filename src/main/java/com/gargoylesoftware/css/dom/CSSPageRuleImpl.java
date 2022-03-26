@@ -21,6 +21,7 @@ import org.w3c.dom.DOMException;
 import com.gargoylesoftware.css.parser.CSSException;
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.util.LangUtils;
+import com.gargoylesoftware.css.util.ThrowCssExceptionErrorHandler;
 
 /**
  * Implementation of CSSPageRule.
@@ -80,6 +81,7 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
     public void setCssText(final String cssText) throws DOMException {
         try {
             final CSSOMParser parser = new CSSOMParser();
+            parser.setErrorHandler(ThrowCssExceptionErrorHandler.INSTANCE);
             final AbstractCSSRuleImpl r = parser.parseRule(cssText);
 
             // The rule must be a page rule
@@ -124,6 +126,7 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
     public void setSelectorText(final String selectorText) throws DOMException {
         try {
             final CSSOMParser parser = new CSSOMParser();
+            parser.setErrorHandler(ThrowCssExceptionErrorHandler.INSTANCE);
             final AbstractCSSRuleImpl r = parser.parseRule("@page " + selectorText + " {}");
 
             // The rule must be a page rule

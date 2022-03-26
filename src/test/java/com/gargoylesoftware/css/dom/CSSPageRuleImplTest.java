@@ -104,7 +104,7 @@ public class CSSPageRuleImplTest {
             fail("DOMException expected");
         }
         catch (final DOMException e) {
-            assertTrue(e.getMessage().startsWith("The text does not represent a page rule (null)"), e.getMessage());
+            assertTrue(e.getMessage().startsWith("Syntax error"), e.getMessage());
         }
         assertEquals("", value.getSelectorText());
         assertEquals("@page { color: blue; }", value.getCssText());
