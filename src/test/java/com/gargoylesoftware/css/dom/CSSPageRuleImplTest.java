@@ -15,10 +15,13 @@
 package com.gargoylesoftware.css.dom;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.StringReader;
 
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.DOMException;
 
 import com.gargoylesoftware.css.parser.CSSOMParser;
 import com.gargoylesoftware.css.parser.InputSource;
@@ -51,9 +54,9 @@ public class CSSPageRuleImplTest {
         assertEquals("@page { size: 21cm 29.7cm; }", value.getCssText());
         assertEquals("@page { size: 21cm 29.7cm; }", value.toString());
 
-        value.setCssText("@page :pseudo { color: blue }");
-        assertEquals("@page :pseudo { color: blue; }", value.getCssText());
-        assertEquals("@page :pseudo { color: blue; }", value.toString());
+        value.setCssText("@page :left { color: blue }");
+        assertEquals("@page :left { color: blue; }", value.getCssText());
+        assertEquals("@page :left { color: blue; }", value.toString());
 
     }
 
@@ -65,8 +68,8 @@ public class CSSPageRuleImplTest {
         CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
         assertEquals("", value.getSelectorText());
 
-        value = parsePageRule("@page :pseudo {color: blue}");
-        assertEquals(":pseudo", value.getSelectorText());
+        value = parsePageRule("@page :first {color: blue}");
+        assertEquals(":first", value.getSelectorText());
     }
 
     /**
@@ -77,11 +80,33 @@ public class CSSPageRuleImplTest {
         final CSSPageRuleImpl value = parsePageRule("@page { color: blue; }");
         assertEquals("", value.getSelectorText());
 
-        value.setSelectorText(":pseudo");
-        assertEquals("@page :pseudo { color: blue; }", value.getCssText());
-        assertEquals("@page :pseudo { color: blue; }", value.toString());
+        value.setSelectorText(":right");
+        assertEquals(":right", value.getSelectorText());
+        assertEquals("@page :right { color: blue; }", value.getCssText());
+        assertEquals("@page :right { color: blue; }", value.toString());
 
         value.setSelectorText("");
+        assertEquals("", value.getSelectorText());
+        assertEquals("@page { color: blue; }", value.getCssText());
+        assertEquals("@page { color: blue; }", value.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void setSelectorTextInvalid() throws Exception {
+        final CSSPageRuleImpl value = parsePageRule("@page { color: blue; }");
+        assertEquals("", value.getSelectorText());
+
+        try {
+            value.setSelectorText(":invalid");
+            fail("DOMException expected");
+        }
+        catch (final DOMException e) {
+            assertTrue(e.getMessage().startsWith("The text does not represent a page rule (null)"), e.getMessage());
+        }
+        assertEquals("", value.getSelectorText());
         assertEquals("@page { color: blue; }", value.getCssText());
         assertEquals("@page { color: blue; }", value.toString());
     }
@@ -94,8 +119,8 @@ public class CSSPageRuleImplTest {
         CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
         assertEquals("", value.getSelectorText());
 
-        value = parsePageRule("@page :pseudo {color: blue}");
-        assertEquals(":pseudo", value.getSelectorText());
+        value = parsePageRule("@page :blank {color: blue}");
+        assertEquals(":blank", value.getSelectorText());
     }
 
     /**
@@ -106,7 +131,7 @@ public class CSSPageRuleImplTest {
         CSSPageRuleImpl value = parsePageRule("@page { size: 21.0cm 29.7cm; }");
         assertEquals("size: 21cm 29.7cm", value.getStyle().toString());
 
-        value = parsePageRule("@page :pseudo {color: blue}");
+        value = parsePageRule("@page :left {color: blue}");
         assertEquals("color: blue", value.getStyle().toString());
     }
 

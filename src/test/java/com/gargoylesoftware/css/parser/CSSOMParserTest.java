@@ -432,21 +432,21 @@ public class CSSOMParserTest {
      */
     @Test
     public void parsePageDeclaration() throws Exception {
-        final Reader r = new StringReader("@page :pageStyle { size: 21.0cm 29.7cm; }");
+        final Reader r = new StringReader("@page :blank { size: 21.0cm 29.7cm; }");
         final InputSource is = new InputSource(r);
         final CSSStyleSheetImpl ss = new CSSOMParser().parseStyleSheet(is, null);
 
-        assertEquals("@page :pageStyle { size: 21cm 29.7cm; }", ss.toString().trim());
+        assertEquals("@page :blank { size: 21cm 29.7cm; }", ss.toString().trim());
 
         final CSSRuleListImpl rules = ss.getCssRules();
         assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
 
-        assertEquals("@page :pageStyle { size: 21cm 29.7cm; }", rule.getCssText());
+        assertEquals("@page :blank { size: 21cm 29.7cm; }", rule.getCssText());
 
         final CSSPageRuleImpl pageRule = (CSSPageRuleImpl) rule;
-        assertEquals(":pageStyle", pageRule.getSelectorText());
+        assertEquals(":blank", pageRule.getSelectorText());
         assertEquals("size: 21cm 29.7cm", pageRule.getStyle().getCssText());
     }
 

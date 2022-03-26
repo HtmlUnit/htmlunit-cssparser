@@ -2122,7 +2122,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void unexpectedEndOfPageRule() throws Exception {
-        final String css = "@page :pageStyle { size: 21.0cm 29.7cm;";
+        final String css = "@page :left { size: 21.0cm 29.7cm;";
 
         final InputSource source = new InputSource(new StringReader(css));
         final CSSOMParser parser = new CSSOMParser();
@@ -2137,20 +2137,20 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 + "(Invalid token \"<EOF>\". Was expecting one of: <S>, <IDENT>, \"}\", \";\", \"*\", <CUSTOM_PROPERTY_NAME>.)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("1", errorHandler.getErrorLines());
-        assertEquals("39", errorHandler.getErrorColumns());
+        assertEquals("34", errorHandler.getErrorColumns());
 
         assertEquals(0, errorHandler.getFatalErrorCount());
         assertEquals(1, errorHandler.getWarningCount());
         assertEquals("Ignoring the whole rule.", errorHandler.getWarningMessage());
         assertEquals("1", errorHandler.getWarningLines());
-        assertEquals("39", errorHandler.getWarningColumns());
+        assertEquals("34", errorHandler.getWarningColumns());
 
         final CSSRuleListImpl rules = sheet.getCssRules();
 
         assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        assertEquals("@page :pageStyle { size: 21cm 29.7cm; }", rule.getCssText());
+        assertEquals("@page :left { size: 21cm 29.7cm; }", rule.getCssText());
     }
 
     /**
@@ -3665,25 +3665,25 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void unicode() throws Exception {
-        unicode("@p\\41ge :pageStyle {}", "@page :pageStyle { }");
-        unicode("@p\\041ge :pageStyle {}", "@page :pageStyle { }");
-        unicode("@p\\0041ge :pageStyle {}", "@page :pageStyle { }");
-        unicode("@p\\00041ge :pageStyle {}", "@page :pageStyle { }");
-        unicode("@p\\000041ge :pageStyle {}", "@page :pageStyle { }");
+        unicode("@p\\41ge :right {}", "@page :right { }");
+        unicode("@p\\041ge :right {}", "@page :right { }");
+        unicode("@p\\0041ge :right {}", "@page :right { }");
+        unicode("@p\\00041ge :right {}", "@page :right { }");
+        unicode("@p\\000041ge :right {}", "@page :right { }");
 
         // \\0000041 - fails
-        unicode("@p\\0000041ge :pageStyle {}", "@p\\0000041ge :pageStyle {}");
+        unicode("@p\\0000041ge :right {}", "@p\\0000041ge :right {}");
 
         // terminated by whitespace
-        unicode("@\\0070 age :pageStyle {}", "@page :pageStyle { }");
-        unicode("@\\0070\tage :pageStyle {}", "@page :pageStyle { }");
-        unicode("@\\0070\r\nage :pageStyle {}", "@page :pageStyle { }");
+        unicode("@\\0070 age :right {}", "@page :right { }");
+        unicode("@\\0070\tage :right {}", "@page :right { }");
+        unicode("@\\0070\r\nage :right {}", "@page :right { }");
 
         // terminated by lenght
-        unicode("@\\000070age :pageStyle {}", "@page :pageStyle { }");
+        unicode("@\\000070age :right {}", "@page :right { }");
 
         // backslash ignored
-        unicode("@\\page :pageStyle {}", "@page :pageStyle { }");
+        unicode("@\\page :right {}", "@page :right { }");
     }
 
     /**
@@ -3693,7 +3693,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     public void unicodeEscaping() throws Exception {
         unicode("@media paper\\7b { }", "@media paper{ {\n}");
         unicode(".class\\7b { color: blue }", "*.class{ { color: blue; }");
-        unicode("@page :pseu\\64o { color: blue }", "@page :pseudo { color: blue; }");
+        unicode("@page :bl\\61nk { color: blue }", "@page :blank { color: blue; }");
         unicode("h1:first-l\\69ne { color: blue }", "h1:first-line { color: blue; }");
         unicode(".cls { color: blu\\65 }", "*.cls { color: blue; }");
     }
