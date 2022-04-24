@@ -15,14 +15,14 @@ We will try to stay in sync with CSSParser regarding the features in the future.
 ### Project News
 [HtmlUnit@Twitter][3]
 
-### Latest release Version 1.11.0 / December 11, 2021
+### Latest release Version 1.12.0 / April 24, 2022
 
 For maven, you would add:
 
     <dependency>
         <groupId>net.sourceforge.htmlunit</groupId>
         <artifactId>htmlunit-cssparser</artifactId>
-        <version>1.11.0</version>
+        <version>1.12.0</version>
     </dependency>
 
 ### Latest CI build
@@ -36,15 +36,22 @@ If you use maven please add:
     <dependency>
         <groupId>net.sourceforge.htmlunit</groupId>
         <artifactId>htmlunit-cssparser</artifactId>
-        <version>1.12.0-SNAPSHOT</version>
+        <version>1.13.0-SNAPSHOT</version>
     </dependency>
 
 You have to add the sonatype snapshot repository to your pom distributionManagement section also:
 
-    <snapshotRepository>
-        <id>sonatype-nexus-snapshots</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
+    <repository>
+        <id>OSS Sonatype snapshots</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+        </snapshots>
+        <releases>
+            <enabled>false</enabled>
+        </releases>
+    </repository>
 
 
 ## Start HtmlUnit - CSSParser Development
