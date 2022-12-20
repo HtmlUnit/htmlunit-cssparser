@@ -14,26 +14,19 @@
  */
 package com.gargoylesoftware.css.parser.condition;
 
-import java.io.Serializable;
-
-import com.gargoylesoftware.css.parser.AbstractLocatable;
-
 /**
  * @author Ronald Brill
  */
-public class BeginHyphenAttributeCondition extends AbstractLocatable implements Condition, Serializable {
-
-    private final String localName_;
-    private final String value_;
+public class BeginHyphenAttributeCondition extends AttributeCondition {
 
     /**
      * Ctor.
-     * @param localName the local name
+     * @param localName the local value
      * @param value the value
+     * @param caseInSensitive null if not set, true/false for i/s
      */
-    public BeginHyphenAttributeCondition(final String localName, final String value) {
-        localName_ = localName;
-        value_ = value;
+    public BeginHyphenAttributeCondition(final String localName, final String value, final Boolean caseInSensitive) {
+        super(localName, value, caseInSensitive);
     }
 
     @Override
@@ -41,29 +34,9 @@ public class BeginHyphenAttributeCondition extends AbstractLocatable implements 
         return ConditionType.BEGIN_HYPHEN_ATTRIBUTE_CONDITION;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public String getLocalName() {
-        return localName_;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getValue() {
-        return value_;
-    }
-
-    @Override
-    public String toString() {
-        final String value = getValue();
-        if (value != null) {
-            return "[" + getLocalName() + "|=\"" + value + "\"]";
-        }
-        return "[" + getLocalName() + "]";
+    public String getOperator() {
+        return "|=";
     }
 }
 

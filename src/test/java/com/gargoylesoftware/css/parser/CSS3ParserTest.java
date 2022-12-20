@@ -15,6 +15,7 @@
 package com.gargoylesoftware.css.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -3016,7 +3017,42 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     public void prefixAttributeCondition() throws Exception {
         final SelectorList selectors = createSelectors("[rel^=val]");
         final ElementSelector selector = (ElementSelector) selectors.get(0);
+
         assertTrue(selector.getConditions().get(0) instanceof PrefixAttributeCondition);
+        final PrefixAttributeCondition ac = (PrefixAttributeCondition) selector.getConditions().get(0);
+        assertEquals("rel", ac.getLocalName());
+        assertEquals("val", ac.getValue());
+        assertFalse(ac.isCaseInSensitive());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void prefixAttributeConditionI() throws Exception {
+        final SelectorList selectors = createSelectors("[rel^=val i]");
+        final ElementSelector selector = (ElementSelector) selectors.get(0);
+
+        assertTrue(selector.getConditions().get(0) instanceof PrefixAttributeCondition);
+        final PrefixAttributeCondition ac = (PrefixAttributeCondition) selector.getConditions().get(0);
+        assertEquals("rel", ac.getLocalName());
+        assertEquals("val", ac.getValue());
+        assertTrue(ac.isCaseInSensitive());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void prefixAttributeConditionS() throws Exception {
+        final SelectorList selectors = createSelectors("[rel^=val s]");
+        final ElementSelector selector = (ElementSelector) selectors.get(0);
+
+        assertTrue(selector.getConditions().get(0) instanceof PrefixAttributeCondition);
+        final PrefixAttributeCondition ac = (PrefixAttributeCondition) selector.getConditions().get(0);
+        assertEquals("rel", ac.getLocalName());
+        assertEquals("val", ac.getValue());
+        assertFalse(ac.isCaseInSensitive());
     }
 
     /**
@@ -3037,6 +3073,76 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         final SelectorList selectors = createSelectors("[rel*=val]");
         final ElementSelector selector = (ElementSelector) selectors.get(0);
         assertTrue(selector.getConditions().get(0) instanceof SubstringAttributeCondition);
+    }
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void substringAttributeConditionI() throws Exception {
+        final SelectorList selectors = createSelectors("[rel*=val I]");
+        final ElementSelector selector = (ElementSelector) selectors.get(0);
+        assertTrue(selector.getConditions().get(0) instanceof SubstringAttributeCondition);
+
+        final SubstringAttributeCondition ac = (SubstringAttributeCondition) selector.getConditions().get(0);
+        assertEquals("rel", ac.getLocalName());
+        assertEquals("val", ac.getValue());
+        assertTrue(ac.isCaseInSensitive());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void substringAttributeConditionIBlank() throws Exception {
+        final SelectorList selectors = createSelectors("[rel*=val\ti \t]");
+        final ElementSelector selector = (ElementSelector) selectors.get(0);
+        assertTrue(selector.getConditions().get(0) instanceof SubstringAttributeCondition);
+
+        final SubstringAttributeCondition ac = (SubstringAttributeCondition) selector.getConditions().get(0);
+        assertEquals("rel", ac.getLocalName());
+        assertEquals("val", ac.getValue());
+        assertTrue(ac.isCaseInSensitive());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void substringAttributeConditionS() throws Exception {
+        final SelectorList selectors = createSelectors("[rel*=val S]");
+        final ElementSelector selector = (ElementSelector) selectors.get(0);
+        assertTrue(selector.getConditions().get(0) instanceof SubstringAttributeCondition);
+
+        final SubstringAttributeCondition ac = (SubstringAttributeCondition) selector.getConditions().get(0);
+        assertEquals("rel", ac.getLocalName());
+        assertEquals("val", ac.getValue());
+        assertFalse(ac.isCaseInSensitive());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void invalidCaseInSensitivelyIdentifier() throws Exception {
+        final String css = "[rel*=val o]";
+
+        final CSSOMParser parser = new CSSOMParser();
+
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final SelectorList selectors = parser.parseSelectors(css);
+
+        assertNull(selectors);
+
+        assertEquals(1, errorHandler.getErrorCount());
+        final String expected = "Invalid case-insensitively identifier \"o\" found; valid values are \"i\", and \"s\".";
+        assertEquals(expected, errorHandler.getErrorMessage());
+        assertEquals("1", errorHandler.getErrorLines());
+        assertEquals("11", errorHandler.getErrorColumns());
+
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
     }
 
     /**

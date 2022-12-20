@@ -15,7 +15,9 @@
 package com.gargoylesoftware.css.parser.condition;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,10 +34,11 @@ public class OneOfAttributeConditionTest {
      */
     @Test
     public void withoutValue() throws Exception {
-        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", null);
+        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", null, null);
         assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
         assertEquals("test", ac.getLocalName());
         assertNull(ac.getValue());
+        assertFalse(ac.isCaseInSensitive());
 
         assertEquals("[test]", ac.toString());
     }
@@ -45,10 +48,11 @@ public class OneOfAttributeConditionTest {
      */
     @Test
     public void emptyValue() throws Exception {
-        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", "");
+        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", "", null);
         assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
         assertEquals("test", ac.getLocalName());
         assertEquals("", ac.getValue());
+        assertFalse(ac.isCaseInSensitive());
 
         assertEquals("[test~=\"\"]", ac.toString());
     }
@@ -58,10 +62,11 @@ public class OneOfAttributeConditionTest {
      */
     @Test
     public void withValue() throws Exception {
-        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", "value");
+        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", "value", null);
         assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
         assertEquals("test", ac.getLocalName());
         assertEquals("value", ac.getValue());
+        assertFalse(ac.isCaseInSensitive());
 
         assertEquals("[test~=\"value\"]", ac.toString());
     }
@@ -71,10 +76,11 @@ public class OneOfAttributeConditionTest {
      */
     @Test
     public void withoutValueAndSpecified() throws Exception {
-        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", null);
+        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", null, null);
         assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
         assertEquals("test", ac.getLocalName());
         assertNull(ac.getValue());
+        assertFalse(ac.isCaseInSensitive());
 
         assertEquals("[test]", ac.toString());
     }
@@ -84,10 +90,11 @@ public class OneOfAttributeConditionTest {
      */
     @Test
     public void emptyValueAndSpecified() throws Exception {
-        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", "");
+        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", "", null);
         assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
         assertEquals("test", ac.getLocalName());
         assertEquals("", ac.getValue());
+        assertFalse(ac.isCaseInSensitive());
 
         assertEquals("[test~=\"\"]", ac.toString());
     }
@@ -97,11 +104,40 @@ public class OneOfAttributeConditionTest {
      */
     @Test
     public void withValueAndSpecified() throws Exception {
-        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", "value");
+        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", "value", null);
         assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
         assertEquals("test", ac.getLocalName());
         assertEquals("value", ac.getValue());
+        assertFalse(ac.isCaseInSensitive());
 
         assertEquals("[test~=\"value\"]", ac.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void withValueAndSpecifiedCaseInSensitive() throws Exception {
+        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", "value", true);
+        assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
+        assertEquals("test", ac.getLocalName());
+        assertEquals("value", ac.getValue());
+        assertTrue(ac.isCaseInSensitive());
+
+        assertEquals("[test~=\"value\" i]", ac.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void withValueAndSpecifiedCaseSensitive() throws Exception {
+        final OneOfAttributeCondition ac = new OneOfAttributeCondition("test", "value", false);
+        assertEquals(ConditionType.ONE_OF_ATTRIBUTE_CONDITION, ac.getConditionType());
+        assertEquals("test", ac.getLocalName());
+        assertEquals("value", ac.getValue());
+        assertFalse(ac.isCaseInSensitive());
+
+        assertEquals("[test~=\"value\" s]", ac.toString());
     }
 }

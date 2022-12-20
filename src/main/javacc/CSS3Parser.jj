@@ -1272,6 +1272,7 @@ Condition attrib(boolean pseudoElementFound) :
     Token t;
     String name = null;
     String value = null;
+    Boolean insensitive = null;
     int type = 0;
     Locator locator;
 }
@@ -1285,7 +1286,8 @@ Condition attrib(boolean pseudoElementFound) :
         ( <S> )*
         { if (pseudoElementFound) { throw generateParseException(); } }
 
-        t = <IDENT> { name = unescape(t.image, false); } ( <S> )*
+        t = <IDENT> { name = unescape(t.image, false); }
+        ( <S> )*
         (
             (
                 <PREFIXMATCH> { type = 4; }
@@ -1302,36 +1304,42 @@ Condition attrib(boolean pseudoElementFound) :
             )
             ( <S> )*
             (
-                t = <IDENT> { value = unescape(t.image, false); }
-                |
-                t = <STRING> { value = unescape(t.image, false); }
+                (                    t = <IDENT> { value = unescape(t.image, false); }
+                    |
+                    t = <STRING> { value = unescape(t.image, false); }
+                )
+
+                ( <S> )*
             )
-            ( <S> )*
+            (
+                t = <IDENT> { insensitive = handleCaseInSensitive(t); }
+                ( <S> )*
+            )?
         )?
         <RSQUARE>
         {
             Condition c = null;
             switch (type) {
             case 0:
-                c = new AttributeCondition(name, null);
+                c = new AttributeCondition(name, null, insensitive);
                 break;
             case 1:
-                c = new AttributeCondition(name, value);
+                c = new AttributeCondition(name, value, insensitive);
                 break;
             case 2:
-                c = new OneOfAttributeCondition(name, value);
+                c = new OneOfAttributeCondition(name, value, insensitive);
                 break;
             case 3:
-                c = new BeginHyphenAttributeCondition(name, value);
+                c = new BeginHyphenAttributeCondition(name, value, insensitive);
                 break;
             case 4:
-                c = new PrefixAttributeCondition(name, value);
+                c = new PrefixAttributeCondition(name, value, insensitive);
                 break;
             case 5:
-                c = new SuffixAttributeCondition(name, value);
+                c = new SuffixAttributeCondition(name, value, insensitive);
                 break;
             case 6:
-                c = new SubstringAttributeCondition(name, value);
+                c = new SubstringAttributeCondition(name, value, insensitive);
                 break;
             }
             c.setLocator(locator);
@@ -2431,4 +2439,18 @@ void error_skipAtRule()
         t = getNextToken();
     }
     while (t.kind != SEMICOLON && t.kind != EOF);
+}
+
+JAVACODE
+Boolean handleCaseInSensitive(Token t)
+{
+    String s = unescape(t.image, false);
+    if ("i".equalsIgnoreCase(s)) {
+      return Boolean.TRUE;
+    }
+    if ("s".equalsIgnoreCase(s)) {
+      return Boolean.FALSE;
+    }
+
+    throw toCSSParseException("invalidCaseInSensitivelyIdentifier", new String[] { s }, createLocator(t));
 }
