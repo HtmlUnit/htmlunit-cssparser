@@ -2282,7 +2282,7 @@ String skipUnit() {
 JAVACODE
 void appendUnit(Token t, StringBuilder sb) {
     if (t.kind == EMS) {
-      sb.append("ems");
+      sb.append("em");
       return;
     }
     if (t.kind == REM) {

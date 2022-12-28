@@ -61,6 +61,32 @@ public class CSSUnknownRuleImplTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void keyframes() throws Exception {
+        final CSSUnknownRuleImpl value = parseUnknownRule("@keyframes load5 {0%, 100% {"
+                + "box-shadow: 0em -2.6em 0em 0em #000000, 1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), "
+                + "2.5em 0em 0 0em rgba(0, 0, 0, 0.2), 1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), "
+                + "0em 2.5em 0 0em rgba(0, 0, 0, 0.2), -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), "
+                + "-2.6em 0em 0 0em rgba(0, 0, 0, 0.5), -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.7);"
+                + "}");
+
+        assertEquals("@keyframes load5 {0%, 100% {"
+                + "box-shadow: 0em -2.6em 0em 0em #000000, 1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), "
+                + "2.5em 0em 0 0em rgba(0, 0, 0, 0.2), 1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), "
+                + "0em 2.5em 0 0em rgba(0, 0, 0, 0.2), -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), "
+                + "-2.6em 0em 0 0em rgba(0, 0, 0, 0.5), -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.7);"
+                + "}", value.getCssText());
+        assertEquals("@keyframes load5 {0%, 100% {"
+                + "box-shadow: 0em -2.6em 0em 0em #000000, 1.8em -1.8em 0 0em rgba(0, 0, 0, 0.2), "
+                + "2.5em 0em 0 0em rgba(0, 0, 0, 0.2), 1.75em 1.75em 0 0em rgba(0, 0, 0, 0.2), "
+                + "0em 2.5em 0 0em rgba(0, 0, 0, 0.2), -1.8em 1.8em 0 0em rgba(0, 0, 0, 0.2), "
+                + "-2.6em 0em 0 0em rgba(0, 0, 0, 0.5), -1.8em -1.8em 0 0em rgba(0, 0, 0, 0.7);"
+                + "}", value.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void type() throws Exception {
         final CSSUnknownRuleImpl value = new CSSUnknownRuleImpl(null, null, null);
 
