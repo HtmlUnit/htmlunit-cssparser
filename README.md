@@ -15,14 +15,14 @@ We will try to stay in sync with CSSParser regarding the features in the future.
 ### Project News
 [HtmlUnit@Twitter][3]
 
-### Latest release Version 1.12.0 / April 24, 2022
+### Latest release Version 1.13.0 / December 28, 2022
 
 For maven, you would add:
 
     <dependency>
         <groupId>net.sourceforge.htmlunit</groupId>
         <artifactId>htmlunit-cssparser</artifactId>
-        <version>1.12.0</version>
+        <version>1.13.0</version>
     </dependency>
 
 ### Latst CI build
@@ -36,7 +36,7 @@ If you use maven please add:
     <dependency>
         <groupId>net.sourceforge.htmlunit</groupId>
         <artifactId>htmlunit-cssparser</artifactId>
-        <version>1.13.0-SNAPSHOT</version>
+        <version>1.14.0-SNAPSHOT</version>
     </dependency>
 
 You have to add the sonatype snapshot repository to your pom distributionManagement section also:
@@ -89,9 +89,8 @@ Every contribution - from bug reports to feature requests, typos to full new fea
 This part is intended for committer who are packaging a release.
 
 * Check all your files are checked in
-* Execute "mvn clean test" to be sure all tests are passing
+* Execute "mvn -U clean test" to be sure all tests are passing
 * Update the version number in pom.xml and README.md
-* Execute "mvn clean test" to be sure all tests are passing
 * Commit the changes
 
 
