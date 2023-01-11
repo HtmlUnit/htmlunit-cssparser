@@ -136,16 +136,18 @@ public class CSSMediaRuleImplTest {
         final CSSMediaRuleImpl mediaRule = (CSSMediaRuleImpl) ss.getCssRules().getRules().get(0);
 
         mediaRule.insertRule("li:not(.shiny) { height: 44px }", 0);
-        assertEquals("li:not(.shiny) { height: 44px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
+        assertEquals("li:not(*.shiny) { height: 44px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
 
-        try {
-            mediaRule.insertRule("li:not(*.shiny) { height: 44px }", 0);
-            fail("DOMException expected");
-        }
-        catch (final DOMException e) {
-            assertTrue(e.getMessage().startsWith("Syntax error"), e.getMessage());
-            assertEquals(1, mediaRule.getCssRules().getLength());
-        }
+        mediaRule.insertRule("li:not(.cool) { height: 77px }", 0);
+        assertEquals(2, mediaRule.getCssRules().getLength());
+        assertEquals("li:not(*.cool) { height: 77px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
+        assertEquals("li:not(*.shiny) { height: 44px; }", mediaRule.getCssRules().getRules().get(1).getCssText());
+
+        mediaRule.insertRule("li:not(*.fancy) { height: 1px }", 0);
+        assertEquals(3, mediaRule.getCssRules().getLength());
+        assertEquals("li:not(*.fancy) { height: 1px; }", mediaRule.getCssRules().getRules().get(0).getCssText());
+        assertEquals("li:not(*.cool) { height: 77px; }", mediaRule.getCssRules().getRules().get(1).getCssText());
+        assertEquals("li:not(*.shiny) { height: 44px; }", mediaRule.getCssRules().getRules().get(2).getCssText());
     }
 
     /**

@@ -77,6 +77,46 @@ public class SelectorSpecificityTest {
      * @throws Exception if the test fails
      */
     @Test
+    public void idSelector() throws Exception {
+        selectorSpecifity("#myElement", "0,1,0,0");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void attributeSelector() throws Exception {
+        selectorSpecifity("[type=\"password\"]", "0,0,1,0");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void pseudoSelector() throws Exception {
+        selectorSpecifity("input:focus", "0,0,1,1");
+
+        selectorSpecifity("h2:nth-last-of-type(n + 2)", "0,0,1,1");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void selectors() throws Exception {
+        selectorSpecifity(":root #myApp input:required", "0,1,2,1");
+        selectorSpecifity(".bodyClass .sectionClass .parentClass [id=\"myElement\"]", "0,0,4,0");
+
+        selectorSpecifity("#myApp [id=\"myElement\"]", "0,1,1,0");
+        selectorSpecifity(":root input", "0,0,1,1");
+
+        selectorSpecifity("html body main input", "0,0,0,4");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
     public void selectorSpecifitySiblingCombinator() throws Exception {
         selectorSpecifity(".cls ~ p", "0,0,1,1");
     }
@@ -161,5 +201,17 @@ public class SelectorSpecificityTest {
 
         final SelectorSpecificity specificy1 = selectorSpecifity("li", "0,0,0,1");
         assertFalse(specificy0.equals(specificy1));
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void notTest() throws Exception {
+        selectorSpecifity("div:not(.inner) p", "0,0,1,2");
+
+        selectorSpecifity("div:not(.inner, #fakeId) p", "0,1,1,2");
+
+        selectorSpecifity("a:not(#fakeId#fakeId#fakeID)", "0,3,0,1");
     }
 }

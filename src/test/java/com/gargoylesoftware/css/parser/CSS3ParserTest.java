@@ -48,8 +48,8 @@ import com.gargoylesoftware.css.dom.Property;
 import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
 import com.gargoylesoftware.css.parser.condition.Condition;
 import com.gargoylesoftware.css.parser.condition.Condition.ConditionType;
+import com.gargoylesoftware.css.parser.condition.NotPseudoClassCondition;
 import com.gargoylesoftware.css.parser.condition.PrefixAttributeCondition;
-import com.gargoylesoftware.css.parser.condition.PseudoClassCondition;
 import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
 import com.gargoylesoftware.css.parser.javacc.CSS3Parser;
@@ -3254,29 +3254,29 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         // hash
         selectors = createSelectors("input:not(#test)");
-        assertEquals("input:not(#test)", selectors.get(0).toString());
+        assertEquals("input:not(*#test)", selectors.get(0).toString());
 
         // class
         selectors = createSelectors("input:not(.home)");
-        assertEquals("input:not(.home)", selectors.get(0).toString());
+        assertEquals("input:not(*.home)", selectors.get(0).toString());
 
         // attrib
         selectors = createSelectors("input:not([title])");
-        assertEquals("input:not([title])", selectors.get(0).toString());
+        assertEquals("input:not(*[title])", selectors.get(0).toString());
 
         selectors = createSelectors("input:not([type = 'file'])");
-        assertEquals("input:not([type=\"file\"])", selectors.get(0).toString());
+        assertEquals("input:not(*[type=\"file\"])", selectors.get(0).toString());
 
         selectors = createSelectors("input:not([type ~= 'file'])");
-        assertEquals("input:not([type~=\"file\"])", selectors.get(0).toString());
+        assertEquals("input:not(*[type~=\"file\"])", selectors.get(0).toString());
 
         // pseudo
         selectors = createSelectors("input:not(:last)");
-        assertEquals("input:not(:last)", selectors.get(0).toString());
+        assertEquals("input:not(*:last)", selectors.get(0).toString());
 
         // whitespace
         selectors = createSelectors("input:not( .hi \t)");
-        assertEquals("input:not(.hi)", selectors.get(0).toString());
+        assertEquals("input:not(*.hi)", selectors.get(0).toString());
     }
 
     /**
@@ -3292,10 +3292,38 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(1, rules.getLength());
 
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        assertEquals("*#stageList li:not(.memberStage) { display: none; }", rule.getCssText());
+        assertEquals("*#stageList li:not(*.memberStage) { display: none; }", rule.getCssText());
 
         final CSSStyleSheetImpl theOutputSheet = new CSSStyleSheetImpl();
         theOutputSheet.insertRule(rule.getCssText(), 0);
+    }
+
+    /**
+     * Testcase for issue #17 (https://github.com/HtmlUnit/htmlunit-cssparser/issues/17).
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void notSelectorList() throws Exception {
+        final String css = "p a:not(a:first-of-type) { display: none; }";
+        final CSSStyleSheetImpl sheet = parse(css, 0, 0, 0);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("p a:not(a:first-of-type) { display: none; }", rule.getCssText());
+
+        final Selector selector = ((CSSStyleRuleImpl) rule).getSelectors().get(0);
+        assertEquals(SelectorType.DESCENDANT_SELECTOR, selector.getSelectorType());
+
+        final ElementSelector elemSel = (ElementSelector) selector.getSimpleSelector();
+        assertEquals(1, elemSel.getConditions().size());
+
+        final Condition condition = elemSel.getConditions().get(0);
+        assertEquals(ConditionType.NOT_PSEUDO_CLASS_CONDITION, condition.getConditionType());
+
+        final NotPseudoClassCondition pseudo = (NotPseudoClassCondition) condition;
+        assertEquals("a:first-of-type", pseudo.getValue());
     }
 
     /**
@@ -3315,10 +3343,11 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(1, elemSel.getConditions().size());
 
         final Condition condition = elemSel.getConditions().get(0);
-        assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals(ConditionType.NOT_PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
-        final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        assertEquals("not(abc)", pseudo.getValue());
+        final NotPseudoClassCondition pseudo = (NotPseudoClassCondition) condition;
+        assertEquals("abc", pseudo.getValue());
+        assertEquals(":not(abc)", pseudo.toString());
     }
 
     /**
@@ -3338,10 +3367,11 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(1, elemSel.getConditions().size());
 
         final Condition condition = elemSel.getConditions().get(0);
-        assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals(ConditionType.NOT_PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
-        final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        assertEquals("not(*)", pseudo.getValue());
+        final NotPseudoClassCondition pseudo = (NotPseudoClassCondition) condition;
+        assertEquals("*", pseudo.getValue());
+        assertEquals(":not(*)", pseudo.toString());
     }
 
     /**
@@ -3350,7 +3380,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     @Test
     public void not_hash() throws Exception {
         final SelectorList selectors = createSelectors("p:not( #test)");
-        assertEquals("p:not(#test)", selectors.get(0).toString());
+        assertEquals("p:not(*#test)", selectors.get(0).toString());
 
         assertEquals(1, selectors.size());
         final Selector selector = selectors.get(0);
@@ -3361,10 +3391,11 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(1, elemSel.getConditions().size());
 
         final Condition condition = elemSel.getConditions().get(0);
-        assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals(ConditionType.NOT_PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
-        final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        assertEquals("not(#test)", pseudo.getValue());
+        final NotPseudoClassCondition pseudo = (NotPseudoClassCondition) condition;
+        assertEquals("*#test", pseudo.getValue());
+        assertEquals(":not(*#test)", pseudo.toString());
     }
 
     /**
@@ -3374,7 +3405,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     public void not_class() throws Exception {
         // element name
         final SelectorList selectors = createSelectors("p:not(.klass)");
-        assertEquals("p:not(.klass)", selectors.get(0).toString());
+        assertEquals("p:not(*.klass)", selectors.get(0).toString());
 
         assertEquals(1, selectors.size());
         final Selector selector = selectors.get(0);
@@ -3385,10 +3416,11 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(1, elemSel.getConditions().size());
 
         final Condition condition = elemSel.getConditions().get(0);
-        assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals(ConditionType.NOT_PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
-        final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        assertEquals("not(.klass)", pseudo.getValue());
+        final NotPseudoClassCondition pseudo = (NotPseudoClassCondition) condition;
+        assertEquals("*.klass", pseudo.getValue());
+        assertEquals(":not(*.klass)", pseudo.toString());
     }
 
     /**
@@ -3397,7 +3429,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     @Test
     public void not_attrib() throws Exception {
         final SelectorList selectors = createSelectors("p:not([type='file'])");
-        assertEquals("p:not([type=\"file\"])", selectors.get(0).toString());
+        assertEquals("p:not(*[type=\"file\"])", selectors.get(0).toString());
 
         assertEquals(1, selectors.size());
         final Selector selector = selectors.get(0);
@@ -3408,10 +3440,11 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(1, elemSel.getConditions().size());
 
         final Condition condition = elemSel.getConditions().get(0);
-        assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals(ConditionType.NOT_PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
-        final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        assertEquals("not([type=\"file\"])", pseudo.getValue());
+        final NotPseudoClassCondition pseudo = (NotPseudoClassCondition) condition;
+        assertEquals("*[type=\"file\"]", pseudo.getValue());
+        assertEquals(":not(*[type=\"file\"])", pseudo.toString());
     }
 
     /**
@@ -3420,7 +3453,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     @Test
     public void not_pseudo() throws Exception {
         final SelectorList selectors = createSelectors("p:not(:first)");
-        assertEquals("p:not(:first)", selectors.get(0).toString());
+        assertEquals("p:not(*:first)", selectors.get(0).toString());
 
         assertEquals(1, selectors.size());
         final Selector selector = selectors.get(0);
@@ -3431,29 +3464,30 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(1, elemSel.getConditions().size());
 
         final Condition condition = elemSel.getConditions().get(0);
-        assertEquals(ConditionType.PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals(ConditionType.NOT_PSEUDO_CLASS_CONDITION, condition.getConditionType());
 
-        final PseudoClassCondition pseudo = (PseudoClassCondition) condition;
-        assertEquals("not(:first)", pseudo.getValue());
+        final NotPseudoClassCondition pseudo = (NotPseudoClassCondition) condition;
+        assertEquals("*:first", pseudo.getValue());
+        assertEquals(":not(*:first)", pseudo.toString());
     }
     /**
      * @throws Exception if any error occurs
      */
     @Test
     public void invalid_not() throws Exception {
-        checkErrorSelector("input:not(.home:visited)",
-                "Error in pseudo class or element. (Invalid token \":\". Was expecting one of: <S>, \")\".)");
+//        checkErrorSelector("input:not(.home:visited)",
+//                "Error in pseudo class or element. (Invalid token \":\". Was expecting one of: <S>, \")\".)");
 
-        checkErrorSelector("input:not(.home p)",
-                "Error in pseudo class or element. (Invalid token \"p\". Was expecting one of: <S>, \")\".)");
+//        checkErrorSelector("input:not(.home p)",
+//                "Error in pseudo class or element. (Invalid token \"p\". Was expecting one of: <S>, \")\".)");
 
         checkErrorSelector("input:not()",
-                "Error in pseudo class or element. (Invalid token \")\"."
+                "Error in simple selector. (Invalid token \")\"."
                 + " Was expecting one of: <S>, <IDENT>, \".\", \":\", \"*\", \"[\", <HASH>.)");
 
-        checkErrorSelector("input:not(*.home)",
-                "Error in pseudo class or element. (Invalid token \".\"."
-                + " Was expecting one of: <S>, \")\".)");
+//        checkErrorSelector("input:not(*.home)",
+//                "Error in pseudo class or element. (Invalid token \".\"."
+//                + " Was expecting one of: <S>, \")\".)");
     }
 
     /**
@@ -3471,13 +3505,13 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("input:foo(test):before", selectors.get(0).toString());
 
         selectors = createSelectors("input:not(#test):not(#rest)");
-        assertEquals("input:not(#test):not(#rest)", selectors.get(0).toString());
+        assertEquals("input:not(*#test):not(*#rest)", selectors.get(0).toString());
 
         selectors = createSelectors("input:not(#test):nth-child(even)");
-        assertEquals("input:not(#test):nth-child(even)", selectors.get(0).toString());
+        assertEquals("input:not(*#test):nth-child(even)", selectors.get(0).toString());
 
         selectors = createSelectors("input:not(#test):before");
-        assertEquals("input:not(#test):before", selectors.get(0).toString());
+        assertEquals("input:not(*#test):before", selectors.get(0).toString());
     }
 
     /**
@@ -3501,7 +3535,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         // pseudo element not at end
         checkErrorSelector("input:before:not(#test)",
-                "Duplicate pseudo class \":not(#test)\" or pseudo class \":not(#test)\" not at end.");
+                "Duplicate pseudo class \":not(*#test)\" or pseudo class \":not(*#test)\" not at end.");
         checkErrorSelector("input:before[type='file']",
                 "Error in attribute selector. (Invalid token \"type\". Was expecting: <S>.)");
         checkErrorSelector("input:before.styleClass", "Error in class selector. (Invalid token \"\". "

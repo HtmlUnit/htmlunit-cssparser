@@ -50,6 +50,7 @@ import com.gargoylesoftware.css.parser.condition.ClassCondition;
 import com.gargoylesoftware.css.parser.condition.Condition;
 import com.gargoylesoftware.css.parser.condition.IdCondition;
 import com.gargoylesoftware.css.parser.condition.LangCondition;
+import com.gargoylesoftware.css.parser.condition.NotPseudoClassCondition;
 import com.gargoylesoftware.css.parser.condition.OneOfAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.PrefixAttributeCondition;
 import com.gargoylesoftware.css.parser.condition.PseudoClassCondition;
@@ -1368,6 +1369,7 @@ Object pseudo(boolean pseudoElementFound) :
     String function;
     String arg;
     boolean doubleColon = false;
+    SelectorList selectorList;
     Locator locator;
 }
 {
@@ -1394,14 +1396,11 @@ Object pseudo(boolean pseudoElementFound) :
             (
                 t = <FUNCTION_NOT> { function = unescape(t.image, false); }
                 ( <S> )*
-                arg = negation_arg() {
-                    if ("".equals(arg)) { arg = "*"; }
-                }
-                ( <S> )*
+                selectorList = selectorList()
                 <RROUND>
                 {
-                    if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + arg + ")" }, locator); }
-                    return new PseudoClassCondition(function + arg + ")", locator, doubleColon);
+                    if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + selectorList + ")" }, locator); }
+                    return new NotPseudoClassCondition(selectorList, locator, doubleColon);
                 }
             )
             |
@@ -2080,28 +2079,6 @@ LexicalUnit hslColor(LexicalUnit prev) :
     {
         return hslColorInternal(prev, funct, param);
     }
-}
-
-//
-// negation_arg
-//   : type_selector | universal | HASH | class | attrib | pseudo
-//   ;
-//
-String negation_arg() :
-{
-    Condition c = null;
-    SimpleSelector simpleSel = null;
-    Object o;
-}
-{
-    simpleSel = elementName() { return simpleSel.toString(); }
-    | c = hash(false) { return c.toString(); }
-    | c = _class(false) { return c.toString(); }
-    | c = attrib(false) { return c.toString(); }
-    | o = pseudo(false)
-      {  if (o instanceof Condition) { return o.toString(); }
-         return new DescendantSelector(null, (SimpleSelector) o).toString();
-      }
 }
 
 //
