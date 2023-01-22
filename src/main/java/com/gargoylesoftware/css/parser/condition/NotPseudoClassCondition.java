@@ -21,7 +21,7 @@ import com.gargoylesoftware.css.parser.Locator;
 import com.gargoylesoftware.css.parser.selector.SelectorList;
 
 /**
- * Not contition.
+ * Not condition.
  *
  * @author Ronald Brill
  */
