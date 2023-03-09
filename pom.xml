@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>1.14.0</version>
+    <version>3.0.0-SNAPSHOT</version>
     <name>HtmlUnit CSS Parser</name>
     <packaging>jar</packaging>
     <description>CSS parser for HtmlUnit.</description>
@@ -101,7 +101,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <basedir>${project.build.directory}/generated-sources/javacc/com/gargoylesoftware/css/parser/javacc</basedir>
+                    <basedir>${project.build.directory}/generated-sources/javacc/org/htmlunit/css/parser/javacc</basedir>
                     <includes>
                         <include>CSS3Parser.java</include>
 
@@ -195,7 +195,7 @@
                 <version>3.4.1</version>
                 <configuration>
                     <additionalparam>--allow-script-in-comments</additionalparam>
-                    <excludePackageNames>com.gargoylesoftware.css.parser.javacc</excludePackageNames>
+                    <excludePackageNames>org.htmlunit.css.parser.javacc</excludePackageNames>
                 </configuration>
                 <executions>
                     <execution>
@@ -270,7 +270,7 @@
                     <links>
                         <link>http://docs.oracle.com/javase/8/docs/api/</link>
                     </links>
-                    <excludePackageNames>com.gargoylesoftware.css.parser.javacc</excludePackageNames>
+                    <excludePackageNames>org.htmlunit.css.parser.javacc</excludePackageNames>
                 </configuration>
             </plugin>
             <plugin>
