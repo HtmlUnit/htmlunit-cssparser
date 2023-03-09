@@ -29,46 +29,46 @@ options {
 
 PARSER_BEGIN(CSS3Parser)
 
-package com.gargoylesoftware.css.parser.javacc;
+package org.htmlunit.css.parser.javacc;
 
 import java.util.LinkedList;
 import java.util.Locale;
 
-import com.gargoylesoftware.css.dom.CSSValueImpl;
-import com.gargoylesoftware.css.dom.Property;
-import com.gargoylesoftware.css.parser.AbstractCSSParser;
-import com.gargoylesoftware.css.parser.CSSParseException;
-import com.gargoylesoftware.css.parser.LexicalUnit;
-import com.gargoylesoftware.css.parser.LexicalUnitImpl;
-import com.gargoylesoftware.css.parser.LexicalUnit.LexicalUnitType;
-import com.gargoylesoftware.css.parser.Locatable;
-import com.gargoylesoftware.css.parser.Locator;
-import com.gargoylesoftware.css.parser.ParserUtils;
-import com.gargoylesoftware.css.parser.condition.AttributeCondition;
-import com.gargoylesoftware.css.parser.condition.BeginHyphenAttributeCondition;
-import com.gargoylesoftware.css.parser.condition.ClassCondition;
-import com.gargoylesoftware.css.parser.condition.Condition;
-import com.gargoylesoftware.css.parser.condition.IdCondition;
-import com.gargoylesoftware.css.parser.condition.LangCondition;
-import com.gargoylesoftware.css.parser.condition.NotPseudoClassCondition;
-import com.gargoylesoftware.css.parser.condition.OneOfAttributeCondition;
-import com.gargoylesoftware.css.parser.condition.PrefixAttributeCondition;
-import com.gargoylesoftware.css.parser.condition.PseudoClassCondition;
-import com.gargoylesoftware.css.parser.condition.SubstringAttributeCondition;
-import com.gargoylesoftware.css.parser.condition.SuffixAttributeCondition;
-import com.gargoylesoftware.css.parser.media.MediaQuery;
-import com.gargoylesoftware.css.parser.media.MediaQueryList;
-import com.gargoylesoftware.css.parser.selector.ChildSelector;
-import com.gargoylesoftware.css.parser.selector.DescendantSelector;
-import com.gargoylesoftware.css.parser.selector.DirectAdjacentSelector;
-import com.gargoylesoftware.css.parser.selector.ElementSelector;
-import com.gargoylesoftware.css.parser.selector.GeneralAdjacentSelector;
-import com.gargoylesoftware.css.parser.selector.PseudoElementSelector;
-import com.gargoylesoftware.css.parser.selector.Selector;
-import com.gargoylesoftware.css.parser.selector.SelectorList;
-import com.gargoylesoftware.css.parser.selector.SelectorListImpl;
-import com.gargoylesoftware.css.parser.selector.SimpleSelector;
-import com.gargoylesoftware.css.util.LangUtils;
+import org.htmlunit.css.dom.CSSValueImpl;
+import org.htmlunit.css.dom.Property;
+import org.htmlunit.css.parser.AbstractCSSParser;
+import org.htmlunit.css.parser.CSSParseException;
+import org.htmlunit.css.parser.LexicalUnit;
+import org.htmlunit.css.parser.LexicalUnitImpl;
+import org.htmlunit.css.parser.LexicalUnit.LexicalUnitType;
+import org.htmlunit.css.parser.Locatable;
+import org.htmlunit.css.parser.Locator;
+import org.htmlunit.css.parser.ParserUtils;
+import org.htmlunit.css.parser.condition.AttributeCondition;
+import org.htmlunit.css.parser.condition.BeginHyphenAttributeCondition;
+import org.htmlunit.css.parser.condition.ClassCondition;
+import org.htmlunit.css.parser.condition.Condition;
+import org.htmlunit.css.parser.condition.IdCondition;
+import org.htmlunit.css.parser.condition.LangCondition;
+import org.htmlunit.css.parser.condition.NotPseudoClassCondition;
+import org.htmlunit.css.parser.condition.OneOfAttributeCondition;
+import org.htmlunit.css.parser.condition.PrefixAttributeCondition;
+import org.htmlunit.css.parser.condition.PseudoClassCondition;
+import org.htmlunit.css.parser.condition.SubstringAttributeCondition;
+import org.htmlunit.css.parser.condition.SuffixAttributeCondition;
+import org.htmlunit.css.parser.media.MediaQuery;
+import org.htmlunit.css.parser.media.MediaQueryList;
+import org.htmlunit.css.parser.selector.ChildSelector;
+import org.htmlunit.css.parser.selector.DescendantSelector;
+import org.htmlunit.css.parser.selector.DirectAdjacentSelector;
+import org.htmlunit.css.parser.selector.ElementSelector;
+import org.htmlunit.css.parser.selector.GeneralAdjacentSelector;
+import org.htmlunit.css.parser.selector.PseudoElementSelector;
+import org.htmlunit.css.parser.selector.Selector;
+import org.htmlunit.css.parser.selector.SelectorList;
+import org.htmlunit.css.parser.selector.SelectorListImpl;
+import org.htmlunit.css.parser.selector.SimpleSelector;
+import org.htmlunit.css.util.LangUtils;
 
 /**
  * @author David Schweinsberg
