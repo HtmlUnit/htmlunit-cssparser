@@ -101,7 +101,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <basedir>${project.build.directory}/generated-sources/javacc/org/htmlunit/css/parser/javacc</basedir>
+                    <basedir>${project.build.directory}/generated-sources/javacc/org/htmlunit/cssparser/parser/javacc</basedir>
                     <includes>
                         <include>CSS3Parser.java</include>
 
@@ -195,7 +195,7 @@
                 <version>3.4.1</version>
                 <configuration>
                     <additionalparam>--allow-script-in-comments</additionalparam>
-                    <excludePackageNames>org.htmlunit.css.parser.javacc</excludePackageNames>
+                    <excludePackageNames>org.htmlunit.cssparser.parser.javacc</excludePackageNames>
                 </configuration>
                 <executions>
                     <execution>
@@ -270,7 +270,7 @@
                     <links>
                         <link>http://docs.oracle.com/javase/8/docs/api/</link>
                     </links>
-                    <excludePackageNames>org.htmlunit.css.parser.javacc</excludePackageNames>
+                    <excludePackageNames>org.htmlunit.cssparser.parser.javacc</excludePackageNames>
                 </configuration>
             </plugin>
             <plugin>
