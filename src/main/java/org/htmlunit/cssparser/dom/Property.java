@@ -17,7 +17,7 @@ package org.htmlunit.cssparser.dom;
 import java.io.Serializable;
 
 import org.htmlunit.cssparser.parser.AbstractLocatable;
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 
 /**
  * @author Ronald Brill
@@ -119,8 +119,8 @@ public class Property extends AbstractLocatable implements Serializable {
         final Property p = (Property) obj;
         return super.equals(obj)
             && (important_ == p.important_)
-            && LangUtils.equals(name_, p.name_)
-            && LangUtils.equals(value_, p.value_);
+            && ParserUtils.equals(name_, p.name_)
+            && ParserUtils.equals(value_, p.value_);
     }
 
     /**
@@ -129,9 +129,9 @@ public class Property extends AbstractLocatable implements Serializable {
     @Override
     public int hashCode() {
         int hash = super.hashCode();
-        hash = LangUtils.hashCode(hash, important_);
-        hash = LangUtils.hashCode(hash, name_);
-        hash = LangUtils.hashCode(hash, value_);
+        hash = ParserUtils.hashCode(hash, important_);
+        hash = ParserUtils.hashCode(hash, name_);
+        hash = ParserUtils.hashCode(hash, value_);
         return hash;
     }
 }

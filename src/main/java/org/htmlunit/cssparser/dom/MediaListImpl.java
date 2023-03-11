@@ -24,7 +24,7 @@ import org.htmlunit.cssparser.parser.CSSOMParser;
 import org.htmlunit.cssparser.parser.CSSParseException;
 import org.htmlunit.cssparser.parser.media.MediaQuery;
 import org.htmlunit.cssparser.parser.media.MediaQueryList;
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 import org.htmlunit.cssparser.util.ThrowCssExceptionErrorHandler;
 import org.w3c.dom.DOMException;
 
@@ -137,7 +137,7 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
         for (final MediaQuery mediaQuery : mediaQueries_) {
             final String m1 = mediaQuery.getMedia();
             final String m2 = ml.mediaQuery(i).getMedia();
-            if (!LangUtils.equals(m1, m2)) {
+            if (!ParserUtils.equals(m1, m2)) {
                 return false;
             }
             i++;
@@ -160,7 +160,7 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
     @Override
     public int hashCode() {
         int hash = super.hashCode();
-        hash = LangUtils.hashCode(hash, mediaQueries_);
+        hash = ParserUtils.hashCode(hash, mediaQueries_);
         return hash;
     }
 }

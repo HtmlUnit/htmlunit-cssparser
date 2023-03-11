@@ -23,8 +23,8 @@ import org.htmlunit.cssparser.parser.AbstractLocatable;
 import org.htmlunit.cssparser.parser.CSSOMParser;
 import org.htmlunit.cssparser.parser.LexicalUnit;
 import org.htmlunit.cssparser.parser.LexicalUnit.LexicalUnitType;
+import org.htmlunit.cssparser.util.ParserUtils;
 import org.htmlunit.cssparser.parser.LexicalUnitImpl;
-import org.htmlunit.cssparser.util.LangUtils;
 import org.w3c.dom.DOMException;
 
 /**
@@ -515,13 +515,13 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         // TODO to be improved!
         return super.equals(obj)
             && (getCssValueType() == cv.getCssValueType())
-            && LangUtils.equals(getCssText(), cv.getCssText());
+            && ParserUtils.equals(getCssText(), cv.getCssText());
     }
 
     @Override
     public int hashCode() {
         int hash = super.hashCode();
-        hash = LangUtils.hashCode(hash, value_);
+        hash = ParserUtils.hashCode(hash, value_);
         return hash;
     }
 

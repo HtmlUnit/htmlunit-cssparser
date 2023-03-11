@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import org.htmlunit.cssparser.parser.CSSException;
 import org.htmlunit.cssparser.parser.CSSOMParser;
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 import org.htmlunit.cssparser.util.ThrowCssExceptionErrorHandler;
 import org.w3c.dom.DOMException;
 
@@ -177,15 +177,15 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
         }
         final CSSPageRuleImpl cpr = (CSSPageRuleImpl) obj;
         return super.equals(obj)
-            && LangUtils.equals(getSelectorText(), cpr.getSelectorText())
-            && LangUtils.equals(getStyle(), cpr.getStyle());
+            && ParserUtils.equals(getSelectorText(), cpr.getSelectorText())
+            && ParserUtils.equals(getStyle(), cpr.getStyle());
     }
 
     @Override
     public int hashCode() {
         int hash = super.hashCode();
-        hash = LangUtils.hashCode(hash, pseudoPage_);
-        hash = LangUtils.hashCode(hash, style_);
+        hash = ParserUtils.hashCode(hash, pseudoPage_);
+        hash = ParserUtils.hashCode(hash, style_);
         return hash;
     }
 

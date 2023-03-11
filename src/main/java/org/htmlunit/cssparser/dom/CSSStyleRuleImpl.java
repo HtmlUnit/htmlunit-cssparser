@@ -19,7 +19,7 @@ import java.io.IOException;
 import org.htmlunit.cssparser.parser.CSSException;
 import org.htmlunit.cssparser.parser.CSSOMParser;
 import org.htmlunit.cssparser.parser.selector.SelectorList;
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 import org.w3c.dom.DOMException;
 
 /**
@@ -174,15 +174,15 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
         }
         final CSSStyleRuleImpl csr = (CSSStyleRuleImpl) obj;
         return super.equals(obj)
-            && LangUtils.equals(getSelectorText(), csr.getSelectorText())
-            && LangUtils.equals(getStyle(), csr.getStyle());
+            && ParserUtils.equals(getSelectorText(), csr.getSelectorText())
+            && ParserUtils.equals(getStyle(), csr.getStyle());
     }
 
     @Override
     public int hashCode() {
         int hash = super.hashCode();
-        hash = LangUtils.hashCode(hash, selectors_);
-        hash = LangUtils.hashCode(hash, style_);
+        hash = ParserUtils.hashCode(hash, selectors_);
+        hash = ParserUtils.hashCode(hash, style_);
         return hash;
     }
 }

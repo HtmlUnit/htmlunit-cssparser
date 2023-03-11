@@ -20,7 +20,7 @@ import java.io.ObjectOutputStream;
 
 import org.htmlunit.cssparser.parser.CSSException;
 import org.htmlunit.cssparser.parser.CSSOMParser;
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 import org.htmlunit.cssparser.util.ThrowCssExceptionErrorHandler;
 import org.w3c.dom.DOMException;
 
@@ -196,15 +196,15 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
         }
         final CSSMediaRuleImpl cmr = (CSSMediaRuleImpl) obj;
         return super.equals(obj)
-            && LangUtils.equals(getMediaList(), cmr.getMediaList())
-            && LangUtils.equals(getCssRules(), cmr.getCssRules());
+            && ParserUtils.equals(getMediaList(), cmr.getMediaList())
+            && ParserUtils.equals(getCssRules(), cmr.getCssRules());
     }
 
     @Override
     public int hashCode() {
         int hash = super.hashCode();
-        hash = LangUtils.hashCode(hash, mediaList_);
-        hash = LangUtils.hashCode(hash, cssRules_);
+        hash = ParserUtils.hashCode(hash, mediaList_);
+        hash = ParserUtils.hashCode(hash, cssRules_);
         return hash;
     }
 

@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import org.htmlunit.cssparser.parser.CSSException;
 import org.htmlunit.cssparser.parser.CSSOMParser;
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 import org.w3c.dom.DOMException;
 
 /**
@@ -116,13 +116,13 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl {
         }
         final CSSFontFaceRuleImpl cffr = (CSSFontFaceRuleImpl) obj;
         return super.equals(obj)
-            && LangUtils.equals(getStyle(), cffr.getStyle());
+            && ParserUtils.equals(getStyle(), cffr.getStyle());
     }
 
     @Override
     public int hashCode() {
         int hash = super.hashCode();
-        hash = LangUtils.hashCode(hash, style_);
+        hash = ParserUtils.hashCode(hash, style_);
         return hash;
     }
 

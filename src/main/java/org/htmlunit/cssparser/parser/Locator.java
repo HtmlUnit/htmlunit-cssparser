@@ -16,7 +16,7 @@ package org.htmlunit.cssparser.parser;
 
 import java.io.Serializable;
 
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 
 /**
  * For associating a CSS event with a document location.
@@ -106,15 +106,15 @@ public class Locator implements Serializable {
         final Locator l = (Locator) obj;
         return (getColumnNumber() == l.getColumnNumber())
             && (getLineNumber() == l.getLineNumber())
-            && LangUtils.equals(getUri(), l.getUri());
+            && ParserUtils.equals(getUri(), l.getUri());
     }
 
     @Override
     public int hashCode() {
-        int hash = LangUtils.HASH_SEED;
-        hash = LangUtils.hashCode(hash, columnNumber_);
-        hash = LangUtils.hashCode(hash, lineNumber_);
-        hash = LangUtils.hashCode(hash, uri_);
+        int hash = ParserUtils.HASH_SEED;
+        hash = ParserUtils.hashCode(hash, columnNumber_);
+        hash = ParserUtils.hashCode(hash, lineNumber_);
+        hash = ParserUtils.hashCode(hash, uri_);
         return hash;
     }
 

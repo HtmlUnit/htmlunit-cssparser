@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 
 /**
  * Implementation of StyleSheetList.
@@ -94,7 +94,7 @@ public class CSSStyleSheetListImpl {
         int i = 0;
         for (final CSSStyleSheetImpl styleSheet : cssStyleSheets_) {
             final CSSStyleSheetImpl styleSheet2 = ssl.cssStyleSheets_.get(i);
-            if (!LangUtils.equals(styleSheet, styleSheet2)) {
+            if (!ParserUtils.equals(styleSheet, styleSheet2)) {
                 return false;
             }
             i++;
@@ -104,8 +104,8 @@ public class CSSStyleSheetListImpl {
 
     @Override
     public int hashCode() {
-        int hash = LangUtils.HASH_SEED;
-        hash = LangUtils.hashCode(hash, cssStyleSheets_);
+        int hash = ParserUtils.HASH_SEED;
+        hash = ParserUtils.hashCode(hash, cssStyleSheets_);
         return hash;
     }
 

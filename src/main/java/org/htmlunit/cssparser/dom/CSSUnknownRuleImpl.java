@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import org.htmlunit.cssparser.parser.CSSException;
 import org.htmlunit.cssparser.parser.CSSOMParser;
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 import org.w3c.dom.DOMException;
 
 /**
@@ -103,13 +103,13 @@ public class CSSUnknownRuleImpl extends AbstractCSSRuleImpl {
         }
         final CSSUnknownRuleImpl cur = (CSSUnknownRuleImpl) obj;
         return super.equals(obj)
-            && LangUtils.equals(getCssText(), cur.getCssText());
+            && ParserUtils.equals(getCssText(), cur.getCssText());
     }
 
     @Override
     public int hashCode() {
         int hash = super.hashCode();
-        hash = LangUtils.hashCode(hash, text_);
+        hash = ParserUtils.hashCode(hash, text_);
         return hash;
     }
 

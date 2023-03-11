@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.htmlunit.cssparser.parser.CSSErrorHandler;
 import org.htmlunit.cssparser.parser.CSSOMParser;
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 import org.htmlunit.cssparser.util.ThrowCssExceptionErrorHandler;
 import org.w3c.dom.DOMException;
 
@@ -265,12 +265,12 @@ public class CSSStyleDeclarationImpl implements Serializable {
             // CSSValue propertyCSSValue2 = csd.getPropertyCSSValue(propertyName);
             final String propertyValue1 = getPropertyValue(propertyName);
             final String propertyValue2 = csd.getPropertyValue(propertyName);
-            if (!LangUtils.equals(propertyValue1, propertyValue2)) {
+            if (!ParserUtils.equals(propertyValue1, propertyValue2)) {
                 return false;
             }
             final String propertyPriority1 = getPropertyPriority(propertyName);
             final String propertyPriority2 = csd.getPropertyPriority(propertyName);
-            if (!LangUtils.equals(propertyPriority1, propertyPriority2)) {
+            if (!ParserUtils.equals(propertyPriority1, propertyPriority2)) {
                 return false;
             }
         }
@@ -279,10 +279,10 @@ public class CSSStyleDeclarationImpl implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = LangUtils.HASH_SEED;
+        int hash = ParserUtils.HASH_SEED;
         // don't use parentRule in hashCode()
         // recursive loop -> stack overflow!
-        hash = LangUtils.hashCode(hash, properties_);
+        hash = ParserUtils.hashCode(hash, properties_);
         return hash;
     }
 }

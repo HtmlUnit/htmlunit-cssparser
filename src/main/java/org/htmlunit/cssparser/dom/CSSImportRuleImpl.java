@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import org.htmlunit.cssparser.parser.CSSException;
 import org.htmlunit.cssparser.parser.CSSOMParser;
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 import org.w3c.dom.DOMException;
 
 /**
@@ -140,15 +140,15 @@ public class CSSImportRuleImpl extends AbstractCSSRuleImpl {
         }
         final CSSImportRuleImpl cir = (CSSImportRuleImpl) obj;
         return super.equals(obj)
-            && LangUtils.equals(getHref(), cir.getHref())
-            && LangUtils.equals(getMedia(), cir.getMedia());
+            && ParserUtils.equals(getHref(), cir.getHref())
+            && ParserUtils.equals(getMedia(), cir.getMedia());
     }
 
     @Override
     public int hashCode() {
         int hash = super.hashCode();
-        hash = LangUtils.hashCode(hash, href_);
-        hash = LangUtils.hashCode(hash, media_);
+        hash = ParserUtils.hashCode(hash, href_);
+        hash = ParserUtils.hashCode(hash, media_);
         return hash;
     }
 }

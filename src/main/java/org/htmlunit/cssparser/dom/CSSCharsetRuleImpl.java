@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import org.htmlunit.cssparser.parser.CSSException;
 import org.htmlunit.cssparser.parser.CSSOMParser;
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 import org.w3c.dom.DOMException;
 
 /**
@@ -95,13 +95,13 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
         }
         final CSSCharsetRuleImpl ccr = (CSSCharsetRuleImpl) obj;
         return super.equals(obj)
-            && LangUtils.equals(getEncoding(), ccr.getEncoding());
+            && ParserUtils.equals(getEncoding(), ccr.getEncoding());
     }
 
     @Override
     public int hashCode() {
         int hash = super.hashCode();
-        hash = LangUtils.hashCode(hash, encoding_);
+        hash = ParserUtils.hashCode(hash, encoding_);
         return hash;
     }
 

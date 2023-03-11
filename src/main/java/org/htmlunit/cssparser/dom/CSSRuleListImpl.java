@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 
 /**
  * Implementation of CSSRuleList.
@@ -106,7 +106,7 @@ public class CSSRuleListImpl implements Serializable {
         int i = 0;
         for (final AbstractCSSRuleImpl rule : rules_) {
             final AbstractCSSRuleImpl cssRule2 = crl.rules_.get(i);
-            if (!LangUtils.equals(rule, cssRule2)) {
+            if (!ParserUtils.equals(rule, cssRule2)) {
                 return false;
             }
             i++;
@@ -116,8 +116,8 @@ public class CSSRuleListImpl implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = LangUtils.HASH_SEED;
-        hash = LangUtils.hashCode(hash, rules_);
+        int hash = ParserUtils.HASH_SEED;
+        hash = ParserUtils.hashCode(hash, rules_);
         return hash;
     }
 }

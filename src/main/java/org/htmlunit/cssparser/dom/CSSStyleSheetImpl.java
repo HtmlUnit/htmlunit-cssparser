@@ -32,7 +32,7 @@ import org.htmlunit.cssparser.parser.media.MediaQuery;
 import org.htmlunit.cssparser.parser.media.MediaQueryList;
 import org.htmlunit.cssparser.parser.selector.ElementSelector;
 import org.htmlunit.cssparser.parser.selector.Selector;
-import org.htmlunit.cssparser.util.LangUtils;
+import org.htmlunit.cssparser.util.ParserUtils;
 import org.htmlunit.cssparser.util.ThrowCssExceptionErrorHandler;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
@@ -302,23 +302,23 @@ public class CSSStyleSheetImpl implements Serializable {
             return false;
         }
         final CSSStyleSheetImpl css = (CSSStyleSheetImpl) obj;
-        boolean eq = LangUtils.equals(getCssRules(), css.getCssRules());
+        boolean eq = ParserUtils.equals(getCssRules(), css.getCssRules());
         eq = eq && (getDisabled() == css.getDisabled());
-        eq = eq && LangUtils.equals(getHref(), css.getHref());
-        eq = eq && LangUtils.equals(getMedia(), css.getMedia());
-        eq = eq && LangUtils.equals(getTitle(), css.getTitle());
+        eq = eq && ParserUtils.equals(getHref(), css.getHref());
+        eq = eq && ParserUtils.equals(getMedia(), css.getMedia());
+        eq = eq && ParserUtils.equals(getTitle(), css.getTitle());
         return eq;
     }
 
     @Override
     public int hashCode() {
-        int hash = LangUtils.HASH_SEED;
-        hash = LangUtils.hashCode(hash, cssRules_);
-        hash = LangUtils.hashCode(hash, disabled_);
-        hash = LangUtils.hashCode(hash, href_);
-        hash = LangUtils.hashCode(hash, media_);
-        hash = LangUtils.hashCode(hash, ownerNode_);
-        hash = LangUtils.hashCode(hash, title_);
+        int hash = ParserUtils.HASH_SEED;
+        hash = ParserUtils.hashCode(hash, cssRules_);
+        hash = ParserUtils.hashCode(hash, disabled_);
+        hash = ParserUtils.hashCode(hash, href_);
+        hash = ParserUtils.hashCode(hash, media_);
+        hash = ParserUtils.hashCode(hash, ownerNode_);
+        hash = ParserUtils.hashCode(hash, title_);
         return hash;
     }
 
