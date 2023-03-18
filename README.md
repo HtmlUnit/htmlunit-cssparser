@@ -15,14 +15,14 @@ We will try to stay in sync with CSSParser regarding the features in the future.
 ### Project News
 [HtmlUnit@Twitter][3]
 
-### Latest release Version 1.14.0 / January 22, 2023
+### Latest release Version 3.0.0 / March 19, 2023
 
 For maven, you would add:
 
     <dependency>
-        <groupId>net.sourceforge.htmlunit</groupId>
+        <groupId>org.htmlunit</groupId>
         <artifactId>htmlunit-cssparser</artifactId>
-        <version>1.14.0</version>
+        <version>3.0.0</version>
     </dependency>
 
 ### Latst CI build
@@ -34,16 +34,16 @@ The latest builds are available from our
 If you use maven please add:
 
     <dependency>
-        <groupId>net.sourceforge.htmlunit</groupId>
+        <groupId>org.htmlunit</groupId>
         <artifactId>htmlunit-cssparser</artifactId>
-        <version>1.15.0-SNAPSHOT</version>
+        <version>3.1.0-SNAPSHOT</version>
     </dependency>
 
 You have to add the sonatype snapshot repository to your pom distributionManagement section also:
 
     <repository>
         <id>OSS Sonatype snapshots</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         <snapshots>
             <enabled>true</enabled>
             <updatePolicy>always</updatePolicy>
@@ -100,19 +100,19 @@ This part is intended for committer who are packaging a release.
    mvn -up clean deploy
 ```
 
-* Go to [Sonatype staging repositories](https://oss.sonatype.org/index.html#stagingRepositories) and process the deploy
+* Go to [Sonatype staging repositories](https://s01.oss.sonatype.org/index.html#stagingRepositories) and process the deploy
   - select the repository and close it - wait until the close is processed
   - release the package and wait until it is processed
 
 * Create the version on Github
     * login to Github and open project https://github.com/HtmlUnit/htmlunit-cssparser
     * click Releases > Draft new release
-    * fill the tag and title field with the release number (e.g. 1.1.0)
+    * fill the tag and title field with the release number (e.g. 3.0.0)
     * append 
-        * htmlunit-cssparser-1.x.x.jar
-        * htmlunit-cssparser-1.x.x.jar.asc 
-        * htmlunit-cssparser-1.x.x-javadoc.jar
-        * htmlunit-cssparser-1.x.x-javadoc.jar.asc
+        * htmlunit-cssparser-3.x.x.jar
+        * htmlunit-cssparser-3.x.x.jar.asc 
+        * htmlunit-cssparser-3.x.x-javadoc.jar
+        * htmlunit-cssparser-3.x.x-javadoc.jar.asc
     * and publish the release 
 
 * Update the version number in pom.xml to start next snapshot development
