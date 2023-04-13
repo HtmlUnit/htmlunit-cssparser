@@ -994,17 +994,17 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20 30%)");
         color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20 30%)");
 
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: rgb(10, 20, 30,)");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: rgb(10, 20, 30/)");
 
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: rgb(10, 20px, 30)");
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <COMMA>, <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", \",\", <PERCENTAGE>.)",
                 "foreground: rgb(10 20px 30)");
 
-        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: rgb('10', 20, 30,)");
     }
 
@@ -1137,15 +1137,15 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color(1, "DOM exception: 'hsl requires consitent separators (blank or comma).'", "foreground: hsl(10 20%, 30%)");
 
         color(1, "Error in expression. (Invalid token \"10\". "
-                + "Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                + "Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
                 "foreground: hsl('10', 20% 30%)");
         color(1, "Error in expression. (Invalid token \"10\". "
-                + "Was expecting one of: <S>, <NUMBER>, \"-\", <PLUS>, <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                + "Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
                 "foreground: hsl(10px, 20% 30%)");
 
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"-\", <PLUS>, <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: hsl(10, 20, 30%)");
-        color(1, "Error in expression. (Invalid token \"30\". Was expecting one of: <S>, \"-\", <PLUS>, <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"30\". Was expecting one of: <S>, \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: hsl(10, 20%, 30)");
     }
 
@@ -1874,7 +1874,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         final String expected = "Error in declaration. (Invalid token \"}\". Was expecting one of: <S>, \":\".)"
                 + " Error in declaration. (Invalid token \";\". Was expecting one of: <S>, \":\".)"
                 + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
-                        + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
+                        + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
@@ -1882,7 +1882,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
-                        + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
+                        + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
@@ -1984,7 +1984,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in style rule. "
-                + "(Invalid token \"@here\". Was expecting one of: <S>, <LBRACE>, <COMMA>.)";
+                + "(Invalid token \"@here\". Was expecting one of: <S>, \"{\", \",\".)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("2", errorHandler.getErrorLines());
         assertEquals("3", errorHandler.getErrorColumns());
@@ -2179,7 +2179,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in expression. "
                 + "(Invalid token \"\\'\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
-                        + "<IDENT>, <STRING>, \"-\", <PLUS>, <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
+                        + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "

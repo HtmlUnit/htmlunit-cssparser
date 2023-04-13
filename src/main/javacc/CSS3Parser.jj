@@ -268,7 +268,7 @@ TOKEN_MGR_DECLS :
 | < SUBSTRINGMATCH: "*=" >
 
 // {w}"{"               {return LBRACE;}
-| < LBRACE: <W> "{" >
+| < LBRACE: "{" >
 | < RBRACE: "}" >
 
 | < LROUND: "(" >
@@ -285,16 +285,16 @@ TOKEN_MGR_DECLS :
 | < RSQUARE: "]" >
 
 // {w}"+"               {return PLUS;}
-| < PLUS: <W> "+" >
+| < PLUS: "+" >
 
 // {w}">"               {return GREATER;}
-| < GREATER: <W> ">" >
+| < GREATER: ">" >
 
 // {w}"~"               {return TILDE;}
 | < TILDE: "~" >
 
 // {w}","               {return COMMA;}
-| < COMMA: <W> "," >
+| < COMMA: "," >
 
 // "#"{name}            {return HASH;}
 | < HASH: "#" <NAME> >

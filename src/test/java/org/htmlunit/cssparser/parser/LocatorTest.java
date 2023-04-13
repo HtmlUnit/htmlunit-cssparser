@@ -99,7 +99,7 @@ public class LocatorTest {
         positions.put('R', rPos);
         final List<Integer[]> mPos = new ArrayList<>();
         mPos.add(new Integer[] {2, 29});
-        mPos.add(new Integer[] {11, 8});
+        mPos.add(new Integer[] {11, 16});
         positions.put('M', mPos);
         final List<Integer[]> pPos = new ArrayList<>();
         pPos.add(new Integer[] {5, 3});
