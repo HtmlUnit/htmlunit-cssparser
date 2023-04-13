@@ -103,7 +103,7 @@ TOKEN_MGR_DECLS :
 // {s}          {return S;}
     < S: ( " "|"\t"|"\r"|"\n"|"\f" )+ >
 // w        {s}?
-    | < W: ( <S> )? >
+//    | < W: ( <S> )? >
 }
 
 <DEFAULT> MORE :
@@ -315,7 +315,7 @@ TOKEN_MGR_DECLS :
 | < CHARSET_SYM: "@" <C_LETTER> <H_LETTER> <A_LETTER> <R_LETTER> <S_LETTER> <E_LETTER> <T_LETTER> >
 
 // "!"({w}|{comment})*{I}{M}{P}{O}{R}{T}{A}{N}{T}   {return IMPORTANT_SYM;}
-| < IMPORTANT_SYM: "!" ( <W> | <COMMENT_> )* <I_LETTER> <M_LETTER> <P_LETTER> <O_LETTER> <R_LETTER> <T_LETTER> <A_LETTER> <N_LETTER> <T_LETTER> >
+| < IMPORTANT_SYM: "!" ( <S> | <COMMENT_> )* <I_LETTER> <M_LETTER> <P_LETTER> <O_LETTER> <R_LETTER> <T_LETTER> <A_LETTER> <N_LETTER> <T_LETTER> >
 
 // {num}{E}{M}          {return EMS;}
 | < EMS: <NUM> <E_LETTER> <M_LETTER> > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }

@@ -71,7 +71,7 @@ public class ImportantTest {
         assertEquals(0, errorHandler.getWarningCount());
 
         final CSSRuleListImpl rules = ss.getCssRules();
-        assertEquals(5, rules.getLength());
+        assertEquals(7, rules.getLength());
 
         AbstractCSSRuleImpl rule = rules.getRules().get(0);
         assertEquals("*.sel1 { padding: 0 !important; }", rule.getCssText());
@@ -86,6 +86,12 @@ public class ImportantTest {
         assertEquals("*.sel4 { font-weight: normal !important; }", rule.getCssText());
 
         rule = rules.getRules().get(4);
+        assertEquals("*.sel5 { font-weight: normal !important; }", rule.getCssText());
+
+        rule = rules.getRules().get(5);
+        assertEquals("*.sel6 { font-weight: normal !important; }", rule.getCssText());
+
+        rule = rules.getRules().get(6);
         assertEquals("*.important { font-weight: bold; }", rule.getCssText());
     }
 

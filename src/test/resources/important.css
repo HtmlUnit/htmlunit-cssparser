@@ -12,6 +12,14 @@
  important;
 }
 
+.sel5 {
+  font-weight: normal !/*really*/important;
+}
+
+.sel6 {
+  font-weight: normal !    /*really*/     important;
+}
+
 .important {
   font-weight: bold
 }
