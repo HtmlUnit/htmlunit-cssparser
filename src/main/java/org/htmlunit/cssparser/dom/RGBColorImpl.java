@@ -181,7 +181,7 @@ public class RGBColorImpl implements Serializable {
 
     /**
      * Sets the red part to a new value.
-     * @param red the new CSSPrimitiveValue
+     * @param red the new CSSValueImpl
      */
     public void setRed(final CSSValueImpl red) {
         red_ = red;
@@ -196,7 +196,7 @@ public class RGBColorImpl implements Serializable {
 
     /**
      * Sets the green part to a new value.
-     * @param green the new CSSPrimitiveValue
+     * @param green the new CSSValueImpl
      */
     public void setGreen(final CSSValueImpl green) {
         green_ = green;
@@ -211,7 +211,7 @@ public class RGBColorImpl implements Serializable {
 
     /**
      * Sets the blue part to a new value.
-     * @param blue the new CSSPrimitiveValue
+     * @param blue the new CSSValueImpl
      */
     public void setBlue(final CSSValueImpl blue) {
         blue_ = blue;
@@ -226,7 +226,7 @@ public class RGBColorImpl implements Serializable {
 
     /**
      * Sets the alpha part to a new value.
-     * @param alpha the new CSSPrimitiveValue
+     * @param alpha the new CSSValueImpl
      */
     public void setAlpha(final CSSValueImpl alpha) {
         alpha_ = alpha;

@@ -170,7 +170,7 @@ public class HSLColorImpl implements Serializable {
 
     /**
      * Sets the hue part to a new value.
-     * @param hue the new CSSPrimitiveValue
+     * @param hue the new CSSValueImpl
      */
     public void setHue(final CSSValueImpl hue) {
         hue_ = hue;
@@ -185,7 +185,7 @@ public class HSLColorImpl implements Serializable {
 
     /**
      * Sets the saturation part to a new value.
-     * @param saturation the new CSSPrimitiveValue
+     * @param saturation the new CSSValueImpl
      */
     public void setSaturation(final CSSValueImpl saturation) {
         saturation_ = saturation;
@@ -200,7 +200,7 @@ public class HSLColorImpl implements Serializable {
 
     /**
      * Sets the lightness part to a new value.
-     * @param lightness the new CSSPrimitiveValue
+     * @param lightness the new CSSValueImpl
      */
     public void setLightness(final CSSValueImpl lightness) {
         lightness_ = lightness;
@@ -215,7 +215,7 @@ public class HSLColorImpl implements Serializable {
 
     /**
      * Sets the alpha part to a new value.
-     * @param alpha the new CSSPrimitiveValue
+     * @param alpha the new CSSValueImpl
      */
     public void setAlpha(final CSSValueImpl alpha) {
         alpha_ = alpha;

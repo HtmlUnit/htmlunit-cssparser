@@ -123,7 +123,7 @@ public class RectImpl implements Serializable {
 
     /**
      * Sets the top part to a new value.
-     * @param top the new CSSPrimitiveValue
+     * @param top the new CSSValueImpl
      */
     public void setTop(final CSSValueImpl top) {
         top_ = top;
@@ -138,7 +138,7 @@ public class RectImpl implements Serializable {
 
     /**
      * Sets the right part to a new value.
-     * @param right the new CSSPrimitiveValue
+     * @param right the new CSSValueImpl
      */
     public void setRight(final CSSValueImpl right) {
         right_ = right;
@@ -153,7 +153,7 @@ public class RectImpl implements Serializable {
 
     /**
      * Sets the bottom part to a new value.
-     * @param bottom the new CSSPrimitiveValue
+     * @param bottom the new CSSValueImpl
      */
     public void setBottom(final CSSValueImpl bottom) {
         bottom_ = bottom;
@@ -168,7 +168,7 @@ public class RectImpl implements Serializable {
 
     /**
      * Sets the left part to a new value.
-     * @param left the new CSSPrimitiveValue
+     * @param left the new CSSValueImpl
      */
     public void setLeft(final CSSValueImpl left) {
         left_ = left;
