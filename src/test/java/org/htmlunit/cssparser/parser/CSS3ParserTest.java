@@ -4175,6 +4175,32 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void realWorldBootstrap520() throws Exception {
+        final String media = "(max-width: 1199.98px);"
+                + "(max-width: 1199.98px) and (prefers-reduced-motion: reduce);"
+                + "(max-width: 1399.98px);(max-width: 1399.98px) and (prefers-reduced-motion: reduce);"
+                + "(max-width: 575.98px);"
+                + "(max-width: 575.98px) and (prefers-reduced-motion: reduce);"
+                + "(max-width: 767.98px);"
+                + "(max-width: 767.98px) and (prefers-reduced-motion: reduce);"
+                + "(max-width: 991.98px);"
+                + "(max-width: 991.98px) and (prefers-reduced-motion: reduce);"
+                + "(min-width: 1200px);"
+                + "(min-width: 1400px);"
+                + "(min-width: 576px);"
+                + "(min-width: 768px);"
+                + "(min-width: 992px);"
+                + "(prefers-reduced-motion: no-preference);"
+                + "(prefers-reduced-motion: reduce);"
+                + "print;";
+        realWorld("realworld/bootstrap_5_2_0.css", 1198, 3018, media, 55, 0);
+        realWorld("realworld/bootstrap_5_2_0.min.css", 1198, 3018, media, 55, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void realWorldSpiegel() throws Exception {
         realWorld("realworld/style-V5-11.css", 2088, 6028, "screen and (min-width: 1030px);", 47, 0);
     }
