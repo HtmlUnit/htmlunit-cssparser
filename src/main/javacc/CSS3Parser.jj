@@ -1108,7 +1108,11 @@ Selector selector() :
 {
     try {
         sel = simpleSelector(null, ' ')
-        ( LOOKAHEAD(2) comb = combinator() sel = simpleSelector(sel, comb) )* ( <S> )*
+        (
+          LOOKAHEAD(2)
+          /* LOOKAHEAD(combinator() ( <IDENT> | <ASTERISK> | <HASH> | <DOT> | <LSQUARE> | <COLON> )) */
+          /* LOOKAHEAD( { isCombinator() }) */
+          comb = combinator() sel = simpleSelector(sel, comb) )* ( <S> )*
         {
             return sel;
         }
@@ -2428,4 +2432,48 @@ Boolean handleCaseInSensitive(Token t)
     }
 
     throw toCSSParseException("invalidCaseInSensitivelyIdentifier", new String[] { s }, createLocator(t));
+}
+
+JAVACODE
+boolean isCombinator()
+{
+  Token token = getToken(1);
+  if (token.kind == EOF) { return false; }
+
+  if (token.kind == S) {
+    token = getToken(2);
+    if (token.kind == EOF) { return false; }
+
+    if (token.kind == PLUS || token.kind == GREATER || token.kind == TILDE) {
+      token = getToken(3);
+      if (token.kind == EOF) { return false; }
+      if (token.kind == S) {
+        token = getToken(4);
+        if (token.kind == EOF) { return false; }
+      }
+    }
+
+    return token.kind == IDENT
+            || token.kind == ASTERISK
+            || token.kind == HASH
+            || token.kind == DOT
+            || token.kind == LSQUARE
+            || token.kind == COLON;
+  }
+  else if (token.kind == PLUS || token.kind == GREATER || token.kind == TILDE) {
+    token = getToken(2);
+    if (token.kind == EOF) { return false; }
+    if (token.kind == S) {
+      token = getToken(3);
+      if (token.kind == EOF) { return false; }
+    }
+
+    return token.kind == IDENT
+            || token.kind == ASTERISK
+            || token.kind == HASH
+            || token.kind == DOT
+            || token.kind == LSQUARE
+            || token.kind == COLON;
+  }
+  return false;
 }

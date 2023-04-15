@@ -4498,6 +4498,39 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("h1::link { color: red; }", rule.getCssText());
     }
 
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void performance() throws Exception {
+        for (int i = 0; i < 40; i++) {
+            realWorld("realworld/style.csx.css");
+            realWorld("realworld/compass-homestyle.css");
+            realWorld("realworld/www.css");
+            realWorld("realworld/home.built.css");
+            realWorld("realworld/load.php.css");
+            realWorld("realworld/normalize.css");
+            realWorld("realworld/cargo.css");
+            realWorld("realworld/blueprint/screen.css");
+            realWorld("realworld/blueprint/print.css");
+            realWorld("realworld/blueprint/ie.css");
+            realWorld("realworld/bootstrap_3_3_7_min.css");
+            realWorld("realworld/bootstrap_4_0_0.css");
+            realWorld("realworld/bootstrap_4_0_0_min.css");
+            realWorld("realworld/style-V5-11.css");
+            realWorld("realworld/all.css");
+        }
+    }
+
+    private static final CSSOMParser p = new CSSOMParser();
+
+    private void realWorld(final String resourceName) throws Exception {
+        final InputStream is = getClass().getClassLoader().getResourceAsStream(resourceName);
+        assertNotNull(is);
+
+        final InputSource css = new InputSource(new InputStreamReader(is, StandardCharsets.UTF_8));
+        p.parseStyleSheet(css, null);
+    }
 //
 //    /**
 //     * @throws Exception if any error occurs
