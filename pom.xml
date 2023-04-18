@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0-SNAPSHOT</version>
     <name>HtmlUnit CSS Parser</name>
     <organization>
         <name>HtmlUnit</name>
@@ -19,6 +19,8 @@
 
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+
+        <dependencycheck.version>8.2.1</dependencycheck.version>
     </properties>
 
     <build>
@@ -49,7 +51,7 @@
             <plugin>
               <groupId>org.owasp</groupId>
               <artifactId>dependency-check-maven</artifactId>
-              <version>7.4.1</version>
+              <version>${dependencycheck.version}</version>
                 <configuration>
                     <failBuildOnCVSS>0</failBuildOnCVSS>
                 </configuration>
