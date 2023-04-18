@@ -1575,6 +1575,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         expression("h1 { --my-var: 2px; }");
         expression("h1 { --my-var: 10pt; }");
         expression("h1 { --my-var: 11%; }");
+        expression("h1 { --my-var: ; }");
         expression("h1 { --my-var: rgb(255, 255, 255); }");
         expression("h1 { --my-var: rgba(255, 255, 255, 0); }");
         expression("h1 { --my-var: var(--test); }");
@@ -4193,8 +4194,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 + "(prefers-reduced-motion: no-preference);"
                 + "(prefers-reduced-motion: reduce);"
                 + "print;";
-        realWorld("realworld/bootstrap_5_2_0.css", 1198, 3018, media, 55, 0);
-        realWorld("realworld/bootstrap_5_2_0.min.css", 1198, 3018, media, 55, 0);
+        realWorld("realworld/bootstrap_5_2_0.css", 1198, 3033, media, 40, 0);
+        realWorld("realworld/bootstrap_5_2_0.min.css", 1198, 3033, media, 40, 0);
     }
 
     /**
