@@ -4525,6 +4525,23 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("h1::link { color: red; }", rule.getCssText());
     }
 
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void inheritClassName() throws Exception {
+        final String css = ".inherit { color: red }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.inherit { color: red; }", rule.toString());
+        assertEquals("*.inherit { color: red; }", rule.getCssText());
+    }
+
 //
 //    /**
 //     * @throws Exception if any error occurs
