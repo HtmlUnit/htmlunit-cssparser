@@ -107,6 +107,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 SelectorType.ELEMENT_NODE_SELECTOR);
         selectorType("h1  a", SelectorType.DESCENDANT_SELECTOR, SelectorType.ELEMENT_NODE_SELECTOR,
                 SelectorType.ELEMENT_NODE_SELECTOR);
+
+        selectorType(".inherit", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType(".only", SelectorType.ELEMENT_NODE_SELECTOR);
     }
 
     /**
@@ -223,6 +226,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         conditionType(".class:link", ConditionType.CLASS_CONDITION, ConditionType.PSEUDO_CLASS_CONDITION);
         conditionType(".class", ConditionType.CLASS_CONDITION);
         conditionType(":link", ConditionType.PSEUDO_CLASS_CONDITION);
+
+        conditionType(".inherit", ConditionType.CLASS_CONDITION);
+        conditionType(".only", ConditionType.CLASS_CONDITION);
     }
 
     /**
@@ -4217,7 +4223,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 + "screen and (max-height: 750px);"
                 + "screen and (max-width: 1090px);"
                 + "screen and (max-width: 920px);";
-        realWorld("realworld/all.css", 5235, 12401, media, 2, 2);
+        realWorld("realworld/all.css", 5237, 12403, media, 0, 0);
     }
 
     /**
@@ -4540,6 +4546,23 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
         assertEquals("*.inherit { color: red; }", rule.toString());
         assertEquals("*.inherit { color: red; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void onlyClassName() throws Exception {
+        final String css = ".only { color: red }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.only { color: red; }", rule.toString());
+        assertEquals("*.only { color: red; }", rule.getCssText());
     }
 
 //

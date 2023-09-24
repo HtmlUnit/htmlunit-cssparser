@@ -1212,7 +1212,7 @@ Condition _class(boolean pseudoElementFound) :
             locator = createLocator(token);
         }
 
-        ( t = <IDENT> | t = <INHERIT> )
+        ( t = <IDENT> | t = <INHERIT> | t = <ONLY> )
         {
             if (pseudoElementFound) { throw pe; }
             return new ClassCondition(unescape(t.image, false), locator);
