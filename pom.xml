@@ -75,9 +75,9 @@
             </plugin>
             <plugin>
                 <!-- generate parsers and lexers before compiling -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>javacc-maven-plugin</artifactId>
-                <version>3.0.1</version>
+                <groupId>com.helger.maven</groupId>
+                <artifactId>ph-javacc-maven-plugin</artifactId>
+                <version>4.1.5</version>
                 <executions>
                     <execution>
                         <id>javacc</id>
@@ -86,13 +86,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.java.dev.javacc</groupId>
-                        <artifactId>javacc</artifactId>
-                        <version>7.0.12</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <groupId>com.google.code.maven-replacer-plugin</groupId>
@@ -112,7 +105,7 @@
                         <include>CSS3Parser.java</include>
 
                         <include>Token.java</include>
-                        <include>TokenMgrError.java</include>
+                        <include>TokenMgrException.java</include>
                     </includes>
                     <regex>true</regex>
                     <regexFlags>
@@ -140,7 +133,7 @@
                             <value>throw $1$2</value>
                         </replacement>
                         <replacement>
-                            <token>\s*throw new Error\("Missing return statement in function"\);</token>
+                            <token>\s*throw new IllegalStateException \("Missing return statement in function"\);</token>
                             <value></value>
                         </replacement>
                     </replacements>

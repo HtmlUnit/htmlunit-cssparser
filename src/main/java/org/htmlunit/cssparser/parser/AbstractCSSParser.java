@@ -24,7 +24,7 @@ import java.util.Locale;
 import org.htmlunit.cssparser.parser.javacc.CharStream;
 import org.htmlunit.cssparser.parser.javacc.ParseException;
 import org.htmlunit.cssparser.parser.javacc.Token;
-import org.htmlunit.cssparser.parser.javacc.TokenMgrError;
+import org.htmlunit.cssparser.parser.javacc.TokenMgrException;
 import org.htmlunit.cssparser.parser.media.MediaQueryList;
 import org.htmlunit.cssparser.parser.selector.SelectorList;
 import org.w3c.dom.DOMException;
@@ -292,10 +292,10 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * @param e the TokenMgrError
+     * @param e the TokenMgrException
      * @return a new CSSParseException
      */
-    protected CSSParseException toCSSParseException(final TokenMgrError e) {
+    protected CSSParseException toCSSParseException(final TokenMgrException e) {
         final String messagePattern = getParserMessage("tokenMgrError");
         return new CSSParseException(messagePattern, getInputSource().getURI(), 1, 1);
     }
@@ -354,7 +354,7 @@ public abstract class AbstractCSSParser {
         catch (final ParseException e) {
             getErrorHandler().error(toCSSParseException("invalidStyleSheet", e));
         }
-        catch (final TokenMgrError e) {
+        catch (final TokenMgrException e) {
             getErrorHandler().error(toCSSParseException(e));
         }
         catch (final CSSParseException e) {
@@ -381,7 +381,7 @@ public abstract class AbstractCSSParser {
         catch (final ParseException e) {
             getErrorHandler().error(toCSSParseException("invalidStyleDeclaration", e));
         }
-        catch (final TokenMgrError e) {
+        catch (final TokenMgrException e) {
             getErrorHandler().error(toCSSParseException(e));
         }
         catch (final CSSParseException e) {
@@ -408,7 +408,7 @@ public abstract class AbstractCSSParser {
         catch (final ParseException e) {
             getErrorHandler().error(toCSSParseException("invalidRule", e));
         }
-        catch (final TokenMgrError e) {
+        catch (final TokenMgrException e) {
             getErrorHandler().error(toCSSParseException(e));
         }
         catch (final CSSParseException e) {
@@ -437,7 +437,7 @@ public abstract class AbstractCSSParser {
         catch (final ParseException e) {
             getErrorHandler().error(toCSSParseException("invalidSelectorList", e));
         }
-        catch (final TokenMgrError e) {
+        catch (final TokenMgrException e) {
             getErrorHandler().error(toCSSParseException(e));
         }
         catch (final CSSParseException e) {
@@ -467,7 +467,7 @@ public abstract class AbstractCSSParser {
         catch (final ParseException e) {
             getErrorHandler().error(toCSSParseException("invalidExpr", e));
         }
-        catch (final TokenMgrError e) {
+        catch (final TokenMgrException e) {
             getErrorHandler().error(toCSSParseException(e));
         }
         catch (final CSSParseException e) {
@@ -497,7 +497,7 @@ public abstract class AbstractCSSParser {
         catch (final ParseException e) {
             getErrorHandler().error(toCSSParseException("invalidPrio", e));
         }
-        catch (final TokenMgrError e) {
+        catch (final TokenMgrException e) {
             getErrorHandler().error(toCSSParseException(e));
         }
         catch (final CSSParseException e) {
@@ -522,7 +522,7 @@ public abstract class AbstractCSSParser {
         catch (final ParseException e) {
             getErrorHandler().error(toCSSParseException("invalidMediaList", e));
         }
-        catch (final TokenMgrError e) {
+        catch (final TokenMgrException e) {
             getErrorHandler().error(toCSSParseException(e));
         }
         catch (final CSSParseException e) {
