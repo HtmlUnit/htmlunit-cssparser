@@ -134,6 +134,10 @@
                             <value>throw $1$2</value>
                         </replacement>
                         <replacement>
+                            <token>(^throw toCSSParseException\("invalidExprColon"(..*);\n)(\s*break;\n)?</token>
+                            <value>$1</value>
+                        </replacement>
+                        <replacement>
                             <token>\s*throw new IllegalStateException \("Missing return statement in function"\);</token>
                             <value></value>
                         </replacement>
