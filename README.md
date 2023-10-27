@@ -8,7 +8,7 @@ This implementation starts based on CSSParser 0.9.25; we removed the sac depende
 
 We will try to stay in sync with CSSParser regarding the features in the future.
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.sourceforge.htmlunit/htmlunit-cssparser/badge.svg)](https://maven-badges.herokuapp.com/maven-central/net.sourceforge.htmlunit/htmlunit-cssparser)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.htmlunit/htmlunit-cssparser/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.htmlunit/htmlunit-cssparser)
 
 :heart: [Sponsor](https://github.com/sponsors/rbri)
 
