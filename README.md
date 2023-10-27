@@ -13,7 +13,8 @@ We will try to stay in sync with CSSParser regarding the features in the future.
 :heart: [Sponsor](https://github.com/sponsors/rbri)
 
 ### Project News
-[HtmlUnit@Twitter][3]
+
+[HtmlUnit@mastodon][4] | [HtmlUnit@Twitter][3]
 
 ### Latest release Version 3.6.0 / October 3, 2023
 
@@ -134,3 +135,4 @@ Many thanks to all of you contributing to HtmlUnit/CSSParser/Rhino in the past.
 
 [2]: https://jenkins.wetator.org/job/HtmlUnit%20-%20CSS%20Parser/ "HtmlUnit - CSS Parser CI"
 [3]: https://twitter.com/HtmlUnit "https://twitter.com/HtmlUnit"
+[4]: https://fosstodon.org/@HtmlUnit
