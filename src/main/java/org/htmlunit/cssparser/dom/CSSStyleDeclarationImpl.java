@@ -46,6 +46,8 @@ public class CSSStyleDeclarationImpl implements Serializable {
     }
 
     /**
+     * <p>getProperties.</p>
+     *
      * @return the properties
      */
     public List<Property> getProperties() {
@@ -113,6 +115,8 @@ public class CSSStyleDeclarationImpl implements Serializable {
     }
 
     /**
+     * <p>getPropertyCSSValue.</p>
+     *
      * @param propertyName the property name
      * @return the property value
      */
@@ -146,6 +150,8 @@ public class CSSStyleDeclarationImpl implements Serializable {
     }
 
     /**
+     * <p>getPropertyPriority.</p>
+     *
      * @param propertyName the name of the property
      * @return the priority
      */
@@ -194,6 +200,8 @@ public class CSSStyleDeclarationImpl implements Serializable {
     }
 
     /**
+     * <p>getLength.</p>
+     *
      * @return the properties count
      */
     public int getLength() {
@@ -201,6 +209,8 @@ public class CSSStyleDeclarationImpl implements Serializable {
     }
 
     /**
+     * <p>getParentRule.</p>
+     *
      * @return the parent rule
      */
     public AbstractCSSRuleImpl getParentRule() {
@@ -219,6 +229,8 @@ public class CSSStyleDeclarationImpl implements Serializable {
     }
 
     /**
+     * <p>getPropertyDeclaration.</p>
+     *
      * @param propertyName the name of the propery
      * @return the property
      */

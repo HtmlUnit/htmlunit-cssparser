@@ -93,6 +93,8 @@ public abstract class AbstractCSSParser {
     private static final String NUM_CHARS = "0123456789.";
 
     /**
+     * <p>getDocumentHandler.</p>
+     *
      * @return the document handler
      */
     protected DocumentHandler getDocumentHandler() {
@@ -122,6 +124,8 @@ public abstract class AbstractCSSParser {
     }
 
     /**
+     * <p>getErrorHandler.</p>
+     *
      * @return the error handler
      */
     protected CSSErrorHandler getErrorHandler() {
@@ -152,6 +156,8 @@ public abstract class AbstractCSSParser {
     }
 
     /**
+     * <p>getInputSource.</p>
+     *
      * @return the input source
      */
     protected InputSource getInputSource() {
@@ -233,6 +239,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
+     * <p>toCSSParseException.</p>
      *
      * @param key the message lookup key
      * @param e the parse exception
@@ -282,6 +289,8 @@ public abstract class AbstractCSSParser {
     }
 
     /**
+     * <p>toCSSParseException.</p>
+     *
      * @param e the DOMException
      * @return a new CSSParseException
      */
@@ -292,6 +301,8 @@ public abstract class AbstractCSSParser {
     }
 
     /**
+     * <p>toCSSParseException.</p>
+     *
      * @param e the TokenMgrException
      * @return a new CSSParseException
      */

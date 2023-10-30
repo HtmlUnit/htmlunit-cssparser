@@ -44,9 +44,7 @@ public class CSSUnknownRuleImpl extends AbstractCSSRuleImpl {
         text_ = text;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getCssText() {
         if (null == text_) {
@@ -55,9 +53,7 @@ public class CSSUnknownRuleImpl extends AbstractCSSRuleImpl {
         return text_;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setCssText(final String cssText) throws DOMException {
         try {
@@ -88,11 +84,13 @@ public class CSSUnknownRuleImpl extends AbstractCSSRuleImpl {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return getCssText();
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {

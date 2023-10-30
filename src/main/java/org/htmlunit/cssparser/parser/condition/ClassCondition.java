@@ -20,6 +20,7 @@ import org.htmlunit.cssparser.parser.AbstractLocatable;
 import org.htmlunit.cssparser.parser.Locator;
 
 /**
+ * <p>ClassCondition class.</p>
  *
  * @author Ronald Brill
  */
@@ -37,27 +38,25 @@ public class ClassCondition extends AbstractLocatable implements Condition, Seri
         setLocator(locator);
     }
 
+    /** {@inheritDoc} */
     @Override
     public ConditionType getConditionType() {
         return ConditionType.CLASS_CONDITION;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getLocalName() {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getValue() {
         return value_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final String value = getValue();

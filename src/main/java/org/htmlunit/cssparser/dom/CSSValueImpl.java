@@ -164,6 +164,8 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     private Object value_;
 
     /**
+     * <p>getValue.</p>
+     *
      * @return the value
      */
     public Object getValue() {
@@ -238,6 +240,8 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
+     * <p>getCssText.</p>
+     *
      * @return the css text
      */
     public String getCssText() {
@@ -294,6 +298,8 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
+     * <p>getCssValueType.</p>
+     *
      * @return the css value type
      */
     public CSSValueType getCssValueType() {
@@ -308,6 +314,8 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
+     * <p>getPrimitiveType.</p>
+     *
      * @return the primitive type
      */
     public CSSPrimitiveValueType getPrimitiveType() {
@@ -405,6 +413,8 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
+     * <p>getLexicalUnitType.</p>
+     *
      * @return the lexical unit type
      */
     public LexicalUnit.LexicalUnitType getLexicalUnitType() {
@@ -425,8 +435,9 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
-     * @return the double value.
+     * <p>getDoubleValue.</p>
      *
+     * @return the double value.
      * @throws DOMException in case of error
      */
     public double getDoubleValue() throws DOMException {
@@ -443,6 +454,8 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
+     * <p>getStringValue.</p>
+     *
      * @return the string value.
      * @throws DOMException case of error
      */
@@ -485,9 +498,10 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
+     * <p>item.</p>
+     *
      * @param index the position
      * @return the value at the position
-     * @throws DOMException in case of error
      */
     @SuppressWarnings("unchecked")
     public CSSValueImpl item(final int index) {
@@ -498,11 +512,13 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         return null;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return getCssText();
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {

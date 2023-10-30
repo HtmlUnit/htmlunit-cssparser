@@ -15,6 +15,8 @@
 package org.htmlunit.cssparser.parser.condition;
 
 /**
+ * <p>SuffixAttributeCondition class.</p>
+ *
  * @author Ronald Brill
  */
 public class SuffixAttributeCondition extends AttributeCondition {
@@ -29,11 +31,13 @@ public class SuffixAttributeCondition extends AttributeCondition {
         super(localName, value, caseInSensitive);
     }
 
+    /** {@inheritDoc} */
     @Override
     public ConditionType getConditionType() {
         return ConditionType.SUFFIX_ATTRIBUTE_CONDITION; //for now
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getOperator() {
         return "$=";

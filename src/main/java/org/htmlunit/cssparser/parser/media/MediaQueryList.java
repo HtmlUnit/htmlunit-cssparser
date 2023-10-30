@@ -36,6 +36,8 @@ public class MediaQueryList extends AbstractLocatable {
     }
 
     /**
+     * <p>getLength.</p>
+     *
      * @return the number of mediaQueries
      */
     public int getLength() {
@@ -43,6 +45,7 @@ public class MediaQueryList extends AbstractLocatable {
     }
 
     /**
+     * <p>getMediaQueries.</p>
      * @return the list of media queries
      */
     public List<MediaQuery> getMediaQueries() {
@@ -51,12 +54,14 @@ public class MediaQueryList extends AbstractLocatable {
 
     /**
      * Adds a new media query to the list.
+     *
      * @param mediaQuery the media query to add
      */
     public void add(final MediaQuery mediaQuery) {
         mediaQueries_.add(mediaQuery);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();

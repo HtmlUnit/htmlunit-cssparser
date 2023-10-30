@@ -17,6 +17,8 @@ package org.htmlunit.cssparser.parser.condition;
 import org.htmlunit.cssparser.parser.Locatable;
 
 /**
+ * <p>Condition interface.</p>
+ *
  * @author Ronald Brill
  */
 public interface Condition extends Locatable {
@@ -50,16 +52,22 @@ public interface Condition extends Locatable {
     }
 
     /**
+     * <p>getConditionType.</p>
+     *
      * @return the associated condition type
      */
     ConditionType getConditionType();
 
     /**
+     * <p>getValue.</p>
+     *
      * @return the value
      */
     String getValue();
 
     /**
+     * <p>getLocalName.</p>
+     *
      * @return the local name
      */
     String getLocalName();

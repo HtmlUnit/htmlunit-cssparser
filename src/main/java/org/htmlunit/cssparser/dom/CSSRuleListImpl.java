@@ -30,6 +30,8 @@ public class CSSRuleListImpl implements Serializable {
     private final List<AbstractCSSRuleImpl> rules_ = new ArrayList<>();
 
     /**
+     * <p>getRules.</p>
+     *
      * @return the rules
      */
     public List<AbstractCSSRuleImpl> getRules() {
@@ -44,6 +46,8 @@ public class CSSRuleListImpl implements Serializable {
     }
 
     /**
+     * <p>getLength.</p>
+     *
      * @return the number of rules
      */
     public int getLength() {
@@ -75,6 +79,7 @@ public class CSSRuleListImpl implements Serializable {
         getRules().remove(index);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
@@ -87,6 +92,7 @@ public class CSSRuleListImpl implements Serializable {
         return sb.toString();
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {

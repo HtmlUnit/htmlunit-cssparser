@@ -20,6 +20,7 @@ import org.htmlunit.cssparser.parser.AbstractLocatable;
 import org.htmlunit.cssparser.parser.Locator;
 
 /**
+ * <p>PseudoClassCondition class.</p>
  *
  * @author Ronald Brill
  */
@@ -40,27 +41,25 @@ public class PseudoClassCondition extends AbstractLocatable implements Condition
         doubleColon_ = doubleColon;
     }
 
+    /** {@inheritDoc} */
     @Override
     public ConditionType getConditionType() {
         return ConditionType.PSEUDO_CLASS_CONDITION;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getLocalName() {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getValue() {
         return value_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final String value = getValue();

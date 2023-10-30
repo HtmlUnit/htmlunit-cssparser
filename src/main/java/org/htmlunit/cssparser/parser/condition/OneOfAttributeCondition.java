@@ -15,13 +15,15 @@
 package org.htmlunit.cssparser.parser.condition;
 
 /**
+ * <p>OneOfAttributeCondition class.</p>
+ *
  * @author Ronald Brill
  */
 public class OneOfAttributeCondition extends AttributeCondition {
 
     /**
      * Ctor.
-     * @param localName the local value
+     * @param localName the local name
      * @param value the value
      * @param caseInSensitive null if not set, true/false for i/s
      */
@@ -29,11 +31,13 @@ public class OneOfAttributeCondition extends AttributeCondition {
         super(localName, value, caseInSensitive);
     }
 
+    /** {@inheritDoc} */
     @Override
     public ConditionType getConditionType() {
         return ConditionType.ONE_OF_ATTRIBUTE_CONDITION;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getOperator() {
         return "~=";

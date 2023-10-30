@@ -173,6 +173,8 @@ public class RGBColorImpl implements Serializable {
     }
 
     /**
+     * <p>getRed.</p>
+     *
      * @return the red part.
      */
     public CSSValueImpl getRed() {
@@ -188,6 +190,8 @@ public class RGBColorImpl implements Serializable {
     }
 
     /**
+     * <p>getGreen.</p>
+     *
      * @return the green part.
      */
     public CSSValueImpl getGreen() {
@@ -203,6 +207,8 @@ public class RGBColorImpl implements Serializable {
     }
 
     /**
+     * <p>getBlue.</p>
+     *
      * @return the blue part.
      */
     public CSSValueImpl getBlue() {

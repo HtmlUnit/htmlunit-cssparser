@@ -15,6 +15,8 @@
 package org.htmlunit.cssparser.parser.selector;
 
 /**
+ * <p>DirectAdjacentSelector class.</p>
+ *
  * @author Ronald Brill
  */
 public class DirectAdjacentSelector extends AbstractSelector {
@@ -35,23 +37,28 @@ public class DirectAdjacentSelector extends AbstractSelector {
         simpleSelector_ = simpleSelector;
     }
 
+    /** {@inheritDoc} */
     @Override
     public SelectorType getSelectorType() {
         return SelectorType.DIRECT_ADJACENT_SELECTOR;
     }
 
     /**
+     * <p>getSelector.</p>
+     *
      * @return the selector
      */
     public Selector getSelector() {
         return selector_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public SimpleSelector getSimpleSelector() {
         return simpleSelector_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();

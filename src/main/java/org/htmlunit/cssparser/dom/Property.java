@@ -20,6 +20,8 @@ import org.htmlunit.cssparser.parser.AbstractLocatable;
 import org.htmlunit.cssparser.util.ParserUtils;
 
 /**
+ * <p>Property class.</p>
+ *
  * @author Ronald Brill
  */
 public class Property extends AbstractLocatable implements Serializable {
@@ -88,9 +90,7 @@ public class Property extends AbstractLocatable implements Serializable {
         important_ = important;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
@@ -105,9 +105,7 @@ public class Property extends AbstractLocatable implements Serializable {
         return sb.toString();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {

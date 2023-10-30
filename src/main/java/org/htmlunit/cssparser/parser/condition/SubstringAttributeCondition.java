@@ -15,6 +15,8 @@
 package org.htmlunit.cssparser.parser.condition;
 
 /**
+ * <p>SubstringAttributeCondition class.</p>
+ *
  * @author Ronald Brill
  */
 public class SubstringAttributeCondition extends AttributeCondition {
@@ -29,11 +31,13 @@ public class SubstringAttributeCondition extends AttributeCondition {
         super(localName, value, caseInSensitive);
     }
 
+    /** {@inheritDoc} */
     @Override
     public ConditionType getConditionType() {
         return ConditionType.SUBSTRING_ATTRIBUTE_CONDITION; //for now
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getOperator() {
         return "*=";

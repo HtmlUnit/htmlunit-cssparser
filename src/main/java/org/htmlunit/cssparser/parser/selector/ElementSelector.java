@@ -22,6 +22,8 @@ import org.htmlunit.cssparser.parser.Locator;
 import org.htmlunit.cssparser.parser.condition.Condition;
 
 /**
+ * <p>ElementSelector class.</p>
+ *
  * @author Ronald Brill
  */
 public class ElementSelector extends AbstractSelector implements SimpleSelector {
@@ -47,17 +49,21 @@ public class ElementSelector extends AbstractSelector implements SimpleSelector 
         setLocator(locator);
     }
 
+    /** {@inheritDoc} */
     @Override
     public SelectorType getSelectorType() {
         return SelectorType.ELEMENT_NODE_SELECTOR;
     }
 
+    /** {@inheritDoc} */
     @Override
     public SimpleSelector getSimpleSelector() {
         return this;
     }
 
     /**
+     * <p>getLocalName.</p>
+     *
      * @return the local name
      */
     public String getLocalName() {
@@ -65,6 +71,8 @@ public class ElementSelector extends AbstractSelector implements SimpleSelector 
     }
 
     /**
+     * <p>getLocalNameLowerCase.</p>
+     *
      * @return the local name in lowercase
      */
     public String getLocalNameLowerCase() {
@@ -72,6 +80,8 @@ public class ElementSelector extends AbstractSelector implements SimpleSelector 
     }
 
     /**
+     * <p>getElementName.</p>
+     *
      * @return the element name
      */
     public String getElementName() {
@@ -83,6 +93,8 @@ public class ElementSelector extends AbstractSelector implements SimpleSelector 
     }
 
     /**
+     * <p>getConditions.</p>
+     *
      * @return the conditions
      */
     public List<Condition> getConditions() {
@@ -91,6 +103,7 @@ public class ElementSelector extends AbstractSelector implements SimpleSelector 
 
     /**
      * Add a condition.
+     *
      * @param condition the condition to be added
      */
     public void addCondition(final Condition condition) {
@@ -100,6 +113,7 @@ public class ElementSelector extends AbstractSelector implements SimpleSelector 
         conditions_.add(condition);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder result = new StringBuilder();

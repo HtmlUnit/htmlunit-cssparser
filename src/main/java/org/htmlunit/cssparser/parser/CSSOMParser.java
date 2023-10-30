@@ -16,26 +16,15 @@ package org.htmlunit.cssparser.parser;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
-import org.htmlunit.cssparser.dom.AbstractCSSRuleImpl;
-import org.htmlunit.cssparser.dom.CSSCharsetRuleImpl;
-import org.htmlunit.cssparser.dom.CSSFontFaceRuleImpl;
-import org.htmlunit.cssparser.dom.CSSImportRuleImpl;
-import org.htmlunit.cssparser.dom.CSSMediaRuleImpl;
-import org.htmlunit.cssparser.dom.CSSPageRuleImpl;
-import org.htmlunit.cssparser.dom.CSSRuleListImpl;
-import org.htmlunit.cssparser.dom.CSSStyleDeclarationImpl;
-import org.htmlunit.cssparser.dom.CSSStyleRuleImpl;
-import org.htmlunit.cssparser.dom.CSSStyleSheetImpl;
-import org.htmlunit.cssparser.dom.CSSUnknownRuleImpl;
-import org.htmlunit.cssparser.dom.CSSValueImpl;
-import org.htmlunit.cssparser.dom.MediaListImpl;
-import org.htmlunit.cssparser.dom.Property;
+import org.htmlunit.cssparser.dom.*;
 import org.htmlunit.cssparser.parser.javacc.CSS3Parser;
 import org.htmlunit.cssparser.parser.media.MediaQueryList;
 import org.htmlunit.cssparser.parser.selector.SelectorList;
-import org.w3c.dom.DOMException;
 
 /**
  * @author Ronald Brill
@@ -61,6 +50,8 @@ public class CSSOMParser {
     }
 
     /**
+     * <p>setErrorHandler.</p>
+     *
      * @param eh the error handler to be used
      */
     public void setErrorHandler(final CSSErrorHandler eh) {
@@ -108,8 +99,8 @@ public class CSSOMParser {
      * @throws IOException if the underlying SAC parser throws an IOException
      */
     public void parseStyleDeclaration(final CSSStyleDeclarationImpl sd, final String styleDecl) throws IOException {
-        try (InputSource source = new InputSource(new StringReader(styleDecl))) {
-            final Stack<Object> nodeStack = new Stack<>();
+        try (final InputSource source = new InputSource(new StringReader(styleDecl))) {
+            final Deque<Object> nodeStack = new ArrayDeque<>();
             nodeStack.push(sd);
             final CSSOMHandler handler = new CSSOMHandler(nodeStack);
             parser_.setDocumentHandler(handler);
@@ -125,7 +116,7 @@ public class CSSOMParser {
      * @throws IOException if the underlying SAC parser throws an IOException
      */
     public CSSValueImpl parsePropertyValue(final String propertyValue) throws IOException {
-        try (InputSource source = new InputSource(new StringReader(propertyValue))) {
+        try (final InputSource source = new InputSource(new StringReader(propertyValue))) {
             final CSSOMHandler handler = new CSSOMHandler();
             parser_.setDocumentHandler(handler);
             final LexicalUnit lu = parser_.parsePropertyValue(source);
@@ -144,7 +135,7 @@ public class CSSOMParser {
      * @throws IOException if the underlying SAC parser throws an IOException
      */
     public AbstractCSSRuleImpl parseRule(final String rule) throws IOException {
-        try (InputSource source = new InputSource(new StringReader(rule))) {
+        try (final InputSource source = new InputSource(new StringReader(rule))) {
             final CSSOMHandler handler = new CSSOMHandler();
             parser_.setDocumentHandler(handler);
             parser_.parseRule(source);
@@ -160,7 +151,7 @@ public class CSSOMParser {
      * @throws IOException if the underlying SAC parser throws an IOException
      */
     public SelectorList parseSelectors(final String selectors) throws IOException {
-        try (InputSource source = new InputSource(new StringReader(selectors))) {
+        try (final InputSource source = new InputSource(new StringReader(selectors))) {
             final HandlerBase handler = new HandlerBase();
             parser_.setDocumentHandler(handler);
             return parser_.parseSelectors(source);
@@ -175,7 +166,7 @@ public class CSSOMParser {
      * @throws IOException if the underlying SAC parser throws an IOException
      */
     public MediaQueryList parseMedia(final String media) throws IOException {
-        try (InputSource source = new InputSource(new StringReader(media))) {
+        try (final InputSource source = new InputSource(new StringReader(media))) {
             final HandlerBase handler = new HandlerBase();
             parser_.setDocumentHandler(handler);
             return parser_.parseMedia(source);
@@ -183,6 +174,8 @@ public class CSSOMParser {
     }
 
     /**
+     * <p>setParentStyleSheet.</p>
+     *
      * @param parentStyleSheet the new parent stylesheet
      */
     public void setParentStyleSheet(final CSSStyleSheetImpl parentStyleSheet) {
@@ -190,6 +183,8 @@ public class CSSOMParser {
     }
 
     /**
+     * <p>getParentStyleSheet.</p>
+     *
      * @return the parent style sheet
      */
     protected CSSStyleSheetImpl getParentStyleSheet() {
@@ -197,7 +192,7 @@ public class CSSOMParser {
     }
 
     class CSSOMHandler implements DocumentHandler {
-        private final Stack<Object> nodeStack_;
+        private final Deque<Object> nodeStack_;
         private Object root_;
         private String href_;
 
@@ -209,12 +204,12 @@ public class CSSOMParser {
             href_ = href;
         }
 
-        CSSOMHandler(final Stack<Object> nodeStack) {
+        CSSOMHandler(final Deque<Object> nodeStack) {
             nodeStack_ = nodeStack;
         }
 
         CSSOMHandler() {
-            nodeStack_ = new Stack<>();
+            nodeStack_ = new ArrayDeque<>();
         }
 
         Object getRoot() {
@@ -223,7 +218,7 @@ public class CSSOMParser {
 
         @Override
         public void startDocument(final InputSource source) throws CSSException {
-            if (nodeStack_.empty()) {
+            if (nodeStack_.isEmpty()) {
                 final CSSStyleSheetImpl ss = new CSSStyleSheetImpl();
                 CSSOMParser.this.setParentStyleSheet(ss);
                 ss.setHref(getHref());
@@ -252,7 +247,7 @@ public class CSSOMParser {
                 getParentRule(),
                 atRule);
             ir.setLocator(locator);
-            if (!nodeStack_.empty()) {
+            if (!nodeStack_.isEmpty()) {
                 ((CSSRuleListImpl) nodeStack_.peek()).add(ir);
             }
             else {
@@ -268,7 +263,7 @@ public class CSSOMParser {
                     getParentRule(),
                     characterEncoding);
             cr.setLocator(locator);
-            if (!nodeStack_.empty()) {
+            if (!nodeStack_.isEmpty()) {
                 ((CSSRuleListImpl) nodeStack_.peek()).add(cr);
             }
             else {
@@ -286,7 +281,7 @@ public class CSSOMParser {
                 uri,
                 new MediaListImpl(media));
             ir.setLocator(locator);
-            if (!nodeStack_.empty()) {
+            if (!nodeStack_.isEmpty()) {
                 ((CSSRuleListImpl) nodeStack_.peek()).add(ir);
             }
             else {
@@ -303,7 +298,7 @@ public class CSSOMParser {
                 getParentRule(),
                 ml);
             mr.setLocator(locator);
-            if (!nodeStack_.empty()) {
+            if (!nodeStack_.isEmpty()) {
                 ((CSSRuleListImpl) nodeStack_.peek()).add(mr);
             }
 
@@ -329,7 +324,7 @@ public class CSSOMParser {
                 CSSOMParser.this.getParentStyleSheet(),
                 getParentRule(), pseudoPage);
             pr.setLocator(locator);
-            if (!nodeStack_.empty()) {
+            if (!nodeStack_.isEmpty()) {
                 ((CSSRuleListImpl) nodeStack_.peek()).add(pr);
             }
 
@@ -354,7 +349,7 @@ public class CSSOMParser {
                 CSSOMParser.this.getParentStyleSheet(),
                 getParentRule());
             ffr.setLocator(locator);
-            if (!nodeStack_.empty()) {
+            if (!nodeStack_.isEmpty()) {
                 ((CSSRuleListImpl) nodeStack_.peek()).add(ffr);
             }
 
@@ -379,7 +374,7 @@ public class CSSOMParser {
                 CSSOMParser.this.getParentStyleSheet(),
                 getParentRule(), selectors);
             sr.setLocator(locator);
-            if (!nodeStack_.empty()) {
+            if (!nodeStack_.isEmpty()) {
                 final Object o = nodeStack_.peek();
                 ((CSSRuleListImpl) o).add(sr);
             }
@@ -413,8 +408,9 @@ public class CSSOMParser {
         }
 
         private AbstractCSSRuleImpl getParentRule() {
-            if (!nodeStack_.empty() && nodeStack_.size() > 1) {
-                final Object node = nodeStack_.get(nodeStack_.size() - 2);
+            if (!nodeStack_.isEmpty() && nodeStack_.size() > 1) {
+                final List<Object> nodesStack_ = new ArrayList<>(nodeStack_);
+                final Object node = nodesStack_.get(nodesStack_.size() - 2);
                 if (node instanceof AbstractCSSRuleImpl) {
                     return (AbstractCSSRuleImpl) node;
                 }

@@ -29,6 +29,8 @@ public class CSSStyleSheetListImpl {
     private List<CSSStyleSheetImpl> cssStyleSheets_;
 
     /**
+     * <p>getCSSStyleSheets.</p>
+     *
      * @return the list of style sheets
      */
     public List<CSSStyleSheetImpl> getCSSStyleSheets() {
@@ -39,6 +41,8 @@ public class CSSStyleSheetListImpl {
     }
 
     /**
+     * <p>getLength.</p>
+     *
      * @return the number of style sheets
      */
     public int getLength() {
@@ -75,6 +79,7 @@ public class CSSStyleSheetListImpl {
         return merged;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {

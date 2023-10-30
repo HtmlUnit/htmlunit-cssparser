@@ -33,6 +33,7 @@ public class CounterImpl implements Serializable {
 
     /**
      * Creates new CounterImpl.
+     *
      * @param separatorSpecified true if the separator is specified
      * @param lu the lexical unit
      * @throws DOMException in case of error
@@ -73,6 +74,8 @@ public class CounterImpl implements Serializable {
     }
 
     /**
+     * <p>getIdentifier.</p>
+     *
      * @return the identifier
      */
     public String getIdentifier() {
@@ -80,6 +83,8 @@ public class CounterImpl implements Serializable {
     }
 
     /**
+     * <p>getListStyle.</p>
+     *
      * @return the list style
      */
     public String getListStyle() {
@@ -87,12 +92,15 @@ public class CounterImpl implements Serializable {
     }
 
     /**
+     * <p>getSeparator.</p>
+     *
      * @return the separator
      */
     public String getSeparator() {
         return separator_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
