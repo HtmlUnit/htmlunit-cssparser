@@ -25,6 +25,7 @@ import org.w3c.dom.DOMException;
  * Implementation of CSSCharsetRule.
  *
  * @author Ronald Brill
+ *
  */
 public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
 
@@ -45,9 +46,7 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
         encoding_ = encoding;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setCssText(final String cssText) throws DOMException {
         try {
@@ -79,12 +78,15 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
     }
 
     /**
+     * <p>getEncoding.</p>
+     *
      * @return the encoding
      */
     public String getEncoding() {
         return encoding_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -98,6 +100,7 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
             && ParserUtils.equals(getEncoding(), ccr.getEncoding());
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int hash = super.hashCode();
@@ -105,14 +108,13 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
         return hash;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return getCssText();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getCssText() {
         final StringBuilder sb = new StringBuilder();

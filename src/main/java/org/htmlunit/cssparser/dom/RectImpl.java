@@ -115,6 +115,8 @@ public class RectImpl implements Serializable {
     }
 
     /**
+     * <p>getTop.</p>
+     *
      * @return the top part.
      */
     public CSSValueImpl getTop() {
@@ -130,6 +132,8 @@ public class RectImpl implements Serializable {
     }
 
     /**
+     * <p>getRight.</p>
+     *
      * @return the right part.
      */
     public CSSValueImpl getRight() {
@@ -145,6 +149,8 @@ public class RectImpl implements Serializable {
     }
 
     /**
+     * <p>getBottom.</p>
+     *
      * @return the bottom part.
      */
     public CSSValueImpl getBottom() {
@@ -160,6 +166,8 @@ public class RectImpl implements Serializable {
     }
 
     /**
+     * <p>getLeft.</p>
+     *
      * @return the left part.
      */
     public CSSValueImpl getLeft() {
@@ -174,9 +182,7 @@ public class RectImpl implements Serializable {
         left_ = left;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return new StringBuilder("rect(")

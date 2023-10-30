@@ -184,7 +184,11 @@ public final char beginToken() throws java.io.IOException
     bufcolumn[bufpos] = column;
   }
 
-  /** Read a character. */
+/**
+ * {@inheritDoc}
+ *
+ * Read a character.
+ */
   @Override
 public final char readChar() throws java.io.IOException
   {
@@ -207,31 +211,51 @@ public final char readChar() throws java.io.IOException
     return c;
   }
 
-  /** Get token end column number. */
+/**
+ * {@inheritDoc}
+ *
+ * Get token end column number.
+ */
   @Override
 public final int getEndColumn() {
     return bufcolumn[bufpos];
   }
 
-  /** Get token end line number. */
+/**
+ * {@inheritDoc}
+ *
+ * Get token end line number.
+ */
   @Override
 public final int getEndLine() {
     return bufline[bufpos];
   }
 
-  /** Get token beginning column number. */
+/**
+ * {@inheritDoc}
+ *
+ * Get token beginning column number.
+ */
   @Override
 public final int getBeginColumn() {
     return bufcolumn[tokenBegin];
   }
 
-  /** Get token beginning line number. */
+/**
+ * {@inheritDoc}
+ *
+ * Get token beginning line number.
+ */
   @Override
 public final int getBeginLine() {
     return bufline[tokenBegin];
   }
 
-  /** Backup a number of characters. */
+/**
+ * {@inheritDoc}
+ *
+ * Backup a number of characters.
+ */
   @Override
 public final void backup(int amount) {
     inBuf += amount;
@@ -269,7 +293,11 @@ public final void backup(int amount) {
     this(dstream, startline, startcolumn, 4096);
   }
 
-  /** Get token literal value. */
+/**
+ * {@inheritDoc}
+ *
+ * Get token literal value.
+ */
   @Override
 public final String getImage()
   {
@@ -278,7 +306,11 @@ public final String getImage()
     return new String(buffer, tokenBegin, bufsize - tokenBegin) + new String(buffer, 0, bufpos + 1);
   }
 
-  /** Get the suffix. */
+/**
+ * {@inheritDoc}
+ *
+ * Get the suffix.
+ */
   @Override
 public final char[] getSuffix(int len)
   {
@@ -295,7 +327,11 @@ public final char[] getSuffix(int len)
     return ret;
   }
 
-  /** Reset buffer when finished. */
+/**
+ * {@inheritDoc}
+ *
+ * Reset buffer when finished.
+ */
   @Override
 public void done()
   {
@@ -353,21 +389,25 @@ public void done()
     column = bufcolumn[j];
   }
 
+  /** {@inheritDoc} */
   @Override
 public void setTabSize(int i) {
       tabSize = i;
   }
 
+  /** {@inheritDoc} */
   @Override
 public int getTabSize() {
       return tabSize;
   }
 
+  /** {@inheritDoc} */
   @Override
 public boolean isTrackLineColumn() {
       return trackLineColumn;
   }
 
+  /** {@inheritDoc} */
   @Override
 public void setTrackLineColumn(boolean tlc) {
       trackLineColumn = tlc;

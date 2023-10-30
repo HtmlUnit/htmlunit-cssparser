@@ -22,6 +22,8 @@ package org.htmlunit.cssparser.parser;
 public interface Locatable {
 
     /**
+     * <p>getLocator.</p>
+     *
      * @return the locator
      */
     Locator getLocator();

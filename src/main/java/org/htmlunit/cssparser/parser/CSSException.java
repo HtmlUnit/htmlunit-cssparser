@@ -78,6 +78,8 @@ public class CSSException extends RuntimeException {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Returns the detail message of this throwable object.
      *
      * @return the detail message of this Throwable, or null if this Throwable
@@ -106,6 +108,8 @@ public class CSSException extends RuntimeException {
     }
 
     /**
+     * <p>getCode.</p>
+     *
      * @return the error code for this exception.
      */
     public ErrorCode getCode() {

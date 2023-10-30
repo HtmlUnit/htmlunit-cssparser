@@ -21,7 +21,7 @@ public class PrefixAttributeCondition extends AttributeCondition {
 
     /**
      * Ctor.
-     * @param localName the local value
+     * @param localName the local name
      * @param value the value
      * @param caseInSensitive null if not set, true/false for i/s
      */

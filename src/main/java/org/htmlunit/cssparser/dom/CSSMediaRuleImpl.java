@@ -28,6 +28,7 @@ import org.w3c.dom.DOMException;
  * Implementation of CSSMediaRule.
  *
  * @author Ronald Brill
+ *
  */
 public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
 
@@ -36,6 +37,7 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
 
     /**
      * Ctor.
+     *
      * @param parentStyleSheet the parent style sheet
      * @param parentRule the parent rule
      * @param media the media
@@ -48,9 +50,7 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
         mediaList_ = media;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getCssText() {
         final StringBuilder sb = new StringBuilder("@media ");
@@ -65,9 +65,7 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
         return sb.toString();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setCssText(final String cssText) throws DOMException {
         try {
@@ -100,6 +98,8 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
     }
 
     /**
+     * <p>getMediaList.</p>
+     *
      * @return the media list
      */
     public MediaListImpl getMediaList() {
@@ -107,6 +107,8 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
     }
 
     /**
+     * <p>getCssRules.</p>
+     *
      * @return the css rules
      */
     public CSSRuleListImpl getCssRules() {
@@ -118,6 +120,7 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
 
     /**
      * Insert a new rule at the given index.
+     *
      * @param rule the rule to be inserted
      * @param index the insert pos
      * @throws DOMException in case of error
@@ -181,11 +184,13 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
         cssRules_ = rules;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return getCssText();
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {

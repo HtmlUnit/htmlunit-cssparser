@@ -51,6 +51,8 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
+     * <p>getMediaText.</p>
+     *
      * @return the media text
      */
     public String getMediaText() {
@@ -89,6 +91,8 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
+     * <p>getLength.</p>
+     *
      * @return the media query count
      */
     public int getLength() {
@@ -96,6 +100,8 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
+     * <p>mediaQuery.</p>
+     *
      * @param index the position of the media query
      * @return the media query at the given pos
      */
@@ -106,6 +112,7 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
         return mediaQueries_.get(index);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return getMediaText();
@@ -145,6 +152,7 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -157,6 +165,7 @@ public class MediaListImpl extends AbstractLocatable implements Serializable {
         return super.equals(obj) && equalsMedia(ml);
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int hash = super.hashCode();

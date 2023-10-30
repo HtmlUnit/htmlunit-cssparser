@@ -25,6 +25,7 @@ public interface CSSErrorHandler {
      *
      * @param exception the {@link CSSParseException} that is the reason for the warning.
      * @exception CSSException in case of error
+     * @throws CSSException if any.
      */
     void warning(CSSParseException exception) throws CSSException;
 
@@ -33,6 +34,7 @@ public interface CSSErrorHandler {
      *
      * @param exception the {@link CSSParseException} that is the reason for the error.
      * @exception CSSException in case of error
+     * @throws CSSException if any.
      */
     void error(CSSParseException exception) throws CSSException;
 
@@ -41,6 +43,7 @@ public interface CSSErrorHandler {
      *
      * @param exception the {@link CSSParseException} that is the reason for the error.
      * @exception CSSException in case of error
+     * @throws CSSException if any.
      */
     void fatalError(CSSParseException exception) throws CSSException;
 }

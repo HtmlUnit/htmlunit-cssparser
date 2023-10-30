@@ -42,6 +42,8 @@ public class Locator implements Serializable {
     }
 
     /**
+     * <p>getUri.</p>
+     *
      * @return the uri
      */
     public String getUri() {
@@ -95,6 +97,7 @@ public class Locator implements Serializable {
         lineNumber_ = line;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -118,6 +121,7 @@ public class Locator implements Serializable {
         return hash;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return new StringBuilder().append(getUri()).append(" (")

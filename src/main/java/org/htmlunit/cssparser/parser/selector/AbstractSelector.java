@@ -19,12 +19,15 @@ import java.io.Serializable;
 import org.htmlunit.cssparser.parser.AbstractLocatable;
 
 /**
+ * <p>Abstract AbstractSelector class.</p>
+ *
  * @author Ronald Brill
  */
 public abstract class AbstractSelector extends AbstractLocatable implements Selector, Serializable {
 
     private SelectorSpecificity specificity_;
 
+    /** {@inheritDoc} */
     @Override
     public SelectorSpecificity getSelectorSpecificity() {
         if (specificity_ == null) {

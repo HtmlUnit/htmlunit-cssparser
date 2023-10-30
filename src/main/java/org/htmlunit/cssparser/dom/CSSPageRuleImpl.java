@@ -109,7 +109,9 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
     }
 
     /**
-     * @return the current selector text
+     * <p>getSelectorText.</p>
+     *
+     * @return the selector text
      */
     public String getSelectorText() {
         if (null == pseudoPage_) {
