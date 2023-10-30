@@ -25,6 +25,7 @@ import org.htmlunit.cssparser.dom.*;
 import org.htmlunit.cssparser.parser.javacc.CSS3Parser;
 import org.htmlunit.cssparser.parser.media.MediaQueryList;
 import org.htmlunit.cssparser.parser.selector.SelectorList;
+import org.w3c.dom.DOMException;
 
 /**
  * @author Ronald Brill
