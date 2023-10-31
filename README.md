@@ -18,13 +18,29 @@ We will try to stay in sync with CSSParser regarding the features in the future.
 
 ### Latest release Version 3.7.0 / October 30, 2023
 
-For maven, you would add:
+## Get it!
 
-    <dependency>
-        <groupId>org.htmlunit</groupId>
-        <artifactId>htmlunit-cssparser</artifactId>
-        <version>3.7.0</version>
-    </dependency>
+### Maven
+
+Add to your `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>org.htmlunit</groupId>
+    <artifactId>htmlunit-cssparser</artifactId>
+    <version>3.7.0</version>
+</dependency>
+```
+
+### Gradle
+
+Add to your `build.gradle`:
+
+```groovy
+implementation group: 'org.htmlunit', name: 'htmlunit-cssparser', version: '3.7.0'
+```
+
+
 
 ### Latst CI build
 The latest builds are available from our
