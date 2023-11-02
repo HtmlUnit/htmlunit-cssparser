@@ -17,9 +17,8 @@ package org.htmlunit.cssparser.parser;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
+import java.util.Iterator;
 
 import org.htmlunit.cssparser.dom.AbstractCSSRuleImpl;
 import org.htmlunit.cssparser.dom.CSSCharsetRuleImpl;
@@ -423,8 +422,9 @@ public class CSSOMParser {
 
         private AbstractCSSRuleImpl getParentRule() {
             if (!nodeStack_.isEmpty() && nodeStack_.size() > 1) {
-                final List<Object> nodesStack = new ArrayList<>(nodeStack_);
-                final Object node = nodesStack.get(nodesStack.size() - 2);
+                final Iterator<Object> iter = nodeStack_.iterator();
+                iter.next(); // skip first
+                final Object node = iter.next();
                 if (node instanceof AbstractCSSRuleImpl) {
                     return (AbstractCSSRuleImpl) node;
                 }
