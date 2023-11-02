@@ -15,6 +15,7 @@
 package org.htmlunit.cssparser.dom;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.StringReader;
 
@@ -38,6 +39,18 @@ public class CSSStyleRuleImplTest {
 
         assertEquals("h1 { color: blue; }", value.getCssText());
         assertEquals("h1 { color: blue; }", value.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void parentRule() throws Exception {
+        final CSSStyleRuleImpl value = parseStyleRule("h1 { color: blue; background: green }");
+        final CSSStyleDeclarationImpl style = value.getStyle();
+
+        assertNull(value.getParentRule());
+        assertEquals(value, style.getParentRule());
     }
 
     /**
