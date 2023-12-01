@@ -20,7 +20,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
-        <dependencycheck.version>8.4.3</dependencycheck.version>
+        <dependencycheck.version>9.0.2</dependencycheck.version>
         <checkstyle.version>9.3</checkstyle.version>
     </properties>
 
