@@ -21,7 +21,7 @@
         <maven.compiler.target>8</maven.compiler.target>
 
         <checkstyle.version>9.3</checkstyle.version>
-        <dependencycheck.version>9.0.4</dependencycheck.version>
+        <dependencycheck.version>9.0.8</dependencycheck.version>
     </properties>
 
     <build>
@@ -67,12 +67,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.2</version>
+                <version>3.2.5</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.12.1</version>
             </plugin>
             <plugin>
                 <!-- generate parsers and lexers before compiling -->
