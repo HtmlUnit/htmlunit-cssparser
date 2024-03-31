@@ -16,7 +16,7 @@ We will try to stay in sync with CSSParser regarding the features in the future.
 
 [HtmlUnit@mastodon][4] | [HtmlUnit@Twitter][3]
 
-### Latest release Version 3.11.0 / February 10, 2024
+### Latest release Version 4.0.0 / April 1, 2024
 
 ## Get it!
 
@@ -28,7 +28,7 @@ Add to your `pom.xml`:
 <dependency>
     <groupId>org.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>3.11.0</version>
+    <version>4.0.0</version>
 </dependency>
 ```
 
@@ -37,7 +37,7 @@ Add to your `pom.xml`:
 Add to your `build.gradle`:
 
 ```groovy
-implementation group: 'org.htmlunit', name: 'htmlunit-cssparser', version: '3.11.0'
+implementation group: 'org.htmlunit', name: 'htmlunit-cssparser', version: '4.0.0'
 ```
 
 
@@ -53,7 +53,7 @@ If you use maven please add:
     <dependency>
         <groupId>org.htmlunit</groupId>
         <artifactId>htmlunit-cssparser</artifactId>
-        <version>3.12.0-SNAPSHOT</version>
+        <version>4.1.0-SNAPSHOT</version>
     </dependency>
 
 You have to add the sonatype snapshot repository to your pom `repositories` section also:
