@@ -16,7 +16,7 @@ We will try to stay in sync with CSSParser regarding the features in the future.
 
 [HtmlUnit@mastodon][4] | [HtmlUnit@Twitter][3]
 
-### Latest release Version 4.1.0 / April 28, 2024
+### Latest release Version 4.2.0 / May 05, 2024
 
 ## Get it!
 
@@ -28,7 +28,7 @@ Add to your `pom.xml`:
 <dependency>
     <groupId>org.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>4.1.0</version>
+    <version>4.2.0</version>
 </dependency>
 ```
 
@@ -37,7 +37,7 @@ Add to your `pom.xml`:
 Add to your `build.gradle`:
 
 ```groovy
-implementation group: 'org.htmlunit', name: 'htmlunit-cssparser', version: '4.1.0'
+implementation group: 'org.htmlunit', name: 'htmlunit-cssparser', version: '4.2.0'
 ```
 
 
@@ -53,7 +53,7 @@ If you use maven please add:
     <dependency>
         <groupId>org.htmlunit</groupId>
         <artifactId>htmlunit-cssparser</artifactId>
-        <version>4.2.0-SNAPSHOT</version>
+        <version>4.3.0-SNAPSHOT</version>
     </dependency>
 
 You have to add the sonatype snapshot repository to your pom `repositories` section also:
@@ -106,7 +106,7 @@ Every contribution - from bug reports to feature requests, typos to full new fea
 This part is intended for committer who are packaging a release.
 
 * Check all your files are checked in
-* Execute these mvn to be sure all tests are passing and everything is up to data
+* Execute these mvn commands to be sure all tests are passing and everything is up to data
 
 ```
    mvn versions:display-plugin-updates
