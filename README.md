@@ -16,7 +16,7 @@ We will try to stay in sync with CSSParser regarding the features in the future.
 
 [HtmlUnit@mastodon][4] | [HtmlUnit@Twitter][3]
 
-### Latest release Version 4.2.0 / May 05, 2024
+### Latest release Version 4.2.0 / June 05, 2024
 
 ## Get it!
 
