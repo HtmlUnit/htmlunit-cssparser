@@ -99,7 +99,7 @@ public class CSSParseException extends CSSException {
      */
     public CSSParseException(final String message, final String uri,
             final int lineNumber, final int columnNumber, final Exception e) {
-        super(ErrorCode.SYNTAX_ERR, message, e);
+        super(message, e);
         uri_ = uri;
         lineNumber_ = lineNumber;
         columnNumber_ = columnNumber;
