@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>4.3.0</version>
+    <version>4.4.0</version>
     <name>HtmlUnit CSS Parser</name>
     <organization>
         <name>HtmlUnit</name>
@@ -21,7 +21,7 @@
         <maven.compiler.target>8</maven.compiler.target>
 
         <checkstyle.version>10.17.0</checkstyle.version>
-        <dependencycheck.version>9.2.0</dependencycheck.version>
+        <dependencycheck.version>10.0.3</dependencycheck.version>
     </properties>
 
     <build>
@@ -68,7 +68,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.3.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -197,7 +197,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.0</version>
                 <configuration>
                     <additionalparam>--allow-script-in-comments</additionalparam>
                     <excludePackageNames>org.htmlunit.cssparser.parser.javacc</excludePackageNames>
@@ -260,7 +260,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.1.1</version>
             </plugin>
         </plugins>
     </build>
