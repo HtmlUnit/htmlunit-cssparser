@@ -81,6 +81,7 @@ public class CSS3Parser extends AbstractCSSParser {
         this((CharStream) null);
     }
 
+    @Override
     public String getParserVersion() {
         return "http://www.w3.org/Style/CSS/";
     }
