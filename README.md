@@ -137,8 +137,12 @@ This part is intended for committer who are packaging a release.
     * append 
         * htmlunit-cssparser-4.x.x.jar
         * htmlunit-cssparser-4.x.x.jar.asc 
+        * htmlunit-cssparser-4.x.x.pom
+        * htmlunit-cssparser-4.x.x.pom.asc 
         * htmlunit-cssparser-4.x.x-javadoc.jar
         * htmlunit-cssparser-4.x.x-javadoc.jar.asc
+        * htmlunit-cssparser-4.x.x-sources.jar
+        * htmlunit-cssparser-4.x.x-sources.jar.asc
     * and publish the release 
 
 * Update the version number in pom.xml to start next snapshot development
