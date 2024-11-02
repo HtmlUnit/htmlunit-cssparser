@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>4.5.0</version>
+    <version>4.6.0-SNAPSHOT</version>
     <name>HtmlUnit CSS Parser</name>
     <organization>
         <name>HtmlUnit</name>
@@ -20,7 +20,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
-        <checkstyle.version>10.18.2</checkstyle.version>
+        <checkstyle.version>10.20.0</checkstyle.version>
         <dependencycheck.version>10.0.4</dependencycheck.version>
     </properties>
 
@@ -148,7 +148,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.6.0</version>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
                     <suppressionsLocation>checkstyle_suppressions.xml</suppressionsLocation>
