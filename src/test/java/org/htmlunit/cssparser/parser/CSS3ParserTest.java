@@ -1155,6 +1155,12 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 "foreground: hsl(10, 20%, 30)");
     }
 
+    @Test
+    public void modernColorSyntax() throws Exception {
+        color("foreground: oklch(55% 0.2308 256.91 / 0.5)", "foreground: oklch(55% 0.2308 256.91 / 0.5)");
+        color("foreground: oklch(from var(--text-color-secondary) l c h / 0.1)", "foreground: oklch(from var(--text-color-secondary) l c h / 0.1)");
+    }
+
     private void color(final String expected, final String cssText) throws Exception {
         color(0, expected, cssText);
     }
