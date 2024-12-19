@@ -1593,7 +1593,7 @@ LexicalUnit term(LexicalUnit prev) :
         )
         | t = <STRING>          { value = LexicalUnitImpl.createString(prev, unescape(t.image, false)); }
         | t = "progid:"         { value = LexicalUnitImpl.createIdent(prev, skipUnit().trim()); }
-        | t = <SLASH>  { value = LexicalUnitImpl.createSlash(prev); }
+        | t = <SLASH>           { value = LexicalUnitImpl.createSlash(prev); }
         |
             (
                 t = <IDENT>
