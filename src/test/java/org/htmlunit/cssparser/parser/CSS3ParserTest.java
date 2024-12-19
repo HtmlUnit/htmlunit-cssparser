@@ -1155,6 +1155,12 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 "foreground: hsl(10, 20%, 30)");
     }
 
+    @Test
+    public void modernColorSyntax() throws Exception {
+        color("foreground: oklch(55% 0.2308 256.91 / 0.5)", "foreground: oklch(55% 0.2308 256.91 / 0.5)");
+        color("foreground: oklch(from var(--text-color-secondary) l c h / 0.1)", "foreground: oklch(from var(--text-color-secondary) l c h / 0.1)");
+    }
+
     private void color(final String expected, final String cssText) throws Exception {
         color(0, expected, cssText);
     }
@@ -1881,7 +1887,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         final String expected = "Error in declaration. (Invalid token \"}\". Was expecting one of: <S>, \":\".)"
                 + " Error in declaration. (Invalid token \";\". Was expecting one of: <S>, \":\".)"
                 + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
-                        + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
+                        + "<IDENT>, <STRING>, \"/\", \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
@@ -1889,7 +1895,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
-                        + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
+                        + "<IDENT>, <STRING>, \"/\", \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
@@ -2186,7 +2192,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in expression. "
                 + "(Invalid token \"\\'\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
-                        + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
+                        + "<IDENT>, <STRING>, \"/\", \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
