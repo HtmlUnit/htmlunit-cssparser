@@ -1132,6 +1132,14 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
 
     /**
      * @param prev the previous LexicalUnit
+     * @return lexical unit with type comma
+     */
+    public static LexicalUnit createInherit(final LexicalUnit prev) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.INHERIT);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
      * @return lexical unit with type slash
      */
     public static LexicalUnit createSlash(final LexicalUnit prev) {

@@ -465,9 +465,12 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
             if ((lu.getLexicalUnitType() == LexicalUnitType.IDENT)
                 || (lu.getLexicalUnitType() == LexicalUnitType.STRING_VALUE)
                 || (lu.getLexicalUnitType() == LexicalUnitType.URI)
-                || (lu.getLexicalUnitType() == LexicalUnitType.INHERIT)
                 || (lu.getLexicalUnitType() == LexicalUnitType.ATTR)) {
                 return lu.getStringValue();
+            }
+
+            if (lu.getLexicalUnitType() == LexicalUnitType.INHERIT) {
+                return "inherit";
             }
 
             // for rgba values we are using this type

@@ -782,6 +782,21 @@ public class CSSValueImplTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void inherit() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createInherit(null);
+        final CSSValueImpl value = new CSSValueImpl(lu, false);
+
+        assertEquals("inherit", value.getCssText());
+        assertEquals(CSSPrimitiveValueType.CSS_IDENT, value.getPrimitiveType());
+        assertEquals(LexicalUnit.LexicalUnitType.INHERIT, value.getLexicalUnitType());
+        assertEquals(0.0, value.getDoubleValue(), 0.00001);
+        assertEquals("inherit", value.getStringValue());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void setCssText() throws Exception {
         final LexicalUnit lu = LexicalUnitImpl.createURI(null, "cssparser");
         final CSSValueImpl value = new CSSValueImpl(lu, false);
