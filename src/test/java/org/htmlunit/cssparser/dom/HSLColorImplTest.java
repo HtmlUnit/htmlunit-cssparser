@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.w3c.dom.DOMException;
 
 /**
- * Unit tests for {@link RGBColorImpl}.
+ * Unit tests for {@link HSLColorImpl}.
  *
  * @author Ronald Brill
  * @author Paul Selormey
