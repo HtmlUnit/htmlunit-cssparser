@@ -22,11 +22,13 @@ import org.htmlunit.cssparser.parser.LexicalUnit.LexicalUnitType;
 import org.w3c.dom.DOMException;
 
 /**
- * Implementation of LABColor.
+ * Implementation of LABColor and OKLABColor.
  *
  * @author Ronald Brill
  */
 public class LABColorImpl implements Serializable {
+    private final String function_;
+
     private CSSValueImpl lightness_;
     private CSSValueImpl aDistance_;
     private CSSValueImpl bDistance_;
@@ -35,35 +37,36 @@ public class LABColorImpl implements Serializable {
     /**
      * Constructor that reads the values from the given
      * chain of LexicalUnits.
-     * @param function the name of the function lab
+     * @param function the name of the function; lab or oklab
      * @param lu the values
      * @throws DOMException in case of error
      */
     public LABColorImpl(final String function, final LexicalUnit lu) throws DOMException {
         if (function == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Color space lab is required.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Color space 'lab' or 'oklab' is required.");
         }
         final String functionLC = function.toLowerCase(Locale.ROOT);
-        if (!"lab".equals(functionLC)) {
+        if (!"lab".equals(functionLC) && !"oklab".equals(functionLC)) {
             throw new DOMException(DOMException.SYNTAX_ERR, "Color space '" + functionLC + "' not supported.");
         }
+        function_ = functionLC;
 
         LexicalUnit next = lu;
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "lab requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
         lightness_ = getPart(next);
 
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "lab requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
         aDistance_ = getPart(next);
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "lab requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
         bDistance_ = getPart(next);
@@ -73,7 +76,8 @@ public class LABColorImpl implements Serializable {
         }
 
         if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_SLASH) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "lab alpha value must be separated by '/'.");
+            throw new DOMException(DOMException.SYNTAX_ERR,
+                    "'" + function_ + "' alpha value must be separated by '/'.");
         }
         next = next.getNextLexicalUnit();
         if (next == null) {
@@ -83,7 +87,7 @@ public class LABColorImpl implements Serializable {
         alpha_ = getAlphaPart(next);
         next = next.getNextLexicalUnit();
         if (next != null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for lab function.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for '" + function_ + "' function.");
         }
     }
 
@@ -185,7 +189,8 @@ public class LABColorImpl implements Serializable {
         final StringBuilder sb = new StringBuilder();
 
         sb
-            .append("lab(")
+            .append(function_)
+            .append("(")
             .append(lightness_)
             .append(" ")
             .append(aDistance_)

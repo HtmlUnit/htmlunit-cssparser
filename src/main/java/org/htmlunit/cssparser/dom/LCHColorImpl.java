@@ -22,11 +22,13 @@ import org.htmlunit.cssparser.parser.LexicalUnit.LexicalUnitType;
 import org.w3c.dom.DOMException;
 
 /**
- * Implementation of LCHColor.
+ * Implementation of LCHColor and OKLCHColor.
  *
  * @author Ronald Brill
  */
 public class LCHColorImpl implements Serializable {
+    private final String function_;
+
     private CSSValueImpl lightness_;
     private CSSValueImpl chroma_;
     private CSSValueImpl hue_;
@@ -35,36 +37,37 @@ public class LCHColorImpl implements Serializable {
     /**
      * Constructor that reads the values from the given
      * chain of LexicalUnits.
-     * @param function the name of the function; lch
+     * @param function the name of the function; lch or oklch
      * @param lu the values
      * @throws DOMException in case of error
      */
     public LCHColorImpl(final String function, final LexicalUnit lu) throws DOMException {
         if (function == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Color space lch is required.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Color space 'lch' or 'oklch' is required.");
         }
         final String functionLC = function.toLowerCase(Locale.ROOT);
-        if (!"lch".equals(functionLC)) {
+        if (!"lch".equals(functionLC) && !"oklch".equals(functionLC)) {
             throw new DOMException(DOMException.SYNTAX_ERR, "Color space '" + functionLC + "' not supported.");
         }
+        function_ = functionLC;
 
         LexicalUnit next = lu;
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "lch requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
         lightness_ = getPart(next, "lightness");
 
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "lch requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
         chroma_ = getPart(next, "chroma");
 
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "lch requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
         hue_ = getHuePart(next);
@@ -74,7 +77,8 @@ public class LCHColorImpl implements Serializable {
         }
 
         if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_SLASH) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "lch alpha value must be separated by '/'.");
+            throw new DOMException(DOMException.SYNTAX_ERR,
+                    "'" + function_ + "' alpha value must be separated by '/'.");
         }
         next = next.getNextLexicalUnit();
         if (next == null) {
@@ -82,10 +86,9 @@ public class LCHColorImpl implements Serializable {
         }
 
         alpha_ = getAlphaPart(next);
-
         next = next.getNextLexicalUnit();
         if (next != null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for lch function.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for '" + function_ + "' function.");
         }
     }
 
@@ -199,7 +202,8 @@ public class LCHColorImpl implements Serializable {
         final StringBuilder sb = new StringBuilder();
 
         sb
-            .append("lch(")
+            .append(function_)
+            .append("(")
             .append(lightness_)
             .append(" ")
             .append(chroma_)

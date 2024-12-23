@@ -421,8 +421,8 @@ TOKEN_MGR_DECLS :
 | < FUNCTION_RGB: "rgb" ("a")? <LROUND> >
 | < FUNCTION_HSL: "hsl" ("a")? <LROUND> >
 | < FUNCTION_HWB: "hwb" <LROUND> >
-| < FUNCTION_LAB: "lab" <LROUND> >
-| < FUNCTION_LCH: "lch" <LROUND> >
+| < FUNCTION_LAB: ("ok")? "lab" <LROUND> >
+| < FUNCTION_LCH: ("ok")? "lch" <LROUND> >
 
 | < CUSTOM_PROPERTY_NAME: < MINUS > <MINUS > <NMSTART> ( <NMCHAR> )* >
 

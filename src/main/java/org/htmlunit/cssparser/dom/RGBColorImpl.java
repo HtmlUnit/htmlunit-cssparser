@@ -44,7 +44,7 @@ public class RGBColorImpl implements Serializable {
      */
     public RGBColorImpl(final String function, final LexicalUnit lu) throws DOMException {
         if (function == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Color space rgb or rgba is required.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Color space 'rgb' or 'rgba' is required.");
         }
         final String functionLC = function.toLowerCase(Locale.ROOT);
         if (!"rgb".equals(functionLC) && !"rgba".equals(functionLC)) {
@@ -54,41 +54,42 @@ public class RGBColorImpl implements Serializable {
 
         LexicalUnit next = lu;
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
         red_ = getPart(next);
 
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
         commaSeparated_ = LexicalUnitType.OPERATOR_COMMA == next.getLexicalUnitType();
         if (commaSeparated_) {
             if (LexicalUnitType.NONE == red_.getLexicalUnitType()) {
                 throw new DOMException(DOMException.SYNTAX_ERR,
-                        function_ + " has to use blank as separator if none is used.");
+                        "'" + function_ + "' has to use blank as separator if none is used.");
             }
 
             next = next.getNextLexicalUnit();
             if (next == null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+                throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
             }
 
             if (LexicalUnitType.NONE == next.getLexicalUnitType()) {
                 throw new DOMException(DOMException.SYNTAX_ERR,
-                        function_ + " has to use blank as separator if none is used.");
+                        "'" + function_ + "' has to use blank as separator if none is used.");
             }
             green_ = getPart(next);
 
             next = next.getNextLexicalUnit();
             if (next == null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+                throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
             }
 
             if (LexicalUnitType.OPERATOR_COMMA != next.getLexicalUnitType()) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " parameters must be separated by ','.");
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        "'" + function_ + "' parameters must be separated by ','.");
             }
 
             next = next.getNextLexicalUnit();
@@ -98,7 +99,7 @@ public class RGBColorImpl implements Serializable {
 
             if (LexicalUnitType.NONE == next.getLexicalUnitType()) {
                 throw new DOMException(DOMException.SYNTAX_ERR,
-                        function_ + " has to use blank as separator if none is used.");
+                        "'" + function_ + "' has to use blank as separator if none is used.");
             }
             blue_ = getPart(next);
 
@@ -108,7 +109,8 @@ public class RGBColorImpl implements Serializable {
             }
 
             if (LexicalUnitType.OPERATOR_COMMA != next.getLexicalUnitType()) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " parameters must be separated by ','.");
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        "'" + function_ + "' parameters must be separated by ','.");
             }
             next = next.getNextLexicalUnit();
             if (next == null) {
@@ -117,13 +119,14 @@ public class RGBColorImpl implements Serializable {
 
             if (LexicalUnitType.NONE == next.getLexicalUnitType()) {
                 throw new DOMException(DOMException.SYNTAX_ERR,
-                        function_ + " has to use blank as separator if none is used.");
+                        "'" + function_ + "' has to use blank as separator if none is used.");
             }
             alpha_ = getPart(next);
 
             next = next.getNextLexicalUnit();
             if (next != null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for " + function_ +  " function.");
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        "Too many parameters for '" + function_ +  "' function.");
             }
             return;
         }
@@ -131,11 +134,11 @@ public class RGBColorImpl implements Serializable {
         green_ = getPart(next);
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
         if (next.getLexicalUnitType() == LexicalUnitType.OPERATOR_COMMA) {
             throw new DOMException(DOMException.SYNTAX_ERR,
-                    function_ + " requires consitent separators (blank or comma).");
+                    "'" + function_ + "' requires consitent separators (blank or comma).");
         }
 
         blue_ = getPart(next);
@@ -145,7 +148,8 @@ public class RGBColorImpl implements Serializable {
         }
 
         if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_SLASH) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " alpha value must be separated by '/'.");
+            throw new DOMException(DOMException.SYNTAX_ERR,
+                    "'" + function_ + "' alpha value must be separated by '/'.");
         }
         next = next.getNextLexicalUnit();
         if (next == null) {
@@ -155,7 +159,7 @@ public class RGBColorImpl implements Serializable {
         alpha_ = getPart(next);
         next = next.getNextLexicalUnit();
         if (next != null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for " + function_ +  " function.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for '" + function_ +  "' function.");
         }
     }
 

@@ -58,7 +58,7 @@ public class HSLColorImplTest {
             fail("DOMException expected");
         }
         catch (final DOMException e) {
-            assertEquals("hsl requires at least three values.", e.getMessage());
+            assertEquals("'hsl' requires at least three values.", e.getMessage());
         }
 
         LexicalUnit hslLU = LexicalUnitImpl.createNumber(null, 10);
@@ -83,7 +83,7 @@ public class HSLColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("hsl parameters must be separated by ','.", e.getMessage());
+            assertEquals("'hsl' parameters must be separated by ','.", e.getMessage());
         }
     }
 
@@ -106,7 +106,7 @@ public class HSLColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("Too many parameters for hsl function.", e.getMessage());
+            assertEquals("Too many parameters for 'hsl' function.", e.getMessage());
         }
     }
 
@@ -138,7 +138,7 @@ public class HSLColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("Color space hsl or hsla is required.", e.getMessage());
+            assertEquals("Color space 'hsl' or 'hsla' is required.", e.getMessage());
         }
 
         try {

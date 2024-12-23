@@ -1041,15 +1041,15 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbVariousErrors() throws Exception {
-        color(1, "DOM exception: 'rgb parameters must be separated by ','.'", "foreground: rgb(10, 20 30)");
-        color(1, "DOM exception: 'rgb requires consitent separators (blank or comma).'", "foreground: rgb(10 20, 30)");
+        color(1, "DOM exception: ''rgb' parameters must be separated by ','.'", "foreground: rgb(10, 20 30)");
+        color(1, "DOM exception: ''rgb' requires consitent separators (blank or comma).'", "foreground: rgb(10 20, 30)");
 
-        color(1, "DOM exception: 'rgb alpha value must be separated by '/'.'", "foreground: rgb(10 20 30 40)");
+        color(1, "DOM exception: ''rgb' alpha value must be separated by '/'.'", "foreground: rgb(10 20 30 40)");
 
-        color(1, "DOM exception: 'rgb has to use blank as separator if none is used.'", "foreground: rgb(none, 20, 30)");
-        color(1, "DOM exception: 'rgb has to use blank as separator if none is used.'", "foreground: rgb(10, none, 30)");
-        color(1, "DOM exception: 'rgb has to use blank as separator if none is used.'", "foreground: rgb(10, 20, none)");
-        color(1, "DOM exception: 'rgb has to use blank as separator if none is used.'", "foreground: rgb(10, 20, 30, none)");
+        color(1, "DOM exception: ''rgb' has to use blank as separator if none is used.'", "foreground: rgb(none, 20, 30)");
+        color(1, "DOM exception: ''rgb' has to use blank as separator if none is used.'", "foreground: rgb(10, none, 30)");
+        color(1, "DOM exception: ''rgb' has to use blank as separator if none is used.'", "foreground: rgb(10, 20, none)");
+        color(1, "DOM exception: ''rgb' has to use blank as separator if none is used.'", "foreground: rgb(10, 20, 30, none)");
 
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: rgb(-none 20 30)");
@@ -1261,15 +1261,15 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void hslVariousErrors() throws Exception {
-        color(1, "DOM exception: 'hsl parameters must be separated by ','.'", "foreground: hsl(10, 20% 30%)");
-        color(1, "DOM exception: 'hsl requires consitent separators (blank or comma).'", "foreground: hsl(10 20%, 30%)");
+        color(1, "DOM exception: ''hsl' parameters must be separated by ','.'", "foreground: hsl(10, 20% 30%)");
+        color(1, "DOM exception: ''hsl' requires consitent separators (blank or comma).'", "foreground: hsl(10 20%, 30%)");
 
-        color(1, "DOM exception: 'hsl alpha value must be separated by '/'.'", "foreground: hsl(10 20% 30% 40)");
+        color(1, "DOM exception: ''hsl' alpha value must be separated by '/'.'", "foreground: hsl(10 20% 30% 40)");
 
-        color(1, "DOM exception: 'hsl has to use blank as separator if none is used.'", "foreground: hsl(none, 20%, 30%)");
-        color(1, "DOM exception: 'hsl has to use blank as separator if none is used.'", "foreground: hsl(10, none, 30%)");
-        color(1, "DOM exception: 'hsl has to use blank as separator if none is used.'", "foreground: hsl(10, 20%, none)");
-        color(1, "DOM exception: 'hsl has to use blank as separator if none is used.'", "foreground: hsl(10, 20%, 30%, none)");
+        color(1, "DOM exception: ''hsl' has to use blank as separator if none is used.'", "foreground: hsl(none, 20%, 30%)");
+        color(1, "DOM exception: ''hsl' has to use blank as separator if none is used.'", "foreground: hsl(10, none, 30%)");
+        color(1, "DOM exception: ''hsl' has to use blank as separator if none is used.'", "foreground: hsl(10, 20%, none)");
+        color(1, "DOM exception: ''hsl' has to use blank as separator if none is used.'", "foreground: hsl(10, 20%, 30%, none)");
 
         // mixing numbers and percentages is supported by current browsers
         //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20, 30)");
@@ -1347,7 +1347,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 "foreground: hwb(10, 20% 30%)");
         color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)", "foreground: hwb(10 20%, 30%)");
 
-        color(1, "DOM exception: 'hwb alpha value must be separated by '/'.'", "foreground: hwb(10 20% 30% 40)");
+        color(1, "DOM exception: ''hwb' alpha value must be separated by '/'.'", "foreground: hwb(10 20% 30% 40)");
 
         color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
                 "foreground: hwb()");
@@ -1417,7 +1417,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: lab(10, 20 30)");
 
-        color(1, "DOM exception: 'lab alpha value must be separated by '/'.'", "foreground: lab(10 20 30 40)");
+        color(1, "DOM exception: ''lab' alpha value must be separated by '/'.'", "foreground: lab(10 20 30 40)");
 
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: lab(-none 20 30)");
@@ -1443,6 +1443,85 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: lab('10' 20 30)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void oklabBlank() throws Exception {
+        color("foreground: oklab(255 0 153)", "foreground: oklab(255 0 153)");
+        color("foreground: oklab(255 0 153)", "foreground: oklab(255  0  153.0)");
+        color("foreground: oklab(100% 0% 60%)", "foreground: oklab(100% 0% 60%)");
+        color("foreground: oklab(100% 0% 60%)", "foreground: oklab(100%  0%  60%)");
+
+        color("foreground: oklab(none 0% 60%)", "foreground: oklab(none 0% 60%)");
+        color("foreground: oklab(100% none 60%)", "foreground: oklab(100% none 60%)");
+        color("foreground: oklab(100% 0% none)", "foreground: oklab(100%  0%  none)");
+
+        color("foreground: oklab(255 0 153)", "foreground: oklab(2.55e2 0e0 1.53e2)");
+
+        // alpha
+        color("foreground: oklab(10 20 30 / 0.1)", "foreground: oklab(10 20 30/0.1)");
+        color("foreground: oklab(10 20 30 / 0.1)", "foreground: oklab( 10  20 30 / 0.1 )");
+        color("foreground: oklab(10 20 30 / 0.7)", "foreground: oklab( 10  20 30 / .7 )");
+        color("foreground: oklab(10 20 30 / 10%)", "foreground: oklab(10 20 30 / 10%)");
+
+        color("foreground: oklab(10% 20% 30% / 7%)", "foreground: oklab(10% 20% 30% / 7%)");
+        color("foreground: oklab(10% 20% 30% / 0.13%)", "foreground: oklab(10% 20% 30% / 1.3e-1%)");
+        color("foreground: oklab(10% 20% 30% / 0.5)", "foreground: oklab(10% 20% 30% / 0.5)");
+
+        color("foreground: oklab(10% 20% 30% / none)", "foreground: oklab(10% 20% 30% / none)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void oklabMixed() throws Exception {
+        color("foreground: oklab(42 128 255)", "foreground: oklab(42 128 255)");
+        color("foreground: oklab(42% 128 255)", "foreground: oklab(42% 128 255)");
+        color("foreground: oklab(42 128% 255)", "foreground: oklab(42 128% 255)");
+        color("foreground: oklab(42 128 255%)", "foreground: oklab(42 128 255%)");
+        color("foreground: oklab(42% 128% 255)", "foreground: oklab(42% 128% 255)");
+        color("foreground: oklab(42 128% 255%)", "foreground: oklab(42 128% 255%)");
+        color("foreground: oklab(42% 128% 255%)", "foreground: oklab(42% 128% 255%)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void oklabVariousErrors() throws Exception {
+        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklab(10, 20 30)");
+
+        color(1, "DOM exception: ''oklab' alpha value must be separated by '/'.'", "foreground: oklab(10 20 30 40)");
+
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklab(-none 20 30)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklab(10 -none 30)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklab(10 20 -none)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklab(10 20 30 / -none)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklab()");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklab(10)");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklab(10 20)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklab(10 20 30/)");
+
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklab(10 20px 30)");
+
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklab('10' 20 30)");
     }
 
     /**
@@ -1496,7 +1575,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: lch(10, 20 30deg)");
 
-        color(1, "DOM exception: 'lch alpha value must be separated by '/'.'", "foreground: lch(10 20 30deg 40)");
+        color(1, "DOM exception: ''lch' alpha value must be separated by '/'.'", "foreground: lch(10 20 30deg 40)");
 
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: lch(-none 20 30deg)");
@@ -1522,6 +1601,85 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: lch('10' 20 30deg)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void oklchBlank() throws Exception {
+        color("foreground: oklch(255 0 153deg)", "foreground: oklch(255 0 153deg)");
+        color("foreground: oklch(255 0 153deg)", "foreground: oklch(255  0  153.0deg)");
+        color("foreground: oklch(100% 0% 60deg)", "foreground: oklch(100% 0% 60deg)");
+        color("foreground: oklch(100% 0% 60deg)", "foreground: oklch(100%  0%  60deg)");
+
+        color("foreground: oklch(none 0% 60deg)", "foreground: oklch(none 0% 60deg)");
+        color("foreground: oklch(100% none 60deg)", "foreground: oklch(100% none 60deg)");
+        color("foreground: oklch(100% 0% none)", "foreground: oklch(100%  0%  none)");
+
+        color("foreground: oklch(255 0 153deg)", "foreground: oklch(2.55e2 0e0 1.53e2deg)");
+
+        // alpha
+        color("foreground: oklch(10 20 30deg / 0.1)", "foreground: oklch(10 20 30deg/0.1)");
+        color("foreground: oklch(10 20 30deg / 0.1)", "foreground: oklch( 10  20 30deg / 0.1 )");
+        color("foreground: oklch(10 20 30deg / 0.7)", "foreground: oklch( 10  20 30deg / .7 )");
+        color("foreground: oklch(10 20 30deg / 10%)", "foreground: oklch(10 20 30deg / 10%)");
+
+        color("foreground: oklch(10% 20% 30deg / 7%)", "foreground: oklch(10% 20% 30deg / 7%)");
+        color("foreground: oklch(10% 20% 30deg / 0.13%)", "foreground: oklch(10% 20% 30deg / 1.3e-1%)");
+        color("foreground: oklch(10% 20% 30deg / 0.5)", "foreground: oklch(10% 20% 30deg / 0.5)");
+
+        color("foreground: oklch(10% 20% 30deg / none)", "foreground: oklch(10% 20% 30deg / none)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void oklchMixed() throws Exception {
+        color("foreground: oklch(42 128 255deg)", "foreground: oklch(42 128 255deg)");
+        color("foreground: oklch(42% 128 255deg)", "foreground: oklch(42% 128 255deg)");
+        color("foreground: oklch(42 128% 255deg)", "foreground: oklch(42 128% 255deg)");
+        color("foreground: oklch(42 128 255rad)", "foreground: oklch(42 128 255rad)");
+        color("foreground: oklch(42% 128% 255deg)", "foreground: oklch(42% 128% 255deg)");
+        color("foreground: oklch(42 128% 255rad)", "foreground: oklch(42 128% 255rad)");
+        color("foreground: oklch(42% 128% 255rad)", "foreground: oklch(42% 128% 255rad)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void oklchVariousErrors() throws Exception {
+        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklch(10, 20 30deg)");
+
+        color(1, "DOM exception: ''oklch' alpha value must be separated by '/'.'", "foreground: oklch(10 20 30deg 40)");
+
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklch(-none 20 30deg)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklch(10 -none 30deg)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                "foreground: oklch(10 20 -none)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklch(10 20 30deg / -none)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklch()");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklch(10)");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                "foreground: oklch(10 20)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklch(10 20 30deg/)");
+
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklch(10 20px 30deg)");
+
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: oklch('10' 20 30deg)");
     }
 
     private void color(final String expected, final String cssText) throws Exception {

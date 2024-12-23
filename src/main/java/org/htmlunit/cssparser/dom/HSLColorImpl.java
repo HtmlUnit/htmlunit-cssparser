@@ -44,7 +44,7 @@ public class HSLColorImpl implements Serializable {
      */
     public HSLColorImpl(final String function, final LexicalUnit lu) throws DOMException {
         if (function == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Color space hsl or hsla is required.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Color space 'hsl' or 'hsla' is required.");
         }
         final String functionLC = function.toLowerCase(Locale.ROOT);
         if (!"hsl".equals(functionLC) && !"hsla".equals(functionLC)) {
@@ -54,30 +54,30 @@ public class HSLColorImpl implements Serializable {
 
         LexicalUnit next = lu;
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
         hue_ = getHuePart(next);
 
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
         commaSeparated_ = LexicalUnitType.OPERATOR_COMMA == next.getLexicalUnitType();
         if (commaSeparated_) {
             if (hue_.getLexicalUnitType() == LexicalUnitType.NONE) {
                 throw new DOMException(DOMException.SYNTAX_ERR,
-                        function_ + " has to use blank as separator if none is used.");
+                        "'" + function_ + "' has to use blank as separator if none is used.");
             }
 
             next = next.getNextLexicalUnit();
             if (next == null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+                throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
             }
 
             if (LexicalUnitType.NONE == next.getLexicalUnitType()) {
                 throw new DOMException(DOMException.SYNTAX_ERR,
-                        function_ + " has to use blank as separator if none is used.");
+                        "'" + function_ + "' has to use blank as separator if none is used.");
             }
             if (LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
                 throw new DOMException(DOMException.SYNTAX_ERR, "Saturation part has to be percentage.");
@@ -86,21 +86,22 @@ public class HSLColorImpl implements Serializable {
 
             next = next.getNextLexicalUnit();
             if (next == null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+                throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
             }
 
             if (LexicalUnitType.OPERATOR_COMMA != next.getLexicalUnitType()) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " parameters must be separated by ','.");
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        "'" + function_ + "' parameters must be separated by ','.");
             }
 
             next = next.getNextLexicalUnit();
             if (next == null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+                throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
             }
 
             if (LexicalUnitType.NONE == next.getLexicalUnitType()) {
                 throw new DOMException(DOMException.SYNTAX_ERR,
-                        function_ + " has to use blank as separator if none is used.");
+                        "'" + function_ + "' has to use blank as separator if none is used.");
             }
             if (LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
                 throw new DOMException(DOMException.SYNTAX_ERR, "Lightness part has to be percentage.");
@@ -113,7 +114,8 @@ public class HSLColorImpl implements Serializable {
             }
 
             if (LexicalUnitType.OPERATOR_COMMA != next.getLexicalUnitType()) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " parameters must be separated by ','.");
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        "'" + function_ + "' parameters must be separated by ','.");
             }
 
             next = next.getNextLexicalUnit();
@@ -123,12 +125,13 @@ public class HSLColorImpl implements Serializable {
 
             if (LexicalUnitType.NONE == next.getLexicalUnitType()) {
                 throw new DOMException(DOMException.SYNTAX_ERR,
-                        function_ + " has to use blank as separator if none is used.");
+                        "'" + function_ + "' has to use blank as separator if none is used.");
             }
             alpha_ = getAlphaPart(next);
             next = next.getNextLexicalUnit();
             if (next != null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for " + function_ +  " function.");
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        "Too many parameters for '" + function_ +  "' function.");
             }
             return;
         }
@@ -141,11 +144,11 @@ public class HSLColorImpl implements Serializable {
 
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
         if (next.getLexicalUnitType() == LexicalUnitType.OPERATOR_COMMA) {
             throw new DOMException(DOMException.SYNTAX_ERR,
-                    function_ + " requires consitent separators (blank or comma).");
+                    "'" + function_ + "' requires consitent separators (blank or comma).");
         }
 
         if (LexicalUnitType.NONE != next.getLexicalUnitType()
@@ -159,7 +162,8 @@ public class HSLColorImpl implements Serializable {
         }
 
         if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_SLASH) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " alpha value must be separated by '/'.");
+            throw new DOMException(DOMException.SYNTAX_ERR,
+                    "'" + function_ + "' alpha value must be separated by '/'.");
         }
         next = next.getNextLexicalUnit();
         if (next == null) {
@@ -170,7 +174,7 @@ public class HSLColorImpl implements Serializable {
 
         next = next.getNextLexicalUnit();
         if (next != null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for " + function_ +  " function.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for '" + function_ +  "' function.");
         }
     }
 

@@ -55,7 +55,7 @@ public class LCHColorImplTest {
             fail("DOMException expected");
         }
         catch (final DOMException e) {
-            assertEquals("lch requires at least three values.", e.getMessage());
+            assertEquals("'lch' requires at least three values.", e.getMessage());
         }
 
         final LexicalUnit lchLU = LexicalUnitImpl.createNumber(null, 10);
@@ -65,7 +65,7 @@ public class LCHColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("lch requires at least three values.", e.getMessage());
+            assertEquals("'lch' requires at least three values.", e.getMessage());
         }
     }
 
@@ -86,7 +86,7 @@ public class LCHColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("Too many parameters for lch function.", e.getMessage());
+            assertEquals("Too many parameters for 'lch' function.", e.getMessage());
         }
     }
 
@@ -116,7 +116,7 @@ public class LCHColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("Color space lch is required.", e.getMessage());
+            assertEquals("Color space 'lch' or 'oklch' is required.", e.getMessage());
         }
 
         try {

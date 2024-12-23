@@ -55,7 +55,7 @@ public class LABColorImplTest {
             fail("DOMException expected");
         }
         catch (final DOMException e) {
-            assertEquals("lab requires at least three values.", e.getMessage());
+            assertEquals("'lab' requires at least three values.", e.getMessage());
         }
 
         final LexicalUnit labLU = LexicalUnitImpl.createNumber(null, 10);
@@ -87,7 +87,7 @@ public class LABColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("Too many parameters for lab function.", e.getMessage());
+            assertEquals("Too many parameters for 'lab' function.", e.getMessage());
         }
     }
 
@@ -117,7 +117,7 @@ public class LABColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("Color space lab is required.", e.getMessage());
+            assertEquals("Color space 'lab' or 'oklab' is required.", e.getMessage());
         }
 
         try {

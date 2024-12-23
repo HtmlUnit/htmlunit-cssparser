@@ -57,7 +57,7 @@ public class RGBColorImplTest {
             fail("DOMException expected");
         }
         catch (final DOMException e) {
-            assertEquals("rgb requires at least three values.", e.getMessage());
+            assertEquals("'rgb' requires at least three values.", e.getMessage());
         }
 
         LexicalUnit rgbLU = LexicalUnitImpl.createNumber(null, 10);
@@ -82,7 +82,7 @@ public class RGBColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("rgb parameters must be separated by ','.", e.getMessage());
+            assertEquals("'rgb' parameters must be separated by ','.", e.getMessage());
         }
     }
 
@@ -105,7 +105,7 @@ public class RGBColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("Too many parameters for rgb function.", e.getMessage());
+            assertEquals("Too many parameters for 'rgb' function.", e.getMessage());
         }
     }
 
@@ -137,7 +137,7 @@ public class RGBColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("Color space rgb or rgba is required.", e.getMessage());
+            assertEquals("Color space 'rgb' or 'rgba' is required.", e.getMessage());
         }
 
         try {

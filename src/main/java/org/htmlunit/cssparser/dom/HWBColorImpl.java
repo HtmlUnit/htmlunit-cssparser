@@ -41,7 +41,7 @@ public class HWBColorImpl implements Serializable {
      */
     public HWBColorImpl(final String function, final LexicalUnit lu) throws DOMException {
         if (function == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Color space hwb is required.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Color space 'hwb' is required.");
         }
         final String functionLC = function.toLowerCase(Locale.ROOT);
         if (!"hwb".equals(functionLC)) {
@@ -50,13 +50,13 @@ public class HWBColorImpl implements Serializable {
 
         LexicalUnit next = lu;
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "hwb requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'hwb' requires at least three values.");
         }
         hue_ = getHuePart(next);
 
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "hwb requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'hwb' requires at least three values.");
         }
 
         if (LexicalUnitType.NONE != next.getLexicalUnitType()
@@ -67,7 +67,7 @@ public class HWBColorImpl implements Serializable {
 
         next = next.getNextLexicalUnit();
         if (next == null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "hwb requires at least three values.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'hwb' requires at least three values.");
         }
 
         if (LexicalUnitType.NONE != next.getLexicalUnitType()
@@ -81,7 +81,7 @@ public class HWBColorImpl implements Serializable {
         }
 
         if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_SLASH) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "hwb alpha value must be separated by '/'.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "'hwb' alpha value must be separated by '/'.");
         }
         next = next.getNextLexicalUnit();
         if (next == null) {
@@ -92,7 +92,7 @@ public class HWBColorImpl implements Serializable {
 
         next = next.getNextLexicalUnit();
         if (next != null) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for hwb function.");
+            throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for 'hwb' function.");
         }
     }
 

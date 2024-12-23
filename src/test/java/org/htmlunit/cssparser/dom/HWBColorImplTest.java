@@ -55,7 +55,7 @@ public class HWBColorImplTest {
             fail("DOMException expected");
         }
         catch (final DOMException e) {
-            assertEquals("hwb requires at least three values.", e.getMessage());
+            assertEquals("'hwb' requires at least three values.", e.getMessage());
         }
 
         final LexicalUnit hwbLU = LexicalUnitImpl.createNumber(null, 10);
@@ -87,7 +87,7 @@ public class HWBColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("Too many parameters for hwb function.", e.getMessage());
+            assertEquals("Too many parameters for 'hwb' function.", e.getMessage());
         }
     }
 
@@ -117,7 +117,7 @@ public class HWBColorImplTest {
             fail("DOMException expected: " + color);
         }
         catch (final DOMException e) {
-            assertEquals("Color space hwb is required.", e.getMessage());
+            assertEquals("Color space 'hwb' is required.", e.getMessage());
         }
 
         try {
