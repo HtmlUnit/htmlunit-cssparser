@@ -384,6 +384,8 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
                     return CSSPrimitiveValueType.CSS_KHZ;
                 case IDENT:
                     return CSSPrimitiveValueType.CSS_IDENT;
+                case NONE:
+                    return CSSPrimitiveValueType.CSS_IDENT;
                 case STRING_VALUE:
                     return CSSPrimitiveValueType.CSS_STRING;
                 case ATTR:
@@ -471,6 +473,10 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
 
             if (lu.getLexicalUnitType() == LexicalUnitType.INHERIT) {
                 return "inherit";
+            }
+
+            if (lu.getLexicalUnitType() == LexicalUnitType.NONE) {
+                return "none";
             }
 
             // for rgba values we are using this type

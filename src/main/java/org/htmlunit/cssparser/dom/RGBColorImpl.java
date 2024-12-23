@@ -53,8 +53,10 @@ public class RGBColorImpl implements Serializable {
         function_ = functionLC;
 
         LexicalUnit next = lu;
+        if (next == null) {
+            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+        }
 
-        final boolean percentage = LexicalUnitType.PERCENTAGE == next.getLexicalUnitType();
         red_ = getPart(next);
 
         next = next.getNextLexicalUnit();
@@ -64,18 +66,22 @@ public class RGBColorImpl implements Serializable {
 
         commaSeparated_ = next.getLexicalUnitType() == LexicalUnitType.OPERATOR_COMMA;
         if (commaSeparated_) {
+            if (red_.getLexicalUnitType() == LexicalUnitType.NONE) {
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        function_ + " has to use blank as separator if none is used.");
+            }
+
             next = next.getNextLexicalUnit();
             if (next == null) {
                 throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
             }
 
-            if (percentage && LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " mixing numbers and percentages.");
-            }
-            if (!percentage && LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " mixing numbers and percentages.");
-            }
             green_ = getPart(next);
+            if (green_.getLexicalUnitType() == LexicalUnitType.NONE) {
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        function_ + " has to use blank as separator if none is used.");
+            }
+
             next = next.getNextLexicalUnit();
             if (next == null) {
                 throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
@@ -90,13 +96,11 @@ public class RGBColorImpl implements Serializable {
                 throw new DOMException(DOMException.SYNTAX_ERR, function_ + "b requires at least three values.");
             }
 
-            if (percentage && LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " mixing numbers and percentages.");
-            }
-            if (!percentage && LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " mixing numbers and percentages.");
-            }
             blue_ = getPart(next);
+            if (blue_.getLexicalUnitType() == LexicalUnitType.NONE) {
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        function_ + " has to use blank as separator if none is used.");
+            }
 
             next = next.getNextLexicalUnit();
             if (next == null) {
@@ -112,6 +116,11 @@ public class RGBColorImpl implements Serializable {
             }
 
             alpha_ = getPart(next);
+            if (alpha_.getLexicalUnitType() == LexicalUnitType.NONE) {
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        function_ + " has to use blank as separator if none is used.");
+            }
+
             next = next.getNextLexicalUnit();
             if (next != null) {
                 throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for " + function_ +  " function.");
@@ -119,12 +128,6 @@ public class RGBColorImpl implements Serializable {
             return;
         }
 
-        if (percentage && LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " mixing numbers and percentages.");
-        }
-        if (!percentage && LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " mixing numbers and percentages.");
-        }
         green_ = getPart(next);
         next = next.getNextLexicalUnit();
         if (next == null) {
@@ -135,12 +138,6 @@ public class RGBColorImpl implements Serializable {
                     function_ + " requires consitent separators (blank or comma).");
         }
 
-        if (percentage && LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " mixing numbers and percentages.");
-        }
-        if (!percentage && LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()) {
-            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " mixing numbers and percentages.");
-        }
         blue_ = getPart(next);
         next = next.getNextLexicalUnit();
         if (next == null) {
@@ -165,7 +162,8 @@ public class RGBColorImpl implements Serializable {
     private static CSSValueImpl getPart(final LexicalUnit next) {
         if (LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()
                 || LexicalUnitType.INTEGER == next.getLexicalUnitType()
-                || LexicalUnitType.REAL == next.getLexicalUnitType()) {
+                || LexicalUnitType.REAL == next.getLexicalUnitType()
+                || LexicalUnitType.NONE == next.getLexicalUnitType()) {
             return new CSSValueImpl(next, true);
         }
 

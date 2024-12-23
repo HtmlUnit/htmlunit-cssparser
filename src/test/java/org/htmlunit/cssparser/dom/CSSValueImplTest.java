@@ -797,6 +797,21 @@ public class CSSValueImplTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void none() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createNone(null);
+        final CSSValueImpl value = new CSSValueImpl(lu, false);
+
+        assertEquals("none", value.getCssText());
+        assertEquals(CSSPrimitiveValueType.CSS_IDENT, value.getPrimitiveType());
+        assertEquals(LexicalUnit.LexicalUnitType.NONE, value.getLexicalUnitType());
+        assertEquals(0.0, value.getDoubleValue(), 0.00001);
+        assertEquals("none", value.getStringValue());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void setCssText() throws Exception {
         final LexicalUnit lu = LexicalUnitImpl.createURI(null, "cssparser");
         final CSSValueImpl value = new CSSValueImpl(lu, false);

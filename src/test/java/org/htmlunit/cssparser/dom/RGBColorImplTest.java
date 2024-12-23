@@ -52,6 +52,14 @@ public class RGBColorImplTest {
      */
     @Test
     public void constructByLUException() throws Exception {
+        try {
+            new RGBColorImpl("rgb", null);
+            fail("DOMException expected");
+        }
+        catch (final DOMException e) {
+            assertEquals("rgb requires at least three values.", e.getMessage());
+        }
+
         LexicalUnit rgbLU = LexicalUnitImpl.createNumber(null, 10);
         LexicalUnit lu = LexicalUnitImpl.createComma(rgbLU);
         LexicalUnitImpl.createDivide(lu);

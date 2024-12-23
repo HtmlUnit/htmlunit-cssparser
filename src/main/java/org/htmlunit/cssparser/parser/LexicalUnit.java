@@ -93,10 +93,14 @@ public interface LexicalUnit {
         COUNTER_FUNCTION,
         /** COUNTERS_FUNCTION. */
         COUNTERS_FUNCTION,
+
         /** RGBCOLOR. */
         RGBCOLOR,
         /** HSLCOLOR. */
         HSLCOLOR,
+        /** NONE. */
+        NONE,
+
         /** DEGREE. */
         DEGREE,
         /** GRADIAN. */
@@ -105,6 +109,7 @@ public interface LexicalUnit {
         RADIAN,
         /** TURN. */
         TURN,
+
         /** MILLISECOND. */
         MILLISECOND,
         /** SECOND. */

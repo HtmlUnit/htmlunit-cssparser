@@ -110,6 +110,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         selectorType(".inherit", SelectorType.ELEMENT_NODE_SELECTOR);
         selectorType(".only", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType(".none", SelectorType.ELEMENT_NODE_SELECTOR);
     }
 
     /**
@@ -229,6 +230,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         conditionType(".inherit", ConditionType.CLASS_CONDITION);
         conditionType(".only", ConditionType.CLASS_CONDITION);
+        conditionType(".none", ConditionType.CLASS_CONDITION);
     }
 
     /**
@@ -891,10 +893,14 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbComma() throws Exception {
-        color("foreground: rgb(255, 0, 153)", "foreground: rgb(255,0,153)");
-        color("foreground: rgb(255, 0, 153)", "foreground: rgb(255, 0, 153.0)");
-        color("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%,0%,60%)");
-        color("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%, 0%, 60%)");
+//        color("foreground: rgb(255, 0, 153)", "foreground: rgb(255,0,153)");
+//        color("foreground: rgb(255, 0, 153)", "foreground: rgb(255, 0, 153.0)");
+//        color("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%,0%,60%)");
+//        color("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%, 0%, 60%)");
+
+        color("foreground: rgb(none 0% 60%)", "foreground: rgb(none 0% 60%)");
+        color("foreground: rgb(100% none 60%)", "foreground: rgb(100% none 60%)");
+        color("foreground: rgb(100% 0% none)", "foreground: rgb(100%  0%  none)");
 
         color("foreground: rgb(255, 0, 153)", "foreground: rgb(2.55e2, 0e0, 1.53e2)");
 
@@ -930,6 +936,28 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: rgb(10% 20% 30% / 7%)", "foreground: rgb(10% 20% 30% / 7%)");
         color("foreground: rgb(10% 20% 30% / 0.13%)", "foreground: rgb(10% 20% 30% / 1.3e-1%)");
         color("foreground: rgb(10% 20% 30% / 0.5)", "foreground: rgb(10% 20% 30% / 0.5)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void rgbMixed() throws Exception {
+        color("foreground: rgb(42, 128, 255)", "foreground: rgb(42, 128, 255)");
+        color("foreground: rgb(42%, 128, 255)", "foreground: rgb(42%, 128, 255)");
+        color("foreground: rgb(42, 128%, 255)", "foreground: rgb(42, 128%, 255)");
+        color("foreground: rgb(42, 128, 255%)", "foreground: rgb(42, 128, 255%)");
+        color("foreground: rgb(42, 128%, 255%)", "foreground: rgb(42, 128%, 255%)");
+        color("foreground: rgb(42%, 128%, 255)", "foreground: rgb(42%, 128%, 255)");
+        color("foreground: rgb(42%, 128%, 255%)", "foreground: rgb(42%, 128%, 255%)");
+
+        color("foreground: rgb(42 128 255)", "foreground: rgb(42 128 255)");
+        color("foreground: rgb(42% 128 255)", "foreground: rgb(42% 128 255)");
+        color("foreground: rgb(42 128% 255)", "foreground: rgb(42 128% 255)");
+        color("foreground: rgb(42 128 255%)", "foreground: rgb(42 128 255%)");
+        color("foreground: rgb(42% 128% 255)", "foreground: rgb(42% 128% 255)");
+        color("foreground: rgb(42 128% 255%)", "foreground: rgb(42 128% 255%)");
+        color("foreground: rgb(42% 128% 255%)", "foreground: rgb(42% 128% 255%)");
     }
 
     /**
@@ -976,6 +1004,30 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: rgba(10% 20% 30% / 7%)", "foreground: rgba(10% 20% 30% / 7%)");
         color("foreground: rgba(10% 20% 30% / 0.13%)", "foreground: rgba(10% 20% 30% / 1.3e-1%)");
         color("foreground: rgba(10% 20% 30% / 0.5)", "foreground: rgba(10% 20% 30% / 0.5)");
+
+        color("foreground: rgba(10% 20% 30% / none)", "foreground: rgba(10% 20% 30% / none)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void rgbaMixed() throws Exception {
+        color("foreground: rgba(42, 128, 255)", "foreground: rgba(42, 128, 255)");
+        color("foreground: rgba(42%, 128, 255)", "foreground: rgba(42%, 128, 255)");
+        color("foreground: rgba(42, 128%, 255)", "foreground: rgba(42, 128%, 255)");
+        color("foreground: rgba(42, 128, 255%)", "foreground: rgba(42, 128, 255%)");
+        color("foreground: rgba(42, 128%, 255%)", "foreground: rgba(42, 128%, 255%)");
+        color("foreground: rgba(42%, 128%, 255)", "foreground: rgba(42%, 128%, 255)");
+        color("foreground: rgba(42%, 128%, 255%)", "foreground: rgba(42%, 128%, 255%)");
+
+        color("foreground: rgba(42 128 255)", "foreground: rgba(42 128 255)");
+        color("foreground: rgba(42% 128 255)", "foreground: rgba(42% 128 255)");
+        color("foreground: rgba(42 128% 255)", "foreground: rgba(42 128% 255)");
+        color("foreground: rgba(42 128 255%)", "foreground: rgba(42 128 255%)");
+        color("foreground: rgba(42% 128% 255)", "foreground: rgba(42% 128% 255)");
+        color("foreground: rgba(42 128% 255%)", "foreground: rgba(42 128% 255%)");
+        color("foreground: rgba(42% 128% 255%)", "foreground: rgba(42% 128% 255%)");
     }
 
     /**
@@ -986,31 +1038,46 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color(1, "DOM exception: 'rgb parameters must be separated by ','.'", "foreground: rgb(10, 20 30)");
         color(1, "DOM exception: 'rgb requires consitent separators (blank or comma).'", "foreground: rgb(10 20, 30)");
 
-        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20, 30)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20%, 30)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10, 20%, 30)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10, 20%, 30%)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10, 20, 30%)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20, 30%)");
+        color(1, "DOM exception: 'rgb alpha value must be separated by '/'.'", "foreground: rgb(10 20 30 40)");
 
-        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20 30)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20% 30)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20% 30)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20% 30%)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20 30%)");
-        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20 30%)");
+        color(1, "DOM exception: 'rgb has to use blank as separator if none is used.'", "foreground: rgb(none, 20, 30)");
+        color(1, "DOM exception: 'rgb has to use blank as separator if none is used.'", "foreground: rgb(10, none, 30)");
+        color(1, "DOM exception: 'rgb has to use blank as separator if none is used.'", "foreground: rgb(10, 20, none)");
+        color(1, "DOM exception: 'rgb has to use blank as separator if none is used.'", "foreground: rgb(10, 20, 30, none)");
 
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", <PERCENTAGE>.)",
+        // mixing numbers and percentages is supported by current browsers
+        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20, 30)");
+        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20%, 30)");
+        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10, 20%, 30)");
+        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10, 20%, 30%)");
+        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10, 20, 30%)");
+        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20, 30%)");
+        //
+        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20 30)");
+        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20% 30)");
+        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20% 30)");
+        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20% 30%)");
+        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20 30%)");
+        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20 30%)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: rgb()");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: rgb(10)");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: rgb(10 20)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: rgb(10, 20, 30,)");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: rgb(10, 20, 30/)");
 
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: rgb(10, 20px, 30)");
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", \",\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
                 "foreground: rgb(10 20px 30)");
 
-        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: rgb('10', 20, 30,)");
     }
 
@@ -1880,7 +1947,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(7, errorHandler.getErrorCount());
         final String expected = "Error in declaration. (Invalid token \"}\". Was expecting one of: <S>, \":\".)"
                 + " Error in declaration. (Invalid token \";\". Was expecting one of: <S>, \":\".)"
-                + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
+                + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, <NUMBER>, \"inherit\", \"none\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
@@ -1888,7 +1955,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)"
-                + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
+                + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, <NUMBER>, \"inherit\", \"none\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
@@ -2141,7 +2208,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in @page rule. "
-                + "(Invalid token \"<EOF>\". Was expecting one of: <S>, <IDENT>, \"}\", \";\", \"*\", <CUSTOM_PROPERTY_NAME>.)";
+                + "(Invalid token \"<EOF>\". Was expecting one of: <S>, \"only\", \"inherit\", \"none\", <IDENT>,"
+                + " \"}\", \";\", \"*\", <CUSTOM_PROPERTY_NAME>.)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("1", errorHandler.getErrorLines());
         assertEquals("34", errorHandler.getErrorColumns());
@@ -2185,7 +2253,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in expression. "
-                + "(Invalid token \"\\'\". Was expecting one of: <S>, <NUMBER>, \"inherit\", "
+                + "(Invalid token \"\\'\". Was expecting one of: <S>, <NUMBER>, \"inherit\", \"none\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
@@ -4552,6 +4620,40 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      * @throws Exception if the test fails
      */
     @Test
+    public void inheritPropertyName() throws Exception {
+        final String css = ".test { inherit: value }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.test { inherit: value; }", rule.toString());
+        assertEquals("*.test { inherit: value; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void inheritPropertyValue() throws Exception {
+        final String css = ".test { display: inherit }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.test { display: inherit; }", rule.toString());
+        assertEquals("*.test { display: inherit; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
     public void onlyClassName() throws Exception {
         final String css = ".only { color: red }\n";
 
@@ -4565,7 +4667,91 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("*.only { color: red; }", rule.getCssText());
     }
 
-//
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void onlyPropertyName() throws Exception {
+        final String css = ".test { only: value }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.test { only: value; }", rule.toString());
+        assertEquals("*.test { only: value; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void onlyPropertyValue() throws Exception {
+        final String css = ".test { display: only }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.test { display: only; }", rule.toString());
+        assertEquals("*.test { display: only; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void noneClassName() throws Exception {
+        final String css = ".none { color: red }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.none { color: red; }", rule.toString());
+        assertEquals("*.none { color: red; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void nonePropertyName() throws Exception {
+        final String css = ".test { none: value }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.test { none: value; }", rule.toString());
+        assertEquals("*.test { none: value; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void nonePropertyValue() throws Exception {
+        final String css = ".test { display: none }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.test { display: none; }", rule.toString());
+        assertEquals("*.test { display: none; }", rule.getCssText());
+    }
+
 //    /**
 //     * @throws Exception if any error occurs
 //     */
