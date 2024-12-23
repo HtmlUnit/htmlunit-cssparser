@@ -55,7 +55,7 @@ public class RGBColorImpl extends AbstractColor {
             throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
-        red_ = getPart(next);
+        getNumberPercentagePart(next, this::setRed);
 
         next = next.getNextLexicalUnit();
         if (next == null) {
@@ -78,7 +78,7 @@ public class RGBColorImpl extends AbstractColor {
                 throw new DOMException(DOMException.SYNTAX_ERR,
                         "'" + function_ + "' has to use blank as separator if none is used.");
             }
-            green_ = getPart(next);
+            getNumberPercentagePart(next, this::setGreen);
 
             next = next.getNextLexicalUnit();
             if (next == null) {
@@ -99,7 +99,7 @@ public class RGBColorImpl extends AbstractColor {
                 throw new DOMException(DOMException.SYNTAX_ERR,
                         "'" + function_ + "' has to use blank as separator if none is used.");
             }
-            blue_ = getPart(next);
+            getNumberPercentagePart(next, this::setBlue);
 
             next = next.getNextLexicalUnit();
             if (next == null) {
@@ -130,7 +130,7 @@ public class RGBColorImpl extends AbstractColor {
             return;
         }
 
-        green_ = getPart(next);
+        getNumberPercentagePart(next, this::setGreen);
         next = next.getNextLexicalUnit();
         if (next == null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
@@ -140,7 +140,7 @@ public class RGBColorImpl extends AbstractColor {
                     "'" + function_ + "' requires consitent separators (blank or comma).");
         }
 
-        blue_ = getPart(next);
+        getNumberPercentagePart(next, this::setBlue);
         next = next.getNextLexicalUnit();
         if (next == null) {
             return;
@@ -161,17 +161,6 @@ public class RGBColorImpl extends AbstractColor {
         if (next != null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for '" + function_ +  "' function.");
         }
-    }
-
-    private static CSSValueImpl getPart(final LexicalUnit next) {
-        if (LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()
-                || LexicalUnitType.INTEGER == next.getLexicalUnitType()
-                || LexicalUnitType.REAL == next.getLexicalUnitType()
-                || LexicalUnitType.NONE == next.getLexicalUnitType()) {
-            return new CSSValueImpl(next, true);
-        }
-
-        throw new DOMException(DOMException.SYNTAX_ERR, "Color part has to be numeric or percentage.");
     }
 
     /**

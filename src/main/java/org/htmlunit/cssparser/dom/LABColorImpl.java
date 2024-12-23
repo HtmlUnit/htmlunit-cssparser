@@ -54,20 +54,20 @@ public class LABColorImpl extends AbstractColor {
             throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
-        lightness_ = getNumberPercentagePart(next);
+        getNumberPercentagePart(next, this::setLightness);
 
         next = next.getNextLexicalUnit();
         if (next == null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
-        aDistance_ = getNumberPercentagePart(next);
+        getNumberPercentagePart(next, this::setA);
         next = next.getNextLexicalUnit();
         if (next == null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
-        bDistance_ = getNumberPercentagePart(next);
+        getNumberPercentagePart(next, this::setB);
         next = next.getNextLexicalUnit();
         if (next == null) {
             return;

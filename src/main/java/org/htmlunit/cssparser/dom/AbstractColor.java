@@ -15,6 +15,7 @@
 package org.htmlunit.cssparser.dom;
 
 import java.io.Serializable;
+import java.util.function.Consumer;
 
 import org.htmlunit.cssparser.parser.LexicalUnit;
 import org.htmlunit.cssparser.parser.LexicalUnit.LexicalUnitType;
@@ -29,14 +30,15 @@ public class AbstractColor implements Serializable {
 
     private CSSValueImpl alpha_;
 
-    protected static CSSValueImpl getNumberPercentagePart(final LexicalUnit next) {
+    protected void getNumberPercentagePart(final LexicalUnit next, final Consumer<CSSValueImpl> setter) {
         if (LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()
 
                 || LexicalUnitType.INTEGER == next.getLexicalUnitType()
                 || LexicalUnitType.REAL == next.getLexicalUnitType()
 
                 || LexicalUnitType.NONE == next.getLexicalUnitType()) {
-            return new CSSValueImpl(next, true);
+            setter.accept(new CSSValueImpl(next, true));
+            return;
         }
 
         throw new DOMException(DOMException.SYNTAX_ERR, "Color part has to be numeric or percentage.");
