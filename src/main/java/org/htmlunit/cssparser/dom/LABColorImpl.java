@@ -14,7 +14,6 @@
  */
 package org.htmlunit.cssparser.dom;
 
-import java.io.Serializable;
 import java.util.Locale;
 
 import org.htmlunit.cssparser.parser.LexicalUnit;
@@ -26,13 +25,12 @@ import org.w3c.dom.DOMException;
  *
  * @author Ronald Brill
  */
-public class LABColorImpl implements Serializable {
+public class LABColorImpl extends AbstractColor {
     private final String function_;
 
     private CSSValueImpl lightness_;
     private CSSValueImpl aDistance_;
     private CSSValueImpl bDistance_;
-    private CSSValueImpl alpha_;
 
     /**
      * Constructor that reads the values from the given
@@ -56,20 +54,20 @@ public class LABColorImpl implements Serializable {
             throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
-        lightness_ = getPart(next);
+        lightness_ = getNumberPercentagePart(next);
 
         next = next.getNextLexicalUnit();
         if (next == null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
-        aDistance_ = getPart(next);
+        aDistance_ = getNumberPercentagePart(next);
         next = next.getNextLexicalUnit();
         if (next == null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
 
-        bDistance_ = getPart(next);
+        bDistance_ = getNumberPercentagePart(next);
         next = next.getNextLexicalUnit();
         if (next == null) {
             return;
@@ -84,37 +82,12 @@ public class LABColorImpl implements Serializable {
             throw new DOMException(DOMException.SYNTAX_ERR, "Missing alpha value.");
         }
 
-        alpha_ = getAlphaPart(next);
+        getAlphaPart(next);
+
         next = next.getNextLexicalUnit();
         if (next != null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for '" + function_ + "' function.");
         }
-    }
-
-    private static CSSValueImpl getPart(final LexicalUnit next) {
-        if (LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()
-
-                || LexicalUnitType.INTEGER == next.getLexicalUnitType()
-                || LexicalUnitType.REAL == next.getLexicalUnitType()
-
-                || LexicalUnitType.NONE == next.getLexicalUnitType()) {
-            return new CSSValueImpl(next, true);
-        }
-
-        throw new DOMException(DOMException.SYNTAX_ERR, "Color part has to be numeric or percentage.");
-    }
-
-    private static CSSValueImpl getAlphaPart(final LexicalUnit next) {
-        if (LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()
-
-                || LexicalUnitType.INTEGER == next.getLexicalUnitType()
-                || LexicalUnitType.REAL == next.getLexicalUnitType()
-
-                || LexicalUnitType.NONE == next.getLexicalUnitType()) {
-            return new CSSValueImpl(next, true);
-        }
-
-        throw new DOMException(DOMException.SYNTAX_ERR, "Color alpha part has to be numeric or percentage.");
     }
 
     /**
@@ -167,21 +140,6 @@ public class LABColorImpl implements Serializable {
     }
 
     /**
-     * @return the alpha part.
-     */
-    public CSSValueImpl getAlpha() {
-        return alpha_;
-    }
-
-    /**
-     * Sets the alpha part to a new value.
-     * @param alpha the new CSSValueImpl
-     */
-    public void setAlpha(final CSSValueImpl alpha) {
-        alpha_ = alpha;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -197,8 +155,8 @@ public class LABColorImpl implements Serializable {
             .append(" ")
             .append(bDistance_);
 
-        if (null != alpha_) {
-            sb.append(" / ").append(alpha_);
+        if (null != getAlpha()) {
+            sb.append(" / ").append(getAlpha());
         }
 
         sb.append(")");

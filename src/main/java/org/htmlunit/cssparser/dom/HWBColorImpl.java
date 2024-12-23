@@ -14,7 +14,6 @@
  */
 package org.htmlunit.cssparser.dom;
 
-import java.io.Serializable;
 import java.util.Locale;
 
 import org.htmlunit.cssparser.parser.LexicalUnit;
@@ -26,11 +25,10 @@ import org.w3c.dom.DOMException;
  *
  * @author Ronald Brill
  */
-public class HWBColorImpl implements Serializable {
+public class HWBColorImpl extends AbstractColor {
     private CSSValueImpl hue_;
     private CSSValueImpl whiteness_;
     private CSSValueImpl blackness_;
-    private CSSValueImpl alpha_;
 
     /**
      * Constructor that reads the values from the given
@@ -88,7 +86,7 @@ public class HWBColorImpl implements Serializable {
             throw new DOMException(DOMException.SYNTAX_ERR, "Missing alpha value.");
         }
 
-        alpha_ = getAlphaPart(next);
+        getAlphaPart(next);
 
         next = next.getNextLexicalUnit();
         if (next != null) {
@@ -110,19 +108,6 @@ public class HWBColorImpl implements Serializable {
         }
 
         throw new DOMException(DOMException.SYNTAX_ERR, "Color hue part has to be numeric or an angle.");
-    }
-
-    private static CSSValueImpl getAlphaPart(final LexicalUnit next) {
-        if (LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()
-
-                || LexicalUnitType.INTEGER == next.getLexicalUnitType()
-                || LexicalUnitType.REAL == next.getLexicalUnitType()
-
-                || LexicalUnitType.NONE == next.getLexicalUnitType()) {
-            return new CSSValueImpl(next, true);
-        }
-
-        throw new DOMException(DOMException.SYNTAX_ERR, "Color alpha part has to be numeric or percentage.");
     }
 
     /**
@@ -171,21 +156,6 @@ public class HWBColorImpl implements Serializable {
     }
 
     /**
-     * @return the alpha part.
-     */
-    public CSSValueImpl getAlpha() {
-        return alpha_;
-    }
-
-    /**
-     * Sets the alpha part to a new value.
-     * @param alpha the new CSSValueImpl
-     */
-    public void setAlpha(final CSSValueImpl alpha) {
-        alpha_ = alpha;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -200,8 +170,8 @@ public class HWBColorImpl implements Serializable {
             .append(" ")
             .append(blackness_);
 
-        if (null != alpha_) {
-            sb.append(" / ").append(alpha_);
+        if (null != getAlpha()) {
+            sb.append(" / ").append(getAlpha());
         }
 
         sb.append(")");
