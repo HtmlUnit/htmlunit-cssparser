@@ -1071,12 +1071,22 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
 
     /**
      * @param prev the previous LexicalUnit
-     * @param funct the name rgb or rgba
+     * @param funct the name hsl or hsla
      * @param params the params
      * @return lexical unit with type rgb color
      */
     public static LexicalUnit createHslColor(final LexicalUnit prev, final String funct, final LexicalUnit params) {
         return new LexicalUnitImpl(prev, LexicalUnitType.HSLCOLOR, funct, params);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param funct the name hwb
+     * @param params the params
+     * @return lexical unit with type rgb color
+     */
+    public static LexicalUnit createHwbColor(final LexicalUnit prev, final String funct, final LexicalUnit params) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.HWBCOLOR, funct, params);
     }
 
     /**

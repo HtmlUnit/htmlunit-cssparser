@@ -420,6 +420,7 @@ TOKEN_MGR_DECLS :
 
 | < FUNCTION_RGB: "rgb" ("a")? <LROUND> >
 | < FUNCTION_HSL: "hsl" ("a")? <LROUND> >
+| < FUNCTION_HWB: "hwb" <LROUND> >
 
 | < CUSTOM_PROPERTY_NAME: < MINUS > <MINUS > <NMSTART> ( <NMCHAR> )* >
 
@@ -1596,6 +1597,7 @@ LexicalUnit term(LexicalUnit prev) :
             | value = function(prev)
             | value = rgbColor(prev)
             | value = hslColor(prev)
+            | value = hwbColor(prev)
             | value = calc(prev)
             | value = var(prev)
         )
@@ -2093,6 +2095,80 @@ LexicalUnit hslColor(LexicalUnit prev) :
         return hslColorInternal(prev, funct, param);
     }
 }
+
+
+// hwb()
+//
+LexicalUnit hwbColor(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit param = null;
+    LexicalUnit next = null;
+    String funct;
+}
+{
+    t = <FUNCTION_HWB> { funct = unescape(t.image.substring(0, t.image.length() - 1), false); }
+    ( <S> )*
+
+    (
+        (op = unaryOperator() )?
+        (
+            <NONE> { param = LexicalUnitImpl.createNone(null); }
+            | param = number(null, op)
+            | t = <ANGLE_DEG>     { param = LexicalUnitImpl.createDegree(null, doubleValue(op, t.image)); }
+            | t = <ANGLE_RAD>     { param = LexicalUnitImpl.createRadian(null, doubleValue(op, t.image)); }
+            | t = <ANGLE_GRAD>    { param = LexicalUnitImpl.createGradian(null, doubleValue(op, t.image)); }
+            | t = <ANGLE_TURN>    { param = LexicalUnitImpl.createTurn(null, doubleValue(op, t.image)); }
+        )
+    )
+    { op = ' '; next = param; }
+
+    ( <S> )*
+
+    (
+        (op = unaryOperator() )?
+        (
+            <NONE> { next = LexicalUnitImpl.createNone(next); }
+            | next = percentage(next, op)
+        )
+    )
+    { op = ' ';  }
+
+    ( <S> )*
+
+    (
+        (op = unaryOperator() )?
+        (
+            <NONE> { next = LexicalUnitImpl.createNone(next); }
+            | next = percentage(next, op)
+        )
+    )
+    { op = ' ';  }
+
+    ( <S> )*
+    (
+        (
+            <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
+            ( <S> )*
+        )?
+  
+        (op = unaryOperator() )?
+        (
+            <NONE> { next = LexicalUnitImpl.createNone(next); }
+            | next = number(next, op)
+            | next = percentage(next, op)
+        )
+
+        ( <S> )*
+    )?
+
+    <RROUND>
+    {
+        return hwbColorInternal(prev, funct, param);
+    }
+}
+
 
 //
 // number()

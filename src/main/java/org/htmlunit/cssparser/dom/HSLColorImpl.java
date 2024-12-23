@@ -97,7 +97,7 @@ public class HSLColorImpl implements Serializable {
 
             next = next.getNextLexicalUnit();
             if (next == null) {
-                throw new DOMException(DOMException.SYNTAX_ERR, function_ + "b requires at least three values.");
+                throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
             }
 
             if (LexicalUnitType.NONE == next.getLexicalUnitType()) {

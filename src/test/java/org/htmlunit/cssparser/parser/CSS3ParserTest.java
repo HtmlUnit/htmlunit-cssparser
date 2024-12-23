@@ -1289,6 +1289,59 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 "foreground: hsl('10', 20, 30,)");
     }
 
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void hwbBlank() throws Exception {
+        color("foreground: hwb(270 60% 70%)", "foreground: hwb(270 60% 70%)");
+        color("foreground: hwb(-270 60% 70%)", "foreground: hwb(-270  60%  70%)");
+        color("foreground: hwb(270deg 60% 70%)", "foreground: hwb(270deg  60%  70%)");
+        color("foreground: hwb(270rad 60% 70%)", "foreground: hwb(270rad 60% 70%)");
+        color("foreground: hwb(270grad 60% 70%)", "foreground: hwb(270grad 60% 70%)");
+        color("foreground: hwb(2.1turn 60% 70%)", "foreground: hwb(2.1turn 60% 70%)");
+
+        color("foreground: hwb(255 0% 15.37%)", "foreground: hwb(2.55e2 0e0% 1537e-2%)");
+        color("foreground: hwb(255deg 0% 15.37%)", "foreground: hwb(2.55e2deg 0e0% 1537e-2%)");
+        color("foreground: hwb(255rad 0% 15.37%)", "foreground: hwb(2.55e2rad 0e0% 1537e-2%)");
+        color("foreground: hwb(255grad 0% 15.37%)", "foreground: hwb(2.55e2grad 0e0% 1537e-2%)");
+        color("foreground: hwb(255turn 0% 15.37%)", "foreground: hwb(2.55e2turn 0e0% 1537e-2%)");
+
+        // alpha
+        color("foreground: hwb(270 60% 70% / 0.1)", "foreground: hwb(270 60% 70%/0.1)");
+        color("foreground: hwb(-270 60% 70% / 0.1)", "foreground: hwb(-270  60%  70%  / 0.1)");
+        color("foreground: hwb(-270 60% 70% / 0.1)", "foreground: hwb(-270 60% 70% / .1)");
+        color("foreground: hwb(-270 60% 70% / 10%)", "foreground: hwb(-270 60% 70% / 10%)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void hwbVariousErrors() throws Exception {
+        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: hwb(10, 20% 30%)");
+        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)", "foreground: hwb(10 20%, 30%)");
+
+        color(1, "DOM exception: 'hwb alpha value must be separated by '/'.'", "foreground: hwb(10 20% 30% 40)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                "foreground: hwb()");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: hwb(10)");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: hwb(10 20%)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: hwb(10 20% 30%/)");
+
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: hwb(10 20px 30)");
+
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                "foreground: hwb('10' 20 30)");
+    }
+
     private void color(final String expected, final String cssText) throws Exception {
         color(0, expected, cssText);
     }
@@ -2021,7 +2074,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
-                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)"
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
@@ -2029,7 +2082,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
-                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)"
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION>, \"progid:\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)"
                 + " Error in style rule. (Invalid token \" \". Was expecting one of: <EOF>, \"}\", \";\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)";
@@ -2327,7 +2380,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
-                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)";
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION>, \"progid:\".)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("3", errorHandler.getErrorLines());
         assertEquals("16", errorHandler.getErrorColumns());

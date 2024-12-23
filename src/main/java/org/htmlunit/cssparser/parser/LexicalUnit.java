@@ -98,6 +98,8 @@ public interface LexicalUnit {
         RGBCOLOR,
         /** HSLCOLOR. */
         HSLCOLOR,
+        /** HWBCOLOR. */
+        HWBCOLOR,
         /** NONE. */
         NONE,
 
