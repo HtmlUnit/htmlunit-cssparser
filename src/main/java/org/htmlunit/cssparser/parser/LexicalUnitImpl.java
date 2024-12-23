@@ -419,6 +419,11 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 appendParams(sb);
                 sb.append(")");
                 break;
+            case LCHCOLOR:
+                sb.append("lch(");
+                appendParams(sb);
+                sb.append(")");
+                break;
             case NONE:
                 sb.append("none");
                 break;
@@ -710,6 +715,11 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 break;
             case LABCOLOR:
                 sb.append("LABCOLOR(lab(");
+                appendParams(sb);
+                sb.append("))");
+                break;
+            case LCHCOLOR:
+                sb.append("LCHCOLOR(lch(");
                 appendParams(sb);
                 sb.append("))");
                 break;
@@ -1118,6 +1128,16 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
      */
     public static LexicalUnit createLabColor(final LexicalUnit prev, final String funct, final LexicalUnit params) {
         return new LexicalUnitImpl(prev, LexicalUnitType.LABCOLOR, funct, params);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param funct the name lch
+     * @param params the params
+     * @return lexical unit with type lch color
+     */
+    public static LexicalUnit createLchColor(final LexicalUnit prev, final String funct, final LexicalUnit params) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.LCHCOLOR, funct, params);
     }
 
     /**

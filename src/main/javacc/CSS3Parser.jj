@@ -422,6 +422,7 @@ TOKEN_MGR_DECLS :
 | < FUNCTION_HSL: "hsl" ("a")? <LROUND> >
 | < FUNCTION_HWB: "hwb" <LROUND> >
 | < FUNCTION_LAB: "lab" <LROUND> >
+| < FUNCTION_LCH: "lch" <LROUND> >
 
 | < CUSTOM_PROPERTY_NAME: < MINUS > <MINUS > <NMSTART> ( <NMCHAR> )* >
 
@@ -1600,6 +1601,7 @@ LexicalUnit term(LexicalUnit prev) :
             | value = hslColor(prev)
             | value = hwbColor(prev)
             | value = labColor(prev)
+            | value = lchColor(prev)
             | value = calc(prev)
             | value = var(prev)
         )
@@ -2173,7 +2175,7 @@ LexicalUnit hwbColor(LexicalUnit prev) :
 }
 
 
-// lab(
+// lab()
 //
 LexicalUnit labColor(LexicalUnit prev) :
 {
@@ -2241,6 +2243,80 @@ LexicalUnit labColor(LexicalUnit prev) :
     <RROUND>
     {
         return labColorInternal(prev, funct, param);
+    }
+}
+
+
+// lch()
+//
+LexicalUnit lchColor(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit param = null;
+    LexicalUnit next = null;
+    String funct;
+}
+{
+    t = <FUNCTION_LCH> { funct = unescape(t.image.substring(0, t.image.length() - 1), false); }
+    ( <S> )*
+
+    (
+        (op = unaryOperator() )?
+        (
+            <NONE> { param = LexicalUnitImpl.createNone(null); }
+            | param = number(null, op)
+            | param = percentage(null, op)
+        )
+    )
+    { op = ' '; next = param; }
+
+    ( <S> )*
+
+    (
+        (op = unaryOperator() )?
+        (
+            <NONE> { next = LexicalUnitImpl.createNone(next); }
+            | next = number(next, op)
+            | next = percentage(next, op)
+        )
+    )
+    { op = ' ';  }
+
+    ( <S> )*
+
+    (
+        (op = unaryOperator() )?
+        (
+            <NONE> { next = LexicalUnitImpl.createNone(next); }
+            | t = <ANGLE_DEG>     { next = LexicalUnitImpl.createDegree(next, doubleValue(op, t.image)); }
+            | t = <ANGLE_RAD>     { next = LexicalUnitImpl.createRadian(next, doubleValue(op, t.image)); }
+            | t = <ANGLE_GRAD>    { next = LexicalUnitImpl.createGradian(next, doubleValue(op, t.image)); }
+            | t = <ANGLE_TURN>    { next = LexicalUnitImpl.createTurn(next, doubleValue(op, t.image)); }
+        )
+    )
+    { op = ' ';  }
+
+    ( <S> )*
+    (
+        (
+            <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
+            ( <S> )*
+        )?
+  
+        (op = unaryOperator() )?
+        (
+            <NONE> { next = LexicalUnitImpl.createNone(next); }
+            | next = number(next, op)
+            | next = percentage(next, op)
+        )
+
+        ( <S> )*
+    )?
+
+    <RROUND>
+    {
+        return lchColorInternal(prev, funct, param);
     }
 }
 

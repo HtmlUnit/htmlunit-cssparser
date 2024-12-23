@@ -936,6 +936,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: rgb(10% 20% 30% / 7%)", "foreground: rgb(10% 20% 30% / 7%)");
         color("foreground: rgb(10% 20% 30% / 0.13%)", "foreground: rgb(10% 20% 30% / 1.3e-1%)");
         color("foreground: rgb(10% 20% 30% / 0.5)", "foreground: rgb(10% 20% 30% / 0.5)");
+
+        color("foreground: rgb(10% 20% 30% / none)", "foreground: rgb(10% 20% 30% / none)");
     }
 
     /**
@@ -1170,6 +1172,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hsl(-270 60% 70% / 0.1)", "foreground: hsl(-270  60%  70%  / 0.1)");
         color("foreground: hsl(-270 60% 70% / 0.1)", "foreground: hsl(-270 60% 70% / .1)");
         color("foreground: hsl(-270 60% 70% / 10%)", "foreground: hsl(-270 60% 70% / 10%)");
+
+        color("foreground: hsl(-270 60% 70% / none)", "foreground: hsl(-270 60% 70% / none)");
     }
 
     /**
@@ -1236,6 +1240,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hsla(-270 60% 70% / 0.1)", "foreground: hsla(-270  60%  70%  / 0.1)");
         color("foreground: hsla(-270 60% 70% / 0.1)", "foreground: hsla(-270 60% 70% / .1)");
         color("foreground: hsla(-270 60% 70% / 10%)", "foreground: hsla(-270 60% 70% / 10%)");
+
+        color("foreground: hsla(-270 60% 70% / none)", "foreground: hsla(-270 60% 70% / none)");
     }
 
     /**
@@ -1328,6 +1334,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hwb(-270 60% 70% / 0.1)", "foreground: hwb(-270  60%  70%  / 0.1)");
         color("foreground: hwb(-270 60% 70% / 0.1)", "foreground: hwb(-270 60% 70% / .1)");
         color("foreground: hwb(-270 60% 70% / 10%)", "foreground: hwb(-270 60% 70% / 10%)");
+
+        color("foreground: hwb(-270 60% 70% / none)", "foreground: hwb(-270 60% 70% / none)");
     }
 
     /**
@@ -1383,6 +1391,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: lab(10% 20% 30% / 7%)", "foreground: lab(10% 20% 30% / 7%)");
         color("foreground: lab(10% 20% 30% / 0.13%)", "foreground: lab(10% 20% 30% / 1.3e-1%)");
         color("foreground: lab(10% 20% 30% / 0.5)", "foreground: lab(10% 20% 30% / 0.5)");
+
+        color("foreground: lab(10% 20% 30% / none)", "foreground: lab(10% 20% 30% / none)");
     }
 
     /**
@@ -1433,6 +1443,85 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: lab('10' 20 30)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void lchBlank() throws Exception {
+        color("foreground: lch(255 0 153deg)", "foreground: lch(255 0 153deg)");
+        color("foreground: lch(255 0 153deg)", "foreground: lch(255  0  153.0deg)");
+        color("foreground: lch(100% 0% 60deg)", "foreground: lch(100% 0% 60deg)");
+        color("foreground: lch(100% 0% 60deg)", "foreground: lch(100%  0%  60deg)");
+
+        color("foreground: lch(none 0% 60deg)", "foreground: lch(none 0% 60deg)");
+        color("foreground: lch(100% none 60deg)", "foreground: lch(100% none 60deg)");
+        color("foreground: lch(100% 0% none)", "foreground: lch(100%  0%  none)");
+
+        color("foreground: lch(255 0 153deg)", "foreground: lch(2.55e2 0e0 1.53e2deg)");
+
+        // alpha
+        color("foreground: lch(10 20 30deg / 0.1)", "foreground: lch(10 20 30deg/0.1)");
+        color("foreground: lch(10 20 30deg / 0.1)", "foreground: lch( 10  20 30deg / 0.1 )");
+        color("foreground: lch(10 20 30deg / 0.7)", "foreground: lch( 10  20 30deg / .7 )");
+        color("foreground: lch(10 20 30deg / 10%)", "foreground: lch(10 20 30deg / 10%)");
+
+        color("foreground: lch(10% 20% 30deg / 7%)", "foreground: lch(10% 20% 30deg / 7%)");
+        color("foreground: lch(10% 20% 30deg / 0.13%)", "foreground: lch(10% 20% 30deg / 1.3e-1%)");
+        color("foreground: lch(10% 20% 30deg / 0.5)", "foreground: lch(10% 20% 30deg / 0.5)");
+
+        color("foreground: lch(10% 20% 30deg / none)", "foreground: lch(10% 20% 30deg / none)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void lchMixed() throws Exception {
+        color("foreground: lch(42 128 255deg)", "foreground: lch(42 128 255deg)");
+        color("foreground: lch(42% 128 255deg)", "foreground: lch(42% 128 255deg)");
+        color("foreground: lch(42 128% 255deg)", "foreground: lch(42 128% 255deg)");
+        color("foreground: lch(42 128 255rad)", "foreground: lch(42 128 255rad)");
+        color("foreground: lch(42% 128% 255deg)", "foreground: lch(42% 128% 255deg)");
+        color("foreground: lch(42 128% 255rad)", "foreground: lch(42 128% 255rad)");
+        color("foreground: lch(42% 128% 255rad)", "foreground: lch(42% 128% 255rad)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void lchVariousErrors() throws Exception {
+        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lch(10, 20 30deg)");
+
+        color(1, "DOM exception: 'lch alpha value must be separated by '/'.'", "foreground: lch(10 20 30deg 40)");
+
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lch(-none 20 30deg)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lch(10 -none 30deg)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                "foreground: lch(10 20 -none)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lch(10 20 30deg / -none)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lch()");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lch(10)");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                "foreground: lch(10 20)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lch(10 20 30deg/)");
+
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lch(10 20px 30deg)");
+
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lch('10' 20 30deg)");
     }
 
     private void color(final String expected, final String cssText) throws Exception {
@@ -2167,7 +2256,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
-                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION>, \"progid:\".)"
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
@@ -2175,7 +2264,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
-                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION>, \"progid:\".)"
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)"
                 + " Error in style rule. (Invalid token \" \". Was expecting one of: <EOF>, \"}\", \";\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)";
@@ -2473,7 +2562,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
-                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION>, \"progid:\".)";
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("3", errorHandler.getErrorLines());
         assertEquals("16", errorHandler.getErrorColumns());

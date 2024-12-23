@@ -59,7 +59,7 @@ public class HWBColorImplTest {
         }
 
         final LexicalUnit hwbLU = LexicalUnitImpl.createNumber(null, 10);
-        final LexicalUnit lu = LexicalUnitImpl.createDivide(hwbLU);
+        LexicalUnitImpl.createDivide(hwbLU);
 
         try {
             final HWBColorImpl color = new HWBColorImpl("hwb", hwbLU);

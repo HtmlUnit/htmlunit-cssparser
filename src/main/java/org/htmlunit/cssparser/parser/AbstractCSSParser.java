@@ -809,6 +809,11 @@ public abstract class AbstractCSSParser {
         return LexicalUnitImpl.createLabColor(prev, funct, param);
     }
 
+    protected LexicalUnit lchColorInternal(final LexicalUnit prev, final String funct,
+            final LexicalUnit param) {
+        return LexicalUnitImpl.createLchColor(prev, funct, param);
+    }
+
     /**
      * Processes a hexadecimal color definition.
      *

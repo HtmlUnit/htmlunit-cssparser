@@ -52,7 +52,7 @@ public class HWBColorImpl implements Serializable {
         if (next == null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "hwb requires at least three values.");
         }
-        hue_ = new CSSValueImpl(next, true);
+        hue_ = getHuePart(next);
 
         next = next.getNextLexicalUnit();
         if (next == null) {
@@ -88,17 +88,41 @@ public class HWBColorImpl implements Serializable {
             throw new DOMException(DOMException.SYNTAX_ERR, "Missing alpha value.");
         }
 
-        if (LexicalUnitType.INTEGER != next.getLexicalUnitType()
-                && LexicalUnitType.REAL != next.getLexicalUnitType()
-                && LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
-            throw new DOMException(DOMException.SYNTAX_ERR, "Alpha part has to be numeric or percentage.");
-        }
-        alpha_ = new CSSValueImpl(next, true);
+        alpha_ = getAlphaPart(next);
 
         next = next.getNextLexicalUnit();
         if (next != null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "Too many parameters for hwb function.");
         }
+    }
+
+    private static CSSValueImpl getHuePart(final LexicalUnit next) {
+        if (LexicalUnitType.DEGREE == next.getLexicalUnitType()
+                || LexicalUnitType.RADIAN == next.getLexicalUnitType()
+                || LexicalUnitType.GRADIAN == next.getLexicalUnitType()
+                || LexicalUnitType.TURN == next.getLexicalUnitType()
+
+                || LexicalUnitType.INTEGER == next.getLexicalUnitType()
+                || LexicalUnitType.REAL == next.getLexicalUnitType()
+
+                || LexicalUnitType.NONE == next.getLexicalUnitType()) {
+            return new CSSValueImpl(next, true);
+        }
+
+        throw new DOMException(DOMException.SYNTAX_ERR, "Color hue part has to be numeric or an angle.");
+    }
+
+    private static CSSValueImpl getAlphaPart(final LexicalUnit next) {
+        if (LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()
+
+                || LexicalUnitType.INTEGER == next.getLexicalUnitType()
+                || LexicalUnitType.REAL == next.getLexicalUnitType()
+
+                || LexicalUnitType.NONE == next.getLexicalUnitType()) {
+            return new CSSValueImpl(next, true);
+        }
+
+        throw new DOMException(DOMException.SYNTAX_ERR, "Color alpha part has to be numeric or percentage.");
     }
 
     /**
