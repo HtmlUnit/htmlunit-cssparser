@@ -1128,6 +1128,10 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hsl(255grad, 0%, 15.37%)", "foreground: hsl(2.55e2grad, 0e0%, 1537e-2%)");
         color("foreground: hsl(255turn, 0%, 15.37%)", "foreground: hsl(2.55e2turn, 0e0%, 1537e-2%)");
 
+        color("foreground: hsl(none 0% 60%)", "foreground: hsl(none 0% 60%)");
+        color("foreground: hsl(100deg none 60%)", "foreground: hsl(100deg none 60%)");
+        color("foreground: hsl(100deg 0% none)", "foreground: hsl(100deg  0%  none)");
+
         // alpha
         color("foreground: hsl(270, 60%, 70%, 0.1)", "foreground: hsl(270,60%,70%,0.1)");
         color("foreground: hsl(-270, 60%, 70%, 0.1)", "foreground: hsl(-270, 60%, 70%, 0.1)");
@@ -1158,6 +1162,18 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hsl(-270 60% 70% / 0.1)", "foreground: hsl(-270  60%  70%  / 0.1)");
         color("foreground: hsl(-270 60% 70% / 0.1)", "foreground: hsl(-270 60% 70% / .1)");
         color("foreground: hsl(-270 60% 70% / 10%)", "foreground: hsl(-270 60% 70% / 10%)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void hslMixed() throws Exception {
+        color("foreground: hsl(42, 128%, 255%)", "foreground: hsl(42, 128%, 255%)");
+        color("foreground: hsl(42deg, 128%, 255%)", "foreground: hsl(42deg, 128%, 255%)");
+
+        color("foreground: hsl(42 128% 255%)", "foreground: hsl(42 128% 255%)");
+        color("foreground: hsl(42rad 128% 255%)", "foreground: hsl(42rad 128% 255%)");
     }
 
     /**
@@ -1214,21 +1230,63 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      * @throws Exception in case of failure
      */
     @Test
+    public void hslaMixed() throws Exception {
+        color("foreground: hsla(42, 128%, 255%)", "foreground: hsla(42, 128%, 255%)");
+        color("foreground: hsla(42deg, 128%, 255%)", "foreground: hsla(42deg, 128%, 255%)");
+
+        color("foreground: hsla(42 128% 255%)", "foreground: hsla(42 128% 255%)");
+        color("foreground: hsla(42rad 128% 255%)", "foreground: hsla(42rad 128% 255%)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
     public void hslVariousErrors() throws Exception {
         color(1, "DOM exception: 'hsl parameters must be separated by ','.'", "foreground: hsl(10, 20% 30%)");
         color(1, "DOM exception: 'hsl requires consitent separators (blank or comma).'", "foreground: hsl(10 20%, 30%)");
 
-        color(1, "Error in expression. (Invalid token \"10\". "
-                + "Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
-                "foreground: hsl('10', 20% 30%)");
-        color(1, "Error in expression. (Invalid token \"10\". "
-                + "Was expecting one of: <S>, <NUMBER>, \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
-                "foreground: hsl(10px, 20% 30%)");
+        color(1, "DOM exception: 'hsl alpha value must be separated by '/'.'", "foreground: hsl(10 20% 30% 40)");
 
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"-\", \"+\", <PERCENTAGE>.)",
-                "foreground: hsl(10, 20, 30%)");
-        color(1, "Error in expression. (Invalid token \"30\". Was expecting one of: <S>, \"-\", \"+\", <PERCENTAGE>.)",
-                "foreground: hsl(10, 20%, 30)");
+        color(1, "DOM exception: 'hsl has to use blank as separator if none is used.'", "foreground: hsl(none, 20%, 30%)");
+        color(1, "DOM exception: 'hsl has to use blank as separator if none is used.'", "foreground: hsl(10, none, 30%)");
+        color(1, "DOM exception: 'hsl has to use blank as separator if none is used.'", "foreground: hsl(10, 20%, none)");
+        color(1, "DOM exception: 'hsl has to use blank as separator if none is used.'", "foreground: hsl(10, 20%, 30%, none)");
+
+        // mixing numbers and percentages is supported by current browsers
+        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20, 30)");
+        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20%, 30)");
+        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10, 20%, 30)");
+        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10, 20%, 30%)");
+        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10, 20, 30%)");
+        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20, 30%)");
+        //
+        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad 20 30)");
+        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad 20% 30)");
+        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10 20% 30)");
+        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10 20% 30%)");
+        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10 20 30%)");
+        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad 20 30%)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                "foreground: hsl()");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: hsl(10)");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: hsl(10 20%)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: hsl(10, 20%, 30%,)");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: hsl(10, 20%, 30%/)");
+
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: hsl(10, 20px, 30)");
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: hsl(10 20px 30)");
+
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                "foreground: hsl('10', 20, 30,)");
     }
 
     private void color(final String expected, final String cssText) throws Exception {

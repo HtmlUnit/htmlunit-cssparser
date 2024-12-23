@@ -53,6 +53,9 @@ public class HSLColorImpl implements Serializable {
         function_ = functionLC;
 
         LexicalUnit next = lu;
+        if (next == null) {
+            throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
+        }
         hue_ = new CSSValueImpl(next, true);
 
         next = next.getNextLexicalUnit();
@@ -60,15 +63,26 @@ public class HSLColorImpl implements Serializable {
             throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
         }
 
-        commaSeparated_ = next.getLexicalUnitType() == LexicalUnitType.OPERATOR_COMMA;
+        commaSeparated_ = LexicalUnitType.OPERATOR_COMMA == next.getLexicalUnitType();
         if (commaSeparated_) {
+            if (hue_.getLexicalUnitType() == LexicalUnitType.NONE) {
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        function_ + " has to use blank as separator if none is used.");
+            }
+
             next = next.getNextLexicalUnit();
             if (next == null) {
                 throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
             }
 
-            if (LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
-                throw new DOMException(DOMException.SYNTAX_ERR, "Saturation part has to be percentage.");
+            if (LexicalUnitType.NONE == next.getLexicalUnitType()) {
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        function_ + " has to use blank as separator if none is used.");
+            }
+            else {
+                if (LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
+                    throw new DOMException(DOMException.SYNTAX_ERR, "Saturation part has to be percentage.");
+                }
             }
             saturation_ = new CSSValueImpl(next, true);
 
@@ -77,7 +91,7 @@ public class HSLColorImpl implements Serializable {
                 throw new DOMException(DOMException.SYNTAX_ERR, function_ + " requires at least three values.");
             }
 
-            if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_COMMA) {
+            if (LexicalUnitType.OPERATOR_COMMA != next.getLexicalUnitType()) {
                 throw new DOMException(DOMException.SYNTAX_ERR, function_ + " parameters must be separated by ','.");
             }
 
@@ -86,6 +100,10 @@ public class HSLColorImpl implements Serializable {
                 throw new DOMException(DOMException.SYNTAX_ERR, function_ + "b requires at least three values.");
             }
 
+            if (LexicalUnitType.NONE == next.getLexicalUnitType()) {
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        function_ + " has to use blank as separator if none is used.");
+            }
             if (LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
                 throw new DOMException(DOMException.SYNTAX_ERR, "Lightness part has to be percentage.");
             }
@@ -96,14 +114,19 @@ public class HSLColorImpl implements Serializable {
                 return;
             }
 
-            if (next.getLexicalUnitType() != LexicalUnitType.OPERATOR_COMMA) {
+            if (LexicalUnitType.OPERATOR_COMMA != next.getLexicalUnitType()) {
                 throw new DOMException(DOMException.SYNTAX_ERR, function_ + " parameters must be separated by ','.");
             }
+
             next = next.getNextLexicalUnit();
             if (next == null) {
                 throw new DOMException(DOMException.SYNTAX_ERR, "Missing alpha value.");
             }
 
+            if (LexicalUnitType.NONE == next.getLexicalUnitType()) {
+                throw new DOMException(DOMException.SYNTAX_ERR,
+                        function_ + " has to use blank as separator if none is used.");
+            }
             if (LexicalUnitType.INTEGER != next.getLexicalUnitType()
                     && LexicalUnitType.REAL != next.getLexicalUnitType()
                     && LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
@@ -117,7 +140,8 @@ public class HSLColorImpl implements Serializable {
             return;
         }
 
-        if (LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
+        if (LexicalUnitType.NONE != next.getLexicalUnitType()
+                && LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
             throw new DOMException(DOMException.SYNTAX_ERR, "Saturation part has to be percentage.");
         }
         saturation_ = new CSSValueImpl(next, true);
@@ -131,7 +155,8 @@ public class HSLColorImpl implements Serializable {
                     function_ + " requires consitent separators (blank or comma).");
         }
 
-        if (LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
+        if (LexicalUnitType.NONE != next.getLexicalUnitType()
+                && LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {
             throw new DOMException(DOMException.SYNTAX_ERR, "Lightness part has to be percentage.");
         }
         lightness_ = new CSSValueImpl(next, true);

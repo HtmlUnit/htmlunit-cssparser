@@ -53,6 +53,14 @@ public class HSLColorImplTest {
      */
     @Test
     public void constructByLUException() throws Exception {
+        try {
+            new HSLColorImpl("hsl", null);
+            fail("DOMException expected");
+        }
+        catch (final DOMException e) {
+            assertEquals("hsl requires at least three values.", e.getMessage());
+        }
+
         LexicalUnit hslLU = LexicalUnitImpl.createNumber(null, 10);
         LexicalUnit lu = LexicalUnitImpl.createComma(hslLU);
         LexicalUnitImpl.createDivide(lu);

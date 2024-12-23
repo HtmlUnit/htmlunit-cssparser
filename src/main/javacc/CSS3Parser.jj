@@ -2028,7 +2028,8 @@ LexicalUnit hslColor(LexicalUnit prev) :
     (
         (op = unaryOperator() )?
         (
-            param = number(null, op)
+            <NONE> { param = LexicalUnitImpl.createNone(null); }
+            | param = number(null, op)
             | t = <ANGLE_DEG>     { param = LexicalUnitImpl.createDegree(null, doubleValue(op, t.image)); }
             | t = <ANGLE_RAD>     { param = LexicalUnitImpl.createRadian(null, doubleValue(op, t.image)); }
             | t = <ANGLE_GRAD>    { param = LexicalUnitImpl.createGradian(null, doubleValue(op, t.image)); }
@@ -2046,7 +2047,8 @@ LexicalUnit hslColor(LexicalUnit prev) :
     (
         (op = unaryOperator() )?
         (
-            next = percentage(next, op)
+            <NONE> { next = LexicalUnitImpl.createNone(next); }
+            | next = percentage(next, op)
         )
     )
     { op = ' ';  }
@@ -2060,7 +2062,8 @@ LexicalUnit hslColor(LexicalUnit prev) :
     (
         (op = unaryOperator() )?
         (
-            next = percentage(next, op)
+            <NONE> { next = LexicalUnitImpl.createNone(next); }
+            | next = percentage(next, op)
         )
     )
     { op = ' ';  }
@@ -2077,7 +2080,8 @@ LexicalUnit hslColor(LexicalUnit prev) :
   
         (op = unaryOperator() )?
         (
-            next = number(next, op)
+            <NONE> { next = LexicalUnitImpl.createNone(next); }
+            | next = number(next, op)
             | next = percentage(next, op)
         )
 
