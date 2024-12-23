@@ -421,6 +421,7 @@ TOKEN_MGR_DECLS :
 | < FUNCTION_RGB: "rgb" ("a")? <LROUND> >
 | < FUNCTION_HSL: "hsl" ("a")? <LROUND> >
 | < FUNCTION_HWB: "hwb" <LROUND> >
+| < FUNCTION_LAB: "lab" <LROUND> >
 
 | < CUSTOM_PROPERTY_NAME: < MINUS > <MINUS > <NMSTART> ( <NMCHAR> )* >
 
@@ -1598,6 +1599,7 @@ LexicalUnit term(LexicalUnit prev) :
             | value = rgbColor(prev)
             | value = hslColor(prev)
             | value = hwbColor(prev)
+            | value = labColor(prev)
             | value = calc(prev)
             | value = var(prev)
         )
@@ -1930,6 +1932,7 @@ LexicalUnit var(LexicalUnit prev) :
     }
 }
 
+
 // rgb() / rgba()
 //
 LexicalUnit rgbColor(LexicalUnit prev) :
@@ -2166,6 +2169,78 @@ LexicalUnit hwbColor(LexicalUnit prev) :
     <RROUND>
     {
         return hwbColorInternal(prev, funct, param);
+    }
+}
+
+
+// lab(
+//
+LexicalUnit labColor(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit param = null;
+    LexicalUnit next = null;
+    String funct;
+}
+{
+    t = <FUNCTION_LAB> { funct = unescape(t.image.substring(0, t.image.length() - 1), false); }
+    ( <S> )*
+
+    (
+        (op = unaryOperator() )?
+        (
+            <NONE> { param = LexicalUnitImpl.createNone(null); }
+            | param = number(null, op)
+            | param = percentage(null, op)
+        )
+    )
+    { op = ' '; next = param; }
+
+    ( <S> )*
+
+    (
+        (op = unaryOperator() )?
+        (
+            <NONE> { next = LexicalUnitImpl.createNone(next); }
+            | next = number(next, op)
+            | next = percentage(next, op)
+        )
+    )
+    { op = ' ';  }
+
+    ( <S> )*
+
+    (
+        (op = unaryOperator() )?
+        (
+            <NONE> { next = LexicalUnitImpl.createNone(next); }
+            | next = number(next, op)
+            | next = percentage(next, op)
+        )
+    )
+    { op = ' ';  }
+
+    ( <S> )*
+    (
+        (
+            <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
+            ( <S> )*
+        )?
+  
+        (op = unaryOperator() )?
+        (
+            <NONE> { next = LexicalUnitImpl.createNone(next); }
+            | next = number(next, op)
+            | next = percentage(next, op)
+        )
+
+        ( <S> )*
+    )?
+
+    <RROUND>
+    {
+        return labColorInternal(prev, funct, param);
     }
 }
 

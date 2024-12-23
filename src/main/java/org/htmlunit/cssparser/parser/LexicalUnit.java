@@ -100,6 +100,8 @@ public interface LexicalUnit {
         HSLCOLOR,
         /** HWBCOLOR. */
         HWBCOLOR,
+        /** LABCOLOR. */
+        LABCOLOR,
         /** NONE. */
         NONE,
 

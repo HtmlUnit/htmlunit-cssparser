@@ -69,10 +69,6 @@ public class HWBColorImpl implements Serializable {
         if (next == null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "hwb requires at least three values.");
         }
-        if (next.getLexicalUnitType() == LexicalUnitType.OPERATOR_COMMA) {
-            throw new DOMException(DOMException.SYNTAX_ERR,
-                    "hwb requires consitent separators (blank or comma).");
-        }
 
         if (LexicalUnitType.NONE != next.getLexicalUnitType()
                 && LexicalUnitType.PERCENTAGE != next.getLexicalUnitType()) {

@@ -19,6 +19,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
+import org.htmlunit.cssparser.dom.HWBColorImpl;
+
 /**
  * Implementation of {@link LexicalUnit}.
  *
@@ -409,6 +411,16 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 appendParams(sb);
                 sb.append(")");
                 break;
+            case HWBCOLOR:
+                sb.append("hwb(");
+                appendParams(sb);
+                sb.append(")");
+                break;
+            case LABCOLOR:
+                sb.append("lab(");
+                appendParams(sb);
+                sb.append(")");
+                break;
             case NONE:
                 sb.append("none");
                 break;
@@ -693,6 +705,17 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 appendParams(sb);
                 sb.append("))");
                 break;
+            case HWBCOLOR:
+                sb.append("HWBCOLOR(hwb(");
+                appendParams(sb);
+                sb.append("))");
+                break;
+            case LABCOLOR:
+                sb.append("LABCOLOR(lab(");
+                appendParams(sb);
+                sb.append("))");
+                break;
+
             case IDENT:
                 sb.append("IDENT(")
                     .append(getStringValue())
@@ -1073,7 +1096,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
      * @param prev the previous LexicalUnit
      * @param funct the name hsl or hsla
      * @param params the params
-     * @return lexical unit with type rgb color
+     * @return lexical unit with type hsl color
      */
     public static LexicalUnit createHslColor(final LexicalUnit prev, final String funct, final LexicalUnit params) {
         return new LexicalUnitImpl(prev, LexicalUnitType.HSLCOLOR, funct, params);
@@ -1083,10 +1106,20 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
      * @param prev the previous LexicalUnit
      * @param funct the name hwb
      * @param params the params
-     * @return lexical unit with type rgb color
+     * @return lexical unit with type hwb color
      */
     public static LexicalUnit createHwbColor(final LexicalUnit prev, final String funct, final LexicalUnit params) {
         return new LexicalUnitImpl(prev, LexicalUnitType.HWBCOLOR, funct, params);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param funct the name lab
+     * @param params the params
+     * @return lexical unit with type lab color
+     */
+    public static LexicalUnit createLabColor(final LexicalUnit prev, final String funct, final LexicalUnit params) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.LABCOLOR, funct, params);
     }
 
     /**

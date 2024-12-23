@@ -898,10 +898,6 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%,0%,60%)");
         color("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%, 0%, 60%)");
 
-        color("foreground: rgb(none 0% 60%)", "foreground: rgb(none 0% 60%)");
-        color("foreground: rgb(100% none 60%)", "foreground: rgb(100% none 60%)");
-        color("foreground: rgb(100% 0% none)", "foreground: rgb(100%  0%  none)");
-
         color("foreground: rgb(255, 0, 153)", "foreground: rgb(2.55e2, 0e0, 1.53e2)");
 
         // alpha
@@ -924,6 +920,10 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: rgb(255 0 153)", "foreground: rgb(255  0  153.0)");
         color("foreground: rgb(100% 0% 60%)", "foreground: rgb(100% 0% 60%)");
         color("foreground: rgb(100% 0% 60%)", "foreground: rgb(100%  0%  60%)");
+
+        color("foreground: rgb(none 0% 60%)", "foreground: rgb(none 0% 60%)");
+        color("foreground: rgb(100% none 60%)", "foreground: rgb(100% none 60%)");
+        color("foreground: rgb(100% 0% none)", "foreground: rgb(100%  0%  none)");
 
         color("foreground: rgb(255 0 153)", "foreground: rgb(2.55e2 0e0 1.53e2)");
 
@@ -993,6 +993,10 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: rgba(100% 0% 60%)", "foreground: rgba(100% 0% 60%)");
         color("foreground: rgba(100% 0% 60%)", "foreground: rgba(100%  0%  60%)");
 
+        color("foreground: rgba(none 0% 60%)", "foreground: rgba(none 0% 60%)");
+        color("foreground: rgba(100% none 60%)", "foreground: rgba(100% none 60%)");
+        color("foreground: rgba(100% 0% none)", "foreground: rgba(100%  0%  none)");
+
         color("foreground: rgba(255 0 153)", "foreground: rgba(2.55e2 0e0 1.53e2)");
 
         // alpha
@@ -1051,8 +1055,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 "foreground: rgb(10 -none 30)");
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
                 "foreground: rgb(10 20 -none)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \")\", \"/\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
-                "foreground: rgb(10 20 30 -none)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: rgb(10 20 30 / -none)");
 
         // mixing numbers and percentages is supported by current browsers
         //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20, 30)");
@@ -1151,6 +1155,10 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hsl(270grad 60% 70%)", "foreground: hsl(270grad 60% 70%)");
         color("foreground: hsl(2.1turn 60% 70%)", "foreground: hsl(2.1turn 60% 70%)");
 
+        color("foreground: hsl(none 0% 60%)", "foreground: hsl(none 0% 60%)");
+        color("foreground: hsl(100grad none 60%)", "foreground: hsl(100grad none 60%)");
+        color("foreground: hsl(100grad 0% none)", "foreground: hsl(100grad  0%  none)");
+
         color("foreground: hsl(255 0% 15.37%)", "foreground: hsl(2.55e2 0e0% 1537e-2%)");
         color("foreground: hsl(255deg 0% 15.37%)", "foreground: hsl(2.55e2deg 0e0% 1537e-2%)");
         color("foreground: hsl(255rad 0% 15.37%)", "foreground: hsl(2.55e2rad 0e0% 1537e-2%)");
@@ -1212,6 +1220,10 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hsla(270rad 60% 70%)", "foreground: hsla(270rad 60% 70%)");
         color("foreground: hsla(270grad 60% 70%)", "foreground: hsla(270grad 60% 70%)");
         color("foreground: hsla(2.1turn 60% 70%)", "foreground: hsla(2.1turn 60% 70%)");
+
+        color("foreground: hsla(none 0% 60%)", "foreground: hsla(none 0% 60%)");
+        color("foreground: hsla(100grad none 60%)", "foreground: hsla(100grad none 60%)");
+        color("foreground: hsla(100grad 0% none)", "foreground: hsla(100grad  0%  none)");
 
         color("foreground: hsla(255 0% 15.37%)", "foreground: hsla(2.55e2 0e0% 1537e-2%)");
         color("foreground: hsla(255deg 0% 15.37%)", "foreground: hsla(2.55e2deg 0e0% 1537e-2%)");
@@ -1301,6 +1313,10 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hwb(270grad 60% 70%)", "foreground: hwb(270grad 60% 70%)");
         color("foreground: hwb(2.1turn 60% 70%)", "foreground: hwb(2.1turn 60% 70%)");
 
+        color("foreground: hwb(none 0% 60%)", "foreground: hwb(none 0% 60%)");
+        color("foreground: hwb(100turn none 60%)", "foreground: hwb(100turn none 60%)");
+        color("foreground: hwb(100turn 0% none)", "foreground: hwb(100turn  0%  none)");
+
         color("foreground: hwb(255 0% 15.37%)", "foreground: hwb(2.55e2 0e0% 1537e-2%)");
         color("foreground: hwb(255deg 0% 15.37%)", "foreground: hwb(2.55e2deg 0e0% 1537e-2%)");
         color("foreground: hwb(255rad 0% 15.37%)", "foreground: hwb(2.55e2rad 0e0% 1537e-2%)");
@@ -1340,6 +1356,83 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
                 "foreground: hwb('10' 20 30)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void labBlank() throws Exception {
+        color("foreground: lab(255 0 153)", "foreground: lab(255 0 153)");
+        color("foreground: lab(255 0 153)", "foreground: lab(255  0  153.0)");
+        color("foreground: lab(100% 0% 60%)", "foreground: lab(100% 0% 60%)");
+        color("foreground: lab(100% 0% 60%)", "foreground: lab(100%  0%  60%)");
+
+        color("foreground: lab(none 0% 60%)", "foreground: lab(none 0% 60%)");
+        color("foreground: lab(100% none 60%)", "foreground: lab(100% none 60%)");
+        color("foreground: lab(100% 0% none)", "foreground: lab(100%  0%  none)");
+
+        color("foreground: lab(255 0 153)", "foreground: lab(2.55e2 0e0 1.53e2)");
+
+        // alpha
+        color("foreground: lab(10 20 30 / 0.1)", "foreground: lab(10 20 30/0.1)");
+        color("foreground: lab(10 20 30 / 0.1)", "foreground: lab( 10  20 30 / 0.1 )");
+        color("foreground: lab(10 20 30 / 0.7)", "foreground: lab( 10  20 30 / .7 )");
+        color("foreground: lab(10 20 30 / 10%)", "foreground: lab(10 20 30 / 10%)");
+
+        color("foreground: lab(10% 20% 30% / 7%)", "foreground: lab(10% 20% 30% / 7%)");
+        color("foreground: lab(10% 20% 30% / 0.13%)", "foreground: lab(10% 20% 30% / 1.3e-1%)");
+        color("foreground: lab(10% 20% 30% / 0.5)", "foreground: lab(10% 20% 30% / 0.5)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void labMixed() throws Exception {
+        color("foreground: lab(42 128 255)", "foreground: lab(42 128 255)");
+        color("foreground: lab(42% 128 255)", "foreground: lab(42% 128 255)");
+        color("foreground: lab(42 128% 255)", "foreground: lab(42 128% 255)");
+        color("foreground: lab(42 128 255%)", "foreground: lab(42 128 255%)");
+        color("foreground: lab(42% 128% 255)", "foreground: lab(42% 128% 255)");
+        color("foreground: lab(42 128% 255%)", "foreground: lab(42 128% 255%)");
+        color("foreground: lab(42% 128% 255%)", "foreground: lab(42% 128% 255%)");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
+    public void labVariousErrors() throws Exception {
+        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lab(10, 20 30)");
+
+        color(1, "DOM exception: 'lab alpha value must be separated by '/'.'", "foreground: lab(10 20 30 40)");
+
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lab(-none 20 30)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lab(10 -none 30)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lab(10 20 -none)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lab(10 20 30 / -none)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lab()");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lab(10)");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lab(10 20)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lab(10 20 30/)");
+
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lab(10 20px 30)");
+
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: lab('10' 20 30)");
     }
 
     private void color(final String expected, final String cssText) throws Exception {
@@ -2074,7 +2167,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
-                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION>, \"progid:\".)"
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
@@ -2082,7 +2175,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
-                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION>, \"progid:\".)"
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION>, \"progid:\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)"
                 + " Error in style rule. (Invalid token \" \". Was expecting one of: <EOF>, \"}\", \";\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)";
@@ -2380,7 +2473,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
-                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION>, \"progid:\".)";
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION>, \"progid:\".)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("3", errorHandler.getErrorLines());
         assertEquals("16", errorHandler.getErrorColumns());
