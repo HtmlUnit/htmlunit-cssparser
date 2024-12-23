@@ -23,8 +23,8 @@ import org.htmlunit.cssparser.parser.AbstractLocatable;
 import org.htmlunit.cssparser.parser.CSSOMParser;
 import org.htmlunit.cssparser.parser.LexicalUnit;
 import org.htmlunit.cssparser.parser.LexicalUnit.LexicalUnitType;
-import org.htmlunit.cssparser.util.ParserUtils;
 import org.htmlunit.cssparser.parser.LexicalUnitImpl;
+import org.htmlunit.cssparser.util.ParserUtils;
 import org.w3c.dom.DOMException;
 
 /**

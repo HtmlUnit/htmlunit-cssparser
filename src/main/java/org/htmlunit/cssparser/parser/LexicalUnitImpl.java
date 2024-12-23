@@ -19,8 +19,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-import org.htmlunit.cssparser.dom.HWBColorImpl;
-
 /**
  * Implementation of {@link LexicalUnit}.
  *
