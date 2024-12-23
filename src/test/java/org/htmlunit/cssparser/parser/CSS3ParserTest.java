@@ -893,10 +893,10 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbComma() throws Exception {
-//        color("foreground: rgb(255, 0, 153)", "foreground: rgb(255,0,153)");
-//        color("foreground: rgb(255, 0, 153)", "foreground: rgb(255, 0, 153.0)");
-//        color("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%,0%,60%)");
-//        color("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%, 0%, 60%)");
+        color("foreground: rgb(255, 0, 153)", "foreground: rgb(255,0,153)");
+        color("foreground: rgb(255, 0, 153)", "foreground: rgb(255, 0, 153.0)");
+        color("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%,0%,60%)");
+        color("foreground: rgb(100%, 0%, 60%)", "foreground: rgb(100%, 0%, 60%)");
 
         color("foreground: rgb(none 0% 60%)", "foreground: rgb(none 0% 60%)");
         color("foreground: rgb(100% none 60%)", "foreground: rgb(100% none 60%)");
@@ -1044,6 +1044,15 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color(1, "DOM exception: 'rgb has to use blank as separator if none is used.'", "foreground: rgb(10, none, 30)");
         color(1, "DOM exception: 'rgb has to use blank as separator if none is used.'", "foreground: rgb(10, 20, none)");
         color(1, "DOM exception: 'rgb has to use blank as separator if none is used.'", "foreground: rgb(10, 20, 30, none)");
+
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: rgb(-none 20 30)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: rgb(10 -none 30)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: rgb(10 20 -none)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \")\", \"/\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: rgb(10 20 30 -none)");
 
         // mixing numbers and percentages is supported by current browsers
         //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20, 30)");
@@ -1947,7 +1956,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(7, errorHandler.getErrorCount());
         final String expected = "Error in declaration. (Invalid token \"}\". Was expecting one of: <S>, \":\".)"
                 + " Error in declaration. (Invalid token \";\". Was expecting one of: <S>, \":\".)"
-                + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, <NUMBER>, \"inherit\", \"none\", "
+                + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
@@ -1955,7 +1964,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION>, \"progid:\".)"
-                + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, <NUMBER>, \"inherit\", \"none\", "
+                + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
@@ -2253,7 +2262,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in expression. "
-                + "(Invalid token \"\\'\". Was expecting one of: <S>, <NUMBER>, \"inherit\", \"none\", "
+                + "(Invalid token \"\\'\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
