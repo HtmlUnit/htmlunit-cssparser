@@ -58,8 +58,8 @@ public class HWBColorImplTest {
             assertEquals("hwb requires at least three values.", e.getMessage());
         }
 
-        LexicalUnit hwbLU = LexicalUnitImpl.createNumber(null, 10);
-        LexicalUnit lu = LexicalUnitImpl.createDivide(hwbLU);
+        final LexicalUnit hwbLU = LexicalUnitImpl.createNumber(null, 10);
+        final LexicalUnit lu = LexicalUnitImpl.createDivide(hwbLU);
 
         try {
             final HWBColorImpl color = new HWBColorImpl("hwb", hwbLU);
