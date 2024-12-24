@@ -4744,7 +4744,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
-    public void realStackoverflow() throws Exception {
+    public void realWorldStackoverflow() throws Exception {
         final String media = "not all;"
                 + "only screen and (min--moz-device-pixel-ratio: 1.5);"
                 + "print;screen and (max-height: 740px);"
@@ -4758,7 +4758,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
-    public void realMui() throws Exception {
+    public void realWorldMui() throws Exception {
         final String media = "(-ms-high-contrast: active);"
                 + "(max-width: 543px);"
                 + "(min-width: 1200px);"
@@ -4772,6 +4772,32 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 + "(orientation: landscape) and (max-height: 480px);"
                 + "all and (-ms-high-contrast: none);";
         realWorld("realworld/mui.css", 342, 752, media, 0, 0);
+    }
+
+    /**
+     * Test case for https://github.com/jenkinsci/jenkins/pull/10078.
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void realWorldJenkins10078() throws Exception {
+        final String media = "(hover: hover);"
+                + "(hover: hover) and (hover: hover);"
+                + "(hover: none);(max-width: 1200px);"
+                + "(max-width: 767px);(max-width: 900px);"
+                + "(min-width: 1170px);(min-width: 1200px);"
+                + "(min-width: 767px);"
+                + "(min-width: 768px) and (max-width: 991px);"
+                + "(min-width: 900px);"
+                + "(min-width: 992px) and (max-width: 1199px);"
+                + "(prefers-contrast: more);"
+                + "(prefers-reduced-motion);"
+                + "print;"
+                + "screen and (max-width: 1200px);"
+                + "screen and (max-width: 900px);"
+                + "screen and (min-width: 1300px);"
+                + "screen and (min-width: 1800px);"
+                + "screen and (min-width: 800px);";
+        realWorld("realworld/jenkins_10078.css", 1423, 4016, media, 16, 0);
     }
 
     private void realWorld(final String resourceName, final int rules, final int properties,
