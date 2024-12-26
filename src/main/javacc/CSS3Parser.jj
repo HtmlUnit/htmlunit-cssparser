@@ -1216,7 +1216,7 @@ Condition _class(boolean pseudoElementFound) :
             locator = createLocator(token);
         }
 
-        ( t = <IDENT> | t = <INHERIT> | t = <ONLY> | t = <NONE> )
+        t = ident()
         {
             if (pseudoElementFound) { throw pe; }
             return new ClassCondition(unescape(t.image, false), locator);
@@ -1486,11 +1486,7 @@ void declaration() :
         ( <ASTERISK> { starHack = createLocator(token); } )?
         (
             (
-                (                    t = <IDENT>                           { p = unescape(t.image, false); locator = createLocator(t); }
-                    | t = <INHERIT>                       { p = unescape(t.image, false); locator = createLocator(t); }
-                    | t = <ONLY>                          { p = unescape(t.image, false); locator = createLocator(t); }
-                    | t = <NONE>                          { p = unescape(t.image, false); locator = createLocator(t); }
-                )
+                t = ident()                           { p = unescape(t.image, false); locator = createLocator(t); }
                 ( <S> )*
                 <COLON> ( <S> )*
                 e = expr()
@@ -2318,6 +2314,35 @@ LexicalUnit lchColor(LexicalUnit prev) :
     {
         return lchColorInternal(prev, funct, param);
     }
+}
+
+
+//
+// Helper to process various keywords as IDENT
+//
+Token ident() :
+{
+    Token t;
+}
+{
+    t = <IDENT> { return t; }
+    |
+        (
+            t = <INHERIT>
+            | t = <ONLY>
+            | t = <NONE>
+        )
+        {
+            Token ident = new Token(IDENT, unescape(t.image, false));
+            ident.beginLine = t.beginLine;
+            ident.beginColumn = t.endColumn;
+            ident.endLine = t.beginLine;
+            ident.endColumn = t.endColumn;
+            ident.next = t.next;
+            ident.specialToken = t.specialToken;
+            return ident;
+            
+        }
 }
 
 
