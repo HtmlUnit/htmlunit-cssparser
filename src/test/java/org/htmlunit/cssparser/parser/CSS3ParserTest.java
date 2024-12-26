@@ -3057,6 +3057,37 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void skipInvalidColor() throws Exception {
+        final String css = ".test {\n"
+                + " display: block;"
+                + " color: rgb(10; 20, 30);';"
+                + " align: left;"
+                + "}\n"
+                + ".another { display: none };";
+
+        final InputSource source = new InputSource(new StringReader(css));
+        final CSSOMParser parser = new CSSOMParser();
+
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleSheetImpl sheet = parser.parseStyleSheet(source, null);
+
+        assertEquals(3, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(2, errorHandler.getWarningCount());
+
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(2, rules.getLength());
+
+        assertEquals("*.test { display: block; }", rules.getRules().get(0).getCssText());
+        assertEquals("*.another { display: none; }", rules.getRules().get(1).getCssText());
+    }
+/**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void dimensionPercent() throws Exception {
         final CSSValueImpl value = dimension("2%");
         assertEquals(CSSPrimitiveValueType.CSS_PERCENTAGE, value.getPrimitiveType());
