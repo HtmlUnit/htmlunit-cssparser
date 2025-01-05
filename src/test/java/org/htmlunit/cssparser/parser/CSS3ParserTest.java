@@ -57,6 +57,7 @@ import org.htmlunit.cssparser.parser.selector.ElementSelector;
 import org.htmlunit.cssparser.parser.selector.Selector;
 import org.htmlunit.cssparser.parser.selector.Selector.SelectorType;
 import org.htmlunit.cssparser.parser.selector.SelectorList;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -1271,6 +1272,15 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color(1, "DOM exception: ''hsl' has to use blank as separator if none is used.'", "foreground: hsl(10, 20%, none)");
         color(1, "DOM exception: ''hsl' has to use blank as separator if none is used.'", "foreground: hsl(10, 20%, 30%, none)");
 
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                "foreground: hsl(-none 20% 30%)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: hsl(10 -none 30%)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: hsl(10 20% -none)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: hsl(10 20% 30% / -none)");
+
         // mixing numbers and percentages is supported by current browsers
         //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20, 30)");
         //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20%, 30)");
@@ -1348,6 +1358,15 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)", "foreground: hwb(10 20%, 30%)");
 
         color(1, "DOM exception: ''hwb' alpha value must be separated by '/'.'", "foreground: hwb(10 20% 30% 40)");
+
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                "foreground: hwb(-none 20% 30%)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: hwb(10 -none 30%)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: hwb(10 20% -none)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: hwb(10 20% 30% / -none)");
 
         color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
                 "foreground: hwb()");
@@ -1693,6 +1712,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
+        if (errorCount == 0 && errorHandler.getErrorCount() > 0) {
+            Assertions.fail("Found errors; First: " + errorHandler.getErrorMessage());
+        }
         assertEquals(errorCount, errorHandler.getErrorCount());
         if (errorCount > 0) {
             assertEquals(expected, errorHandler.getErrorMessage());

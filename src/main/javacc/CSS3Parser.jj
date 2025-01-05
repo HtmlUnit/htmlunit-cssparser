@@ -1969,7 +1969,7 @@ LexicalUnit rgbColor(LexicalUnit prev) :
             | next = percentage(next, op)
         )
     )
-    { op = ' ';  }
+    { op = ' '; }
 
     ( <S> )*
     (
@@ -1985,7 +1985,7 @@ LexicalUnit rgbColor(LexicalUnit prev) :
             | next = percentage(next, op)
         )
     )
-    { op = ' ';  }
+    { op = ' '; }
 
     ( <S> )*
     (
@@ -2054,7 +2054,7 @@ LexicalUnit hslColor(LexicalUnit prev) :
             | next = percentage(next, op)
         )
     )
-    { op = ' ';  }
+    { op = ' '; }
 
     ( <S> )*
     (
@@ -2069,7 +2069,7 @@ LexicalUnit hslColor(LexicalUnit prev) :
             | next = percentage(next, op)
         )
     )
-    { op = ' ';  }
+    { op = ' '; }
 
     ( <S> )*
     (
@@ -2134,7 +2134,7 @@ LexicalUnit hwbColor(LexicalUnit prev) :
             | next = percentage(next, op)
         )
     )
-    { op = ' ';  }
+    { op = ' '; }
 
     ( <S> )*
 
@@ -2145,7 +2145,7 @@ LexicalUnit hwbColor(LexicalUnit prev) :
             | next = percentage(next, op)
         )
     )
-    { op = ' ';  }
+    { op = ' '; }
 
     ( <S> )*
     (
@@ -2205,7 +2205,7 @@ LexicalUnit labColor(LexicalUnit prev) :
             | next = percentage(next, op)
         )
     )
-    { op = ' ';  }
+    { op = ' '; }
 
     ( <S> )*
 
@@ -2217,7 +2217,7 @@ LexicalUnit labColor(LexicalUnit prev) :
             | next = percentage(next, op)
         )
     )
-    { op = ' ';  }
+    { op = ' '; }
 
     ( <S> )*
     (
@@ -2277,7 +2277,7 @@ LexicalUnit lchColor(LexicalUnit prev) :
             | next = percentage(next, op)
         )
     )
-    { op = ' ';  }
+    { op = ' '; }
 
     ( <S> )*
 
@@ -2291,7 +2291,7 @@ LexicalUnit lchColor(LexicalUnit prev) :
             | t = <ANGLE_TURN>    { next = LexicalUnitImpl.createTurn(next, doubleValue(op, t.image)); }
         )
     )
-    { op = ' ';  }
+    { op = ' '; }
 
     ( <S> )*
     (
