@@ -4091,8 +4091,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 //                "Error in pseudo class or element. (Invalid token \"p\". Was expecting one of: <S>, \")\".)");
 
         checkErrorSelector("input:not()",
-                "Error in simple selector. (Invalid token \")\"."
-                + " Was expecting one of: <S>, <IDENT>, \".\", \":\", \"*\", \"[\", <HASH>.)");
+                "Error in simple selector. (Invalid token \")\". "
+                + "Was expecting one of: <S>, \"only\", \"inherit\", \"none\", \"from\", <IDENT>, \".\", \":\", \"*\", \"[\", <HASH>.)");
 
 //        checkErrorSelector("input:not(*.home)",
 //                "Error in pseudo class or element. (Invalid token \".\"."

@@ -1241,7 +1241,7 @@ ElementSelector elementName() :
 {
     try
     {
-        t = <IDENT>
+        t = ident()
         {
             return new ElementSelector(unescape(t.image, false), createLocator(t));
         }
@@ -1281,7 +1281,7 @@ Condition attrib(boolean pseudoElementFound) :
         ( <S> )*
         { if (pseudoElementFound) { throw generateParseException(); } }
 
-        t = <IDENT> { name = unescape(t.image, false); }
+        t = ident() { name = unescape(t.image, false); }
         ( <S> )*
         (
             (
@@ -1300,7 +1300,7 @@ Condition attrib(boolean pseudoElementFound) :
             ( <S> )*
             (
                 (
-                    t = <IDENT> { value = unescape(t.image, false); }
+                    t = ident() { value = unescape(t.image, false); }
                     |
                     t = <STRING> { value = unescape(t.image, false); }
                 )
@@ -1308,7 +1308,7 @@ Condition attrib(boolean pseudoElementFound) :
                 ( <S> )*
             )
             (
-                t = <IDENT> { insensitive = handleCaseInSensitive(t); }
+                t = ident() { insensitive = handleCaseInSensitive(t); }
                 ( <S> )*
             )?
         )?
