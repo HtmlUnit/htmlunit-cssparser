@@ -787,7 +787,7 @@ Property mediaExpression() :
     <LROUND>
     ( <S> )*
     (
-        t = <IDENT> ( <S> )*                    { p = unescape(t.image, false); }
+        t = identExcludingOnly() ( <S> )*                    { p = unescape(t.image, false); }
         | t = <CUSTOM_PROPERTY_NAME> ( <S> )*   { p = unescape(t.image, false); }
     )
     (
@@ -826,7 +826,7 @@ String medium() :
   Token t;
 }
 {
-    t = <IDENT> ( <S> )*
+    t = identExcludingOnly() ( <S> )*
     {
         return unescape(t.image, false);
     }
@@ -915,7 +915,7 @@ String pageSelector() :
   (
     pseudo = pseudoPage() { pseudos.append(pseudo); }
     |
-    ident = <IDENT> { pseudos.append(unescape(ident.image, false)); }
+    ident = ident() { pseudos.append(unescape(ident.image, false)); }
   )
   ( pseudo = pseudoPage() { pseudos.append(pseudo); } )*
   ( <S> )*
@@ -933,7 +933,7 @@ String pseudoPage() :
   Token t;
 }
 {
-  <COLON> t = <IDENT> { return ":" + normalizeAndValidatePagePseudoClass(t); }
+  <COLON> t = ident() { return ":" + normalizeAndValidatePagePseudoClass(t); }
 }
 
 //
@@ -1373,7 +1373,7 @@ Object pseudo(boolean pseudoElementFound) :
         (<COLON> { doubleColon = true; } )?
 
         (
-            t = <IDENT>
+            t = ident()
             {
                 String s = unescape(t.image, false);
                 if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { s }, locator); }
@@ -1401,7 +1401,7 @@ Object pseudo(boolean pseudoElementFound) :
             (
                 t = <FUNCTION_LANG> { function = unescape(t.image, false); }
                 ( <S> )*
-                t = <IDENT> { String lang = unescape(t.image, false); }
+                t = ident() { String lang = unescape(t.image, false); }
                 ( <S> )*
                 <RROUND>
                 {
@@ -1414,7 +1414,7 @@ Object pseudo(boolean pseudoElementFound) :
                 t = <FUNCTION> { function = unescape(t.image, false); StringBuilder args = new StringBuilder(); }
                 ( <S> )*
                 (
-                    (t = <PLUS> | t = <MINUS> | t = <DIMENSION> | t = <NUMBER> | t = <STRING> | t = <IDENT>)
+                    (t = <PLUS> | t = <MINUS> | t = <DIMENSION> | t = <NUMBER> | t = <STRING> | t = ident())
                     { args.append(unescape(t.image, false)); }
                     ( t = <S>
                         { args.append(unescape(t.image, false)); }
@@ -2354,6 +2354,31 @@ Token identExcludingInherit() :
     |
         (
             t = <ONLY>
+            | t = <NONE>
+            | t = <FROM>
+        )
+        {
+            Token ident = new Token(IDENT, unescape(t.image, false));
+            ident.beginLine = t.beginLine;
+            ident.beginColumn = t.endColumn;
+            ident.endLine = t.beginLine;
+            ident.endColumn = t.endColumn;
+            ident.next = t.next;
+            ident.specialToken = t.specialToken;
+            return ident;
+            
+        }
+}
+
+Token identExcludingOnly() :
+{
+    Token t;
+}
+{
+    t = <IDENT> { return t; }
+    |
+        (
+            t = <INHERIT>
             | t = <NONE>
             | t = <FROM>
         )
