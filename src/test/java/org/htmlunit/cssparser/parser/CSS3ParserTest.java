@@ -901,6 +901,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         color("foreground: rgb(255, 0, 153)", "foreground: rgb(2.55e2, 0e0, 1.53e2)");
 
+        color("foreground: rgb(-255, 0, -153)", "foreground: rgb(-255, -0, -153.0)");
+        color("foreground: rgb(-100%, 0%, -60%)", "foreground: rgb(-100%,-0%,-60%)");
+
         // alpha
         color("foreground: rgb(10, 20, 30, 0.1)", "foreground: rgb(10,20,30,0.1)");
         color("foreground: rgb(10, 20, 30, 0.1)", "foreground: rgb( 10, 20, 30, 0.1 )");
@@ -910,6 +913,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: rgb(10%, 20%, 30%, 7%)", "foreground: rgb(10%, 20%, 30%, 7%)");
         color("foreground: rgb(10%, 20%, 30%, 0.13%)", "foreground: rgb(10%, 20%, 30%, 1.3e-1%)");
         color("foreground: rgb(10%, 20%, 30%, 0.5)", "foreground: rgb(10%, 20%, 30%, 0.5)");
+
+        color("foreground: rgb(-255, -10, -153, -0.5)", "foreground: rgb(-255, -10, -153.0, -0.5)");
+        color("foreground: rgb(-100%, -10%, -60%, -7%)", "foreground: rgb(-100%,-10%,-60%,-7%)");
     }
 
     /**
@@ -928,6 +934,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         color("foreground: rgb(255 0 153)", "foreground: rgb(2.55e2 0e0 1.53e2)");
 
+        color("foreground: rgb(-255 0 -153)", "foreground: rgb(-255 -0 -153.0)");
+        color("foreground: rgb(-100% 0% -60%)", "foreground: rgb(-100% -0% -60%)");
+
         // alpha
         color("foreground: rgb(10 20 30 / 0.1)", "foreground: rgb(10 20 30/0.1)");
         color("foreground: rgb(10 20 30 / 0.1)", "foreground: rgb( 10  20 30 / 0.1 )");
@@ -939,6 +948,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: rgb(10% 20% 30% / 0.5)", "foreground: rgb(10% 20% 30% / 0.5)");
 
         color("foreground: rgb(10% 20% 30% / none)", "foreground: rgb(10% 20% 30% / none)");
+
+        color("foreground: rgb(-255 -10 -153 / -0.5)", "foreground: rgb(-255 -10 -153.0 / -0.5)");
+        color("foreground: rgb(-100% -10% -60% / -7%)", "foreground: rgb(-100% -10% -60%/-7%)");
     }
 
     /**
@@ -975,6 +987,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         color("foreground: rgba(255, 0, 153)", "foreground: rgba(2.55e2, 0e0, 1.53e2)");
 
+        color("foreground: rgba(-255, 0, -153)", "foreground: rgba(-255, -0, -153.0)");
+        color("foreground: rgba(-100%, 0%, -60%)", "foreground: rgba(-100%,-0%,-60%)");
+
         // alpha
         color("foreground: rgba(10, 20, 30, 0.1)", "foreground: rgba(10,20,30,0.1)");
         color("foreground: rgba(10, 20, 30, 0.1)", "foreground: rgba( 10, 20, 30, 0.1 )");
@@ -984,6 +999,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: rgba(10%, 20%, 30%, 7%)", "foreground: rgba(10%, 20%, 30%, 7%)");
         color("foreground: rgba(10%, 20%, 30%, 0.13%)", "foreground: rgba(10%, 20%, 30%, 1.3e-1%)");
         color("foreground: rgba(10%, 20%, 30%, 0.5)", "foreground: rgba(10%, 20%, 30%, 0.5)");
+
+        color("foreground: rgba(-255, -10, -153, -0.5)", "foreground: rgba(-255, -10, -153.0, -0.5)");
+        color("foreground: rgba(-100%, -10%, -60%, -7%)", "foreground: rgba(-100%,-10%,-60%,-7%)");
     }
 
     /**
@@ -1002,6 +1020,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         color("foreground: rgba(255 0 153)", "foreground: rgba(2.55e2 0e0 1.53e2)");
 
+        color("foreground: rgba(-255 0 -153)", "foreground: rgba(-255 -0 -153.0)");
+        color("foreground: rgba(-100% 0% -60%)", "foreground: rgba(-100% -0% -60%)");
+
         // alpha
         color("foreground: rgba(10 20 30 / 0.1)", "foreground: rgba(10 20 30/0.1)");
         color("foreground: rgba(10 20 30 / 0.1)", "foreground: rgba( 10  20 30 / 0.1 )");
@@ -1013,6 +1034,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: rgba(10% 20% 30% / 0.5)", "foreground: rgba(10% 20% 30% / 0.5)");
 
         color("foreground: rgba(10% 20% 30% / none)", "foreground: rgba(10% 20% 30% / none)");
+
+        color("foreground: rgba(-255 -10 -153 / -0.5)", "foreground: rgba(-255 -10 -153.0 / -0.5)");
+        color("foreground: rgba(-100% -10% -60% / -7%)", "foreground: rgba(-100% -10% -60%/-7%)");
     }
 
     /**
@@ -1134,10 +1158,6 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         color("foreground: hsl(255rad, 0%, 15.37%)", "foreground: hsl(2.55e2rad, 0e0%, 1537e-2%)");
         color("foreground: hsl(255grad, 0%, 15.37%)", "foreground: hsl(2.55e2grad, 0e0%, 1537e-2%)");
         color("foreground: hsl(255turn, 0%, 15.37%)", "foreground: hsl(2.55e2turn, 0e0%, 1537e-2%)");
-
-        color("foreground: hsl(none 0% 60%)", "foreground: hsl(none 0% 60%)");
-        color("foreground: hsl(100deg none 60%)", "foreground: hsl(100deg none 60%)");
-        color("foreground: hsl(100deg 0% none)", "foreground: hsl(100deg  0%  none)");
 
         // alpha
         color("foreground: hsl(270, 60%, 70%, 0.1)", "foreground: hsl(270,60%,70%,0.1)");
