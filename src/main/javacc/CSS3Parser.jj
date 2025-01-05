@@ -169,6 +169,7 @@ TOKEN_MGR_DECLS :
 
 | < INHERIT: "inherit" >
 | < NONE: "none" >
+| < FROM: "from" >
 
 // ident        -?{nmstart}{nmchar}*
 // {ident}         {return IDENT;}
@@ -1623,6 +1624,7 @@ LexicalUnit term(LexicalUnit prev) :
         | t = <INHERIT>         { value = LexicalUnitImpl.createInherit(prev); }
         | t = <ONLY>            { value = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
         | t = <NONE>            { value = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
+        | t = <FROM>            { value = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
     )
         {
             if (locator == null)
@@ -2331,6 +2333,7 @@ Token ident() :
             t = <INHERIT>
             | t = <ONLY>
             | t = <NONE>
+            | t = <FROM>
         )
         {
             Token ident = new Token(IDENT, unescape(t.image, false));

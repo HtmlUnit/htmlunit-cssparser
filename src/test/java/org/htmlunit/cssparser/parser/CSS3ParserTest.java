@@ -112,6 +112,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         selectorType(".inherit", SelectorType.ELEMENT_NODE_SELECTOR);
         selectorType(".only", SelectorType.ELEMENT_NODE_SELECTOR);
         selectorType(".none", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType(".from", SelectorType.ELEMENT_NODE_SELECTOR);
     }
 
     /**
@@ -232,6 +233,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         conditionType(".inherit", ConditionType.CLASS_CONDITION);
         conditionType(".only", ConditionType.CLASS_CONDITION);
         conditionType(".none", ConditionType.CLASS_CONDITION);
+        conditionType(".from", ConditionType.CLASS_CONDITION);
     }
 
     /**
@@ -2449,7 +2451,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(7, errorHandler.getErrorCount());
         final String expected = "Error in declaration. (Invalid token \"}\". Was expecting one of: <S>, \":\".)"
                 + " Error in declaration. (Invalid token \";\". Was expecting one of: <S>, \":\".)"
-                + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", "
+                + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
@@ -2457,7 +2459,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)"
-                + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", "
+                + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
@@ -2710,7 +2712,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in @page rule. "
-                + "(Invalid token \"<EOF>\". Was expecting one of: <S>, \"only\", \"inherit\", \"none\", <IDENT>,"
+                + "(Invalid token \"<EOF>\". Was expecting one of: <S>, \"only\", \"inherit\", \"none\", \"from\", <IDENT>,"
                 + " \"}\", \";\", \"*\", <CUSTOM_PROPERTY_NAME>.)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("1", errorHandler.getErrorLines());
@@ -2755,7 +2757,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in expression. "
-                + "(Invalid token \"\\'\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", "
+                + "(Invalid token \"\\'\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
