@@ -2026,70 +2026,154 @@ LexicalUnit hslColor(LexicalUnit prev) :
 {
     t = <FUNCTION_HSL> { funct = unescape(t.image.substring(0, t.image.length() - 1), false); }
     ( <S> )*
+    (        (            <FROM> { param = LexicalUnitImpl.createFrom(null); }
+            { next = param; }
 
-    (
-        (op = unaryOperator() )?
-        (
-            <NONE> { param = LexicalUnitImpl.createNone(null); }
-            | param = number(null, op)
-            | t = <ANGLE_DEG>     { param = LexicalUnitImpl.createDegree(null, doubleValue(op, t.image)); }
-            | t = <ANGLE_RAD>     { param = LexicalUnitImpl.createRadian(null, doubleValue(op, t.image)); }
-            | t = <ANGLE_GRAD>    { param = LexicalUnitImpl.createGradian(null, doubleValue(op, t.image)); }
-            | t = <ANGLE_TURN>    { param = LexicalUnitImpl.createTurn(null, doubleValue(op, t.image)); }
+            ( <S> )*
+
+            (                t = ident()     { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
+                | next = rgbColor(next)
+                | next = hslColor(next)
+                | next = hwbColor(next)
+                | next = labColor(next)
+                | next = lchColor(next)
+                | next = var(next)
+            )
+
+            ( <S> )*
+
+            (
+                (op = unaryOperator() )?
+                (
+                    next = number(next, op)
+                    | t = <ANGLE_DEG>     { next = LexicalUnitImpl.createDegree(next, doubleValue(op, t.image)); }
+                    | t = <ANGLE_RAD>     { next = LexicalUnitImpl.createRadian(next, doubleValue(op, t.image)); }
+                    | t = <ANGLE_GRAD>    { next = LexicalUnitImpl.createGradian(next, doubleValue(op, t.image)); }
+                    | t = <ANGLE_TURN>    { next = LexicalUnitImpl.createTurn(next, doubleValue(op, t.image)); }
+
+                    | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
+                    | next = calc(next)
+                    | next = var(next)
+                )
+            )
+            { op = ' '; }
+
+            ( <S> )*
+
+            (
+                (op = unaryOperator() )?
+                (
+                    next = percentage(next, op)
+
+                    | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
+                    | next = calc(next)
+                    | next = var(next)
+                )
+            )
+            { op = ' '; }
+        
+            ( <S> )*
+        
+            (
+                (op = unaryOperator() )?
+                (
+                    next = percentage(next, op)
+
+                    | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
+                    | next = calc(next)
+                    | next = var(next)
+                )
+            )
+            { op = ' '; }
+
+            ( <S> )*
+
+            (
+                (
+                    <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
+                    ( <S> )*
+                )?
+          
+                (op = unaryOperator() )?
+                (
+                    next = number(next, op)
+                    | next = percentage(next, op)
+
+                    | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
+                    | next = calc(next)
+                    | next = var(next)
+                )
+        
+                ( <S> )*
+            )?
         )
-    )
-    { op = ' '; next = param; }
 
-    ( <S> )*
-    (
-        <COMMA> { next = LexicalUnitImpl.createComma(next); }
-        ( <S> )*
-    )?
+        |
 
-    (
-        (op = unaryOperator() )?
-        (
-            <NONE> { next = LexicalUnitImpl.createNone(next); }
-            | next = percentage(next, op)
-        )
-    )
-    { op = ' '; }
-
-    ( <S> )*
-    (
-        <COMMA> { next = LexicalUnitImpl.createComma(next); }
-        ( <S> )*
-    )?
-
-    (
-        (op = unaryOperator() )?
-        (
-            <NONE> { next = LexicalUnitImpl.createNone(next); }
-            | next = percentage(next, op)
-        )
-    )
-    { op = ' '; }
-
-    ( <S> )*
-    (
-        (
+        (            (
+                (op = unaryOperator() )?
+                (
+                    <NONE> { param = LexicalUnitImpl.createNone(null); }
+                    | param = number(null, op)
+                    | t = <ANGLE_DEG>     { param = LexicalUnitImpl.createDegree(null, doubleValue(op, t.image)); }
+                    | t = <ANGLE_RAD>     { param = LexicalUnitImpl.createRadian(null, doubleValue(op, t.image)); }
+                    | t = <ANGLE_GRAD>    { param = LexicalUnitImpl.createGradian(null, doubleValue(op, t.image)); }
+                    | t = <ANGLE_TURN>    { param = LexicalUnitImpl.createTurn(null, doubleValue(op, t.image)); }
+                )
+            )
+            { op = ' '; next = param; }
+        
+            ( <S> )*
             (
                 <COMMA> { next = LexicalUnitImpl.createComma(next); }
-                | <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
+                ( <S> )*
+            )?
+        
+            (
+                (op = unaryOperator() )?
+                (
+                    <NONE> { next = LexicalUnitImpl.createNone(next); }
+                    | next = percentage(next, op)
+                )
             )
+            { op = ' '; }
+        
             ( <S> )*
-        )?
-  
-        (op = unaryOperator() )?
-        (
-            <NONE> { next = LexicalUnitImpl.createNone(next); }
-            | next = number(next, op)
-            | next = percentage(next, op)
+            (
+                <COMMA> { next = LexicalUnitImpl.createComma(next); }
+                ( <S> )*
+            )?
+        
+            (
+                (op = unaryOperator() )?
+                (
+                    <NONE> { next = LexicalUnitImpl.createNone(next); }
+                    | next = percentage(next, op)
+                )
+            )
+            { op = ' '; }
+
+            ( <S> )*
+            (
+                (
+                    (
+                        <COMMA> { next = LexicalUnitImpl.createComma(next); }
+                        | <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
+                    )
+                    ( <S> )*
+                )?
+          
+                (op = unaryOperator() )?
+                (
+                    <NONE> { next = LexicalUnitImpl.createNone(next); }
+                    | next = number(next, op)
+                    | next = percentage(next, op)
+                )
+        
+                ( <S> )*
+            )?
         )
-
-        ( <S> )*
-    )?
-
+    )
     <RROUND>
     {
         return hslColorInternal(prev, funct, param);

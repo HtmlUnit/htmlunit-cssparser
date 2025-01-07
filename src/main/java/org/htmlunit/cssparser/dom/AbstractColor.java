@@ -29,6 +29,7 @@ import org.w3c.dom.DOMException;
 public class AbstractColor implements Serializable {
 
     private CSSValueImpl alpha_;
+    private CSSValueImpl relative_;
 
     protected void getNumberPercentagePart(final LexicalUnit next, final Consumer<CSSValueImpl> setter) {
         if (LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()
@@ -44,14 +45,14 @@ public class AbstractColor implements Serializable {
         throw new DOMException(DOMException.SYNTAX_ERR, "Color part has to be numeric or percentage.");
     }
 
-    protected void getAlphaPart(final LexicalUnit next) {
-        if (LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()
+    protected void getAlphaPart(final LexicalUnit lu) {
+        if (LexicalUnitType.PERCENTAGE == lu.getLexicalUnitType()
 
-                || LexicalUnitType.INTEGER == next.getLexicalUnitType()
-                || LexicalUnitType.REAL == next.getLexicalUnitType()
+                || LexicalUnitType.INTEGER == lu.getLexicalUnitType()
+                || LexicalUnitType.REAL == lu.getLexicalUnitType()
 
-                || LexicalUnitType.NONE == next.getLexicalUnitType()) {
-            setAlpha(new CSSValueImpl(next, true));
+                || LexicalUnitType.NONE == lu.getLexicalUnitType()) {
+            setAlpha(new CSSValueImpl(lu, true));
             return;
         }
 
@@ -71,5 +72,20 @@ public class AbstractColor implements Serializable {
      */
     public void setAlpha(final CSSValueImpl alpha) {
         alpha_ = alpha;
+    }
+
+    /**
+     * @return the relative value or null.
+     */
+    public CSSValueImpl getRelative() {
+        return relative_;
+    }
+
+    public boolean handleRelativeColors(final LexicalUnit lu) {
+        if (LexicalUnitType.FROM == lu.getLexicalUnitType()) {
+            relative_ = new CSSValueImpl(lu.getNextLexicalUnit());
+            return true;
+        }
+        return false;
     }
 }

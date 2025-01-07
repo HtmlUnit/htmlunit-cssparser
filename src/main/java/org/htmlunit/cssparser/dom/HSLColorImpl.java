@@ -50,10 +50,16 @@ public class HSLColorImpl extends AbstractColor {
         }
         function_ = functionLC;
 
-        LexicalUnit next = lu;
-        if (next == null) {
+        if (lu == null) {
             throw new DOMException(DOMException.SYNTAX_ERR, "'" + function_ + "' requires at least three values.");
         }
+
+        if (handleRelativeColors(lu)) {
+            commaSeparated_ = false;
+            return;
+        }
+
+        LexicalUnit next = lu;
         hue_ = getHuePart(next);
 
         next = next.getNextLexicalUnit();
@@ -248,26 +254,36 @@ public class HSLColorImpl extends AbstractColor {
 
         sb
             .append(function_)
-            .append("(")
-            .append(hue_);
-        if (commaSeparated_) {
+            .append("(");
+
+        final CSSValueImpl rel = getRelative();
+        if (rel != null) {
             sb
-                .append(", ")
-                .append(saturation_)
-                .append(", ")
-                .append(lightness_);
-            if (null != getAlpha()) {
-                sb.append(", ").append(getAlpha());
-            }
+                .append("from ")
+                .append(rel);
         }
         else {
-            sb
-                .append(" ")
-                .append(saturation_)
-                .append(" ")
-                .append(lightness_);
-            if (null != getAlpha()) {
-                sb.append(" / ").append(getAlpha());
+            if (commaSeparated_) {
+                sb
+                    .append(hue_)
+                    .append(", ")
+                    .append(saturation_)
+                    .append(", ")
+                    .append(lightness_);
+                if (null != getAlpha()) {
+                    sb.append(", ").append(getAlpha());
+                }
+            }
+            else {
+                sb
+                    .append(hue_)
+                    .append(" ")
+                    .append(saturation_)
+                    .append(" ")
+                    .append(lightness_);
+                if (null != getAlpha()) {
+                    sb.append(" / ").append(getAlpha());
+                }
             }
         }
 

@@ -52,6 +52,7 @@ import org.htmlunit.cssparser.parser.selector.Selector.SelectorType;
 import org.htmlunit.cssparser.parser.selector.SelectorList;
 import org.htmlunit.cssparser.parser.selector.SimpleSelector;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -306,5 +307,38 @@ public abstract class AbstractCSSParserTest {
         final CSSValueImpl valueImpl = prop.getValue();
 
         return valueImpl;
+    }
+
+    protected void color(final String expected, final String cssText) throws Exception {
+        color(0, expected, cssText);
+    }
+
+    protected void color(final int errorCount, final String expected, final String cssText) throws Exception {
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+
+        if (errorCount == 0 && errorHandler.getErrorCount() > 0) {
+            Assertions.fail("Found errors; First: " + errorHandler.getErrorMessage());
+        }
+        assertEquals(errorCount, errorHandler.getErrorCount());
+        if (errorCount > 0) {
+            assertEquals(expected, errorHandler.getErrorMessage());
+        }
+
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
+
+        if (errorCount > 0) {
+            return;
+        }
+
+        // Enumerate the properties and retrieve their values
+        assertEquals(1, style.getLength());
+
+        final String name = style.getProperties().get(0).getName();
+        assertEquals(expected, name + ": " + style.getPropertyValue(name));
     }
 }
