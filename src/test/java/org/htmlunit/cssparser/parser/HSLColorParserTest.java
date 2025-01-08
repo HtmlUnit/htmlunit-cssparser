@@ -177,7 +177,6 @@ public class HSLColorParserTest extends AbstractCSSParserTest {
     public void hslVariousErrors() throws Exception {
         // like browsers we ignore many errors during parsing
 
-        // separators
         color("foreground: hsl(10, 20% 30%)", "foreground: hsl(10, 20% 30%)");
         color("foreground: hsl(10 20%, 30%)", "foreground: hsl(10 20%, 30%)");
 
@@ -197,21 +196,6 @@ public class HSLColorParserTest extends AbstractCSSParserTest {
                 "foreground: hsl(10 20% -none)");
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: hsl(10 20% 30% / -none)");
-//
-//        // mixing numbers and percentages is supported by current browsers
-//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20, 30)");
-//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20%, 30)");
-//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10, 20%, 30)");
-//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10, 20%, 30%)");
-//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10, 20, 30%)");
-//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20, 30%)");
-//
-//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad 20 30)");
-//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad 20% 30)");
-//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10 20% 30)");
-//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10 20% 30%)");
-//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10 20 30%)");
-//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad 20 30%)");
 
         color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
                 "foreground: hsl()");

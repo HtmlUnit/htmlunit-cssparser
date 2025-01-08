@@ -211,59 +211,46 @@ public class RGBColorParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void rgbVariousErrors() throws Exception {
-//        color(1, "DOM exception: ''rgb' parameters must be separated by ','.'", "foreground: rgb(10, 20 30)");
-//        color(1, "DOM exception: ''rgb' requires consitent separators (blank or comma).'", "foreground: rgb(10 20, 30)");
-//
-//        color(1, "DOM exception: ''rgb' alpha value must be separated by '/'.'", "foreground: rgb(10 20 30 40)");
-//
-//        color(1, "DOM exception: ''rgb' has to use blank as separator if none is used.'", "foreground: rgb(none, 20, 30)");
-//        color(1, "DOM exception: ''rgb' has to use blank as separator if none is used.'", "foreground: rgb(10, none, 30)");
-//        color(1, "DOM exception: ''rgb' has to use blank as separator if none is used.'", "foreground: rgb(10, 20, none)");
-//        color(1, "DOM exception: ''rgb' has to use blank as separator if none is used.'", "foreground: rgb(10, 20, 30, none)");
-//
-//        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
-//                "foreground: rgb(-none 20 30)");
-//        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
-//                "foreground: rgb(10 -none 30)");
-//        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
-//                "foreground: rgb(10 20 -none)");
-//        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
-//                "foreground: rgb(10 20 30 / -none)");
-//
-//        // mixing numbers and percentages is supported by current browsers
-//        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20, 30)");
-//        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20%, 30)");
-//        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10, 20%, 30)");
-//        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10, 20%, 30%)");
-//        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10, 20, 30%)");
-//        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10%, 20, 30%)");
-//        //
-//        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20 30)");
-//        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20% 30)");
-//        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20% 30)");
-//        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20% 30%)");
-//        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10 20 30%)");
-//        //        color(1, "DOM exception: 'rgb mixing numbers and percentages.'", "foreground: rgb(10% 20 30%)");
-//
-//        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
-//                "foreground: rgb()");
-//        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
-//                "foreground: rgb(10)");
-//        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
-//                "foreground: rgb(10 20)");
-//
-//        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
-//                "foreground: rgb(10, 20, 30,)");
-//        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
-//                "foreground: rgb(10, 20, 30/)");
-//
-//        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
-//                "foreground: rgb(10, 20px, 30)");
-//        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
-//                "foreground: rgb(10 20px 30)");
-//
-//        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
-//                "foreground: rgb('10', 20, 30,)");
+        // like browsers we ignore many errors during parsing
+
+        color("foreground: rgb(10, 20 30)", "foreground: rgb(10, 20 30)");
+        color("foreground: rgb(10 20, 30)", "foreground: rgb(10 20, 30)");
+
+        color("foreground: rgb(10 20 30 40)", "foreground: rgb(10 20 30 40)");
+
+        color("foreground: rgb(none, 20, 30)", "foreground: rgb(none, 20, 30)");
+        color("foreground: rgb(10, none, 30)", "foreground: rgb(10, none, 30)");
+        color("foreground: rgb(10, 20, none)", "foreground: rgb(10, 20, none)");
+        color("foreground: rgb(10, 20, 30, none)", "foreground: rgb(10, 20, 30, none)");
+
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: rgb(-none 20 30)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: rgb(10 -none 30)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: rgb(10 20 -none)");
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: rgb(10 20 30 / -none)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: rgb()");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: rgb(10)");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: rgb(10 20)");
+
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: rgb(10, 20, 30,)");
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: rgb(10, 20, 30/)");
+
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: rgb(10, 20px, 30)");
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+                "foreground: rgb(10 20px 30)");
+
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <PERCENTAGE>.)",
+                "foreground: rgb('10', 20, 30,)");
     }
 
     /**
