@@ -68,6 +68,19 @@ public class LABColorParserTest extends AbstractCSSParserTest {
      * @throws Exception in case of failure
      */
     @Test
+    public void labRelative() throws Exception {
+        color("foreground: lab(from red l a b)", "foreground: lab(from red l a b)");
+        color("foreground: lab(from red 7 11% 13%)", "foreground: lab(from red 7 11% 13%)");
+        color("foreground: lab(from rgb(200 170 0) 7 11% 13%)", "foreground: lab(from rgb(200 170 0) 7 11% 13%)");
+        color("foreground: lab(from var(--base-color) 7 11% 13%)", "foreground: lab(from var(--base-color) 7 11% 13%)");
+
+        color("foreground: lab(from red calc(h + 7) calc(w - 11%) calc(b * 13%))", "foreground: lab(from red calc(h + 7) calc(w - 11%) calc(b * 13%))");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
     public void labVariousErrors() throws Exception {
 //        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
 //                "foreground: lab(10, 20 30)");

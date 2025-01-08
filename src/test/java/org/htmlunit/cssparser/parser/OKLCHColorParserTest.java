@@ -68,6 +68,19 @@ public class OKLCHColorParserTest extends AbstractCSSParserTest {
      * @throws Exception in case of failure
      */
     @Test
+    public void lchRelative() throws Exception {
+        color("foreground: oklch(from red l c h)", "foreground: oklch(from red l c h)");
+        color("foreground: oklch(from red 7 11% 13deg)", "foreground: oklch(from red 7 11% 13deg)");
+        color("foreground: oklch(from rgb(200 170 0) 7 11% 13deg)", "foreground: oklch(from rgb(200 170 0) 7 11% 13deg)");
+        color("foreground: oklch(from var(--base-color) 7 11% 13deg)", "foreground: oklch(from var(--base-color) 7 11% 13deg)");
+
+        color("foreground: oklch(from red calc(h + 7) calc(w - 11%) calc(b * 13deg))", "foreground: oklch(from red calc(h + 7) calc(w - 11%) calc(b * 13deg))");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
     public void oklchVariousErrors() throws Exception {
 //        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
 //                "foreground: oklch(10, 20 30deg)");

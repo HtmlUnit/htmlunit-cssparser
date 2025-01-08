@@ -99,7 +99,7 @@ public class HSLColorParserTest extends AbstractCSSParserTest {
         color("foreground: hsl(from rgb(200 170 0) 7 11% 13%)", "foreground: hsl(from rgb(200 170 0) 7 11% 13%)");
         color("foreground: hsl(from var(--base-color) 7 11% 13%)", "foreground: hsl(from var(--base-color) 7 11% 13%)");
 
-        color("foreground: red calc(h + 7) calc(s - 11%) calc(l * 13%)", "foreground: red calc(h + 7) calc(s - 11%) calc(l * 13%)");
+        color("foreground: hsl(from red calc(h + 7) calc(s - 11%) calc(l * 13%))", "foreground: hsl(from red calc(h + 7) calc(s - 11%) calc(l * 13%))");
     }
 
     /**

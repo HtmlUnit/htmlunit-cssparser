@@ -68,6 +68,19 @@ public class LCHColorParserTest extends AbstractCSSParserTest {
      * @throws Exception in case of failure
      */
     @Test
+    public void lchRelative() throws Exception {
+        color("foreground: lch(from red l c h)", "foreground: lch(from red l c h)");
+        color("foreground: lch(from red 7 11% 13deg)", "foreground: lch(from red 7 11% 13deg)");
+        color("foreground: lch(from rgb(200 170 0) 7 11% 13deg)", "foreground: lch(from rgb(200 170 0) 7 11% 13deg)");
+        color("foreground: lch(from var(--base-color) 7 11% 13deg)", "foreground: lch(from var(--base-color) 7 11% 13deg)");
+
+        color("foreground: lch(from red calc(h + 7) calc(w - 11%) calc(b * 13deg))", "foreground: lch(from red calc(h + 7) calc(w - 11%) calc(b * 13deg))");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
     public void lchVariousErrors() throws Exception {
 //        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
 //                "foreground: lch(10, 20 30deg)");

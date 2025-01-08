@@ -68,6 +68,19 @@ public class OKLABColorParserTest extends AbstractCSSParserTest {
      * @throws Exception in case of failure
      */
     @Test
+    public void labRelative() throws Exception {
+        color("foreground: oklab(from red l a b)", "foreground: oklab(from red l a b)");
+        color("foreground: oklab(from red 7 11% 13%)", "foreground: oklab(from red 7 11% 13%)");
+        color("foreground: oklab(from rgb(200 170 0) 7 11% 13%)", "foreground: oklab(from rgb(200 170 0) 7 11% 13%)");
+        color("foreground: oklab(from var(--base-color) 7 11% 13%)", "foreground: oklab(from var(--base-color) 7 11% 13%)");
+
+        color("foreground: oklab(from red calc(h + 7) calc(w - 11%) calc(b * 13%))", "foreground: oklab(from red calc(h + 7) calc(w - 11%) calc(b * 13%))");
+    }
+
+    /**
+     * @throws Exception in case of failure
+     */
+    @Test
     public void oklabVariousErrors() throws Exception {
 //        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
 //                "foreground: oklab(10, 20 30)");
