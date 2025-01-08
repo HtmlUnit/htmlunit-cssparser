@@ -227,7 +227,7 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
      */
     @Test
     public void bootstrap_3_4_1() throws Exception {
-        final String media = "(-webkit-transform-3d);"
+        String media = "(-webkit-transform-3d);"
                 + "(max-device-width: 480px) and (orientation: landscape);"
                 + "(max-width: 767px);"
                 + "(min-width: 1200px);"
@@ -240,6 +240,10 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
                 + "screen and (min-width: 768px);";
         realWorld("realworld/bootstrap_3_4_1.css", 1188, 2320, media, 0, 0);
         realWorld("realworld/bootstrap_3_4_1.min.css", 1188, 2319, media, 1, 0);
+
+        media = "(max-width: 767px);";
+        realWorld("realworld/bootstrap-theme_3_4_1.css", 63, 277, media, 0, 0);
+        realWorld("realworld/bootstrap-theme_3_4_1.min.css", 63, 277, media, 0, 0);
     }
 
     /**

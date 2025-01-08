@@ -4127,26 +4127,6 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("*.test { display: none; }", rule.getCssText());
     }
 
-
-    /**
-     * @throws Exception if the test fails
-     */
-    @Test
-    public void abc() throws Exception {
-        final String css = ".close:hover{color:#000;text-decoration:none;cursor:pointer;filter:alpha(opacity=50);opacity:.5}";
-
-        final CSSStyleSheetImpl sheet = parse(css);
-        final CSSRuleListImpl rules = sheet.getCssRules();
-
-        assertEquals(1, rules.getLength());
-
-        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
-        assertEquals("*.test { display: none; }", rule.toString());
-        assertEquals("*.test { display: none; }", rule.getCssText());
-    }
-
-
-
 //    /**
 //     * @throws Exception if any error occurs
 //     */
