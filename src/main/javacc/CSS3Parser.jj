@@ -1761,6 +1761,7 @@ LexicalUnit calcProduct(LexicalUnit prev) :
 //
 LexicalUnit calcValue(LexicalUnit prev) :
 {
+    Token t;
     char op = ' ';
     LexicalUnit head = LexicalUnitImpl.createIdent(null, "");
 }
@@ -1773,6 +1774,7 @@ LexicalUnit calcValue(LexicalUnit prev) :
                     prev = number(prev, op)
                     | prev = dimension(prev, op)
                     | prev = percentage(prev, op)
+                    | t = ident()                  { prev = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
                 )
             )
             | prev = var(prev)
@@ -1876,6 +1878,7 @@ LexicalUnit calcNumberValue(LexicalUnit prev) :
             (
                 (op = unaryOperator() )?
                 prev = number(prev, op)
+                | t = ident()         { prev = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
             )
             | prev = var(prev)
             |
