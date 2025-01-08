@@ -58,11 +58,16 @@ public class HWBColorParserTest extends AbstractCSSParserTest {
     @Test
     public void hwbRelative() throws Exception {
         color("foreground: hwb(from red h w b)", "foreground: hwb(from red h w b)");
+        color("foreground: hwb(from red h w b / alpha)", "foreground: hwb(from red h w b / alpha)");
+
         color("foreground: hwb(from red 7 11% 13%)", "foreground: hwb(from red 7 11% 13%)");
+        color("foreground: hwb(from red 7 11% 13% / 0.7)", "foreground: hwb(from red 7 11% 13% / 0.7)");
+
         color("foreground: hwb(from rgb(200 170 0) 7 11% 13%)", "foreground: hwb(from rgb(200 170 0) 7 11% 13%)");
         color("foreground: hwb(from var(--base-color) 7 11% 13%)", "foreground: hwb(from var(--base-color) 7 11% 13%)");
 
         color("foreground: hwb(from red calc(h + 7) calc(w - 11%) calc(b * 13%))", "foreground: hwb(from red calc(h + 7) calc(w - 11%) calc(b * 13%))");
+        color("foreground: hwb(from red calc(h + 7) calc(w - 11%) calc(b * 13%) / calc(alpha / 2))", "foreground: hwb(from red calc(h + 7) calc(w - 11%) calc(b * 13%) / calc(alpha / 2))");
     }
 
     /**

@@ -113,11 +113,16 @@ public class RGBColorParserTest extends AbstractCSSParserTest {
     @Test
     public void rgbRelative() throws Exception {
         color("foreground: rgb(from red r g b)", "foreground: rgb(from red r g b)");
+        color("foreground: rgb(from red r g b / alpha)", "foreground: rgb(from red r g b / alpha)");
+
         color("foreground: rgb(from red 7 11% 13%)", "foreground: rgb(from red 7 11% 13%)");
+        color("foreground: rgb(from red 7 11% 13% / 0.7)", "foreground: rgb(from red 7 11% 13% / 0.7)");
+
         color("foreground: rgb(from rgb(200 170 0) 7 11% 13%)", "foreground: rgb(from rgb(200 170 0) 7 11% 13%)");
         color("foreground: rgb(from var(--base-color) 7 11% 13%)", "foreground: rgb(from var(--base-color) 7 11% 13%)");
 
-        color("foreground: rgb(from red calc(h + 7) calc(s - 11%) calc(l * 13%))", "foreground: rgb(from red calc(h + 7) calc(s - 11%) calc(l * 13%))");
+        color("foreground: rgb(from red calc(r + 7) calc(g - 11%) calc(b * 13%))", "foreground: rgb(from red calc(r + 7) calc(g - 11%) calc(b * 13%))");
+        color("foreground: rgb(from red calc(r + 7) calc(g - 11%) calc(b * 13%) / calc(alpha / 2))", "foreground: rgb(from red calc(r + 7) calc(g - 11%) calc(b * 13%) / calc(alpha / 2))");
     }
 
     /**

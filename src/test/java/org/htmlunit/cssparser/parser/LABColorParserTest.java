@@ -70,11 +70,16 @@ public class LABColorParserTest extends AbstractCSSParserTest {
     @Test
     public void labRelative() throws Exception {
         color("foreground: lab(from red l a b)", "foreground: lab(from red l a b)");
+        color("foreground: lab(from red l a b / alpha)", "foreground: lab(from red l a b / alpha)");
+
         color("foreground: lab(from red 7 11% 13%)", "foreground: lab(from red 7 11% 13%)");
+        color("foreground: lab(from red 7 11% 13% / 0.7)", "foreground: lab(from red 7 11% 13% / 0.7)");
+
         color("foreground: lab(from rgb(200 170 0) 7 11% 13%)", "foreground: lab(from rgb(200 170 0) 7 11% 13%)");
         color("foreground: lab(from var(--base-color) 7 11% 13%)", "foreground: lab(from var(--base-color) 7 11% 13%)");
 
-        color("foreground: lab(from red calc(h + 7) calc(w - 11%) calc(b * 13%))", "foreground: lab(from red calc(h + 7) calc(w - 11%) calc(b * 13%))");
+        color("foreground: lab(from red calc(l + 7) calc(a - 11%) calc(b * 13%))", "foreground: lab(from red calc(l + 7) calc(a - 11%) calc(b * 13%))");
+        color("foreground: lab(from red calc(l + 7) calc(a - 11%) calc(b * 13%) / calc(alpha / 2))", "foreground: lab(from red calc(l + 7) calc(a - 11%) calc(b * 13%) / calc(alpha / 2))");
     }
 
     /**

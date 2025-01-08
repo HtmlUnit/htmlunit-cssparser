@@ -68,13 +68,18 @@ public class OKLCHColorParserTest extends AbstractCSSParserTest {
      * @throws Exception in case of failure
      */
     @Test
-    public void lchRelative() throws Exception {
+    public void oklchRelative() throws Exception {
         color("foreground: oklch(from red l c h)", "foreground: oklch(from red l c h)");
+        color("foreground: oklch(from red l c h / alpha)", "foreground: oklch(from red l c h / alpha)");
+
         color("foreground: oklch(from red 7 11% 13deg)", "foreground: oklch(from red 7 11% 13deg)");
+        color("foreground: oklch(from red 7 11% 13deg / 0.7)", "foreground: oklch(from red 7 11% 13deg / 0.7)");
+
         color("foreground: oklch(from rgb(200 170 0) 7 11% 13deg)", "foreground: oklch(from rgb(200 170 0) 7 11% 13deg)");
         color("foreground: oklch(from var(--base-color) 7 11% 13deg)", "foreground: oklch(from var(--base-color) 7 11% 13deg)");
 
-        color("foreground: oklch(from red calc(h + 7) calc(w - 11%) calc(b * 13deg))", "foreground: oklch(from red calc(h + 7) calc(w - 11%) calc(b * 13deg))");
+        color("foreground: oklch(from red calc(l + 7) calc(c - 11%) calc(h * 13deg))", "foreground: oklch(from red calc(l + 7) calc(c - 11%) calc(h * 13deg))");
+        color("foreground: oklch(from red calc(l + 7) calc(c - 11%) calc(h * 13deg) / calc(alpha / 2))", "foreground: oklch(from red calc(l + 7) calc(c - 11%) calc(h * 13deg) / calc(alpha / 2))");
     }
 
     /**

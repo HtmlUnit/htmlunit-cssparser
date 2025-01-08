@@ -70,11 +70,16 @@ public class LCHColorParserTest extends AbstractCSSParserTest {
     @Test
     public void lchRelative() throws Exception {
         color("foreground: lch(from red l c h)", "foreground: lch(from red l c h)");
+        color("foreground: lch(from red l c h / alpha)", "foreground: lch(from red l c h / alpha)");
+
         color("foreground: lch(from red 7 11% 13deg)", "foreground: lch(from red 7 11% 13deg)");
+        color("foreground: lch(from red 7 11% 13deg / 0.7)", "foreground: lch(from red 7 11% 13deg / 0.7)");
+
         color("foreground: lch(from rgb(200 170 0) 7 11% 13deg)", "foreground: lch(from rgb(200 170 0) 7 11% 13deg)");
         color("foreground: lch(from var(--base-color) 7 11% 13deg)", "foreground: lch(from var(--base-color) 7 11% 13deg)");
 
-        color("foreground: lch(from red calc(h + 7) calc(w - 11%) calc(b * 13deg))", "foreground: lch(from red calc(h + 7) calc(w - 11%) calc(b * 13deg))");
+        color("foreground: lch(from red calc(l + 7) calc(c - 11%) calc(h * 13deg))", "foreground: lch(from red calc(l + 7) calc(c - 11%) calc(h * 13deg))");
+        color("foreground: lch(from red calc(l + 7) calc(c - 11%) calc(h * 13deg) / calc(alpha / 2))", "foreground: lch(from red calc(l + 7) calc(c - 11%) calc(h * 13deg) / calc(alpha / 2))");
     }
 
     /**

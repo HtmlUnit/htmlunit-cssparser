@@ -68,13 +68,18 @@ public class OKLABColorParserTest extends AbstractCSSParserTest {
      * @throws Exception in case of failure
      */
     @Test
-    public void labRelative() throws Exception {
+    public void oklabRelative() throws Exception {
         color("foreground: oklab(from red l a b)", "foreground: oklab(from red l a b)");
+        color("foreground: oklab(from red l a b / alpha)", "foreground: oklab(from red l a b / alpha)");
+
         color("foreground: oklab(from red 7 11% 13%)", "foreground: oklab(from red 7 11% 13%)");
+        color("foreground: oklab(from red 7 11% 13% / 0.7)", "foreground: oklab(from red 7 11% 13% / 0.7)");
+
         color("foreground: oklab(from rgb(200 170 0) 7 11% 13%)", "foreground: oklab(from rgb(200 170 0) 7 11% 13%)");
         color("foreground: oklab(from var(--base-color) 7 11% 13%)", "foreground: oklab(from var(--base-color) 7 11% 13%)");
 
-        color("foreground: oklab(from red calc(h + 7) calc(w - 11%) calc(b * 13%))", "foreground: oklab(from red calc(h + 7) calc(w - 11%) calc(b * 13%))");
+        color("foreground: oklab(from red calc(l + 7) calc(a - 11%) calc(b * 13%))", "foreground: oklab(from red calc(l + 7) calc(a - 11%) calc(b * 13%))");
+        color("foreground: oklab(from red calc(l + 7) calc(a - 11%) calc(b * 13%) / calc(alpha / 2))", "foreground: oklab(from red calc(l + 7) calc(a - 11%) calc(b * 13%) / calc(alpha / 2))");
     }
 
     /**
