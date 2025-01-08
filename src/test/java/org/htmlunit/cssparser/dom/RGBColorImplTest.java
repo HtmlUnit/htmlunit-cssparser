@@ -15,12 +15,10 @@
 package org.htmlunit.cssparser.dom;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import org.htmlunit.cssparser.parser.LexicalUnit;
 import org.htmlunit.cssparser.parser.LexicalUnitImpl;
 import org.junit.jupiter.api.Test;
-import org.w3c.dom.DOMException;
 
 /**
  * Unit tests for {@link RGBColorImpl}.
@@ -28,86 +26,6 @@ import org.w3c.dom.DOMException;
  * @author Ronald Brill
  */
 public class RGBColorImplTest {
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
-    public void constructByLU() throws Exception {
-        final LexicalUnit rgbLU = LexicalUnitImpl.createNumber(null, 10);
-        LexicalUnit lu = LexicalUnitImpl.createComma(rgbLU);
-        lu = LexicalUnitImpl.createNumber(lu, 20);
-        lu = LexicalUnitImpl.createComma(lu);
-        LexicalUnitImpl.createNumber(lu, 30);
-
-        final RGBColorImpl rgb = new RGBColorImpl("rgb", rgbLU);
-        assertEquals("rgb(10, 20, 30)", rgb.toString());
-        assertEquals("10", rgb.getRed().getCssText());
-        assertEquals("20", rgb.getGreen().getCssText());
-        assertEquals("30", rgb.getBlue().getCssText());
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
-    public void constructByLUException() throws Exception {
-        try {
-            new RGBColorImpl("rgb", null);
-            fail("DOMException expected");
-        }
-        catch (final DOMException e) {
-            assertEquals("'rgb' requires at least three values.", e.getMessage());
-        }
-
-        LexicalUnit rgbLU = LexicalUnitImpl.createNumber(null, 10);
-        LexicalUnit lu = LexicalUnitImpl.createComma(rgbLU);
-        LexicalUnitImpl.createDivide(lu);
-
-        try {
-            new RGBColorImpl("rgb", rgbLU);
-            fail("DOMException expected");
-        }
-        catch (final DOMException e) {
-            assertEquals("Color part has to be numeric or percentage.", e.getMessage());
-        }
-
-        rgbLU = LexicalUnitImpl.createNumber(null, 10);
-        lu = LexicalUnitImpl.createComma(rgbLU);
-        lu = LexicalUnitImpl.createNumber(lu, 20);
-        LexicalUnitImpl.createNumber(lu, 30);
-
-        try {
-            final RGBColorImpl color = new RGBColorImpl("rgb", rgbLU);
-            fail("DOMException expected: " + color);
-        }
-        catch (final DOMException e) {
-            assertEquals("'rgb' parameters must be separated by ','.", e.getMessage());
-        }
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
-    public void constructByLUTooManyValuesException() throws Exception {
-        final LexicalUnit rgbLU = LexicalUnitImpl.createNumber(null, 10);
-        LexicalUnit lu = LexicalUnitImpl.createComma(rgbLU);
-        lu = LexicalUnitImpl.createNumber(lu, 20);
-        lu = LexicalUnitImpl.createComma(lu);
-        lu = LexicalUnitImpl.createNumber(lu, 30);
-        lu = LexicalUnitImpl.createComma(lu);
-        lu = LexicalUnitImpl.createNumber(lu, 0.1);
-        LexicalUnitImpl.createComma(lu);
-
-        try {
-            final RGBColorImpl color = new RGBColorImpl("rgb", rgbLU);
-            fail("DOMException expected: " + color);
-        }
-        catch (final DOMException e) {
-            assertEquals("Too many parameters for 'rgb' function.", e.getMessage());
-        }
-    }
 
     /**
      * @throws Exception if any error occurs
@@ -123,37 +41,5 @@ public class RGBColorImplTest {
         final RGBColorImpl rgb = new RGBColorImpl("rgb", rgbLu);
 
         assertEquals("rgb(10, 20, 30)", rgb.toString());
-    }
-
-    /**
-     * @throws Exception if any error occurs
-     */
-    @Test
-    public void getCssTextFunctionName() throws Exception {
-        final LexicalUnit rgbLu = LexicalUnitImpl.createNumber(null, 10);
-
-        try {
-            final RGBColorImpl color = new RGBColorImpl(null, rgbLu);
-            fail("DOMException expected: " + color);
-        }
-        catch (final DOMException e) {
-            assertEquals("Color space 'rgb' or 'rgba' is required.", e.getMessage());
-        }
-
-        try {
-            final RGBColorImpl color = new RGBColorImpl("", rgbLu);
-            fail("DOMException expected: " + color);
-        }
-        catch (final DOMException e) {
-            assertEquals("Color space '' not supported.", e.getMessage());
-        }
-
-        try {
-            final RGBColorImpl color = new RGBColorImpl("xyz", rgbLu);
-            fail("DOMException expected: " + color);
-        }
-        catch (final DOMException e) {
-            assertEquals("Color space 'xyz' not supported.", e.getMessage());
-        }
     }
 }

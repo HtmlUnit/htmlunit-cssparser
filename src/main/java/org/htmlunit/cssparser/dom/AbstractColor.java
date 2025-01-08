@@ -15,10 +15,9 @@
 package org.htmlunit.cssparser.dom;
 
 import java.io.Serializable;
-import java.util.function.Consumer;
+import java.util.Locale;
 
 import org.htmlunit.cssparser.parser.LexicalUnit;
-import org.htmlunit.cssparser.parser.LexicalUnit.LexicalUnitType;
 import org.w3c.dom.DOMException;
 
 /**
@@ -28,64 +27,34 @@ import org.w3c.dom.DOMException;
  */
 public class AbstractColor implements Serializable {
 
-    private CSSValueImpl alpha_;
-    private CSSValueImpl relative_;
+    private String function_;
+    private CSSValueImpl cssValue_;
 
-    protected void getNumberPercentagePart(final LexicalUnit next, final Consumer<CSSValueImpl> setter) {
-        if (LexicalUnitType.PERCENTAGE == next.getLexicalUnitType()
-
-                || LexicalUnitType.INTEGER == next.getLexicalUnitType()
-                || LexicalUnitType.REAL == next.getLexicalUnitType()
-
-                || LexicalUnitType.NONE == next.getLexicalUnitType()) {
-            setter.accept(new CSSValueImpl(next, true));
-            return;
-        }
-
-        throw new DOMException(DOMException.SYNTAX_ERR, "Color part has to be numeric or percentage.");
-    }
-
-    protected void getAlphaPart(final LexicalUnit lu) {
-        if (LexicalUnitType.PERCENTAGE == lu.getLexicalUnitType()
-
-                || LexicalUnitType.INTEGER == lu.getLexicalUnitType()
-                || LexicalUnitType.REAL == lu.getLexicalUnitType()
-
-                || LexicalUnitType.NONE == lu.getLexicalUnitType()) {
-            setAlpha(new CSSValueImpl(lu, true));
-            return;
-        }
-
-        throw new DOMException(DOMException.SYNTAX_ERR, "Color alpha part has to be numeric or percentage.");
+    /**
+     * Constructor that reads the values from the given
+     * chain of LexicalUnits.
+     * @param function the name of the function; rgb or rgba
+     * @param lu the values
+     * @throws DOMException in case of error
+     */
+    public AbstractColor(final String function, final LexicalUnit lu) throws DOMException {
+        function_ = function.toLowerCase(Locale.ROOT);
+        cssValue_ = new CSSValueImpl(lu);
     }
 
     /**
-     * @return the alpha part.
+     * {@inheritDoc}
      */
-    public CSSValueImpl getAlpha() {
-        return alpha_;
-    }
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
 
-    /**
-     * Sets the alpha part to a new value.
-     * @param alpha the new CSSValueImpl
-     */
-    public void setAlpha(final CSSValueImpl alpha) {
-        alpha_ = alpha;
-    }
+        sb
+            .append(function_)
+            .append("(")
+            .append(cssValue_)
+            .append(")");
 
-    /**
-     * @return the relative value or null.
-     */
-    public CSSValueImpl getRelative() {
-        return relative_;
-    }
-
-    public boolean handleRelativeColors(final LexicalUnit lu) {
-        if (LexicalUnitType.FROM == lu.getLexicalUnitType()) {
-            relative_ = new CSSValueImpl(lu.getNextLexicalUnit());
-            return true;
-        }
-        return false;
+        return sb.toString();
     }
 }

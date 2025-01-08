@@ -174,15 +174,18 @@ public class HSLColorParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void hslVariousErrors() throws Exception {
-        color(1, "DOM exception: ''hsl' parameters must be separated by ','.'", "foreground: hsl(10, 20% 30%)");
-        color(1, "DOM exception: ''hsl' requires consitent separators (blank or comma).'", "foreground: hsl(10 20%, 30%)");
+        // like browsers we ignore many errors during parsing
 
-        color(1, "DOM exception: ''hsl' alpha value must be separated by '/'.'", "foreground: hsl(10 20% 30% 40)");
+        // separators
+        color("foreground: hsl(10, 20% 30%)", "foreground: hsl(10, 20% 30%)");
+        color("foreground: hsl(10 20%, 30%)", "foreground: hsl(10 20%, 30%)");
 
-        color(1, "DOM exception: ''hsl' has to use blank as separator if none is used.'", "foreground: hsl(none, 20%, 30%)");
-        color(1, "DOM exception: ''hsl' has to use blank as separator if none is used.'", "foreground: hsl(10, none, 30%)");
-        color(1, "DOM exception: ''hsl' has to use blank as separator if none is used.'", "foreground: hsl(10, 20%, none)");
-        color(1, "DOM exception: ''hsl' has to use blank as separator if none is used.'", "foreground: hsl(10, 20%, 30%, none)");
+        color("foreground: hsl(10 20% 30% 40)", "foreground: hsl(10 20% 30% 40)");
+
+        color("foreground: hsl(none, 20%, 30%)", "foreground: hsl(none, 20%, 30%)");
+        color("foreground: hsl(10, none, 30%)", "foreground: hsl(10, none, 30%)");
+        color("foreground: hsl(10, 20%, none)", "foreground: hsl(10, 20%, none)");
+        color("foreground: hsl(10, 20%, 30%, none)", "foreground: hsl(10, 20%, 30%, none)");
 
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", "
                 + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
@@ -193,21 +196,21 @@ public class HSLColorParserTest extends AbstractCSSParserTest {
                 "foreground: hsl(10 20% -none)");
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
                 "foreground: hsl(10 20% 30% / -none)");
-
-        // mixing numbers and percentages is supported by current browsers
-        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20, 30)");
-        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20%, 30)");
-        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10, 20%, 30)");
-        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10, 20%, 30%)");
-        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10, 20, 30%)");
-        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20, 30%)");
-        //
-        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad 20 30)");
-        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad 20% 30)");
-        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10 20% 30)");
-        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10 20% 30%)");
-        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10 20 30%)");
-        //        color(1, "DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad 20 30%)");
+//
+//        // mixing numbers and percentages is supported by current browsers
+//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20, 30)");
+//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20%, 30)");
+//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10, 20%, 30)");
+//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10, 20%, 30%)");
+//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10, 20, 30%)");
+//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad, 20, 30%)");
+//
+//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad 20 30)");
+//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad 20% 30)");
+//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10 20% 30)");
+//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10 20% 30%)");
+//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10 20 30%)");
+//        color("DOM exception: 'hsl mixing numbers and percentages.'", "foreground: hsl(10rad 20 30%)");
 
         color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
                 "foreground: hsl()");
