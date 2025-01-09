@@ -294,6 +294,104 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void foundation_6_9_0() throws Exception {
+        String media = "(-ms-high-contrast: active);"
+                + "all and (-ms-high-contrast: none);"
+                + "print;"
+                + "screen and (max-width: 0em);"
+                + "screen and (max-width: 39.99875em);"
+                + "screen and (max-width: 63.99875em);"
+                + "screen and (max-width: 74.99875em);"
+                + "screen and (min-width: 0\\0 );"
+                + "screen and (min-width: 40em);"
+                + "screen and (min-width: 40em) and (max-width: 63.99875em);"
+                + "screen and (min-width: 64em);"
+                + "screen and (min-width: 64em) and (max-width: 74.99875em);"
+                + "screen and (min-width: 75em);"
+                + "screen and (orientation: landscape);"
+                + "screen and (orientation: portrait);"
+                + "screen and (prefers-color-scheme: dark);";
+        realWorld("realworld/foundation_6_9_0.css", 1048, 2759, media, 0, 0);
+
+        media = media.replace("screen and (min-width: 0\\0 );", "screen and (min-width: 0\\0);");
+        realWorld("realworld/foundation_6_9_0.min.css", 1048, 2759, media, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void materialize_1_0_0() throws Exception {
+        final String media = "only screen and (max-width: 360px);"
+                + "only screen and (max-width: 600px);"
+                + "only screen and (max-width: 992px);"
+                + "only screen and (min-width: 0);"
+                + "only screen and (min-width: 1200px);"
+                + "only screen and (min-width: 1201px);"
+                + "only screen and (min-width: 360px);"
+                + "only screen and (min-width: 390px);"
+                + "only screen and (min-width: 420px);"
+                + "only screen and (min-width: 450px);"
+                + "only screen and (min-width: 480px);"
+                + "only screen and (min-width: 510px);"
+                + "only screen and (min-width: 540px);"
+                + "only screen and (min-width: 570px);"
+                + "only screen and (min-width: 600px);"
+                + "only screen and (min-width: 600px) and (max-width: 992px);"
+                + "only screen and (min-width: 601px);"
+                + "only screen and (min-width: 601px) and (max-width: 992px);"
+                + "only screen and (min-width: 630px);"
+                + "only screen and (min-width: 660px);"
+                + "only screen and (min-width: 690px);"
+                + "only screen and (min-width: 720px);"
+                + "only screen and (min-width: 750px);"
+                + "only screen and (min-width: 780px);"
+                + "only screen and (min-width: 810px);"
+                + "only screen and (min-width: 840px);"
+                + "only screen and (min-width: 870px);"
+                + "only screen and (min-width: 900px);"
+                + "only screen and (min-width: 930px);"
+                + "only screen and (min-width: 960px);"
+                + "only screen and (min-width: 992px);"
+                + "only screen and (min-width: 993px);";
+        realWorld("realworld/materialize_1_0_0.css", 1368, 2986, media, 0, 0);
+        realWorld("realworld/materialize_1_0_0.min.css", 1367, 2986, media, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void pure_3_0_0() throws Exception {
+        final String media = "only screen and (max-width: 480px);";
+        realWorld("realworld/pure_3_0_0.css", 165, 334, media, 0, 0);
+        realWorld("realworld/pure_3_0_0.min.css", 165, 334, media, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void semantic_2_5_0() throws Exception {
+        final String media = "all and (-ms-high-contrast: none);"
+                + "only screen and (max-width: 767px);"
+                + "only screen and (max-width: 991px);"
+                + "only screen and (min-width: 1200px);"
+                + "only screen and (min-width: 1200px) and (max-width: 1919px);"
+                + "only screen and (min-width: 1920px);"
+                + "only screen and (min-width: 320px) and (max-width: 767px);"
+                + "only screen and (min-width: 768px);"
+                + "only screen and (min-width: 768px) and (max-width: 991px);"
+                + "only screen and (min-width: 992px);"
+                + "only screen and (min-width: 992px) and (max-width: 1199px);";
+        realWorld("realworld/semantic_2_5_0.css", 5486, 10068, media, 7, 4);
+        realWorld("realworld/semantic_2_5_0.min.css", 5486, 10068, media, 7, 4);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void spiegel() throws Exception {
         realWorld("realworld/style-V5-11.css", 2088, 6028, "screen and (min-width: 1030px);", 47, 0);
     }
