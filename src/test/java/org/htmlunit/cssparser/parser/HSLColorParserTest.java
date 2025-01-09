@@ -44,6 +44,12 @@ public class HSLColorParserTest extends AbstractCSSParserTest {
         color("foreground: hsl(-270, 60%, 70%, 0.1)", "foreground: hsl(-270, 60%, 70%, 0.1)");
         color("foreground: hsl(-270, 60%, 70%, 0.1)", "foreground: hsl(-270, 60%, 70%, .1)");
         color("foreground: hsl(-270, 60%, 70%, 10%)", "foreground: hsl(-270, 60%, 70%, 10%)");
+
+        // var
+        color("foreground: hsl(var(--v-h), var(--v-s), var(--v-l), var(--v-alpha))", "foreground: hsl(var(--v-h), var(--v-s), var(--v-l), var(--v-alpha))");
+
+        // calc
+        color("foreground: hsl(calc(270), calc(60%), calc(70%), calc(0.1))", "foreground: hsl(calc(270), calc(60%), calc(70%), calc(0.1))");
     }
 
     /**
@@ -75,6 +81,12 @@ public class HSLColorParserTest extends AbstractCSSParserTest {
         color("foreground: hsl(-270 60% 70% / 10%)", "foreground: hsl(-270 60% 70% / 10%)");
 
         color("foreground: hsl(-270 60% 70% / none)", "foreground: hsl(-270 60% 70% / none)");
+
+        // var
+        color("foreground: hsl(var(--v-h) var(--v-s) var(--v-l) / var(--v-alpha))", "foreground: hsl(var(--v-h) var(--v-s) var(--v-l) / var(--v-alpha))");
+
+        // calc
+        color("foreground: hsl(calc(270) calc(60%) calc(70%) / calc(0.1))", "foreground: hsl(calc(270) calc(60%) calc(70%) / calc(0.1))");
     }
 
     /**
@@ -130,6 +142,12 @@ public class HSLColorParserTest extends AbstractCSSParserTest {
         color("foreground: hsla(-270, 60%, 70%, 0.1)", "foreground: hsla(-270, 60%, 70%, 0.1)");
         color("foreground: hsla(-270, 60%, 70%, 0.1)", "foreground: hsla(-270, 60%, 70%, .1)");
         color("foreground: hsla(-270, 60%, 70%, 10%)", "foreground: hsla(-270, 60%, 70%, 10%)");
+
+        // var
+        color("foreground: hsla(var(--v-h), var(--v-s), var(--v-l), var(--v-alpha))", "foreground: hsla(var(--v-h), var(--v-s), var(--v-l), var(--v-alpha))");
+
+        // calc
+        color("foreground: hsla(calc(270), calc(60%), calc(70%), calc(0.1))", "foreground: hsla(calc(270), calc(60%), calc(70%), calc(0.1))");
     }
 
     /**
@@ -161,6 +179,12 @@ public class HSLColorParserTest extends AbstractCSSParserTest {
         color("foreground: hsla(-270 60% 70% / 10%)", "foreground: hsla(-270 60% 70% / 10%)");
 
         color("foreground: hsla(-270 60% 70% / none)", "foreground: hsla(-270 60% 70% / none)");
+
+        // var
+        color("foreground: hsla(var(--v-h) var(--v-s) var(--v-l) / var(--v-alpha))", "foreground: hsla(var(--v-h) var(--v-s) var(--v-l) / var(--v-alpha))");
+
+        // calc
+        color("foreground: hsla(calc(270) calc(60%) calc(70%) / calc(0.1))", "foreground: hsla(calc(270) calc(60%) calc(70%) / calc(0.1))");
     }
 
     /**
@@ -193,33 +217,33 @@ public class HSLColorParserTest extends AbstractCSSParserTest {
         color("foreground: hsl(10, 20%, 30%, none)", "foreground: hsl(10, 20%, 30%, none)");
 
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", "
-                + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+                + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hsl(-none 20% 30%)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hsl(10 -none 30%)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hsl(10 20% -none)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hsl(10 20% 30% / -none)");
 
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hsl()");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hsl(10)");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hsl(10 20%)");
 
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hsl(10, 20%, 30%,)");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hsl(10, 20%, 30%/)");
 
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hsl(10, 20px, 30)");
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hsl(10 20px 30)");
 
-        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hsl('10', 20, 30,)");
     }
 }

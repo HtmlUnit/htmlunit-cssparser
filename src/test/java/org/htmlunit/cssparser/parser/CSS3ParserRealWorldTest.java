@@ -286,8 +286,8 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
                 + "(prefers-reduced-motion: no-preference);"
                 + "(prefers-reduced-motion: reduce);"
                 + "print;";
-        realWorld("realworld/bootstrap_5_2_0.css", 1198, 3033, media, 40, 0);
-        realWorld("realworld/bootstrap_5_2_0.min.css", 1198, 3033, media, 40, 0);
+        realWorld("realworld/bootstrap_5_2_0.css", 1198, 3041, media, 32, 0);
+        realWorld("realworld/bootstrap_5_2_0.min.css", 1198, 3041, media, 32, 0);
     }
 
     /**
@@ -386,6 +386,29 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
                 + "only screen and (min-width: 992px) and (max-width: 1199px);";
         realWorld("realworld/semantic_2_5_0.css", 5490, 10072, media, 3, 0);
         realWorld("realworld/semantic_2_5_0.min.css", 5490, 10072, media, 3, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void bulma_1_0_2() throws Exception {
+        final String media = "(prefers-color-scheme: dark);"
+                + "(prefers-color-scheme: light);"
+                + "print;"
+                + "screen and (max-width: 1023px);"
+                + "screen and (max-width: 1215px);"
+                + "screen and (max-width: 1407px);"
+                + "screen and (max-width: 768px);"
+                + "screen and (min-width: 1024px);"
+                + "screen and (min-width: 1024px) and (max-width: 1215px);"
+                + "screen and (min-width: 1216px);"
+                + "screen and (min-width: 1216px) and (max-width: 1407px);"
+                + "screen and (min-width: 1408px);"
+                + "screen and (min-width: 769px);"
+                + "screen and (min-width: 769px) and (max-width: 1023px);";
+        realWorld("realworld/bulma_1_0_2.css", 3036, 7226, media, 13, 13);
+        realWorld("realworld/bulma_1_0_2.min.css", 3011, 7180, media, 13, 13);
     }
 
     /**

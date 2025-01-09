@@ -50,6 +50,12 @@ public class HWBColorParserTest extends AbstractCSSParserTest {
         color("foreground: hwb(-270 60% 70% / 10%)", "foreground: hwb(-270 60% 70% / 10%)");
 
         color("foreground: hwb(-270 60% 70% / none)", "foreground: hwb(-270 60% 70% / none)");
+
+        // var
+        color("foreground: hwb(var(--v-h) var(--v-w) var(--v-b) / var(--v-alpha))", "foreground: hwb(var(--v-h) var(--v-w) var(--v-b) / var(--v-alpha))");
+
+        // calc
+        color("foreground: hwb(calc(270) calc(60%) calc(70%) / calc(0.1))", "foreground: hwb(calc(270) calc(60%) calc(70%) / calc(0.1))");
     }
 
     /**
@@ -77,35 +83,36 @@ public class HWBColorParserTest extends AbstractCSSParserTest {
     public void hwbVariousErrors() throws Exception {
         // like browsers we ignore many errors during parsing
 
-        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hwb(10, 20% 30%)");
-        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)", "foreground: hwb(10 20%, 30%)");
+        color(1, "Error in expression. (Invalid token \",\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+                "foreground: hwb(10 20%, 30%)");
 
         color("foreground: hwb(10 20% 30% 40)", "foreground: hwb(10 20% 30% 40)");
 
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hwb(-none 20% 30%)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hwb(10 -none 30%)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hwb(10 20% -none)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hwb(10 20% 30% / -none)");
 
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hwb()");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hwb(10)");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hwb(10 20%)");
 
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hwb(10 20% 30%/)");
 
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hwb(10 20px 30)");
 
-        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>.)",
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: hwb('10' 20 30)");
     }
 }

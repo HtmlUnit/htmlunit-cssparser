@@ -48,6 +48,12 @@ public class RGBColorParserTest extends AbstractCSSParserTest {
 
         color("foreground: rgb(-255, -10, -153, -0.5)", "foreground: rgb(-255, -10, -153.0, -0.5)");
         color("foreground: rgb(-100%, -10%, -60%, -7%)", "foreground: rgb(-100%,-10%,-60%,-7%)");
+
+        // var
+        color("foreground: rgb(var(--v-r), var(--v-g), var(--v-b), var(--v-alpha))", "foreground: rgb(var(--v-r), var(--v-g), var(--v-b), var(--v-alpha))");
+
+        // calc
+        color("foreground: rgb(calc(10), calc(20), calc(30), calc(0.1))", "foreground: rgb(calc(10), calc(20), calc(30), calc(0.1))");
     }
 
     /**
@@ -83,6 +89,12 @@ public class RGBColorParserTest extends AbstractCSSParserTest {
 
         color("foreground: rgb(-255 -10 -153 / -0.5)", "foreground: rgb(-255 -10 -153.0 / -0.5)");
         color("foreground: rgb(-100% -10% -60% / -7%)", "foreground: rgb(-100% -10% -60%/-7%)");
+
+        // var
+        color("foreground: rgb(var(--v-r) var(--v-g) var(--v-b) / var(--v-alpha))", "foreground: rgb(var(--v-r) var(--v-g) var(--v-b) / var(--v-alpha))");
+
+        // calc
+        color("foreground: rgb(calc(10) calc(20) calc(30) / calc(0.1))", "foreground: rgb(calc(10) calc(20) calc(30) / calc(0.1))");
     }
 
     /**
@@ -152,6 +164,12 @@ public class RGBColorParserTest extends AbstractCSSParserTest {
 
         color("foreground: rgba(-255, -10, -153, -0.5)", "foreground: rgba(-255, -10, -153.0, -0.5)");
         color("foreground: rgba(-100%, -10%, -60%, -7%)", "foreground: rgba(-100%,-10%,-60%,-7%)");
+
+        // var
+        color("foreground: rgba(var(--v-r), var(--v-g), var(--v-b), var(--v-alpha))", "foreground: rgba(var(--v-r), var(--v-g), var(--v-b), var(--v-alpha))");
+
+        // calc
+        color("foreground: rgba(calc(10), calc(20), calc(30), calc(0.1))", "foreground: rgba(calc(10), calc(20), calc(30), calc(0.1))");
     }
 
     /**
@@ -187,6 +205,12 @@ public class RGBColorParserTest extends AbstractCSSParserTest {
 
         color("foreground: rgba(-255 -10 -153 / -0.5)", "foreground: rgba(-255 -10 -153.0 / -0.5)");
         color("foreground: rgba(-100% -10% -60% / -7%)", "foreground: rgba(-100% -10% -60%/-7%)");
+
+        // var
+        color("foreground: rgba(var(--v-r) var(--v-g) var(--v-b) / var(--v-alpha))", "foreground: rgba(var(--v-r) var(--v-g) var(--v-b) / var(--v-alpha))");
+
+        // calc
+        color("foreground: rgba(calc(10) calc(20) calc(30) / calc(0.1))", "foreground: rgba(calc(10) calc(20) calc(30) / calc(0.1))");
     }
 
     /**
@@ -228,33 +252,33 @@ public class RGBColorParserTest extends AbstractCSSParserTest {
         color("foreground: rgb(10, 20, none)", "foreground: rgb(10, 20, none)");
         color("foreground: rgb(10, 20, 30, none)", "foreground: rgb(10, 20, 30, none)");
 
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: rgb(-none 20 30)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: rgb(10 -none 30)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: rgb(10 20 -none)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: rgb(10 20 30 / -none)");
 
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: rgb()");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: rgb(10)");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: rgb(10 20)");
 
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: rgb(10, 20, 30,)");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: rgb(10, 20, 30/)");
 
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: rgb(10, 20px, 30)");
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: rgb(10 20px 30)");
 
-        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <PERCENTAGE>.)",
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: rgb('10', 20, 30,)");
     }
 
