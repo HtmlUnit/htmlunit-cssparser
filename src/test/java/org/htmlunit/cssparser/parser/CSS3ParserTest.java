@@ -109,6 +109,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         selectorType(".only", SelectorType.ELEMENT_NODE_SELECTOR);
         selectorType(".none", SelectorType.ELEMENT_NODE_SELECTOR);
         selectorType(".from", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType(".and", SelectorType.ELEMENT_NODE_SELECTOR);
     }
 
     /**
@@ -230,6 +231,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         conditionType(".only", ConditionType.CLASS_CONDITION);
         conditionType(".none", ConditionType.CLASS_CONDITION);
         conditionType(".from", ConditionType.CLASS_CONDITION);
+        conditionType(".and", ConditionType.CLASS_CONDITION);
     }
 
     /**
@@ -1854,7 +1856,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in @page rule. "
-                + "(Invalid token \"<EOF>\". Was expecting one of: <S>, \"only\", \"inherit\", \"none\", \"from\", <IDENT>,"
+                + "(Invalid token \"<EOF>\". Was expecting one of: <S>, \"and\", \"only\", \"inherit\", \"none\", \"from\", <IDENT>,"
                 + " \"}\", \";\", \"*\", <CUSTOM_PROPERTY_NAME>.)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("1", errorHandler.getErrorLines());
@@ -3234,7 +3236,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         checkErrorSelector("input:not()",
                 "Error in simple selector. (Invalid token \")\". "
-                + "Was expecting one of: <S>, \"only\", \"inherit\", \"none\", \"from\", <IDENT>, \".\", \":\", \"*\", \"[\", <HASH>.)");
+                + "Was expecting one of: <S>, \"and\", \"only\", \"inherit\", \"none\", \"from\", <IDENT>, \".\", \":\", \"*\", \"[\", <HASH>.)");
 
 //        checkErrorSelector("input:not(*.home)",
 //                "Error in pseudo class or element. (Invalid token \".\"."
@@ -3282,7 +3284,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 "Duplicate pseudo class \":foo(ab)\" or pseudo class \":foo(ab)\" not at end.");
         checkErrorSelector("input:before:",
                 "Error in pseudo class or element. (Invalid token \"<EOF>\". "
-                + "Was expecting one of: \"only\", \"inherit\", \"none\", \"from\", <IDENT>, "
+                + "Was expecting one of: \"and\", \"only\", \"inherit\", \"none\", \"from\", <IDENT>, "
                 + "\":\", <FUNCTION_NOT>, <FUNCTION_LANG>, <FUNCTION>.)");
 
         // pseudo element not at end

@@ -2757,6 +2757,7 @@ Token ident() :
     |
         (
             t = <INHERIT>
+            | t = <AND>
             | t = <ONLY>
             | t = <NONE>
             | t = <FROM>

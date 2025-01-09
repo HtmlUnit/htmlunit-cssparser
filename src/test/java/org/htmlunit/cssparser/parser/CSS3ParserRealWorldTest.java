@@ -384,8 +384,8 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
                 + "only screen and (min-width: 768px) and (max-width: 991px);"
                 + "only screen and (min-width: 992px);"
                 + "only screen and (min-width: 992px) and (max-width: 1199px);";
-        realWorld("realworld/semantic_2_5_0.css", 5486, 10068, media, 7, 4);
-        realWorld("realworld/semantic_2_5_0.min.css", 5486, 10068, media, 7, 4);
+        realWorld("realworld/semantic_2_5_0.css", 5490, 10072, media, 3, 0);
+        realWorld("realworld/semantic_2_5_0.min.css", 5490, 10072, media, 3, 0);
     }
 
     /**
