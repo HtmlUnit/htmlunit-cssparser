@@ -2146,10 +2146,7 @@ LexicalUnit hslColor(LexicalUnit prev) :
                 (op = unaryOperator() )?
                 (
                     next = number(next, op)
-                    | t = <ANGLE_DEG>     { next = LexicalUnitImpl.createDegree(next, doubleValue(op, t.image)); }
-                    | t = <ANGLE_RAD>     { next = LexicalUnitImpl.createRadian(next, doubleValue(op, t.image)); }
-                    | t = <ANGLE_GRAD>    { next = LexicalUnitImpl.createGradian(next, doubleValue(op, t.image)); }
-                    | t = <ANGLE_TURN>    { next = LexicalUnitImpl.createTurn(next, doubleValue(op, t.image)); }
+                    | next = angle(next, op)
 
                     | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
                     | next = calc(next)
@@ -2215,10 +2212,7 @@ LexicalUnit hslColor(LexicalUnit prev) :
                 (
                     <NONE> { param = LexicalUnitImpl.createNone(null); }
                     | param = number(null, op)
-                    | t = <ANGLE_DEG>     { param = LexicalUnitImpl.createDegree(null, doubleValue(op, t.image)); }
-                    | t = <ANGLE_RAD>     { param = LexicalUnitImpl.createRadian(null, doubleValue(op, t.image)); }
-                    | t = <ANGLE_GRAD>    { param = LexicalUnitImpl.createGradian(null, doubleValue(op, t.image)); }
-                    | t = <ANGLE_TURN>    { param = LexicalUnitImpl.createTurn(null, doubleValue(op, t.image)); }
+                    | param = angle(null, op)
 
                     | param = calc(null)
                     | param = var(null)
@@ -2328,10 +2322,7 @@ LexicalUnit hwbColor(LexicalUnit prev) :
                 (op = unaryOperator() )?
                 (
                     next = number(next, op)
-                    | t = <ANGLE_DEG>     { next = LexicalUnitImpl.createDegree(next, doubleValue(op, t.image)); }
-                    | t = <ANGLE_RAD>     { next = LexicalUnitImpl.createRadian(next, doubleValue(op, t.image)); }
-                    | t = <ANGLE_GRAD>    { next = LexicalUnitImpl.createGradian(next, doubleValue(op, t.image)); }
-                    | t = <ANGLE_TURN>    { next = LexicalUnitImpl.createTurn(next, doubleValue(op, t.image)); }
+                    | next = angle(next, op)
 
                     | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
                     | next = calc(next)
@@ -2396,10 +2387,7 @@ LexicalUnit hwbColor(LexicalUnit prev) :
                 (
                     <NONE> { param = LexicalUnitImpl.createNone(null); }
                     | param = number(null, op)
-                    | t = <ANGLE_DEG>     { param = LexicalUnitImpl.createDegree(null, doubleValue(op, t.image)); }
-                    | t = <ANGLE_RAD>     { param = LexicalUnitImpl.createRadian(null, doubleValue(op, t.image)); }
-                    | t = <ANGLE_GRAD>    { param = LexicalUnitImpl.createGradian(null, doubleValue(op, t.image)); }
-                    | t = <ANGLE_TURN>    { param = LexicalUnitImpl.createTurn(null, doubleValue(op, t.image)); }
+                    | param = angle(null, op)
 
                     | param = calc(null)
                     | param = var(null)
@@ -2698,10 +2686,7 @@ LexicalUnit lchColor(LexicalUnit prev) :
             (
                 (op = unaryOperator() )?
                 (
-                    t = <ANGLE_DEG>     { next = LexicalUnitImpl.createDegree(next, doubleValue(op, t.image)); }
-                    | t = <ANGLE_RAD>     { next = LexicalUnitImpl.createRadian(next, doubleValue(op, t.image)); }
-                    | t = <ANGLE_GRAD>    { next = LexicalUnitImpl.createGradian(next, doubleValue(op, t.image)); }
-                    | t = <ANGLE_TURN>    { next = LexicalUnitImpl.createTurn(next, doubleValue(op, t.image)); }
+                    next = angle(next, op)
 
                     | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
                     | next = calc(next)
@@ -2767,10 +2752,7 @@ LexicalUnit lchColor(LexicalUnit prev) :
                 (op = unaryOperator() )?
                 (
                     <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | t = <ANGLE_DEG>     { next = LexicalUnitImpl.createDegree(next, doubleValue(op, t.image)); }
-                    | t = <ANGLE_RAD>     { next = LexicalUnitImpl.createRadian(next, doubleValue(op, t.image)); }
-                    | t = <ANGLE_GRAD>    { next = LexicalUnitImpl.createGradian(next, doubleValue(op, t.image)); }
-                    | t = <ANGLE_TURN>    { next = LexicalUnitImpl.createTurn(next, doubleValue(op, t.image)); }
+                    | next = angle(next, op)
 
                     | next = calc(next)
                     | next = var(next)
@@ -2980,6 +2962,32 @@ LexicalUnit dimension(LexicalUnit prev, char op) :
         return value;
     }
 }
+
+
+//
+// angle()
+//
+LexicalUnit angle(LexicalUnit prev, char op) :
+{
+    Token t;
+    LexicalUnit value = null;
+}
+{
+    (
+        t = <ANGLE_DEG>           { value = LexicalUnitImpl.createDegree(prev, doubleValue(op, t.image)); }
+        | t = <ANGLE_RAD>         { value = LexicalUnitImpl.createRadian(prev, doubleValue(op, t.image)); }
+        | t = <ANGLE_GRAD>        { value = LexicalUnitImpl.createGradian(prev, doubleValue(op, t.image)); }
+        | t = <ANGLE_TURN>        { value = LexicalUnitImpl.createTurn(prev, doubleValue(op, t.image)); }
+    )
+    {
+        if (value != null)
+        {
+            value.setLocator(createLocator(token));
+        }
+        return value;
+    }
+}
+
 
 //
 // unicodeRange
