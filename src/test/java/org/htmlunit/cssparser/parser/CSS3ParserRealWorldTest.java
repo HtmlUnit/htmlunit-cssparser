@@ -415,6 +415,33 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void picnic() throws Exception {
+        final String media = "(max-width: 60em);"
+                + "all and (max-width: 60em);"
+                + "all and (min-width: 1000px);"
+                + "all and (min-width: 1100px);"
+                + "all and (min-width: 1200px);"
+                + "all and (min-width: 1300px);"
+                + "all and (min-width: 1400px);"
+                + "all and (min-width: 1500px);"
+                + "all and (min-width: 1600px);"
+                + "all and (min-width: 1700px);"
+                + "all and (min-width: 1800px);"
+                + "all and (min-width: 1900px);"
+                + "all and (min-width: 2000px);"
+                + "all and (min-width: 500px);"
+                + "all and (min-width: 600px);"
+                + "all and (min-width: 700px);"
+                + "all and (min-width: 800px);"
+                + "all and (min-width: 900px);";
+        realWorld("realworld/picnic.css", 292, 524, media, 0, 0);
+        realWorld("realworld/picnic.min.css", 291, 524, media, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void spiegel() throws Exception {
         realWorld("realworld/style-V5-11.css", 2088, 6028, "screen and (min-width: 1030px);", 47, 0);
     }
