@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>4.8.0-SNAPSHOT</version>
+    <version>4.8.0</version>
     <name>HtmlUnit CSS Parser</name>
     <organization>
         <name>HtmlUnit</name>
@@ -198,7 +198,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.11.1</version>
+                <version>3.11.2</version>
                 <configuration>
                     <additionalparam>--allow-script-in-comments</additionalparam>
                     <excludePackageNames>org.htmlunit.cssparser.parser.javacc</excludePackageNames>
@@ -322,7 +322,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.11.3</version>
+            <version>5.11.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
