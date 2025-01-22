@@ -21,7 +21,7 @@
         <maven.compiler.target>8</maven.compiler.target>
 
         <checkstyle.version>10.21.1</checkstyle.version>
-        <dependencycheck.version>10.0.4</dependencycheck.version>
+        <dependencycheck.version>12.0.1</dependencycheck.version>
     </properties>
 
     <build>
