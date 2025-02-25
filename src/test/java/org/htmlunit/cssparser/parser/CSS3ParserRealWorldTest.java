@@ -515,6 +515,28 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
         realWorld("realworld/filterscontainer.css", 43, 74, media, 0, 0);
     }
 
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void alibabaHugeIndex() throws Exception {
+        final String media = "(max-width: 767px);(max-width: 768px);"
+                + "(max-width: 991px);"
+                + "(min-width: 1024px);"
+                + "(min-width: 1200px);"
+                + "(min-width: 1280px);"
+                + "(min-width: 360px);"
+                + "(min-width: 640px);"
+                + "(min-width: 768px);"
+                + "(min-width: 992px);"
+                + "(prefers-reduced-motion: no-preference);"
+                + "screen and (max-width: 1200px);"
+                + "screen and (max-width: 480px);"
+                + "screen and (max-width: 767px);"
+                + "screen and (max-width: 768px);";
+        realWorld("realworld/alibaba-huge-index.css", 3201, 6863, media, 12, 6);
+    }
+
     private void realWorld(final String resourceName, final int rules, final int properties,
                 final String media,
                 final int err, final int warn) throws Exception {
