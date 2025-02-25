@@ -506,6 +506,15 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
         realWorld("realworld/jenkins_10078.css", 1423, 4032, media, 0, 0);
     }
 
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void filterscontainer() throws Exception {
+        final String media = "(max-width: 767px);(min-width: 640px);(min-width: 768px);";
+        realWorld("realworld/filterscontainer.css", 43, 74, media, 0, 0);
+    }
+
     private void realWorld(final String resourceName, final int rules, final int properties,
                 final String media,
                 final int err, final int warn) throws Exception {

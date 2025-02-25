@@ -1316,6 +1316,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         expression("h1 { --my-var: 'test' }",
                     "h1 { --my-var: \"test\"; }");
 
+        expression("h1 { box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000); }",
+                    "h1 { box-shadow: var(--tw-ring-offset-shadow, 0 0 rgb(0, 0, 0, 0)); }");
+
         // test cases for unsuccessful parsing
         expression("h1 { --my-var: var(test); }", 1, 0, 0);
         expression("h1 { --my-var: var(); }", 1, 0, 0);

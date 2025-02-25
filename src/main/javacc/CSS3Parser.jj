@@ -1924,7 +1924,14 @@ LexicalUnit var(LexicalUnit prev) :
     (
         <COMMA> { current = LexicalUnitImpl.createComma(current); }
         ( <S> )*
-        ( current = term(current) )?
+        (
+            // inline expr here because we need a differnt prev handling
+            current = term(current)
+            (   LOOKAHEAD(2)
+                ( current = operator(current) )?
+                current = term(current)
+            )*
+        )?
     )*
     <RROUND>
     {
@@ -1948,7 +1955,8 @@ LexicalUnit rgbColor(LexicalUnit prev) :
     ( <S> )*
 
     (
-        (            <FROM> { param = LexicalUnitImpl.createFrom(null); }
+        (
+            <FROM> { param = LexicalUnitImpl.createFrom(null); }
             { next = param; }
 
             ( <S> )*
@@ -2031,7 +2039,8 @@ LexicalUnit rgbColor(LexicalUnit prev) :
 
         |
 
-        (            (
+        (
+            (
                 (op = unaryOperator() )?
                 (
                     <NONE> { param = LexicalUnitImpl.createNone(null); }
@@ -2104,7 +2113,8 @@ LexicalUnit rgbColor(LexicalUnit prev) :
         
                 ( <S> )*
             )?
-        )    )
+        )
+    )
     <RROUND>
     {
         return rgbColorInternal(prev, funct, param);
@@ -2126,12 +2136,15 @@ LexicalUnit hslColor(LexicalUnit prev) :
     t = <FUNCTION_HSL> { funct = unescape(t.image.substring(0, t.image.length() - 1), false); }
     ( <S> )*
 
-    (        (            <FROM> { param = LexicalUnitImpl.createFrom(null); }
+    (
+        (
+            <FROM> { param = LexicalUnitImpl.createFrom(null); }
             { next = param; }
 
             ( <S> )*
 
-            (                t = ident()     { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
+            (
+                t = ident()     { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
                 | next = rgbColor(next)
                 | next = hslColor(next)
                 | next = hwbColor(next)
@@ -2207,7 +2220,8 @@ LexicalUnit hslColor(LexicalUnit prev) :
 
         |
 
-        (            (
+        (
+            (
                 (op = unaryOperator() )?
                 (
                     <NONE> { param = LexicalUnitImpl.createNone(null); }
@@ -2301,7 +2315,9 @@ LexicalUnit hwbColor(LexicalUnit prev) :
     t = <FUNCTION_HWB> { funct = unescape(t.image.substring(0, t.image.length() - 1), false); }
     ( <S> )*
 
-    (        (            <FROM> { param = LexicalUnitImpl.createFrom(null); }
+    (
+        (
+            <FROM> { param = LexicalUnitImpl.createFrom(null); }
             { next = param; }
 
             ( <S> )*
@@ -2382,7 +2398,8 @@ LexicalUnit hwbColor(LexicalUnit prev) :
 
         |
 
-        (            (
+        (
+            (
                 (op = unaryOperator() )?
                 (
                     <NONE> { param = LexicalUnitImpl.createNone(null); }
@@ -2466,7 +2483,8 @@ LexicalUnit labColor(LexicalUnit prev) :
     ( <S> )*
 
     (
-        (            <FROM> { param = LexicalUnitImpl.createFrom(null); }
+        (
+            <FROM> { param = LexicalUnitImpl.createFrom(null); }
             { next = param; }
 
             ( <S> )*
@@ -2636,7 +2654,8 @@ LexicalUnit lchColor(LexicalUnit prev) :
     ( <S> )*
 
     (
-        (            <FROM> { param = LexicalUnitImpl.createFrom(null); }
+        (
+            <FROM> { param = LexicalUnitImpl.createFrom(null); }
             { next = param; }
 
             ( <S> )*
@@ -2718,7 +2737,8 @@ LexicalUnit lchColor(LexicalUnit prev) :
 
         |
 
-        (            (
+        (
+            (
                 (op = unaryOperator() )?
                 (
                     <NONE> { param = LexicalUnitImpl.createNone(null); }
@@ -2779,7 +2799,8 @@ LexicalUnit lchColor(LexicalUnit prev) :
         
                 ( <S> )*
             )?
-        )    )
+        )
+    )
     <RROUND>
     {
         return lchColorInternal(prev, funct, param);
