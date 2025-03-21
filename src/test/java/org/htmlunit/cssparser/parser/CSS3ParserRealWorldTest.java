@@ -534,7 +534,7 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
                 + "screen and (max-width: 480px);"
                 + "screen and (max-width: 767px);"
                 + "screen and (max-width: 768px);";
-        realWorld("realworld/alibaba-huge-index.css", 3201, 6863, media, 12, 6);
+        realWorld("realworld/alibaba-huge-index.css", 3278, 6958, media, 12, 6);
     }
 
     private void realWorld(final String resourceName, final int rules, final int properties,
