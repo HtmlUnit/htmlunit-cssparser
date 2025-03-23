@@ -2275,7 +2275,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals("*.test { display: block; }", rules.getRules().get(0).getCssText());
         assertEquals("*.another { display: none; }", rules.getRules().get(1).getCssText());
     }
-/**
+
+    /**
      * @throws Exception if any error occurs
      */
     @Test

@@ -12,4 +12,8 @@
 
     <suppress checks="." files=".*[\\/]target[\\/]generated-sources[\\/]javacc"/>
     <suppress checks="." files="CssCharStream.java"/>
+    <suppress checks="RegexpMultiline" files="HandlerBase.java"/>
+    <suppress checks="RegexpMultiline" files="LocatorTest.java"/>
+    <suppress checks="RegexpMultiline" files="SerializableTest.java"/>
+
 </suppressions>

@@ -67,6 +67,9 @@ public class AttributeCondition extends AbstractLocatable implements Condition, 
         return caseInSensitive_ != null && caseInSensitive_.booleanValue();
     }
 
+    /**
+     * @return the operator '='
+     */
     public String getOperator() {
         return "=";
     }

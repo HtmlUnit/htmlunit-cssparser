@@ -58,7 +58,7 @@ public class DOMExceptionImpl extends DOMException {
     /** INSERT_BEFORE_IMPORT = 16. */
     public static final int INSERT_BEFORE_IMPORT = 16;
 
-    static final String[] messages = {
+    static final String[] MESSAGES_ = {
         "Syntax error",
         "Index out of bounds error",
         "This style sheet is read only",
@@ -103,6 +103,6 @@ public class DOMExceptionImpl extends DOMException {
      * @param info additional info
      */
     public DOMExceptionImpl(final int code, final int messageKey, final String info) {
-        super((short) code, messages[messageKey] + " (" + info + ")");
+        super((short) code, MESSAGES_[messageKey] + " (" + info + ")");
     }
 }
