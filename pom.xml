@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>4.11.0-SNAPSHOT</version>
+    <version>4.11.0</version>
     <name>HtmlUnit CSS Parser</name>
     <organization>
         <name>HtmlUnit</name>
@@ -20,7 +20,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
-        <checkstyle.version>10.21.1</checkstyle.version>
+        <checkstyle.version>10.21.4</checkstyle.version>
         <dependencycheck.version>10.0.4</dependencycheck.version>
     </properties>
 
