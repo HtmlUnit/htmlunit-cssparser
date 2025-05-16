@@ -134,7 +134,7 @@
             <property name="authorFormat" value="\S \S"/>
         </module>
         <module name="JavadocVariable">
-            <property name="scope" value="protected"/>
+            <property name="accessModifiers" value="protected"/>
         </module>
         <module name="JavadocStyle">
             <property name="scope" value="protected"/>
@@ -264,7 +264,6 @@
             <property name="tokens" value="VARIABLE_DEF,PARAMETER_DEF"/>
             <property name="validateEnhancedForLoopVariable" value="true"/>
         </module>
-        <module name="HiddenField"/>
         <module name="MissingOverride"/>
     </module>
 </module>
