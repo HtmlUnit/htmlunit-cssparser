@@ -785,7 +785,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
     /**
      * @see <a href="http://www.w3.org/TR/CSS21/syndata.html#at-rules">
-     *  http://www.w3.org/TR/CSS21/syndata.html#at-rules</a>
+     *     http://www.w3.org/TR/CSS21/syndata.html#at-rules</a>
      * @throws Exception if the test fails
      */
     @Test
