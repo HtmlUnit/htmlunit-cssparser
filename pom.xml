@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>4.14.0</version>
+    <version>4.15.0</version>
     <name>HtmlUnit CSS Parser</name>
     <organization>
         <name>HtmlUnit</name>
