@@ -162,12 +162,27 @@ public abstract class AbstractCSSParserTest {
         return mediaList;
     }
 
+    protected SelectorList parseSelectors(final String cssText,
+            final int err, final int fatal, final int warn) throws Exception {
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final SelectorList selectorList = parser.parseSelectors(cssText);
+
+        assertEquals(err, errorHandler.getErrorCount());
+        assertEquals(fatal, errorHandler.getFatalErrorCount());
+        assertEquals(warn, errorHandler.getWarningCount());
+
+        return selectorList;
+    }
+
     protected SelectorList createSelectors(final String cssText) throws Exception {
         return new CSSOMParser().parseSelectors(cssText);
     }
 
     protected List<Condition> createConditions(final String cssText) throws Exception {
-        final SelectorList selectors = createSelectors(cssText);
+        final SelectorList selectors = parseSelectors(cssText, 0, 0, 0);
         final Selector selector = selectors.get(0);
         final ElementSelector elementSelector = (ElementSelector) selector;
         return elementSelector.getConditions();
@@ -243,12 +258,12 @@ public abstract class AbstractCSSParserTest {
     }
 
     protected void selectorList(final String cssText, final int length) throws Exception {
-        final SelectorList selectors = createSelectors(cssText);
+        final SelectorList selectors = parseSelectors(cssText, 0, 0, 0);
         assertEquals(length, selectors.size());
     }
 
     protected void selectorType(final String cssText, final SelectorType... selectorTypes) throws Exception {
-        final SelectorList selectors = createSelectors(cssText);
+        final SelectorList selectors = parseSelectors(cssText, 0, 0, 0);
         final Selector selector = selectors.get(0);
         assertEquals(selectorTypes[0], selector.getSelectorType());
         if (selectorTypes[0] == SelectorType.DESCENDANT_SELECTOR) {

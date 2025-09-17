@@ -36,7 +36,7 @@ public class CSS3ParserIsSelectorTest extends AbstractCSSParserTest {
     @Test
     public void isElementType() throws Exception {
         // element name
-        final SelectorList selectors = createSelectors(":is(ol, ul)");
+        final SelectorList selectors = parseSelectors(":is(ol, ul)", 0, 0, 0);
         assertEquals("*:is(ol, ul)", selectors.get(0).toString());
 
         assertEquals(1, selectors.size());
@@ -59,5 +59,185 @@ public class CSS3ParserIsSelectorTest extends AbstractCSSParserTest {
         final Selector conditionSelector = conditionSelectors.get(0);
         final ElementSelector conditionElemSelector = (ElementSelector) conditionSelector;
         assertEquals("ol", conditionElemSelector.getElementName());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void basic() throws Exception {
+        parseSelectors(":is(h1, h2, h3)", 0, 0, 0);
+        parseSelectors(":is(.class1, .class2)", 0, 0, 0);
+        parseSelectors(":is(#id1, #id2, #id3)", 0, 0, 0);
+        parseSelectors(":is(div, span, p)", 0, 0, 0);
+        parseSelectors(":is([data-attr], [title])", 0, 0, 0);
+        parseSelectors(":is(input, textarea, select)", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void pseudoClassCombinations() throws Exception {
+        parseSelectors(":is(a:hover, a:focus)", 0, 0, 0);
+        parseSelectors(":is(button:disabled, input:disabled)", 0, 0, 0);
+        parseSelectors(":is(li:first-child, li:last-child)", 0, 0, 0);
+        parseSelectors(":is(tr:nth-child(odd), tr:nth-child(even))", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void complex() throws Exception {
+        parseSelectors(":is(.nav > li, .menu > li)", 0, 0, 0);
+        parseSelectors(":is(article h1, section h1)", 0, 0, 0);
+        parseSelectors(":is(.sidebar .widget, .footer .widget)", 0, 0, 0);
+        parseSelectors(":is(form input[type=\"text\"], form input[type=\"email\"])", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void nested() throws Exception {
+        parseSelectors(":is(:is(h1, h2), :is(h3, h4))", 0, 0, 0);
+        parseSelectors(":is(article h1, section h1)", 0, 0, 0);
+        parseSelectors(":is(.sidebar .widget, .footer .widget)", 0, 0, 0);
+        parseSelectors(":is(.container :is(.item, .element), .wrapper :is(.item, .element))", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void descendant() throws Exception {
+        parseSelectors("div :is(p, span)", 0, 0, 0);
+        parseSelectors(".container :is(.item, .box)", 0, 0, 0);
+        parseSelectors("article :is(h1, h2, h3)", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void adjacentGeneralSibling() throws Exception {
+        parseSelectors(":is(h1, h2) + p", 0, 0, 0);
+        parseSelectors(":is(.alert, .warning) ~ div", 0, 0, 0);
+        parseSelectors(":is(img, video) + figcaption", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void multiple() throws Exception {
+        parseSelectors(":is(main, aside) > :is(section, article)", 0, 0, 0);
+        parseSelectors(":is(.header, .footer) .nav :is(a, button)", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void attribute() throws Exception {
+        parseSelectors(":is(input[required], textarea[required])", 0, 0, 0);
+        parseSelectors(":is([data-theme=\"dark\"], [data-theme=\"night\"])", 0, 0, 0);
+        parseSelectors(":is(a[href^=\"http\"], a[href^=\"mailto\"])", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void pseudo() throws Exception {
+        parseSelectors(":is(h1, h2, h3)::before", 0, 0, 0);
+        parseSelectors(":is(blockquote, q)::after", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void whitespace() throws Exception {
+        parseSelectors(":is(h1,h2,h3)", 0, 0, 0);
+        parseSelectors(":is( h1 , h2 , h3 )", 0, 0, 0);
+        parseSelectors(":is( h1,\n  h2,\n    h3\n )", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void single() throws Exception {
+        parseSelectors(":is(div)", 0, 0, 0);
+        parseSelectors(":is(.single-class)", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void emptyAndWhitespace() throws Exception {
+        parseSelectors(":is()", 1, 0, 0);
+        parseSelectors(":is( )", 1, 0, 0);
+        parseSelectors(":is(,)", 1, 0, 0);
+        parseSelectors(":is(h1,)", 1, 0, 0);
+        parseSelectors(":is(h1,,h2)", 1, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void syntaxErrors() throws Exception {
+        // parseSelectors(":is(h1 h2)", 1, 0, 0);
+        // parseSelectors(":is h1, h2", 1, 0, 0);
+        parseSelectors("is(h1, h2)", 1, 0, 0);
+        parseSelectors(":is((h1, h2))", 1, 0, 0);
+        parseSelectors(":is[h1, h2]", 1, 0, 0);
+
+        parseSelectors(":is(h1, h2", 1, 0, 0);
+        parseSelectors(":is h1, h2)", 1, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void pseudoElementsInside() throws Exception {
+        parseSelectors(":is(p::before, p::after)", 0, 0, 0);
+        parseSelectors(":is(::first-line, ::first-letter)", 0, 0, 0);
+        parseSelectors(":is(div::placeholder, input::placeholder)", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void invalidSelectorsWithin() throws Exception {
+        parseSelectors(":is(123, h2)", 1, 0, 0);
+        //parseSelectors(":is(.class--, h2)", 1, 0, 0);
+        parseSelectors(":is(#, h2)", 1, 0, 0);
+        parseSelectors(":is([attr=], h2)", 1, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void caseSensitive() throws Exception {
+        parseSelectors(":IS(h2)", 0, 0, 0);
+        parseSelectors(":iS(h2)", 0, 0, 0);
+        parseSelectors(":Is(h2)", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void comment() throws Exception {
+        parseSelectors(":is(h1 /* comment */, h2)", 0, 0, 0);
+        parseSelectors(":is(/* comment */ h1, h2)", 0, 0, 0);
     }
 }
