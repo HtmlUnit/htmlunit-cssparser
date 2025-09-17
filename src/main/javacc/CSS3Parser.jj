@@ -1009,7 +1009,7 @@ char combinator() :
   { return c; }
 }
 
-char combinatorWithoutWhitespace() :
+char relativeCombinator() :
 {
   char c = ' ';
 }
@@ -1018,7 +1018,7 @@ char combinatorWithoutWhitespace() :
     <PLUS> { c='+'; } ( <S> )*
     | <GREATER> { c='>'; } ( <S> )*
     | <TILDE> { c='~'; } ( <S> )*
-  )
+  )?
   { return c; }
 }
 
@@ -1116,12 +1116,12 @@ SelectorList relativeSelectorList() :
     char comb;
 }
 {
-    comb = combinatorWithoutWhitespace()
+    comb = relativeCombinator()
     sel = selector() { selList.setLocator(sel.getLocator()); }
     (   <COMMA> ( <S> )*
         { selList.add(new RelativeSelector(comb, sel)); }
 
-        comb = combinatorWithoutWhitespace()
+        comb = relativeCombinator()
         sel = selector() { selList.setLocator(sel.getLocator()); }
     )*
     {
