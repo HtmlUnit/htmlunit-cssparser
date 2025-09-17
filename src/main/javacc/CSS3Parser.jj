@@ -48,6 +48,7 @@ import org.htmlunit.cssparser.parser.condition.ClassCondition;
 import org.htmlunit.cssparser.parser.condition.Condition;
 import org.htmlunit.cssparser.parser.condition.IdCondition;
 import org.htmlunit.cssparser.parser.condition.LangCondition;
+import org.htmlunit.cssparser.parser.condition.HasPseudoClassCondition;
 import org.htmlunit.cssparser.parser.condition.IsPseudoClassCondition;
 import org.htmlunit.cssparser.parser.condition.NotPseudoClassCondition;
 import org.htmlunit.cssparser.parser.condition.OneOfAttributeCondition;
@@ -63,6 +64,7 @@ import org.htmlunit.cssparser.parser.selector.DirectAdjacentSelector;
 import org.htmlunit.cssparser.parser.selector.ElementSelector;
 import org.htmlunit.cssparser.parser.selector.GeneralAdjacentSelector;
 import org.htmlunit.cssparser.parser.selector.PseudoElementSelector;
+import org.htmlunit.cssparser.parser.selector.RelativeSelector;
 import org.htmlunit.cssparser.parser.selector.Selector;
 import org.htmlunit.cssparser.parser.selector.SelectorList;
 import org.htmlunit.cssparser.parser.selector.SelectorListImpl;
@@ -427,6 +429,7 @@ TOKEN_MGR_DECLS :
 | < FUNCTION_LCH: ("ok")? "lch" <LROUND> >
 
 | < FUNCTION_IS: "is" <LROUND> >
+| < FUNCTION_HAS: "has" <LROUND> >
 
 | < CUSTOM_PROPERTY_NAME: < MINUS > <MINUS > <NMSTART> ( <NMCHAR> )* >
 
@@ -1006,6 +1009,19 @@ char combinator() :
   { return c; }
 }
 
+char combinatorWithoutWhitespace() :
+{
+  char c = ' ';
+}
+{
+  (
+    <PLUS> { c='+'; } ( <S> )*
+    | <GREATER> { c='>'; } ( <S> )*
+    | <TILDE> { c='~'; } ( <S> )*
+  )
+  { return c; }
+}
+
 //
 // unary_operator
 //  : '-' | PLUS
@@ -1089,6 +1105,27 @@ SelectorList selectorList() :
     )*
     {
         selList.add(sel);
+        return selList;
+    }
+}
+
+SelectorList relativeSelectorList() :
+{
+    SelectorListImpl selList = new SelectorListImpl();
+    Selector sel;
+    char comb;
+}
+{
+    comb = combinatorWithoutWhitespace()
+    sel = selector() { selList.setLocator(sel.getLocator()); }
+    (   <COMMA> ( <S> )*
+        { selList.add(new RelativeSelector(comb, sel)); }
+
+        comb = combinatorWithoutWhitespace()
+        sel = selector() { selList.setLocator(sel.getLocator()); }
+    )*
+    {
+        selList.add(new RelativeSelector(comb, sel));
         return selList;
     }
 }
@@ -1367,6 +1404,7 @@ Object pseudo(boolean pseudoElementFound) :
     String function;
     boolean doubleColon = false;
     SelectorList selectorList;
+    SelectorList relativeSelectorList;
     Locator locator;
 }
 {
@@ -1409,6 +1447,17 @@ Object pseudo(boolean pseudoElementFound) :
                 {
                     if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + selectorList + ")" }, locator); }
                     return new IsPseudoClassCondition(selectorList, locator, doubleColon);
+                }
+            )
+            |
+            (
+                t = <FUNCTION_HAS> { function = unescape(t.image, false); }
+                ( <S> )*
+                relativeSelectorList = relativeSelectorList()
+                <RROUND>
+                {
+                    if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + relativeSelectorList + ")" }, locator); }
+                    return new HasPseudoClassCondition(relativeSelectorList, locator, doubleColon);
                 }
             )
             |

@@ -3289,7 +3289,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         checkErrorSelector("input:before:",
                 "Error in pseudo class or element. (Invalid token \"<EOF>\". "
                 + "Was expecting one of: \"and\", \"only\", \"inherit\", \"none\", \"from\", <IDENT>, "
-                + "\":\", <FUNCTION_NOT>, <FUNCTION_LANG>, <FUNCTION_IS>, <FUNCTION>.)");
+                + "\":\", <FUNCTION_NOT>, <FUNCTION_LANG>, <FUNCTION_IS>, <FUNCTION_HAS>, <FUNCTION>.)");
 
         // pseudo element not at end
         checkErrorSelector("input:before:not(#test)",

@@ -54,6 +54,9 @@ public interface Condition extends Locatable {
         /** IS_PSEUDO_CLASS_CONDITION. */
         IS_PSEUDO_CLASS_CONDITION,
 
+        /** HAS_PSEUDO_CLASS_CONDITION. */
+        HAS_PSEUDO_CLASS_CONDITION,
+
         /** NOT_PSEUDO_CLASS_CONDITION. */
         NOT_PSEUDO_CLASS_CONDITION,
 

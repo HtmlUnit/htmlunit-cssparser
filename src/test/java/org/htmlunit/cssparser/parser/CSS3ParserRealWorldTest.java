@@ -407,8 +407,8 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
                 + "screen and (min-width: 1408px);"
                 + "screen and (min-width: 769px);"
                 + "screen and (min-width: 769px) and (max-width: 1023px);";
-        realWorld("realworld/bulma_1_0_2.css", 3036, 7226, media, 13, 13);
-        realWorld("realworld/bulma_1_0_2.min.css", 3011, 7180, media, 13, 13);
+        realWorld("realworld/bulma_1_0_2.css", 3038, 7228, media, 11, 11);
+        realWorld("realworld/bulma_1_0_2.min.css", 3013, 7182, media, 11, 11);
     }
 
     /**

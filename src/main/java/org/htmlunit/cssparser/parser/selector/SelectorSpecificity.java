@@ -17,6 +17,7 @@ package org.htmlunit.cssparser.parser.selector;
 import java.io.Serializable;
 
 import org.htmlunit.cssparser.parser.condition.Condition;
+import org.htmlunit.cssparser.parser.condition.HasPseudoClassCondition;
 import org.htmlunit.cssparser.parser.condition.IsPseudoClassCondition;
 import org.htmlunit.cssparser.parser.condition.NotPseudoClassCondition;
 
@@ -141,6 +142,13 @@ public class SelectorSpecificity implements Comparable<SelectorSpecificity>, Ser
                 final IsPseudoClassCondition isPseudoCondition = (IsPseudoClassCondition) condition;
                 final SelectorList isSelectorList = isPseudoCondition.getSelectors();
                 for (final Selector selector : isSelectorList) {
+                    readSelectorSpecificity(selector);
+                }
+                return;
+            case HAS_PSEUDO_CLASS_CONDITION:
+                final HasPseudoClassCondition hasPseudoCondition = (HasPseudoClassCondition) condition;
+                final SelectorList hasSelectorList = hasPseudoCondition.getSelectors();
+                for (final Selector selector : hasSelectorList) {
                     readSelectorSpecificity(selector);
                 }
                 return;
