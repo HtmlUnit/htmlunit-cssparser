@@ -48,6 +48,7 @@ import org.htmlunit.cssparser.parser.condition.ClassCondition;
 import org.htmlunit.cssparser.parser.condition.Condition;
 import org.htmlunit.cssparser.parser.condition.IdCondition;
 import org.htmlunit.cssparser.parser.condition.LangCondition;
+import org.htmlunit.cssparser.parser.condition.IsPseudoClassCondition;
 import org.htmlunit.cssparser.parser.condition.NotPseudoClassCondition;
 import org.htmlunit.cssparser.parser.condition.OneOfAttributeCondition;
 import org.htmlunit.cssparser.parser.condition.PrefixAttributeCondition;
@@ -424,6 +425,8 @@ TOKEN_MGR_DECLS :
 | < FUNCTION_HWB: "hwb" <LROUND> >
 | < FUNCTION_LAB: ("ok")? "lab" <LROUND> >
 | < FUNCTION_LCH: ("ok")? "lch" <LROUND> >
+
+| < FUNCTION_IS: "is" <LROUND> >
 
 | < CUSTOM_PROPERTY_NAME: < MINUS > <MINUS > <NMSTART> ( <NMCHAR> )* >
 
@@ -1395,6 +1398,17 @@ Object pseudo(boolean pseudoElementFound) :
                 {
                     if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + selectorList + ")" }, locator); }
                     return new NotPseudoClassCondition(selectorList, locator, doubleColon);
+                }
+            )
+            |
+            (
+                t = <FUNCTION_IS> { function = unescape(t.image, false); }
+                ( <S> )*
+                selectorList = selectorList()
+                <RROUND>
+                {
+                    if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + selectorList + ")" }, locator); }
+                    return new IsPseudoClassCondition(selectorList, locator, doubleColon);
                 }
             )
             |
