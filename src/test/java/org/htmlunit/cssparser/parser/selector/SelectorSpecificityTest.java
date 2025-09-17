@@ -213,4 +213,16 @@ public class SelectorSpecificityTest {
 
         selectorSpecifity("a:not(#fakeId#fakeId#fakeID)", "0,3,0,1");
     }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void isTest() throws Exception {
+        selectorSpecifity("div:is(.inner) p", "0,0,1,2");
+
+        selectorSpecifity("div:is(.inner, #fakeId) p", "0,1,1,2");
+
+        selectorSpecifity("a:is(#fakeId#fakeId#fakeID)", "0,3,0,1");
+    }
 }
