@@ -59,6 +59,12 @@ public class SelectorSpecificity implements Comparable<SelectorSpecificity>, Ser
         typeCount_ = typeCount;
     }
 
+    private void add(final SelectorSpecificity specificity) {
+        idCount_ += specificity.idCount_;
+        classCount_ += specificity.classCount_;
+        typeCount_ += specificity.typeCount_;
+    }
+
     private void readSelectorSpecificity(final Selector selector) {
         switch (selector.getSelectorType()) {
             case DESCENDANT_SELECTOR:
@@ -98,6 +104,10 @@ public class SelectorSpecificity implements Comparable<SelectorSpecificity>, Ser
                 final GeneralAdjacentSelector gas = (GeneralAdjacentSelector) selector;
                 readSelectorSpecificity(gas.getSelector());
                 readSelectorSpecificity(gas.getSimpleSelector());
+                return;
+            case RELATIVE_SELECTOR:
+                final RelativeSelector rs = (RelativeSelector) selector;
+                readSelectorSpecificity(rs.getSelector());
                 return;
             default:
                 throw new RuntimeException("Unhandled CSS selector type for specificity computation: '"
@@ -141,16 +151,29 @@ public class SelectorSpecificity implements Comparable<SelectorSpecificity>, Ser
             case IS_PSEUDO_CLASS_CONDITION:
                 final IsPseudoClassCondition isPseudoCondition = (IsPseudoClassCondition) condition;
                 final SelectorList isSelectorList = isPseudoCondition.getSelectors();
+                SelectorSpecificity maxIs = new SelectorSpecificity(false, 0, 0, 0);
                 for (final Selector selector : isSelectorList) {
-                    readSelectorSpecificity(selector);
+                    final SelectorSpecificity selSpec = new SelectorSpecificity(selector);
+                    if (selSpec.compareTo(maxIs) > 0) {
+                        maxIs = selSpec;
+                    }
                 }
+                add(maxIs);
+                return;
+            case WHERE_PSEUDO_CLASS_CONDITION:
+                // always 0
                 return;
             case HAS_PSEUDO_CLASS_CONDITION:
                 final HasPseudoClassCondition hasPseudoCondition = (HasPseudoClassCondition) condition;
                 final SelectorList hasSelectorList = hasPseudoCondition.getSelectors();
+                SelectorSpecificity maxHas = new SelectorSpecificity(false, 0, 0, 0);
                 for (final Selector selector : hasSelectorList) {
-                    readSelectorSpecificity(selector);
+                    final SelectorSpecificity selSpec = new SelectorSpecificity(selector);
+                    if (selSpec.compareTo(maxHas) > 0) {
+                        maxHas = selSpec;
+                    }
                 }
+                add(maxHas);
                 return;
             case PSEUDO_CLASS_CONDITION:
                 classCount_++;

@@ -208,9 +208,7 @@ public class SelectorSpecificityTest {
     @Test
     public void notTest() throws Exception {
         selectorSpecifity("div:not(.inner) p", "0,0,1,2");
-
         selectorSpecifity("div:not(.inner, #fakeId) p", "0,1,1,2");
-
         selectorSpecifity("a:not(#fakeId#fakeId#fakeID)", "0,3,0,1");
     }
 
@@ -220,9 +218,46 @@ public class SelectorSpecificityTest {
     @Test
     public void isTest() throws Exception {
         selectorSpecifity("div:is(.inner) p", "0,0,1,2");
-
-        selectorSpecifity("div:is(.inner, #fakeId) p", "0,1,1,2");
-
+        selectorSpecifity("div:is(.inner, #fakeId) p", "0,1,0,2");
         selectorSpecifity("a:is(#fakeId#fakeId#fakeID)", "0,3,0,1");
+        selectorSpecifity(":is(h1, h2, h3)", "0,0,0,1");
+        selectorSpecifity(":is(.container :is(.item, .element), .wrapper :is(.item, .element))", "0,0,2,0");
+        selectorSpecifity(":is(img, video) + figcaption", "0,0,0,2");
+        selectorSpecifity(":is([data-theme='dark'], [data-theme='night'])", "0,0,1,0");
+        selectorSpecifity(":is([data-theme='dark'], img)", "0,0,1,0");
+        selectorSpecifity(":is([data-theme='dark'], .night)", "0,0,1,0");
+        selectorSpecifity(":is([data-theme='dark'], #night)", "0,1,0,0");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void whereTest() throws Exception {
+        selectorSpecifity("div:where(.inner) p", "0,0,0,2");
+        selectorSpecifity("div:where(.inner, #fakeId) p", "0,0,0,2");
+        selectorSpecifity("a:where(#fakeId#fakeId#fakeID)", "0,0,0,1");
+        selectorSpecifity(":where(h1, h2, h3)", "0,0,0,0");
+        selectorSpecifity(":where(.container :where(.item, .element), .wrapper :where(.item, .element))", "0,0,0,0");
+        selectorSpecifity(":where(img, video) + figcaption", "0,0,0,1");
+        selectorSpecifity(":where([data-theme='dark'], [data-theme='night'])", "0,0,0,0");
+        selectorSpecifity(":where([data-theme='dark'], img)", "0,0,0,0");
+        selectorSpecifity(":where([data-theme='dark'], .night)", "0,0,0,0");
+        selectorSpecifity(":where([data-theme='dark'], #night)", "0,0,0,0");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void hasTest() throws Exception {
+        selectorSpecifity(":has(+ div#topic > #reference)", "0,2,0,1");
+        selectorSpecifity("div:has(~ .inner, #fakeId) p", "0,1,0,2");
+        selectorSpecifity("a:has(#fakeId#fakeId#fakeID)", "0,3,0,1");
+        selectorSpecifity(":has(h1, h2, h3)", "0,0,0,1");
+        selectorSpecifity(":has([data-theme='dark'], [data-theme='night'])", "0,0,1,0");
+        selectorSpecifity(":has([data-theme='dark'], img)", "0,0,1,0");
+        selectorSpecifity(":has([data-theme='dark'], .night)", "0,0,1,0");
+        selectorSpecifity(":has([data-theme='dark'], #night)", "0,1,0,0");
     }
 }

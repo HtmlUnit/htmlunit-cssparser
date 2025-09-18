@@ -191,7 +191,9 @@ public class CSS3ParserIsSelectorTest extends AbstractCSSParserTest {
      */
     @Test
     public void syntaxErrors() throws Exception {
-        // parseSelectors(":is(h1 h2)", 1, 0, 0);
+        // valid!
+        parseSelectors(":is(h1 h2)", 0, 0, 0);
+
         // parseSelectors(":is h1, h2", 1, 0, 0);
         parseSelectors("is(h1, h2)", 1, 0, 0);
         parseSelectors(":is((h1, h2))", 1, 0, 0);
@@ -217,9 +219,10 @@ public class CSS3ParserIsSelectorTest extends AbstractCSSParserTest {
     @Test
     public void invalidSelectorsWithin() throws Exception {
         parseSelectors(":is(123, h2)", 1, 0, 0);
-        //parseSelectors(":is(.class--, h2)", 1, 0, 0);
+        parseSelectors(":is(.class--, h2)", 0, 0, 0); // valid!
         parseSelectors(":is(#, h2)", 1, 0, 0);
         parseSelectors(":is([attr=], h2)", 1, 0, 0);
+        parseSelectors(":is([=value], h2)", 1, 0, 0);
     }
 
     /**
