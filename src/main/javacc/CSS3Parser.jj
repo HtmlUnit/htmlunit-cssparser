@@ -60,6 +60,7 @@ import org.htmlunit.cssparser.parser.condition.WherePseudoClassCondition;
 import org.htmlunit.cssparser.parser.media.MediaQuery;
 import org.htmlunit.cssparser.parser.media.MediaQueryList;
 import org.htmlunit.cssparser.parser.selector.ChildSelector;
+import org.htmlunit.cssparser.parser.selector.Combinator;
 import org.htmlunit.cssparser.parser.selector.DescendantSelector;
 import org.htmlunit.cssparser.parser.selector.DirectAdjacentSelector;
 import org.htmlunit.cssparser.parser.selector.ElementSelector;
@@ -994,32 +995,38 @@ LexicalUnit operator(LexicalUnit prev) :
 // combinator
 //  : PLUS S*
 //  | GREATER S*
+//  | TILDE S*
 //  | S
 //  ;
 //
-char combinator() :
+Combinator combinator() :
 {
-  char c = ' ';
+  Combinator c = Combinator.DESCENDANT_COMBINATOR;
 }
 {
   (
-    <PLUS> { c='+'; } ( <S> )*
-    | <GREATER> { c='>'; } ( <S> )*
-    | <TILDE> { c='~'; } ( <S> )*
-    | <S> ( ( <PLUS> { c='+'; } | <GREATER> { c='>'; } | <TILDE> { c='~'; } ) ( <S> )* )?
+    <PLUS> { c = Combinator.NEXT_SIBLING_COMBINATOR; } ( <S> )*
+    | <GREATER> { c = Combinator.CHILD_COMBINATOR; } ( <S> )*
+    | <TILDE> { c = Combinator.SUBSEQUENT_SIBLING_COMBINATOR; } ( <S> )*
+    | <S>
+      (        ( <PLUS> { c = Combinator.NEXT_SIBLING_COMBINATOR; }
+            | <GREATER> { c = Combinator.CHILD_COMBINATOR; }
+            | <TILDE> { c = Combinator.SUBSEQUENT_SIBLING_COMBINATOR; }
+        ) ( <S> )*
+      )?
   )
   { return c; }
 }
 
-char relativeCombinator() :
+Combinator relativeCombinator() :
 {
-  char c = ' ';
+  Combinator c = Combinator.DESCENDANT_COMBINATOR;
 }
 {
   (
-    <PLUS> { c='+'; } ( <S> )*
-    | <GREATER> { c='>'; } ( <S> )*
-    | <TILDE> { c='~'; } ( <S> )*
+    <PLUS> { c = Combinator.NEXT_SIBLING_COMBINATOR; } ( <S> )*
+    | <GREATER> { c = Combinator.CHILD_COMBINATOR; } ( <S> )*
+    | <TILDE> { c = Combinator.SUBSEQUENT_SIBLING_COMBINATOR; } ( <S> )*
   )?
   { return c; }
 }
@@ -1115,7 +1122,7 @@ SelectorList relativeSelectorList() :
 {
     SelectorListImpl selList = new SelectorListImpl();
     Selector sel;
-    char comb;
+    Combinator comb;
 }
 {
     comb = relativeCombinator()
@@ -1140,11 +1147,11 @@ SelectorList relativeSelectorList() :
 Selector selector() :
 {
     Selector sel;
-    char comb;
+    Combinator comb;
 }
 {
     try {
-        sel = simpleSelector(null, ' ')
+        sel = simpleSelector(null, Combinator.DESCENDANT_COMBINATOR)
         ( LOOKAHEAD(2) comb = combinator() sel = simpleSelector(sel, comb) )* ( <S> )*
         {
             return sel;
@@ -1160,7 +1167,7 @@ Selector selector() :
 //  | [ HASH | class | attrib | pseudo ]+
 //  ;
 //
-Selector simpleSelector(Selector sel, char comb) :
+Selector simpleSelector(Selector sel, Combinator comb) :
 {
     ElementSelector elemSel = null;
     SimpleSelector simpleSel = null;
@@ -1211,16 +1218,16 @@ Selector simpleSelector(Selector sel, char comb) :
                 sel = simpleSel;
             } else {
                 switch (comb) {
-                case ' ':
+                case DESCENDANT_COMBINATOR:
                     sel = new DescendantSelector(sel, simpleSel);
                     break;
-                case '+':
+                case NEXT_SIBLING_COMBINATOR:
                     sel = new DirectAdjacentSelector(sel, simpleSel);
                     break;
-                case '>':
+                case CHILD_COMBINATOR:
                     sel = new ChildSelector(sel, simpleSel);
                     break;
-                case '~':
+                case SUBSEQUENT_SIBLING_COMBINATOR:
                     sel = new GeneralAdjacentSelector(sel, simpleSel);
                     break;
                 }

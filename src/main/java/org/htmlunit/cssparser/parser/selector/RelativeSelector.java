@@ -19,7 +19,7 @@ package org.htmlunit.cssparser.parser.selector;
  */
 public class RelativeSelector extends AbstractSelector {
 
-    private final char combinator_;
+    private final Combinator combinator_;
     private final Selector selector_;
 
     /**
@@ -27,7 +27,7 @@ public class RelativeSelector extends AbstractSelector {
      * @param combinator the combinator to use
      * @param selector the selector
      */
-    public RelativeSelector(final char combinator, final Selector selector) {
+    public RelativeSelector(final Combinator combinator, final Selector selector) {
         combinator_ = combinator;
         selector_ = selector;
     }
@@ -44,6 +44,13 @@ public class RelativeSelector extends AbstractSelector {
         return SelectorType.RELATIVE_SELECTOR;
     }
 
+    /**
+     * @return the combinator
+     */
+    public Combinator getCombinator() {
+        return combinator_;
+    }
+
     @Override
     public SimpleSelector getSimpleSelector() {
         return null;
@@ -52,6 +59,6 @@ public class RelativeSelector extends AbstractSelector {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        return combinator_ + " " + selector_.toString();
+        return combinator_.getChar() + " " + selector_.toString();
     }
 }
