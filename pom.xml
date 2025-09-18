@@ -165,6 +165,10 @@
                             <token>\s*throw new IllegalStateException \("Missing return statement in function"\);</token>
                             <value></value>
                         </replacement>
+                        <replacement>
+                            <token>;\s*;</token>
+                            <value>;</value>
+                        </replacement>
                     </replacements>
                 </configuration>
             </plugin>
