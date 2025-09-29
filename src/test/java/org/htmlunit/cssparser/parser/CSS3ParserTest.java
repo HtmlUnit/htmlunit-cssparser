@@ -3251,6 +3251,37 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void syntaxErrorDoubleColon() throws Exception {
+        String selector = "::not(h2)";
+
+        final CSSOMParser parser = new CSSOMParser();
+        ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        parser.parseSelectors(selector);
+
+        assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
+
+        assertEquals("\"::not(h2)\" is not a valid selector.", errorHandler.getErrorMessage());
+
+        selector = "p::not(h4)";
+        errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+        parser.parseSelectors(selector);
+
+        assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
+
+        assertEquals("\"::not(h4)\" is not a valid selector.", errorHandler.getErrorMessage());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void twoPseudo() throws Exception {
         SelectorList selectors = createSelectors("input:lang(en):lang(de)");
         assertEquals("input:lang(en):lang(de)", selectors.get(0).toString());

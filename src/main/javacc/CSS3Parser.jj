@@ -1444,7 +1444,8 @@ Object pseudo(boolean pseudoElementFound) :
                 <RROUND>
                 {
                     if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { function + selectorList + ")" }, locator); }
-                    return new NotPseudoClassCondition(selectorList, locator, doubleColon);
+                    if (doubleColon) { throw toCSSParseException("invalidPseudoColon", new String[] { ":" + function + selectorList + ")" }, locator); }
+                    return new NotPseudoClassCondition(selectorList, locator);
                 }
             )
             |

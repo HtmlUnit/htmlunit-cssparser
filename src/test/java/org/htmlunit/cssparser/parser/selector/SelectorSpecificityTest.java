@@ -210,6 +210,8 @@ public class SelectorSpecificityTest {
         selectorSpecifity("div:not(.inner) p", "0,0,1,2");
         selectorSpecifity("div:not(.inner, #fakeId) p", "0,1,1,2");
         selectorSpecifity("a:not(#fakeId#fakeId#fakeID)", "0,3,0,1");
+
+        selectorSpecifity("#foo:not(#bar)", "0,2,0,0");
     }
 
     /**
