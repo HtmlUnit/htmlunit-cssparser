@@ -16,6 +16,7 @@ package org.htmlunit.cssparser.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.htmlunit.cssparser.ErrorHandler;
 import org.htmlunit.cssparser.parser.condition.Condition;
 import org.htmlunit.cssparser.parser.condition.Condition.ConditionType;
 import org.htmlunit.cssparser.parser.condition.IsPseudoClassCondition;
@@ -201,6 +202,39 @@ public class CSS3ParserIsSelectorTest extends AbstractCSSParserTest {
 
         parseSelectors(":is(h1, h2", 1, 0, 0);
         parseSelectors(":is h1, h2)", 1, 0, 0);
+
+        parseSelectors("::is(h2)", 1, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void syntaxErrorDoubleColon() throws Exception {
+        String selector = "::is(h2)";
+
+        final CSSOMParser parser = new CSSOMParser();
+        ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        parser.parseSelectors(selector);
+
+        assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
+
+        assertEquals("\"::is(h2)\" is not a valid selector.", errorHandler.getErrorMessage());
+
+        selector = "p::is(h4)";
+        errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+        parser.parseSelectors(selector);
+
+        assertEquals(1, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
+
+        assertEquals("\"::is(h4)\" is not a valid selector.", errorHandler.getErrorMessage());
     }
 
     /**

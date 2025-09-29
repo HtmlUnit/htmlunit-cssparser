@@ -21,25 +21,22 @@ import org.htmlunit.cssparser.parser.Locator;
 import org.htmlunit.cssparser.parser.selector.SelectorList;
 
 /**
- * Not condition.
+ * :where condition.
  *
  * @author Ronald Brill
  */
 public class WherePseudoClassCondition extends AbstractLocatable implements Condition, Serializable {
 
     private final SelectorList selectors_;
-    private final boolean doubleColon_;
 
     /**
      * Ctor.
      * @param selectors the selector list
      * @param locator the locator
-     * @param doubleColon true if was prefixed by double colon
      */
-    public WherePseudoClassCondition(final SelectorList selectors, final Locator locator, final boolean doubleColon) {
+    public WherePseudoClassCondition(final SelectorList selectors, final Locator locator) {
         selectors_ = selectors;
         setLocator(locator);
-        doubleColon_ = doubleColon;
     }
 
     @Override
@@ -72,6 +69,6 @@ public class WherePseudoClassCondition extends AbstractLocatable implements Cond
 
     @Override
     public String toString() {
-        return (doubleColon_ ? "::" : ":") + "where(" + getValue() + ")";
+        return ":where(" + getValue() + ")";
     }
 }

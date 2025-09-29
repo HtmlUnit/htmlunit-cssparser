@@ -71,6 +71,7 @@ public abstract class AbstractCSSParser {
         PARSER_MESSAGES_.put("invalidElementName", "Error in element name.");
         PARSER_MESSAGES_.put("invalidAttrib", "Error in attribute selector.");
         PARSER_MESSAGES_.put("invalidPseudo", "Error in pseudo class or element.");
+        PARSER_MESSAGES_.put("invalidPseudoColon", "\":{0}\" is not a valid selector.");
         PARSER_MESSAGES_.put("duplicatePseudo", "Duplicate pseudo class \":{0}\" or pseudo class \":{0}\" not at end.");
         PARSER_MESSAGES_.put("invalidHash", "Error in hash.");
         PARSER_MESSAGES_.put("invalidExpr", "Error in expression.");

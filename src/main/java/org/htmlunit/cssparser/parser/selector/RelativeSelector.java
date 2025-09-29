@@ -59,6 +59,10 @@ public class RelativeSelector extends AbstractSelector {
     /** {@inheritDoc} */
     @Override
     public String toString() {
+        if (' ' == combinator_.getChar()) {
+            return selector_.toString();
+        }
+
         return combinator_.getChar() + " " + selector_.toString();
     }
 }
