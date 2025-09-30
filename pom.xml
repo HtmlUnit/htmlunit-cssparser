@@ -29,12 +29,14 @@
         <dependencycheck.version>10.0.4</dependencycheck.version>
 
         <!-- plugins -->
-        <central-publishing-plugin.version>0.8.0</central-publishing-plugin.version>
+        <central-publishing-plugin.version>0.9.0</central-publishing-plugin.version>
         <checkstyle-plugin.version>3.6.0</checkstyle-plugin.version>
         <gpg-plugin.version>3.2.8</gpg-plugin.version>
         <enforcer-plugin.version>3.6.1</enforcer-plugin.version>
+        <compiler-plugin.version>3.14.1</compiler-plugin.version>
         <jar-plugin.version>3.4.2</jar-plugin.version>
-        <javadoc-plugin.version>3.11.3</javadoc-plugin.version>
+        <javadoc-plugin.version>3.12.0</javadoc-plugin.version>
+        <surefire-plugin.version>3.5.4</surefire-plugin.version>
     </properties>
 
     <build>
@@ -91,12 +93,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.3</version>
+                <version>${surefire-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.0</version>
+                <version>${compiler-plugin.version}</version>
             </plugin>
             <plugin>
                 <!-- generate parsers and lexers before compiling -->
@@ -226,7 +228,11 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${javadoc-plugin.version}</version>
                 <configuration>
-                    <additionalparam>--allow-script-in-comments</additionalparam>
+                    <quiet>true</quiet>
+                    <show>protected</show>
+                    <doclint>html,reference,syntax</doclint>
+                    <detectLinks>true</detectLinks>
+                    <detectJavaApiLink>true</detectJavaApiLink>
                     <excludePackageNames>org.htmlunit.cssparser.parser.javacc</excludePackageNames>
                 </configuration>
                 <executions>
