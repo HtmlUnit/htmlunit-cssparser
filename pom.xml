@@ -21,18 +21,18 @@
         <maven.compiler.target>8</maven.compiler.target>
 
         <!-- test dependencies -->
-        <junit.version>5.13.4</junit.version>
+        <junit.version>5.14.0</junit.version>
         <commons-io.version>2.20.0</commons-io.version>
 
         <!-- quality -->
-        <checkstyle.version>10.26.1</checkstyle.version>
+        <checkstyle.version>11.1.0</checkstyle.version>
         <dependencycheck.version>10.0.4</dependencycheck.version>
 
         <!-- plugins -->
         <central-publishing-plugin.version>0.9.0</central-publishing-plugin.version>
         <checkstyle-plugin.version>3.6.0</checkstyle-plugin.version>
         <gpg-plugin.version>3.2.8</gpg-plugin.version>
-        <enforcer-plugin.version>3.6.1</enforcer-plugin.version>
+        <enforcer-plugin.version>3.6.2</enforcer-plugin.version>
         <compiler-plugin.version>3.14.1</compiler-plugin.version>
         <jar-plugin.version>3.4.2</jar-plugin.version>
         <javadoc-plugin.version>3.12.0</javadoc-plugin.version>
