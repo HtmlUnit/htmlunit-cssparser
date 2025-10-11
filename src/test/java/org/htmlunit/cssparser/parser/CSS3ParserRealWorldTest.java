@@ -207,6 +207,19 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void bootstrap_2_3_2_responsive_2_3_2_min() throws Exception {
+        final String media = "(max-width: 480px);(max-width: 767px);"
+                + "(max-width: 979px);"
+                + "(min-width: 1200px);"
+                + "(min-width: 768px) and (max-width: 979px);"
+                + "(min-width: 980px);print;projection;screen;";
+        realWorld("realworld/bootstrap_2_3_2_responsive_2_3_2_min.css", 1005, 2506, media, 213, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void bootstrap_3_3_7() throws Exception {
         final String media = "(-webkit-transform-3d);"
                 + "(max-device-width: 480px) and (orientation: landscape);"
