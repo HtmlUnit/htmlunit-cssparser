@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>4.18.0</version>
+    <version>4.19.0</version>
     <name>HtmlUnit CSS Parser</name>
     <organization>
         <name>HtmlUnit</name>
@@ -21,11 +21,11 @@
         <maven.compiler.target>8</maven.compiler.target>
 
         <!-- test dependencies -->
-        <junit.version>5.14.0</junit.version>
-        <commons-io.version>2.20.0</commons-io.version>
+        <junit.version>5.14.1</junit.version>
+        <commons-io.version>2.21.0</commons-io.version>
 
         <!-- quality -->
-        <checkstyle.version>12.1.1</checkstyle.version>
+        <checkstyle.version>12.1.2</checkstyle.version>
         <dependencycheck.version>10.0.4</dependencycheck.version>
 
         <!-- plugins -->
@@ -34,7 +34,8 @@
         <gpg-plugin.version>3.2.8</gpg-plugin.version>
         <enforcer-plugin.version>3.6.2</enforcer-plugin.version>
         <compiler-plugin.version>3.14.1</compiler-plugin.version>
-        <jar-plugin.version>3.4.2</jar-plugin.version>
+        <jar-plugin.version>3.5.0</jar-plugin.version>
+        <release-plugin.version>3.2.0</release-plugin.version>
         <javadoc-plugin.version>3.12.0</javadoc-plugin.version>
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
     </properties>
@@ -73,6 +74,7 @@
                     <publishingServerId>central</publishingServerId>
                 </configuration>
             </plugin>
+            <!--
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
@@ -90,6 +92,7 @@
                   </execution>
               </executions>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -293,7 +296,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>${release-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
