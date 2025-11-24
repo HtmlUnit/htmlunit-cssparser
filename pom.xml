@@ -107,7 +107,7 @@
                 <!-- generate parsers and lexers before compiling -->
                 <groupId>com.helger.maven</groupId>
                 <artifactId>ph-javacc-maven-plugin</artifactId>
-                <version>4.1.5</version>
+                <version>5.0.1</version>
                 <executions>
                     <execution>
                         <id>javacc</id>
