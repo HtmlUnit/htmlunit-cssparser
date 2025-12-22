@@ -294,10 +294,10 @@ public abstract class AbstractCSSParser {
             message.append(MessageFormat.format(messagePattern2, invalid, expected));
         }
         message.append(")");
-        
+
         // Add contextual information
         final String contextualMessage = parserContext_.buildContextualMessage(message.toString());
-        
+
         return new CSSParseException(contextualMessage,
             getInputSource().getURI(), e.currentToken.next.beginLine,
             e.currentToken.next.beginColumn);

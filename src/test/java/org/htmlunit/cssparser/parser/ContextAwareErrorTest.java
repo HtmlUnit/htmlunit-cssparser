@@ -46,7 +46,7 @@ public class ContextAwareErrorTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String errorMsg = errorHandler.getErrorMessage();
-        
+
         // Should contain context about being in a style rule
         assertTrue(errorMsg.contains("style-rule") || errorMsg.contains("declaration"),
             "Error message should contain context: " + errorMsg);
@@ -68,9 +68,9 @@ public class ContextAwareErrorTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String errorMsg = errorHandler.getErrorMessage();
-        
+
         // Should contain context showing we're in @media > style-rule
-        assertTrue(errorMsg.contains("@media"), 
+        assertTrue(errorMsg.contains("@media"),
             "Error message should contain @media context: " + errorMsg);
     }
 
@@ -90,7 +90,7 @@ public class ContextAwareErrorTest extends AbstractCSSParserTest {
 
         assertTrue(errorHandler.getErrorCount() > 0);
         final String errorMsg = errorHandler.getErrorMessage();
-        
+
         // Should contain information about the parsing context
         assertTrue(errorMsg.length() > 0, "Error message should not be empty");
     }
@@ -111,7 +111,7 @@ public class ContextAwareErrorTest extends AbstractCSSParserTest {
 
         assertTrue(errorHandler.getErrorCount() > 0);
         final String errorMsg = errorHandler.getErrorMessage();
-        
+
         // Should indicate what was expected (like "{" or selector)
         assertTrue(errorMsg.contains("Expected") || errorMsg.contains("expecting"),
             "Error message should mention expected tokens: " + errorMsg);
@@ -172,7 +172,7 @@ public class ContextAwareErrorTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String errorMsg = errorHandler.getErrorMessage();
-        
+
         // Verify the error message contains some form of context
         assertTrue(errorMsg.length() > 0, "Error message should not be empty");
         assertTrue(errorMsg.contains("Error") || errorMsg.contains("Invalid"),

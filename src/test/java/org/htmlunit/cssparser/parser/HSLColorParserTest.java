@@ -217,33 +217,45 @@ public class HSLColorParserTest extends AbstractCSSParserTest {
         color("foreground: hsl(10, 20%, 30%, none)", "foreground: hsl(10, 20%, 30%, none)");
 
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", "
-                + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+                + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)"
+                + " (in declaration) (property: foreground)",
                 "foreground: hsl(-none 20% 30%)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)"
+                + " (in declaration) (property: foreground)",
                 "foreground: hsl(10 -none 30%)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)"
+                + " (in declaration) (property: foreground)",
                 "foreground: hsl(10 20% -none)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)"
+                + " (in declaration) (property: foreground)",
                 "foreground: hsl(10 20% 30% / -none)");
 
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)"
+                + " (in declaration) (property: foreground)",
                 "foreground: hsl()");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)"
+                + " (in declaration) (property: foreground)",
                 "foreground: hsl(10)");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)"
+                + " (in declaration) (property: foreground)",
                 "foreground: hsl(10 20%)");
 
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)"
+                + " (in declaration) (property: foreground)",
                 "foreground: hsl(10, 20%, 30%,)");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)"
+                + " (in declaration) (property: foreground)",
                 "foreground: hsl(10, 20%, 30%/)");
 
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)"
+                + " (in declaration) (property: foreground)",
                 "foreground: hsl(10, 20px, 30)");
-        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \"20\". Was expecting one of: <S>, \"none\", \"-\", \"+\", \",\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)"
+                + " (in declaration) (property: foreground)",
                 "foreground: hsl(10 20px 30)");
 
-        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \"10\". Was expecting one of: <S>, <NUMBER>, \"none\", \"from\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)"
+                + " (in declaration) (property: foreground)",
                 "foreground: hsl('10', 20, 30,)");
     }
 }
