@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import org.htmlunit.cssparser.parser.javacc.CharStream;
@@ -800,7 +801,7 @@ public abstract class AbstractCSSParser {
             final boolean important, final Locator locator) {
         // Add semantic validation
         if (enableSemanticValidation_) {
-            final java.util.List<ValidationWarning> warnings = getValidator().validateProperty(name, value, locator);
+            final List<ValidationWarning> warnings = getValidator().validateProperty(name, value, locator);
             for (final ValidationWarning warning : warnings) {
                 if (warning.getLevel() == ValidationWarning.Level.ERROR) {
                     try {
