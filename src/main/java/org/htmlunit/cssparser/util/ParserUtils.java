@@ -129,18 +129,6 @@ public final class ParserUtils {
     }
 
     /**
-     * Checks if a character is a hexadecimal digit.
-     *
-     * @param c the character to check
-     * @return true if the character is a hex digit
-     */
-    private static boolean isHexDigit(final char c) {
-        return (c >= '0' && c <= '9')
-            || (c >= 'a' && c <= 'f')
-            || (c >= 'A' && c <= 'F');
-    }
-
-    /**
      * Compare CharSequence without creating String objects.
      * Case-insensitive comparison.
      *

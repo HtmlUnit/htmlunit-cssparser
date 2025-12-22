@@ -20,6 +20,7 @@ import java.net.URL;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.htmlunit.cssparser.parser.javacc.CharStream;
 import org.htmlunit.cssparser.parser.javacc.ParseException;
@@ -40,7 +41,7 @@ public abstract class AbstractCSSParser {
     private InputSource source_;
 
     private static final HashMap<String, String> PARSER_MESSAGES_ = new HashMap<>();
-    private static final HashMap<String, String> ERROR_MESSAGE_CACHE_ = new HashMap<>();
+    private static final ConcurrentHashMap<String, String> ERROR_MESSAGE_CACHE_ = new ConcurrentHashMap<>();
     private static final int MAX_CACHE_SIZE = 100;
 
     /**
