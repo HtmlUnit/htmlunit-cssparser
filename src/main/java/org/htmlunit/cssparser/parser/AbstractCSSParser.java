@@ -40,6 +40,15 @@ public abstract class AbstractCSSParser {
     private InputSource source_;
 
     private static final HashMap<String, String> PARSER_MESSAGES_ = new HashMap<>();
+    private static final HashMap<String, String> ERROR_MESSAGE_CACHE_ = new HashMap<>();
+    private static final int MAX_CACHE_SIZE = 100;
+
+    /**
+     * Thread-local StringBuilder cache to reduce allocations.
+     * Automatically cleared after use to prevent memory leaks.
+     */
+    private static final ThreadLocal<StringBuilder> STRING_BUILDER_CACHE =
+        ThreadLocal.withInitial(() -> new StringBuilder(256));
 
     static {
         PARSER_MESSAGES_.put("invalidExpectingOne", "Invalid token \"{0}\". Was expecting: {1}.");
@@ -170,11 +179,40 @@ public abstract class AbstractCSSParser {
      * @return the parser message
      */
     protected String getParserMessage(final String key) {
+        String cached = ERROR_MESSAGE_CACHE_.get(key);
+        if (cached != null) {
+            return cached;
+        }
+
         final String msg = PARSER_MESSAGES_.get(key);
         if (msg == null) {
             return "[[" + key + "]]";
         }
+
+        if (ERROR_MESSAGE_CACHE_.size() < MAX_CACHE_SIZE) {
+            ERROR_MESSAGE_CACHE_.put(key, msg);
+        }
+
         return msg;
+    }
+
+    /**
+     * Gets a cached StringBuilder, cleared and ready to use.
+     * @return A cleared StringBuilder instance
+     */
+    protected StringBuilder getCachedStringBuilder() {
+        final StringBuilder sb = STRING_BUILDER_CACHE.get();
+        sb.setLength(0);
+        return sb;
+    }
+
+    /**
+     * Returns a cached StringBuilder after extracting its content.
+     * @param sb The StringBuilder to extract from
+     * @return The string content
+     */
+    protected String returnCachedStringBuilder(final StringBuilder sb) {
+        return sb.toString();
     }
 
     /**
@@ -183,7 +221,7 @@ public abstract class AbstractCSSParser {
      * @return a new locator
      */
     protected Locator createLocator(final Token t) {
-        return new Locator(getInputSource().getURI(),
+        return LocatorPool.acquire(getInputSource().getURI(),
             t == null ? 0 : t.beginLine,
             t == null ? 0 : t.beginColumn);
     }
@@ -194,7 +232,7 @@ public abstract class AbstractCSSParser {
      * @return a new string with the escaped values
      */
     protected String addEscapes(final String str) {
-        final StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = getCachedStringBuilder();
         char ch;
         for (int i = 0; i < str.length(); i++) {
             ch = str.charAt(i);
@@ -236,7 +274,7 @@ public abstract class AbstractCSSParser {
                     continue;
             }
         }
-        return sb.toString();
+        return returnCachedStringBuilder(sb);
     }
 
     /**

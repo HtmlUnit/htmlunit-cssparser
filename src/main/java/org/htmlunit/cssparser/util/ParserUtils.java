@@ -80,6 +80,33 @@ public final class ParserUtils {
     }
 
     /**
+     * Remove the given number of chars from start and end.
+     * Optimized version with bounds checking for String input.
+     *
+     * @param s the String
+     * @param left no of chars to be removed from start
+     * @param right no of chars to be removed from end
+     * @return the trimmed string
+     */
+    public static String trimBy(final String s, final int left, final int right) {
+        if (s == null) {
+            return null;
+        }
+
+        final int length = s.length();
+
+        if (left < 0 || right < 0 || left + right >= length) {
+            return s;
+        }
+
+        if (left == 0 && right == 0) {
+            return s;
+        }
+
+        return s.substring(left, length - right);
+    }
+
+    /**
      * Helper that removes the leading "url(", the trailing ")"
      * and surrounding quotes from the given string builder.
      * @param s the StringBuilder
@@ -99,6 +126,48 @@ public final class ParserUtils {
         }
 
         return s1;
+    }
+
+    /**
+     * Checks if a character is a hexadecimal digit.
+     *
+     * @param c the character to check
+     * @return true if the character is a hex digit
+     */
+    private static boolean isHexDigit(final char c) {
+        return (c >= '0' && c <= '9')
+            || (c >= 'a' && c <= 'f')
+            || (c >= 'A' && c <= 'F');
+    }
+
+    /**
+     * Compare CharSequence without creating String objects.
+     * Case-insensitive comparison.
+     *
+     * @param cs1 the first CharSequence
+     * @param cs2 the second CharSequence
+     * @return true if the CharSequences are equal ignoring case
+     */
+    public static boolean equalsIgnoreCase(final CharSequence cs1, final CharSequence cs2) {
+        if (cs1 == cs2) {
+            return true;
+        }
+        if (cs1 == null || cs2 == null) {
+            return false;
+        }
+        if (cs1.length() != cs2.length()) {
+            return false;
+        }
+
+        for (int i = 0; i < cs1.length(); i++) {
+            final char c1 = cs1.charAt(i);
+            final char c2 = cs2.charAt(i);
+            if (c1 != c2 && Character.toLowerCase(c1) != Character.toLowerCase(c2)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }
