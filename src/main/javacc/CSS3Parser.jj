@@ -526,15 +526,7 @@ void styleSheetRuleList() :
                         return;
                     }
 
-                    CSSParseException cpe = toCSSParseException("invalidRule", e);
-                    getErrorHandler().error(cpe);
-                    getErrorHandler().warning(createSkipWarning("ignoringRule", cpe));
-                    while (t.kind != RBRACE && t.kind != EOF ) {
-                        t = getNextToken();
-                    }
-                    if (t.kind == EOF) {
-                        return;
-                    }
+                    handleParseError("invalidRule", e, ErrorRecoveryStrategy.SKIP_TO_NEXT_RULE);
                 }
             }
         )
@@ -3337,6 +3329,98 @@ void error_skipAtRule()
         t = getNextToken();
     }
     while (t.kind != SEMICOLON && t.kind != EOF);
+}
+
+/**
+ * Skip tokens until a semicolon or EOF is encountered.
+ * This is useful for recovering from errors in declarations and simple statements.
+ */
+JAVACODE
+void error_skipToSemicolon()
+{
+    Token t;
+    do {
+        t = getNextToken();
+    }
+    while (t.kind != SEMICOLON && t.kind != EOF);
+}
+
+/**
+ * Skip tokens until a right brace is encountered, accounting for brace nesting.
+ * This is useful for recovering from errors in rule blocks.
+ */
+JAVACODE
+void error_skipToRightBrace()
+{
+    Token t;
+    int nesting = 0;
+    do {
+        t = getNextToken();
+        if (t.kind == LBRACE) {
+            nesting++;
+        }
+        else if (t.kind == RBRACE) {
+            nesting--;
+        }
+    }
+    while (t.kind != EOF && (t.kind != RBRACE || nesting > 0));
+}
+
+/**
+ * Skip tokens to the next rule boundary.
+ * This is useful for recovering from errors at the rule level.
+ */
+JAVACODE
+void error_skipToNextRule()
+{
+    Token t;
+    int nesting = 0;
+    do {
+        t = getNextToken();
+        if (t.kind == LBRACE) {
+            nesting++;
+        }
+        else if (t.kind == RBRACE) {
+            nesting--;
+            if (nesting <= 0) {
+                // Found the end of the current rule
+                break;
+            }
+        }
+    }
+    while (t.kind != EOF);
+}
+
+/**
+ * Centralized error handler that reports the error and applies a recovery strategy.
+ *
+ * @param messageKey the message key for the error
+ * @param e the parse exception
+ * @param strategy the error recovery strategy to apply
+ */
+JAVACODE
+void handleParseError(String messageKey, ParseException e, ErrorRecoveryStrategy strategy)
+{
+    CSSParseException cpe = toCSSParseException(messageKey, e);
+    getErrorHandler().error(cpe);
+    getErrorHandler().warning(createSkipWarning("ignoringRule", cpe));
+    
+    if (strategy != null) {
+        switch (strategy) {
+            case SKIP_TO_SEMICOLON:
+                error_skipToSemicolon();
+                break;
+            case SKIP_TO_BRACE:
+                error_skipToRightBrace();
+                break;
+            case SKIP_TO_NEXT_RULE:
+                error_skipToNextRule();
+                break;
+            case SKIP_BALANCED_BLOCK:
+                error_skipblock(null, null);
+                break;
+        }
+    }
 }
 
 JAVACODE

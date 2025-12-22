@@ -35,6 +35,20 @@ import org.w3c.dom.DOMException;
  * @author Ronald Brill
  */
 public abstract class AbstractCSSParser {
+    /**
+     * Strategy for error recovery in the parser.
+     */
+    public enum ErrorRecoveryStrategy {
+        /** Skip tokens until semicolon or EOF */
+        SKIP_TO_SEMICOLON,
+        /** Skip tokens with brace depth tracking */
+        SKIP_TO_BRACE,
+        /** Skip to next rule boundary */
+        SKIP_TO_NEXT_RULE,
+        /** Skip balanced braces/parentheses */
+        SKIP_BALANCED_BLOCK
+    }
+
     private DocumentHandler documentHandler_;
     private CSSErrorHandler errorHandler_;
     private InputSource source_;
