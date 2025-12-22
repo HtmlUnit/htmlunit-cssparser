@@ -322,11 +322,11 @@ public class CSSValidator {
         }
 
         final String normalized = value.toLowerCase(Locale.ROOT);
-        return normalized.equals("inherit")
-               || normalized.equals("initial")
-               || normalized.equals("unset")
-               || normalized.equals("revert")
-               || normalized.equals("revert-layer");
+        return "inherit".equals(normalized)
+               || "initial".equals(normalized)
+               || "unset".equals(normalized)
+               || "revert".equals(normalized)
+               || "revert-layer".equals(normalized);
     }
 
     /**
@@ -466,7 +466,7 @@ public class CSSValidator {
 
     private boolean isNonNegativeLengthProperty(final String property) {
         final String normalized = property.toLowerCase(Locale.ROOT);
-        return normalized.equals("width") || normalized.equals("height")
+        return "width".equals(normalized) || "height".equals(normalized)
                || normalized.contains("padding");
     }
 

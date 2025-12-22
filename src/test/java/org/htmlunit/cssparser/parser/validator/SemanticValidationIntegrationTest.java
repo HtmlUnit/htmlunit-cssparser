@@ -38,43 +38,43 @@ public class SemanticValidationIntegrationTest {
     /**
      * Simple error collector for testing.
      */
-    private static class ErrorCollector implements CSSErrorHandler {
-        private final List<String> errors = new ArrayList<>();
-        private final List<String> warnings = new ArrayList<>();
+    private static final class ErrorCollector implements CSSErrorHandler {
+        private final List<String> errors_ = new ArrayList<>();
+        private final List<String> warnings_ = new ArrayList<>();
 
         @Override
         public void warning(final CSSParseException exception) throws CSSException {
-            warnings.add(exception.getMessage());
+            warnings_.add(exception.getMessage());
         }
 
         @Override
         public void error(final CSSParseException exception) throws CSSException {
-            errors.add(exception.getMessage());
+            errors_.add(exception.getMessage());
         }
 
         @Override
         public void fatalError(final CSSParseException exception) throws CSSException {
-            errors.add(exception.getMessage());
+            errors_.add(exception.getMessage());
         }
 
         public int getErrorCount() {
-            return errors.size();
+            return errors_.size();
         }
 
         public int getWarningCount() {
-            return warnings.size();
+            return warnings_.size();
         }
 
         public String getFirstError() {
-            return errors.isEmpty() ? null : errors.get(0);
+            return errors_.isEmpty() ? null : errors_.get(0);
         }
 
         public List<String> getErrors() {
-            return errors;
+            return errors_;
         }
 
         public List<String> getWarnings() {
-            return warnings;
+            return warnings_;
         }
     }
 
