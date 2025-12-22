@@ -22,6 +22,7 @@
 
         <!-- test dependencies -->
         <junit.version>5.14.1</junit.version>
+        <junit-launcher.version>1.14.1</junit-launcher.version>
         <commons-io.version>2.21.0</commons-io.version>
 
         <!-- quality -->
@@ -359,6 +360,12 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>${junit-launcher.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
