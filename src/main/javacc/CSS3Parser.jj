@@ -529,8 +529,8 @@ void styleSheetRuleList() :
                     CSSParseException cpe = toCSSParseException("invalidRule", e);
                     getErrorHandler().error(cpe);
                     getErrorHandler().warning(createSkipWarning("ignoringRule", cpe));
-                    while (t.kind != RBRACE && t.kind != EOF ) {
-                        t = getNextToken();
+                    if (t.kind != RBRACE) {
+                        error_skipblock(null, null);
                     }
                     if (t.kind == EOF) {
                         return;
