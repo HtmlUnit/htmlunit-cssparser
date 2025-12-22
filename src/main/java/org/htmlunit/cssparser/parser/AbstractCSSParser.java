@@ -27,6 +27,8 @@ import org.htmlunit.cssparser.parser.javacc.Token;
 import org.htmlunit.cssparser.parser.javacc.TokenMgrException;
 import org.htmlunit.cssparser.parser.media.MediaQueryList;
 import org.htmlunit.cssparser.parser.selector.SelectorList;
+import org.htmlunit.cssparser.parser.validator.CSSValidator;
+import org.htmlunit.cssparser.parser.validator.ValidationWarning;
 import org.w3c.dom.DOMException;
 
 /**
@@ -38,6 +40,8 @@ public abstract class AbstractCSSParser {
     private DocumentHandler documentHandler_;
     private CSSErrorHandler errorHandler_;
     private InputSource source_;
+    private CSSValidator validator_;
+    private boolean enableSemanticValidation_;
 
     private static final HashMap<String, String> PARSER_MESSAGES_ = new HashMap<>();
 
@@ -163,6 +167,45 @@ public abstract class AbstractCSSParser {
      */
     protected InputSource getInputSource() {
         return source_;
+    }
+
+    /**
+     * Enable or disable semantic validation.
+     *
+     * @param enabled true to enable semantic validation
+     */
+    public void setSemanticValidationEnabled(final boolean enabled) {
+        enableSemanticValidation_ = enabled;
+    }
+
+    /**
+     * Check if semantic validation is enabled.
+     *
+     * @return true if semantic validation is enabled
+     */
+    public boolean isSemanticValidationEnabled() {
+        return enableSemanticValidation_;
+    }
+
+    /**
+     * Set the CSS validator.
+     *
+     * @param validator the validator
+     */
+    public void setCSSValidator(final CSSValidator validator) {
+        validator_ = validator;
+    }
+
+    /**
+     * Get the CSS validator, creating one if needed.
+     *
+     * @return the validator
+     */
+    protected CSSValidator getValidator() {
+        if (validator_ == null) {
+            validator_ = new CSSValidator();
+        }
+        return validator_;
     }
 
     /**
@@ -755,6 +798,35 @@ public abstract class AbstractCSSParser {
      */
     protected void handleProperty(final String name, final LexicalUnit value,
             final boolean important, final Locator locator) {
+        // Add semantic validation
+        if (enableSemanticValidation_) {
+            final java.util.List<ValidationWarning> warnings = getValidator().validateProperty(name, value, locator);
+            for (final ValidationWarning warning : warnings) {
+                if (warning.getLevel() == ValidationWarning.Level.ERROR) {
+                    try {
+                        getErrorHandler().error(new CSSParseException(
+                            warning.getMessage(),
+                            locator
+                        ));
+                    }
+                    catch (final CSSException e) {
+                        // Ignore
+                    }
+                }
+                else {
+                    try {
+                        getErrorHandler().warning(new CSSParseException(
+                            warning.getMessage(),
+                            locator
+                        ));
+                    }
+                    catch (final CSSException e) {
+                        // Ignore
+                    }
+                }
+            }
+        }
+
         getDocumentHandler().property(name, value, important, locator);
     }
 
