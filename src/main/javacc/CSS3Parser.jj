@@ -36,6 +36,7 @@ import java.util.Locale;
 import org.htmlunit.cssparser.dom.CSSValueImpl;
 import org.htmlunit.cssparser.dom.Property;
 import org.htmlunit.cssparser.parser.AbstractCSSParser;
+import org.htmlunit.cssparser.parser.AbstractCSSParser.ErrorRecoveryStrategy;
 import org.htmlunit.cssparser.parser.CSSParseException;
 import org.htmlunit.cssparser.parser.LexicalUnit;
 import org.htmlunit.cssparser.parser.LexicalUnitImpl;

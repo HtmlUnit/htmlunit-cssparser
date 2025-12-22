@@ -32,7 +32,7 @@ public class ErrorRecoveryTest extends AbstractCSSParserTest {
 
     /**
      * Test recovery from error at the start of the stylesheet.
-     * The parser should skip the invalid content and parse the valid rule that follows.
+     * The parser should report the error and attempt recovery.
      */
     @Test
     public void errorAtStartWithRecovery() throws Exception {
@@ -41,13 +41,13 @@ public class ErrorRecoveryTest extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        // Should recover and have no valid rules (the invalid comment causes the next rule to be skipped)
+        // The invalid '//' comment causes an error, and recovery skips to the next valid content
         assertEquals(0, rules.getLength());
     }
 
     /**
      * Test recovery from multiple errors.
-     * The parser should skip each error and continue parsing.
+     * The parser should report each error and continue parsing.
      */
     @Test
     public void multipleErrorsWithRecovery() throws Exception {
@@ -58,7 +58,7 @@ public class ErrorRecoveryTest extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 2, 0, 2);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        // Both rules should be skipped due to the errors
+        // Each '//' comment triggers error recovery, affecting subsequent parsing
         assertEquals(0, rules.getLength());
     }
 
@@ -149,8 +149,8 @@ public class ErrorRecoveryTest extends AbstractCSSParserTest {
         final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
         final CSSRuleListImpl rules = sheet.getCssRules();
 
-        // Should have p, h1, and h2 rules after skipping the invalid comment
-        // Note: The behavior depends on how error recovery is implemented
+        // After error recovery, subsequent valid rules should be parsed
+        // In practice, this parser recovers and parses h1 and h2
         assertEquals(2, rules.getLength());
     }
 
