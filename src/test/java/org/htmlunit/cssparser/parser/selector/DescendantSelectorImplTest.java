@@ -86,4 +86,64 @@ public class DescendantSelectorImplTest {
 
         assertEquals("a:after", selector.toString());
     }
+
+    /**
+     * Test with null ancestor selector.
+     * @throws Exception on failure
+     */
+    @Test
+    public void nullAncestorSelector() {
+        final ElementSelector descendant = new ElementSelector("a", null);
+        final DescendantSelector selector = new DescendantSelector(null, descendant);
+        
+        assertEquals(null, selector.getAncestorSelector());
+        assertEquals(descendant, selector.getSimpleSelector());
+        assertEquals(" a", selector.toString());
+    }
+
+    /**
+     * Test with null simple selector.
+     * @throws Exception on failure
+     */
+    @Test
+    public void nullSimpleSelector() {
+        final ElementSelector parent = new ElementSelector("p", null);
+        final DescendantSelector selector = new DescendantSelector(parent, null);
+        
+        assertEquals(parent, selector.getAncestorSelector());
+        assertEquals(null, selector.getSimpleSelector());
+    }
+
+    /**
+     * Test complex descendant chain.
+     * @throws Exception on failure
+     */
+    @Test
+    public void complexDescendantChain() {
+        final ElementSelector grandParent = new ElementSelector("div", null);
+        final ElementSelector parent = new ElementSelector("p", null);
+        final DescendantSelector level1 = new DescendantSelector(grandParent, parent);
+        final ElementSelector child = new ElementSelector("a", null);
+        final DescendantSelector level2 = new DescendantSelector(level1, child);
+        
+        assertEquals(level1, level2.getAncestorSelector());
+        assertEquals(child, level2.getSimpleSelector());
+        assertEquals("div p a", level2.toString());
+    }
+
+    /**
+     * Test descendant with multiple levels and pseudo-element.
+     * @throws Exception on failure
+     */
+    @Test
+    public void complexDescendantWithPseudoElement() {
+        final ElementSelector grandParent = new ElementSelector("div", null);
+        final ElementSelector parent = new ElementSelector("p", null);
+        final DescendantSelector level1 = new DescendantSelector(grandParent, parent);
+        final PseudoElementSelector pseudo = new PseudoElementSelector("first-line", null, false);
+        final DescendantSelector level2 = new DescendantSelector(level1, pseudo);
+        
+        assertEquals("div p:first-line", level2.toString());
+    }
 }
+
