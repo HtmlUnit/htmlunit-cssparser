@@ -38,6 +38,7 @@ public abstract class AbstractCSSParser {
     private DocumentHandler documentHandler_;
     private CSSErrorHandler errorHandler_;
     private InputSource source_;
+    private ParserContext parserContext_ = new ParserContext();
 
     private static final HashMap<String, String> PARSER_MESSAGES_ = new HashMap<>();
 
@@ -166,6 +167,15 @@ public abstract class AbstractCSSParser {
     }
 
     /**
+     * <p>getParserContext.</p>
+     *
+     * @return the parser context
+     */
+    protected ParserContext getParserContext() {
+        return parserContext_;
+    }
+
+    /**
      * @param key the lookup key
      * @return the parser message
      */
@@ -284,7 +294,11 @@ public abstract class AbstractCSSParser {
             message.append(MessageFormat.format(messagePattern2, invalid, expected));
         }
         message.append(")");
-        return new CSSParseException(message.toString(),
+        
+        // Add contextual information
+        final String contextualMessage = parserContext_.buildContextualMessage(message.toString());
+        
+        return new CSSParseException(contextualMessage,
             getInputSource().getURI(), e.currentToken.next.beginLine,
             e.currentToken.next.beginColumn);
     }
