@@ -179,7 +179,7 @@ public abstract class AbstractCSSParser {
      * @return the parser message
      */
     protected String getParserMessage(final String key) {
-        String cached = ERROR_MESSAGE_CACHE_.get(key);
+        final String cached = ERROR_MESSAGE_CACHE_.get(key);
         if (cached != null) {
             return cached;
         }
