@@ -44,7 +44,7 @@ implementation group: 'org.htmlunit', name: 'htmlunit-cssparser', version: '4.20
 
 
 
-### Latst CI build
+### Latest CI build
 The latest builds are available from our
 [Jenkins CI build server](https://jenkins.wetator.org/job/HtmlUnit%20-%20CSS%20Parser/ "HtmlUnit - CSS Parser CI")
 
