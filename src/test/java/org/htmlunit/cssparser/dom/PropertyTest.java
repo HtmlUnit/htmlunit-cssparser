@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Ronald Brill
  */
-public class PropteryTest {
+public class PropertyTest {
 
     /**
      * @throws Exception if any error occurs
@@ -93,5 +93,83 @@ public class PropteryTest {
         assertEquals("MyName", prop.getName());
         assertEquals("13.2cm", prop.getValue().toString());
         assertFalse(prop.isImportant());
+    }
+
+    /**
+     * Test equals method with same object.
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void equalsSameObject() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createPixel(null, 10);
+        final Property prop = new Property("color", new CSSValueImpl(lu, true), false);
+
+        assertTrue(prop.equals(prop));
+    }
+
+    /**
+     * Test equals method with different names.
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void equalsDifferentNames() throws Exception {
+        final LexicalUnit lu1 = LexicalUnitImpl.createPixel(null, 10);
+        final Property prop1 = new Property("color", new CSSValueImpl(lu1, true), false);
+
+        final LexicalUnit lu2 = LexicalUnitImpl.createPixel(null, 10);
+        final Property prop2 = new Property("background", new CSSValueImpl(lu2, true), false);
+
+        assertFalse(prop1.equals(prop2));
+    }
+
+    /**
+     * Test equals method with different important flags.
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void equalsDifferentImportant() throws Exception {
+        final Property prop1 = new Property("color", null, false);
+        final Property prop2 = new Property("color", null, true);
+
+        assertFalse(prop1.equals(prop2));
+    }
+
+    /**
+     * Test equals method with null.
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void equalsWithNull() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createPixel(null, 10);
+        final Property prop = new Property("color", new CSSValueImpl(lu, true), false);
+
+        assertFalse(prop.equals(null));
+    }
+
+    /**
+     * Test equals method with different class.
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void equalsWithDifferentClass() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createPixel(null, 10);
+        final Property prop = new Property("color", new CSSValueImpl(lu, true), false);
+
+        assertFalse(prop.equals("not a property"));
+    }
+
+    /**
+     * Test hashCode consistency.
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void hashCodeConsistency() throws Exception {
+        final LexicalUnit lu = LexicalUnitImpl.createPixel(null, 10);
+        final Property prop = new Property("color", new CSSValueImpl(lu, true), false);
+
+        final int hash1 = prop.hashCode();
+        final int hash2 = prop.hashCode();
+
+        assertEquals(hash1, hash2);
     }
 }

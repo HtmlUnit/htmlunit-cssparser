@@ -15,6 +15,8 @@
 package org.htmlunit.cssparser.parser.media;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.htmlunit.cssparser.dom.CSSValueImpl;
 import org.htmlunit.cssparser.dom.Property;
@@ -22,6 +24,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Testcases for {@link MediaQuery}.
+ *
  * @author Ronald Brill
  */
 public class MediaQueryTest {
@@ -75,5 +78,157 @@ public class MediaQueryTest {
     public void media() throws Exception {
         final MediaQuery mq = new MediaQuery("test");
         assertEquals("test", mq.getMedia());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void isOnly() throws Exception {
+        MediaQuery mq = new MediaQuery("screen", false, false);
+        assertFalse(mq.isOnly());
+
+        mq = new MediaQuery("screen", true, false);
+        assertTrue(mq.isOnly());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void isNot() throws Exception {
+        MediaQuery mq = new MediaQuery("screen", false, false);
+        assertFalse(mq.isNot());
+
+        mq = new MediaQuery("screen", false, true);
+        assertTrue(mq.isNot());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void onlyAndNot() throws Exception {
+        // If both only and not are true, only takes precedence
+        final MediaQuery mq = new MediaQuery("screen", true, true);
+        assertEquals("only screen", mq.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void nullMediaType() throws Exception {
+        final MediaQuery mq = new MediaQuery(null);
+        // null media is converted to "all" but implicitAll is set
+        // so toString doesn't show it unless there are properties
+        assertEquals("", mq.toString());
+        assertEquals("all", mq.getMedia());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void emptyMediaType() throws Exception {
+        final MediaQuery mq = new MediaQuery("");
+        assertEquals("", mq.toString());
+        assertEquals("", mq.getMedia());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void multipleProperties() throws Exception {
+        final MediaQuery mq = new MediaQuery("screen");
+
+        final CSSValueImpl value1 = new CSSValueImpl(null);
+        value1.setCssText("800px");
+        final Property prop1 = new Property("min-width", value1, false);
+        mq.addMediaProperty(prop1);
+
+        final CSSValueImpl value2 = new CSSValueImpl(null);
+        value2.setCssText("1200px");
+        final Property prop2 = new Property("max-width", value2, false);
+        mq.addMediaProperty(prop2);
+
+        final CSSValueImpl value3 = new CSSValueImpl(null);
+        value3.setCssText("landscape");
+        final Property prop3 = new Property("orientation", value3, false);
+        mq.addMediaProperty(prop3);
+
+        assertEquals("screen and (min-width: 800px) and (max-width: 1200px) and (orientation: landscape)",
+                     mq.toString());
+        assertEquals(3, mq.getProperties().size());
+
+        Property prop = mq.getProperties().get(0);
+        assertEquals("min-width: 800px", prop.toString());
+
+        prop = mq.getProperties().get(1);
+        assertEquals("max-width: 1200px", prop.toString());
+
+        prop = mq.getProperties().get(2);
+        assertEquals("orientation: landscape", prop.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void commonMediaTypes() throws Exception {
+        MediaQuery mq = new MediaQuery("all");
+        assertEquals("all", mq.toString());
+
+        mq = new MediaQuery("screen");
+        assertEquals("screen", mq.toString());
+
+        mq = new MediaQuery("print");
+        assertEquals("print", mq.toString());
+
+        mq = new MediaQuery("speech");
+        assertEquals("speech", mq.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void onlyWithProperties() throws Exception {
+        final MediaQuery mq = new MediaQuery("print", true, false);
+
+        final CSSValueImpl value = new CSSValueImpl(null);
+        value.setCssText("300dpi");
+        final Property prop1 = new Property("resolution", value, false);
+        mq.addMediaProperty(prop1);
+
+        assertEquals("only print and (resolution: 300dpi)", mq.toString());
+        assertTrue(mq.isOnly());
+        assertFalse(mq.isNot());
+        assertEquals(1, mq.getProperties().size());
+
+        final Property prop = mq.getProperties().get(0);
+        assertEquals("resolution: 300dpi", prop.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void notWithProperties() throws Exception {
+        final MediaQuery mq = new MediaQuery("screen", false, true);
+
+        final CSSValueImpl value = new CSSValueImpl(null);
+        value.setCssText("600px");
+        final Property prop1 = new Property("max-width", value, false);
+        mq.addMediaProperty(prop1);
+
+        assertEquals("not screen and (max-width: 600px)", mq.toString());
+        assertFalse(mq.isOnly());
+        assertTrue(mq.isNot());
+        assertEquals(1, mq.getProperties().size());
+
+        final Property prop = mq.getProperties().get(0);
+        assertEquals("max-width: 600px", prop.toString());
     }
 }
