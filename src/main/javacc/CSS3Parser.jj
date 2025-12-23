@@ -676,6 +676,7 @@ void mediaRule() :
         <MEDIA_SYM>
         {
             locator = createLocator(token);
+            getParserContext().enterRule("@media");
         }
         ( <S> )*
         mediaList(ml)
@@ -694,6 +695,8 @@ void mediaRule() :
     }
     catch(ParseException e)
     {
+        getParserContext().addExpectedToken("media-type");
+        getParserContext().addExpectedToken("{");
         CSSParseException cpe = toCSSParseException("invalidMediaRule", e);
         getErrorHandler().error(cpe);
         error_skipblock("ignoringRule", cpe);
@@ -703,6 +706,8 @@ void mediaRule() :
         if (start) {
             handleEndMedia(ml);
         }
+        getParserContext().exitRule();
+        getParserContext().clearExpectedTokens();
     }
 }
 
@@ -1060,6 +1065,7 @@ void styleRule() :
     try {
         {
             t = token;
+            getParserContext().enterRule("style-rule");
         }
         selList = selectorList()
         <LBRACE> ( <S> )*
@@ -1077,6 +1083,8 @@ void styleRule() :
     }
     catch(ParseException e)
     {
+        getParserContext().addExpectedToken("selector");
+        getParserContext().addExpectedToken("{");
         CSSParseException cpe = toCSSParseException("invalidStyleRule", e);
         getErrorHandler().error(cpe);
         error_skipblock("ignoringFollowingDeclarations", cpe);
@@ -1085,6 +1093,8 @@ void styleRule() :
         if (start) {
             handleEndSelector(selList);
         }
+        getParserContext().exitRule();
+        getParserContext().clearExpectedTokens();
     }
 }
 
@@ -1568,20 +1578,31 @@ void declaration() :
 {
     try
     {
+        {
+            getParserContext().enterRule("declaration");
+        }
         // at the moment i have no better idea how to handle the
         // infamous css-star-hack (http://en.wikipedia.org/wiki/CSS_filter#Star_hack)
         // smart (means: ignoring only one decl)
         ( <ASTERISK> { starHack = createLocator(token); } )?
         (
             (
-                t = ident()                           { p = unescape(t.image, false); locator = createLocator(t); }
+                t = ident()                           { 
+                    p = unescape(t.image, false); 
+                    locator = createLocator(t);
+                    getParserContext().setCurrentProperty(p);
+                }
                 ( <S> )*
                 <COLON> ( <S> )*
                 e = expr()
             )
             |
             (
-                t = <CUSTOM_PROPERTY_NAME> ( <S> )*   { p = unescape(t.image, false); locator = createLocator(t); }
+                t = <CUSTOM_PROPERTY_NAME> ( <S> )*   { 
+                    p = unescape(t.image, false); 
+                    locator = createLocator(t);
+                    getParserContext().setCurrentProperty(p);
+                }
                 <COLON> ( <S> )*
                 ( e = expr() )?
             )
@@ -1616,9 +1637,17 @@ void declaration() :
     }
     catch (ParseException ex)
     {
+        getParserContext().addExpectedToken("property-name");
+        getParserContext().addExpectedToken(":");
         CSSParseException cpe = toCSSParseException("invalidDeclaration", ex);
         getErrorHandler().error(cpe);
         error_skipdecl();
+    }
+    finally
+    {
+        getParserContext().setCurrentProperty(null);
+        getParserContext().exitRule();
+        getParserContext().clearExpectedTokens();
     }
 }
 

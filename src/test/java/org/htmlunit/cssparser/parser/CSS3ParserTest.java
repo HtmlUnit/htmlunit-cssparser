@@ -807,7 +807,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "@import rule must occur before all other rules, except the @charset rule."
-                + " (Invalid token \"@import\". Was expecting: <S>.)";
+                + " (Invalid token \"@import\". Was expecting: <S>.) (in @media)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("3", errorHandler.getErrorLines());
         assertEquals("3", errorHandler.getErrorColumns());
@@ -852,7 +852,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "@import rule must occur before all other rules, except the @charset rule."
-                + " (Invalid token \"@import\". Was expecting: <S>.)";
+                + " (Invalid token \"@import\". Was expecting: <S>.) (in @media)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("4", errorHandler.getErrorLines());
         assertEquals("3", errorHandler.getErrorColumns());
@@ -1597,7 +1597,9 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(7, errorHandler.getErrorCount());
         final String expected = "Error in declaration. (Invalid token \"}\". Was expecting one of: <S>, \":\".)"
+                + " (in style-rule > declaration). Expected: property-name, : (property: background)"
                 + " Error in declaration. (Invalid token \";\". Was expecting one of: <S>, \":\".)"
+                + " (in style-rule > declaration). Expected: property-name, : (property: background)"
                 + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
@@ -1606,6 +1608,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)"
+                + " (in style-rule > declaration) (property: background)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, "
@@ -1614,9 +1617,13 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)"
+                + " (in style-rule > declaration) (property: background)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)"
+                + " (in style-rule > declaration). Expected: property-name, : (property: background)"
                 + " Error in style rule. (Invalid token \" \". Was expecting one of: <EOF>, \"}\", \";\".)"
-                + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)";
+                + " (in style-rule). Expected: selector, {"
+                + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)"
+                + " (in style-rule > declaration). Expected: property-name, : (property: background)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("2 3 4 5 6 6 7", errorHandler.getErrorLines());
         assertEquals("29 28 30 29 28 48 28", errorHandler.getErrorColumns());
@@ -1709,7 +1716,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in style rule. "
-                + "(Invalid token \"@here\". Was expecting one of: <S>, \"{\", \",\".)";
+                + "(Invalid token \"@here\". Was expecting one of: <S>, \"{\", \",\".) (in style-rule). Expected: selector, {";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("2", errorHandler.getErrorLines());
         assertEquals("3", errorHandler.getErrorColumns());
@@ -1911,7 +1918,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
-                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)";
+                        + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)"
+                + " (in style-rule > declaration) (property: font-family)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("3", errorHandler.getErrorLines());
         assertEquals("16", errorHandler.getErrorColumns());
