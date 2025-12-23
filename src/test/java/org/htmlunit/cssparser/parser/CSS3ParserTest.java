@@ -4244,4 +4244,36 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 //        final CSSRule rule = rules.getRules().get(0);
 //        assertEquals("h1 { color: red; height: 20px }", rule.getCssText());
 //    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void modernViewportUnits() throws Exception {
+        // Dynamic viewport units
+        expression("h1 { width: 100dvw; }", 0, 0, 0);
+        expression("h1 { height: 50dvh; }", 0, 0, 0);
+        expression("h1 { width: 10dvmin; }", 0, 0, 0);
+        expression("h1 { height: 20dvmax; }", 0, 0, 0);
+
+        // Large viewport units
+        expression("h1 { width: 100lvw; }", 0, 0, 0);
+        expression("h1 { height: 50lvh; }", 0, 0, 0);
+        expression("h1 { width: 10lvmin; }", 0, 0, 0);
+        expression("h1 { height: 20lvmax; }", 0, 0, 0);
+
+        // Small viewport units
+        expression("h1 { width: 100svw; }", 0, 0, 0);
+        expression("h1 { height: 50svh; }", 0, 0, 0);
+        expression("h1 { width: 10svmin; }", 0, 0, 0);
+        expression("h1 { height: 20svmax; }", 0, 0, 0);
+
+        // Container query units
+        expression("h1 { width: 100cqw; }", 0, 0, 0);
+        expression("h1 { height: 50cqh; }", 0, 0, 0);
+        expression("h1 { width: 100cqi; }", 0, 0, 0);
+        expression("h1 { height: 50cqb; }", 0, 0, 0);
+        expression("h1 { width: 10cqmin; }", 0, 0, 0);
+        expression("h1 { height: 20cqmax; }", 0, 0, 0);
+    }
 }
