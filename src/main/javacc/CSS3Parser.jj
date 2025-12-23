@@ -348,6 +348,32 @@ TOKEN_MGR_DECLS :
 // {num}{V}{M}{A}{X}    {return VMAX;}
 | < VMAX: <NUM> "vmax" > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
 
+// Dynamic viewport units
+| < DVW: <NUM> "dvw" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < DVH: <NUM> "dvh" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < DVMIN: <NUM> "dvmin" > { matchedToken.image = ParserUtils.trimBy(image, 0, 5); }
+| < DVMAX: <NUM> "dvmax" > { matchedToken.image = ParserUtils.trimBy(image, 0, 5); }
+
+// Large viewport units
+| < LVW: <NUM> "lvw" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < LVH: <NUM> "lvh" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < LVMIN: <NUM> "lvmin" > { matchedToken.image = ParserUtils.trimBy(image, 0, 5); }
+| < LVMAX: <NUM> "lvmax" > { matchedToken.image = ParserUtils.trimBy(image, 0, 5); }
+
+// Small viewport units
+| < SVW: <NUM> "svw" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < SVH: <NUM> "svh" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < SVMIN: <NUM> "svmin" > { matchedToken.image = ParserUtils.trimBy(image, 0, 5); }
+| < SVMAX: <NUM> "svmax" > { matchedToken.image = ParserUtils.trimBy(image, 0, 5); }
+
+// Container query units
+| < CQW: <NUM> "cqw" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < CQH: <NUM> "cqh" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < CQI: <NUM> "cqi" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < CQB: <NUM> "cqb" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
+| < CQMIN: <NUM> "cqmin" > { matchedToken.image = ParserUtils.trimBy(image, 0, 5); }
+| < CQMAX: <NUM> "cqmax" > { matchedToken.image = ParserUtils.trimBy(image, 0, 5); }
+
 // {num}{P}{X}          {return LENGTH;}
 | < LENGTH_PX: <NUM> "px" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
@@ -3051,6 +3077,24 @@ LexicalUnit dimension(LexicalUnit prev, char op) :
         | t = <VH>                { value = LexicalUnitImpl.createVh(prev, doubleValue(op, t.image)); }
         | t = <VMIN>              { value = LexicalUnitImpl.createVMin(prev, doubleValue(op, t.image)); }
         | t = <VMAX>              { value = LexicalUnitImpl.createVMax(prev, doubleValue(op, t.image)); }
+        | t = <DVW>               { value = LexicalUnitImpl.createDvw(prev, doubleValue(op, t.image)); }
+        | t = <DVH>               { value = LexicalUnitImpl.createDvh(prev, doubleValue(op, t.image)); }
+        | t = <DVMIN>             { value = LexicalUnitImpl.createDvMin(prev, doubleValue(op, t.image)); }
+        | t = <DVMAX>             { value = LexicalUnitImpl.createDvMax(prev, doubleValue(op, t.image)); }
+        | t = <LVW>               { value = LexicalUnitImpl.createLvw(prev, doubleValue(op, t.image)); }
+        | t = <LVH>               { value = LexicalUnitImpl.createLvh(prev, doubleValue(op, t.image)); }
+        | t = <LVMIN>             { value = LexicalUnitImpl.createLvMin(prev, doubleValue(op, t.image)); }
+        | t = <LVMAX>             { value = LexicalUnitImpl.createLvMax(prev, doubleValue(op, t.image)); }
+        | t = <SVW>               { value = LexicalUnitImpl.createSvw(prev, doubleValue(op, t.image)); }
+        | t = <SVH>               { value = LexicalUnitImpl.createSvh(prev, doubleValue(op, t.image)); }
+        | t = <SVMIN>             { value = LexicalUnitImpl.createSvMin(prev, doubleValue(op, t.image)); }
+        | t = <SVMAX>             { value = LexicalUnitImpl.createSvMax(prev, doubleValue(op, t.image)); }
+        | t = <CQW>               { value = LexicalUnitImpl.createCqw(prev, doubleValue(op, t.image)); }
+        | t = <CQH>               { value = LexicalUnitImpl.createCqh(prev, doubleValue(op, t.image)); }
+        | t = <CQI>               { value = LexicalUnitImpl.createCqi(prev, doubleValue(op, t.image)); }
+        | t = <CQB>               { value = LexicalUnitImpl.createCqb(prev, doubleValue(op, t.image)); }
+        | t = <CQMIN>             { value = LexicalUnitImpl.createCqMin(prev, doubleValue(op, t.image)); }
+        | t = <CQMAX>             { value = LexicalUnitImpl.createCqMax(prev, doubleValue(op, t.image)); }
         | t = <ANGLE_DEG>         { value = LexicalUnitImpl.createDegree(prev, doubleValue(op, t.image)); }
         | t = <ANGLE_RAD>         { value = LexicalUnitImpl.createRadian(prev, doubleValue(op, t.image)); }
         | t = <ANGLE_GRAD>        { value = LexicalUnitImpl.createGradian(prev, doubleValue(op, t.image)); }
