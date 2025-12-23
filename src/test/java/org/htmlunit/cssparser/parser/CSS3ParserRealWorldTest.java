@@ -307,6 +307,63 @@ public class CSS3ParserRealWorldTest extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void bootstrap_5_3_8() throws Exception {
+        final String media = "(max-width: 1199.98px);"
+                + "(max-width: 1199.98px) and (prefers-reduced-motion: reduce);"
+                + "(max-width: 1399.98px);(max-width: 1399.98px) and (prefers-reduced-motion: reduce);"
+                + "(max-width: 575.98px);"
+                + "(max-width: 575.98px) and (prefers-reduced-motion: reduce);"
+                + "(max-width: 767.98px);"
+                + "(max-width: 767.98px) and (prefers-reduced-motion: reduce);"
+                + "(max-width: 991.98px);"
+                + "(max-width: 991.98px) and (prefers-reduced-motion: reduce);"
+                + "(min-width: 1200px);"
+                + "(min-width: 1400px);"
+                + "(min-width: 576px);"
+                + "(min-width: 768px);"
+                + "(min-width: 992px);"
+                + "(prefers-reduced-motion: no-preference);"
+                + "(prefers-reduced-motion: reduce);"
+                + "print;";
+        realWorld("realworld/bootstrap_5_3_8.css", 1307, 3414, media, 122, 0);
+        realWorld("realworld/bootstrap_5_3_8.min.css", 1307, 3414, media, 122, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void bootstrapUtilities_5_3_8() throws Exception {
+        final String media = "(min-width: 1200px);"
+                + "(min-width: 1400px);"
+                + "(min-width: 576px);"
+                + "(min-width: 768px);"
+                + "(min-width: 992px);"
+                + "(prefers-reduced-motion: reduce);"
+                + "print;";
+        realWorld("realworld/bootstrap-utilities_5_3_8.css", 529, 830, media, 100, 0);
+        realWorld("realworld/bootstrap-utilities_5_3_8.min.css", 529, 830, media, 100, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void bootstrapGrid_5_3_8() throws Exception {
+        final String media = "(min-width: 1200px);"
+                + "(min-width: 1400px);"
+                + "(min-width: 576px);"
+                + "(min-width: 768px);"
+                + "(min-width: 992px);"
+                + "print;";
+        realWorld("realworld/bootstrap-grid_5_3_8.css", 209, 262, media, 0, 0);
+        realWorld("realworld/bootstrap-grid_5_3_8.min.css", 209, 262, media, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void foundation_6_9_0() throws Exception {
         String media = "(-ms-high-contrast: active);"
                 + "all and (-ms-high-contrast: none);"
