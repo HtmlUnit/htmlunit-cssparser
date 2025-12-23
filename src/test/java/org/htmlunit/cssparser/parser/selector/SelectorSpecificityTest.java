@@ -262,4 +262,80 @@ public class SelectorSpecificityTest {
         selectorSpecifity(":has([data-theme='dark'], .night)", "0,0,1,0");
         selectorSpecifity(":has([data-theme='dark'], #night)", "0,1,0,0");
     }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void notPseudoClass() throws Exception {
+        selectorSpecifity(":not(p)", "0,0,0,1");
+        selectorSpecifity(":not(.class)", "0,0,1,0");
+        selectorSpecifity(":not(#id)", "0,1,0,0");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void isPseudoClass() throws Exception {
+        selectorSpecifity(":is(p)", "0,0,0,1");
+        selectorSpecifity(":is(.class)", "0,0,1,0");
+        selectorSpecifity(":is(#id)", "0,1,0,0");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void wherePseudoClass() throws Exception {
+        selectorSpecifity(":where(p)", "0,0,0,0");
+        selectorSpecifity(":where(.class)", "0,0,0,0");
+        selectorSpecifity(":where(#id)", "0,0,0,0");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void multipleIds() throws Exception {
+        selectorSpecifity("#id1#id2", "0,2,0,0");
+        selectorSpecifity("div#id1#id2", "0,2,0,1");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void complexCombinations() throws Exception {
+        selectorSpecifity("div.class1.class2#id", "0,1,2,1");
+        selectorSpecifity("ul li:first-child a", "0,0,1,3");
+        selectorSpecifity("#nav ul li a:hover", "0,1,1,3");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void attributeSelectors() throws Exception {
+        selectorSpecifity("[type]", "0,0,1,0");
+        selectorSpecifity("input[type=\"text\"]", "0,0,1,1");
+        selectorSpecifity("a[href^=\"https\"]", "0,0,1,1");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void compareToVariousCombinations() throws Exception {
+        final SelectorSpecificity s1 = selectorSpecifity("*", "0,0,0,0");
+        final SelectorSpecificity s2 = selectorSpecifity("#id", "0,1,0,0");
+        final SelectorSpecificity s3 = selectorSpecifity(".class", "0,0,1,0");
+        final SelectorSpecificity s4 = selectorSpecifity("p", "0,0,0,1");
+
+        assertTrue(s1.compareTo(s2) < 0);
+        assertTrue(s1.compareTo(s3) < 0);
+        assertTrue(s1.compareTo(s4) < 0);
+        assertTrue(s4.compareTo(s3) < 0);
+        assertTrue(s3.compareTo(s2) < 0);
+    }
 }
