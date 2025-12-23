@@ -15,6 +15,9 @@
 package org.htmlunit.cssparser.parser.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.htmlunit.cssparser.util.ParserUtils;
 import org.junit.jupiter.api.Test;
@@ -44,6 +47,30 @@ public class ParserUtilsTest {
      * @throws Exception on failure
      */
     @Test
+    public void trimByString() {
+        assertEquals("test", ParserUtils.trimBy("test", 0, 0));
+
+        assertEquals("est", ParserUtils.trimBy("test", 1, 0));
+        assertEquals("st", ParserUtils.trimBy("test", 2, 0));
+
+        assertEquals("tes", ParserUtils.trimBy("test", 0, 1));
+        assertEquals("te", ParserUtils.trimBy("test", 0, 2));
+
+        assertEquals("e", ParserUtils.trimBy("test", 1, 2));
+
+        // Test edge cases with explicit String type
+        final String nullString = null;
+        assertNull(ParserUtils.trimBy(nullString, 1, 1));
+        final String testString = "test";
+        assertEquals("test", ParserUtils.trimBy(testString, -1, 0));
+        assertEquals("test", ParserUtils.trimBy(testString, 0, -1));
+        assertEquals("test", ParserUtils.trimBy(testString, 3, 2));
+    }
+
+    /**
+     * @throws Exception on failure
+     */
+    @Test
     public void trimUrl() {
         assertEquals("test", ParserUtils.trimUrl(new StringBuilder("url(test)")));
         assertEquals("", ParserUtils.trimUrl(new StringBuilder("url()")));
@@ -52,5 +79,27 @@ public class ParserUtilsTest {
         assertEquals("test", ParserUtils.trimUrl(new StringBuilder("url(\"test\")")));
 
         assertEquals("test", ParserUtils.trimUrl(new StringBuilder("url(   test \t )")));
+    }
+
+    /**
+     * @throws Exception on failure
+     */
+    @Test
+    public void equalsIgnoreCase() {
+        assertTrue(ParserUtils.equalsIgnoreCase("test", "TEST"));
+        assertTrue(ParserUtils.equalsIgnoreCase("Test", "test"));
+        assertTrue(ParserUtils.equalsIgnoreCase("test", "test"));
+        assertTrue(ParserUtils.equalsIgnoreCase("", ""));
+
+        assertFalse(ParserUtils.equalsIgnoreCase("test", "other"));
+        assertFalse(ParserUtils.equalsIgnoreCase("test", "TEST123"));
+
+        assertTrue(ParserUtils.equalsIgnoreCase(null, null));
+        assertFalse(ParserUtils.equalsIgnoreCase("test", null));
+        assertFalse(ParserUtils.equalsIgnoreCase(null, "test"));
+
+        // Same reference
+        final String s = "test";
+        assertTrue(ParserUtils.equalsIgnoreCase(s, s));
     }
 }
