@@ -229,8 +229,8 @@ TOKEN_MGR_DECLS :
 // N        n|\\0{0,4}(4e|6e)(\r\n|[ \t\r\n\f])?|\\n
 | < #N_LETTER: "n" | "\\" ("0")? ("0")? ("0")? ("0")? ( "4e" | "6e" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "n" >
 
-// O        o|\\0{0,4}(51|71)(\r\n|[ \t\r\n\f])?|\\o
-| < #O_LETTER: "o" | "\\" ("0")? ("0")? ("0")? ("0")? ( "51" | "71" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "o" >
+// O        o|\\0{0,4}(4f|6f)(\r\n|[ \t\r\n\f])?|\\o
+| < #O_LETTER: "o" | "\\" ("0")? ("0")? ("0")? ("0")? ( "4f" | "6f" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "o" >
 
 // P        p|\\0{0,4}(50|70)(\r\n|[ \t\r\n\f])?|\\p
 | < #P_LETTER: "p" | "\\" ("0")? ("0")? ("0")? ("0")? ( "50" | "70" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "p" >
@@ -244,7 +244,7 @@ TOKEN_MGR_DECLS :
 // T        t|\\0{0,4}(54|74)(\r\n|[ \t\r\n\f])?|\\t
 | < #T_LETTER: "t" | "\\" ("0")? ("0")? ("0")? ("0")? ( "54" | "74" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "t" >
 
-// U        v|\\0{0,4}(55|76)(\r\n|[ \t\r\n\f])?|\\v
+// U        u|\\0{0,4}(55|75)(\r\n|[ \t\r\n\f])?|\\v
 | < #U_LETTER: "u" | "\\" ("0")? ("0")? ("0")? ("0")? ( "55" | "75" ) ( "\r\n" | [ " ", "\t", "\r", "\n", "\f"])? | "\\" "u" >
 
 // X        x|\\0{0,4}(58|78)(\r\n|[ \t\r\n\f])?|\\x
@@ -345,7 +345,7 @@ TOKEN_MGR_DECLS :
 // {num}{V}{M}{I}{N}    {return VMIN;}
 | < VMIN: <NUM> "vmin" > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
 
-// {num}{V}{M}{I}{N}    {return VMAX;}
+// {num}{V}{M}{A}{X}    {return VMAX;}
 | < VMAX: <NUM> "vmax" > { matchedToken.image = ParserUtils.trimBy(image, 0, 4); }
 
 // {num}{P}{X}          {return LENGTH;}
@@ -3165,7 +3165,7 @@ String skipUnit() {
     Token oldToken = null;
     while (t.kind != SEMICOLON && t.kind != RBRACE && t.kind != EOF ) {
         oldToken = t;
-        sb.append(oldToken.image);
+        sb.append(t.image);
         appendUnit(t, sb);
 
         t = getNextToken();
