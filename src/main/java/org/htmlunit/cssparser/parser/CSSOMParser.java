@@ -72,6 +72,15 @@ public class CSSOMParser {
     }
 
     /**
+     * Enable or disable semantic validation.
+     *
+     * @param enabled true to enable semantic validation
+     */
+    public void setSemanticValidationEnabled(final boolean enabled) {
+        parser_.setSemanticValidationEnabled(enabled);
+    }
+
+    /**
      * Parses a SAC input source into a CSSOM style sheet.
      *
      * @param source the SAC input source
