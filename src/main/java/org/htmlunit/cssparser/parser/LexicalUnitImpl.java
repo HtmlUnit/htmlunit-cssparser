@@ -241,6 +241,30 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 return "vmin";
             case VMAX:
                 return "vmax";
+            case DVW:
+                return "dvw";
+            case DVH:
+                return "dvh";
+            case DVMIN:
+                return "dvmin";
+            case DVMAX:
+                return "dvmax";
+            case LVW:
+                return "lvw";
+            case LVH:
+                return "lvh";
+            case LVMIN:
+                return "lvmin";
+            case LVMAX:
+                return "lvmax";
+            case SVW:
+                return "svw";
+            case SVH:
+                return "svh";
+            case SVMIN:
+                return "svmin";
+            case SVMAX:
+                return "svmax";
             case PIXEL:
                 return "px";
             case INCH:
@@ -363,6 +387,18 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
             case VH:
             case VMIN:
             case VMAX:
+            case DVW:
+            case DVH:
+            case DVMIN:
+            case DVMAX:
+            case LVW:
+            case LVH:
+            case LVMIN:
+            case LVMAX:
+            case SVW:
+            case SVH:
+            case SVMIN:
+            case SVMAX:
             case PIXEL:
             case INCH:
             case CENTIMETER:
@@ -580,6 +616,78 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 break;
             case VMAX:
                 sb.append("VMAX(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case DVW:
+                sb.append("DVW(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case DVH:
+                sb.append("DVH(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case DVMIN:
+                sb.append("DVMIN(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case DVMAX:
+                sb.append("DVMAX(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case LVW:
+                sb.append("LVW(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case LVH:
+                sb.append("LVH(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case LVMIN:
+                sb.append("LVMIN(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case LVMAX:
+                sb.append("LVMAX(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case SVW:
+                sb.append("SVW(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case SVH:
+                sb.append("SVH(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case SVMIN:
+                sb.append("SVMIN(")
+                    .append(getTrimedDoubleValue())
+                    .append(getDimensionUnitText())
+                    .append(")");
+                break;
+            case SVMAX:
+                sb.append("SVMAX(")
                     .append(getTrimedDoubleValue())
                     .append(getDimensionUnitText())
                     .append(")");
@@ -971,6 +1079,114 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
      */
     public static LexicalUnit createVMax(final LexicalUnit prev, final double d) {
         return new LexicalUnitImpl(prev, LexicalUnitType.VMAX, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type dvw
+     */
+    public static LexicalUnit createDvw(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.DVW, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type dvh
+     */
+    public static LexicalUnit createDvh(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.DVH, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type dvmin
+     */
+    public static LexicalUnit createDvMin(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.DVMIN, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type dvmax
+     */
+    public static LexicalUnit createDvMax(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.DVMAX, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type lvw
+     */
+    public static LexicalUnit createLvw(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.LVW, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type lvh
+     */
+    public static LexicalUnit createLvh(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.LVH, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type lvmin
+     */
+    public static LexicalUnit createLvMin(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.LVMIN, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type lvmax
+     */
+    public static LexicalUnit createLvMax(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.LVMAX, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type svw
+     */
+    public static LexicalUnit createSvw(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.SVW, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type svh
+     */
+    public static LexicalUnit createSvh(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.SVH, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type svmin
+     */
+    public static LexicalUnit createSvMin(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.SVMIN, d);
+    }
+
+    /**
+     * @param prev the previous LexicalUnit
+     * @param d the double value
+     * @return lexical unit with type svmax
+     */
+    public static LexicalUnit createSvMax(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.SVMAX, d);
     }
 
     /**

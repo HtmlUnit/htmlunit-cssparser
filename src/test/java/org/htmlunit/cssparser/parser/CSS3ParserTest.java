@@ -1349,6 +1349,30 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         expression("h1 { top: var(--tailwind-empty,, blue,, red); }");
     }
 
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void modernViewportUnits() throws Exception {
+        // Dynamic viewport units
+        expression("h1 { width: 100dvw; }", 0, 0, 0);
+        expression("h1 { height: 50dvh; }", 0, 0, 0);
+        expression("h1 { width: 10dvmin; }", 0, 0, 0);
+        expression("h1 { height: 20dvmax; }", 0, 0, 0);
+
+        // Large viewport units
+        expression("h1 { width: 100lvw; }", 0, 0, 0);
+        expression("h1 { height: 50lvh; }", 0, 0, 0);
+        expression("h1 { width: 10lvmin; }", 0, 0, 0);
+        expression("h1 { height: 20lvmax; }", 0, 0, 0);
+
+        // Small viewport units
+        expression("h1 { width: 100svw; }", 0, 0, 0);
+        expression("h1 { height: 50svh; }", 0, 0, 0);
+        expression("h1 { width: 10svmin; }", 0, 0, 0);
+        expression("h1 { height: 20svmax; }", 0, 0, 0);
+    }
+
     private void expression(final String cssText) throws Exception {
         expression(cssText, 0, 0, 0, cssText);
     }
@@ -1600,7 +1624,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 + " Error in declaration. (Invalid token \";\". Was expecting one of: <S>, \":\".)"
                 + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
-                        + "<VW>, <VH>, <VMIN>, <VMAX>, "
+                        + "<VW>, <VH>, <VMIN>, <VMAX>, <DVW>, <DVH>, <DVMIN>, <DVMAX>, <LVW>, <LVH>, <LVMIN>, <LVMAX>, <SVW>, <SVH>, <SVMIN>, <SVMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
@@ -1608,7 +1632,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
-                        + "<VW>, <VH>, <VMIN>, <VMAX>, "
+                        + "<VW>, <VH>, <VMIN>, <VMAX>, <DVW>, <DVH>, <DVMIN>, <DVMAX>, <LVW>, <LVH>, <LVMIN>, <LVMAX>, <SVW>, <SVH>, <SVMIN>, <SVMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
@@ -1906,7 +1930,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         final String expected = "Error in expression. "
                 + "(Invalid token \"\\'\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
-                        + "<VW>, <VH>, <VMIN>, <VMAX>, "
+                        + "<VW>, <VH>, <VMIN>, <VMAX>, <DVW>, <DVH>, <DVMIN>, <DVMAX>, <LVW>, <LVH>, <LVMIN>, <LVMAX>, <SVW>, <SVH>, <SVMIN>, <SVMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
@@ -2391,6 +2415,114 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
     public void dimensionVMax() throws Exception {
         final CSSValueImpl value = dimension("17vmax");
         assertEquals(CSSPrimitiveValueType.CSS_VMAX, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionDvw() throws Exception {
+        final CSSValueImpl value = dimension("17dvw");
+        assertEquals(CSSPrimitiveValueType.CSS_DVW, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionDvh() throws Exception {
+        final CSSValueImpl value = dimension("17dvh");
+        assertEquals(CSSPrimitiveValueType.CSS_DVH, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionDvmin() throws Exception {
+        final CSSValueImpl value = dimension("17dvmin");
+        assertEquals(CSSPrimitiveValueType.CSS_DVMIN, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionDvmax() throws Exception {
+        final CSSValueImpl value = dimension("17dvmax");
+        assertEquals(CSSPrimitiveValueType.CSS_DVMAX, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionLvw() throws Exception {
+        final CSSValueImpl value = dimension("17lvw");
+        assertEquals(CSSPrimitiveValueType.CSS_LVW, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionLvh() throws Exception {
+        final CSSValueImpl value = dimension("17lvh");
+        assertEquals(CSSPrimitiveValueType.CSS_LVH, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionLvmin() throws Exception {
+        final CSSValueImpl value = dimension("17lvmin");
+        assertEquals(CSSPrimitiveValueType.CSS_LVMIN, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionLvmax() throws Exception {
+        final CSSValueImpl value = dimension("17lvmax");
+        assertEquals(CSSPrimitiveValueType.CSS_LVMAX, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionSvw() throws Exception {
+        final CSSValueImpl value = dimension("17svw");
+        assertEquals(CSSPrimitiveValueType.CSS_SVW, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionSvh() throws Exception {
+        final CSSValueImpl value = dimension("17svh");
+        assertEquals(CSSPrimitiveValueType.CSS_SVH, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionSvmin() throws Exception {
+        final CSSValueImpl value = dimension("17svmin");
+        assertEquals(CSSPrimitiveValueType.CSS_SVMIN, value.getPrimitiveType());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimensionSvmax() throws Exception {
+        final CSSValueImpl value = dimension("17svmax");
+        assertEquals(CSSPrimitiveValueType.CSS_SVMAX, value.getPrimitiveType());
     }
 
     /**

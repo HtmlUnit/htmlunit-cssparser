@@ -85,6 +85,42 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         /** CSS_VMAX. */
         CSS_VMAX,
 
+        /** CSS_DVW. */
+        CSS_DVW,
+
+        /** CSS_DVH. */
+        CSS_DVH,
+
+        /** CSS_DVMIN. */
+        CSS_DVMIN,
+
+        /** CSS_DVMAX. */
+        CSS_DVMAX,
+
+        /** CSS_LVW. */
+        CSS_LVW,
+
+        /** CSS_LVH. */
+        CSS_LVH,
+
+        /** CSS_LVMIN. */
+        CSS_LVMIN,
+
+        /** CSS_LVMAX. */
+        CSS_LVMAX,
+
+        /** CSS_SVW. */
+        CSS_SVW,
+
+        /** CSS_SVH. */
+        CSS_SVH,
+
+        /** CSS_SVMIN. */
+        CSS_SVMIN,
+
+        /** CSS_SVMAX. */
+        CSS_SVMAX,
+
         /** CSS_PX. */
         CSS_PX,
 
@@ -355,6 +391,32 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
                     return CSSPrimitiveValueType.CSS_VMIN;
                 case VMAX:
                     return CSSPrimitiveValueType.CSS_VMAX;
+
+                case DVW:
+                    return CSSPrimitiveValueType.CSS_DVW;
+                case DVH:
+                    return CSSPrimitiveValueType.CSS_DVH;
+                case DVMIN:
+                    return CSSPrimitiveValueType.CSS_DVMIN;
+                case DVMAX:
+                    return CSSPrimitiveValueType.CSS_DVMAX;
+                case LVW:
+                    return CSSPrimitiveValueType.CSS_LVW;
+                case LVH:
+                    return CSSPrimitiveValueType.CSS_LVH;
+                case LVMIN:
+                    return CSSPrimitiveValueType.CSS_LVMIN;
+                case LVMAX:
+                    return CSSPrimitiveValueType.CSS_LVMAX;
+                case SVW:
+                    return CSSPrimitiveValueType.CSS_SVW;
+                case SVH:
+                    return CSSPrimitiveValueType.CSS_SVH;
+                case SVMIN:
+                    return CSSPrimitiveValueType.CSS_SVMIN;
+                case SVMAX:
+                    return CSSPrimitiveValueType.CSS_SVMAX;
+
                 case PIXEL:
                     return CSSPrimitiveValueType.CSS_PX;
                 case INCH:
