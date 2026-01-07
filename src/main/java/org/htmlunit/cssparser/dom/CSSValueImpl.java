@@ -399,11 +399,9 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
                 case QUATER -> CSSPrimitiveValueType.CSS_Q;
                 case PERCENTAGE -> CSSPrimitiveValueType.CSS_PERCENTAGE;
                 case URI -> CSSPrimitiveValueType.CSS_URI;
-                case COUNTER_FUNCTION ->
-                    //            case COUNTERS_FUNCTION:
-                        CSSPrimitiveValueType.CSS_COUNTER;
-                //            case RGBCOLOR:
-                //                return CSS_RGBCOLOR;
+                case COUNTER_FUNCTION -> CSSPrimitiveValueType.CSS_COUNTER;
+                // case COUNTERS_FUNCTION
+                // case RGBCOLOR -> CSS_RGBCOLOR;
                 case DEGREE -> CSSPrimitiveValueType.CSS_DEG;
                 case GRADIAN -> CSSPrimitiveValueType.CSS_GRAD;
                 case RADIAN -> CSSPrimitiveValueType.CSS_RAD;
@@ -416,8 +414,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
                 case NONE -> CSSPrimitiveValueType.CSS_IDENT;
                 case STRING_VALUE -> CSSPrimitiveValueType.CSS_STRING;
                 case ATTR -> CSSPrimitiveValueType.CSS_ATTR;
-                //            case RECT_FUNCTION:
-                //                return CSSPrimitiveValueType.CSS_RECT;
+                // case RECT_FUNCTION-> CSSPrimitiveValueType.CSS_RECT;
                 case UNICODERANGE, FUNCTION, FUNCTION_CALC -> CSSPrimitiveValueType.CSS_STRING;
                 case DIMENSION -> CSSPrimitiveValueType.CSS_DIMENSION;
                 default -> CSSPrimitiveValueType.CSS_UNKNOWN;
