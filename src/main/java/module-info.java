@@ -23,6 +23,7 @@ module org.htmlunit.cssparser {
     exports org.htmlunit.cssparser.dom;
     exports org.htmlunit.cssparser.parser;
     exports org.htmlunit.cssparser.parser.condition;
+    exports org.htmlunit.cssparser.parser.javacc;
     exports org.htmlunit.cssparser.parser.media;
     exports org.htmlunit.cssparser.parser.selector;
     exports org.htmlunit.cssparser.util;
