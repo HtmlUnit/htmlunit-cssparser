@@ -18,6 +18,26 @@ We will try to stay in sync with CSSParser regarding the features in the future.
 
 [HtmlUnit@mastodon](https://fosstodon.org/@HtmlUnit) | [HtmlUnit@bsky](https://bsky.app/profile/htmlunit.bsky.social) | [HtmlUnit@Twitter](https://twitter.com/HtmlUnit)
 
+#### Version 5
+
+Work on HtmlUnit-CSSParser 5.0 has started. This new major version will require **JDK 17 or higher**.
+
+
+#### Legacy Support (JDK 8)
+
+If you need to continue using **JDK 8**, please note that versions 4.x will remain available as-is. However,
+**ongoing maintenance and fixes for JDK 8 compatibility are only available through sponsorship**.
+
+Maintaining separate fix versions for JDK 8 requires significant additional effort for __backporting__, testing, and release management.
+
+**To enable continued JDK 8 support**, please contact me via email to discuss sponsorship options. Sponsorship provides:
+
+- __Backporting__ security and bug fixes to the 4.x branch
+- Maintaining compatibility with older Java versions
+- Timely releases for critical issues
+
+Without sponsorship, the 4.x branch will not receive updates. Your support ensures the long-term __sustainability__ of this project across multiple Java versions.
+
 ### Latest release Version 4.21.0 / December 28, 2025
 
 ## Get it!
@@ -161,3 +181,17 @@ This project is licensed under the Apache 2.0 License
 ## Acknowledgments
 
 Many thanks to all of you contributing to HtmlUnit/CSSParser/Rhino in the past.
+
+## Development Tools
+
+Special thanks to:
+
+<a href="https://www.jetbrains.com/community/opensource/"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg" alt="JetBrains" width="42"></a>
+<a href="https://www.jetbrains.com/idea/"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/IntelliJ_IDEA_icon.svg" alt="IntelliJ IDEA" width="42"></a>  
+**[JetBrains](https://www.jetbrains.com/)** for providing IntelliJ IDEA under their [open source development license](https://www.jetbrains.com/community/opensource/) and
+
+<a href="https://www.eclipse.org/"><img src="https://www.eclipse.org/eclipse.org-common/themes/solstice/public/images/logo/eclipse-foundation-grey-orange.svg" alt="Eclipse Foundation" width="80"></a>  
+Eclipse Foundation for their Eclipse IDE
+
+<a href="https://www.syntevo.com/smartgit/"><img src="https://www.syntevo.com/assets/images/logos/smartgit-8c1aa1e2.svg" alt="SmartGit" width="54"></a>  
+to **[Syntevo](https://www.syntevo.com/)** for their excellent [SmartGit](https://www.smartgit.dev/)!

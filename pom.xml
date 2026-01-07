@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>4.21.0</version>
+    <version>5.0.0-SNAPSHOT</version>
     <name>HtmlUnit CSS Parser</name>
     <organization>
         <name>HtmlUnit</name>
@@ -17,16 +17,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+
+        <maven.version.ignore>(?i).*-(alpha|beta|m|rc)([\.-]?\d+)?</maven.version.ignore>
 
         <!-- test dependencies -->
-        <junit.version>5.14.1</junit.version>
-        <junit-launcher.version>1.14.1</junit-launcher.version>
+        <junit.version>6.0.2</junit.version>
         <commons-io.version>2.21.0</commons-io.version>
 
         <!-- quality -->
-        <checkstyle.version>12.3.0</checkstyle.version>
+        <checkstyle.version>13.0.0</checkstyle.version>
         <dependencycheck.version>10.0.4</dependencycheck.version>
 
         <!-- plugins -->
@@ -60,7 +61,7 @@
                                     <version>3.6.3</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>1.8.0</version>
+                                    <version>17</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
@@ -365,7 +366,7 @@
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
-            <version>${junit-launcher.version}</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
