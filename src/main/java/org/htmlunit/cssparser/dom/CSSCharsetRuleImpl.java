@@ -63,13 +63,7 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
                     DOMExceptionImpl.EXPECTING_CHARSET_RULE);
             }
         }
-        catch (final CSSException e) {
-            throw new DOMExceptionImpl(
-                DOMException.SYNTAX_ERR,
-                DOMExceptionImpl.SYNTAX_ERROR,
-                e.getMessage());
-        }
-        catch (final IOException e) {
+        catch (final CSSException | IOException e) {
             throw new DOMExceptionImpl(
                 DOMException.SYNTAX_ERR,
                 DOMExceptionImpl.SYNTAX_ERROR,
@@ -92,10 +86,9 @@ public class CSSCharsetRuleImpl extends AbstractCSSRuleImpl {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSCharsetRuleImpl)) {
+        if (!(obj instanceof CSSCharsetRuleImpl ccr)) {
             return false;
         }
-        final CSSCharsetRuleImpl ccr = (CSSCharsetRuleImpl) obj;
         return super.equals(obj)
             && ParserUtils.equals(getEncoding(), ccr.getEncoding());
     }

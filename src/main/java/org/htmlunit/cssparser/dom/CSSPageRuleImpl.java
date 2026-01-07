@@ -94,13 +94,7 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
                     DOMExceptionImpl.EXPECTING_PAGE_RULE);
             }
         }
-        catch (final CSSException e) {
-            throw new DOMExceptionImpl(
-                DOMException.SYNTAX_ERR,
-                DOMExceptionImpl.SYNTAX_ERROR,
-                e.getMessage());
-        }
-        catch (final IOException e) {
+        catch (final CSSException | IOException e) {
             throw new DOMExceptionImpl(
                 DOMException.SYNTAX_ERR,
                 DOMExceptionImpl.SYNTAX_ERROR,
@@ -140,13 +134,7 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
                     DOMExceptionImpl.EXPECTING_PAGE_RULE);
             }
         }
-        catch (final CSSException e) {
-            throw new DOMExceptionImpl(
-                DOMException.SYNTAX_ERR,
-                DOMExceptionImpl.SYNTAX_ERROR,
-                e.getMessage());
-        }
-        catch (final IOException e) {
+        catch (final CSSException | IOException e) {
             throw new DOMExceptionImpl(
                 DOMException.SYNTAX_ERR,
                 DOMExceptionImpl.SYNTAX_ERROR,
@@ -174,10 +162,9 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSPageRuleImpl)) {
+        if (!(obj instanceof CSSPageRuleImpl cpr)) {
             return false;
         }
-        final CSSPageRuleImpl cpr = (CSSPageRuleImpl) obj;
         return super.equals(obj)
             && ParserUtils.equals(getSelectorText(), cpr.getSelectorText())
             && ParserUtils.equals(getStyle(), cpr.getStyle());

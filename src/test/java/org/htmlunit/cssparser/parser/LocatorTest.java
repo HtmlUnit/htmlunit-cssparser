@@ -149,7 +149,7 @@ public class LocatorTest {
 
     private void cssRule(final AbstractCSSRuleImpl cssRule, final Map<Character, List<Integer[]>> positions,
             final Map<Character, Integer> counts) {
-        final Locator locator = ((Locatable) cssRule).getLocator();
+        final Locator locator = cssRule.getLocator();
         final Integer[] expected = positions.get('R').get(counts.get('R'));
         final int expectedLine = expected[0];
         final int expectedColumn = expected[1];
@@ -158,33 +158,26 @@ public class LocatorTest {
         assertEquals(expectedColumn, locator.getColumnNumber());
         counts.put('R', counts.get('R') + 1);
 
-        if (cssRule instanceof CSSUnknownRuleImpl) {
-            final CSSUnknownRuleImpl cssUnknownRule = (CSSUnknownRuleImpl) cssRule;
+        if (cssRule instanceof CSSUnknownRuleImpl cssUnknownRule) {
             // TODO
         }
-        else if (cssRule instanceof CSSCharsetRuleImpl) {
-            final CSSCharsetRuleImpl cssCharsetRule = (CSSCharsetRuleImpl) cssRule;
+        else if (cssRule instanceof CSSCharsetRuleImpl cssCharsetRule) {
             // TODO
         }
-        else if (cssRule instanceof CSSImportRuleImpl) {
-            final CSSImportRuleImpl cssImportRule = (CSSImportRuleImpl) cssRule;
+        else if (cssRule instanceof CSSImportRuleImpl cssImportRule) {
             mediaList(cssImportRule.getMedia(), positions, counts);
         }
-        else if (cssRule instanceof CSSMediaRuleImpl) {
-            final CSSMediaRuleImpl cssMediaRule = (CSSMediaRuleImpl) cssRule;
+        else if (cssRule instanceof CSSMediaRuleImpl cssMediaRule) {
             mediaList(cssMediaRule.getMediaList(), positions, counts);
             cssRules(cssMediaRule.getCssRules(), positions, counts);
         }
-        else if (cssRule instanceof CSSPageRuleImpl) {
-            final CSSPageRuleImpl cssPageRule = (CSSPageRuleImpl) cssRule;
+        else if (cssRule instanceof CSSPageRuleImpl cssPageRule) {
             cssStyleDeclaration(cssPageRule.getStyle(), positions, counts);
         }
-        else if (cssRule instanceof CSSFontFaceRuleImpl) {
-            final CSSFontFaceRuleImpl cssFontFaceRule = (CSSFontFaceRuleImpl) cssRule;
+        else if (cssRule instanceof CSSFontFaceRuleImpl cssFontFaceRule) {
             cssStyleDeclaration(cssFontFaceRule.getStyle(), positions, counts);
         }
-        else if (cssRule instanceof CSSStyleRuleImpl) {
-            final CSSStyleRuleImpl cssStyleRule = (CSSStyleRuleImpl) cssRule;
+        else if (cssRule instanceof CSSStyleRuleImpl cssStyleRule) {
             cssStyleDeclaration(cssStyleRule.getStyle(), positions, counts);
         }
         else {
@@ -195,9 +188,8 @@ public class LocatorTest {
     private void cssStyleDeclaration(final CSSStyleDeclarationImpl style,
             final Map<Character, List<Integer[]>> positions,
             final Map<Character, Integer> counts)    {
-        final Iterator<Property> it = style.getProperties().iterator();
-        while (it.hasNext()) {
-            property(it.next(), positions, counts);
+        for (Property property : style.getProperties()) {
+            property(property, positions, counts);
         }
     }
 
@@ -205,7 +197,7 @@ public class LocatorTest {
             final Map<Character, List<Integer[]>> positions,
             final Map<Character, Integer> counts) {
         if (mediaList.getLength() > 0) {
-            final Locator locator = ((Locatable) mediaList).getLocator();
+            final Locator locator = mediaList.getLocator();
             final Integer[] expected = positions.get('M').get(counts.get('M'));
             final int expectedLine = expected[0];
             final int expectedColumn = expected[1];

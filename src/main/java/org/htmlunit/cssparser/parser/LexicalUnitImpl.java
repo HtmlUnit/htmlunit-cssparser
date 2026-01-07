@@ -224,84 +224,46 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
 
     @Override
     public String getDimensionUnitText() {
-        switch (lexicalUnitType_) {
-            case EM:
-                return "em";
-            case REM:
-                return "rem";
-            case EX:
-                return "ex";
-            case CH:
-                return "ch";
-            case VW:
-                return "vw";
-            case VH:
-                return "vh";
-            case VMIN:
-                return "vmin";
-            case VMAX:
-                return "vmax";
-            case DVW:
-                return "dvw";
-            case DVH:
-                return "dvh";
-            case DVMIN:
-                return "dvmin";
-            case DVMAX:
-                return "dvmax";
-            case LVW:
-                return "lvw";
-            case LVH:
-                return "lvh";
-            case LVMIN:
-                return "lvmin";
-            case LVMAX:
-                return "lvmax";
-            case SVW:
-                return "svw";
-            case SVH:
-                return "svh";
-            case SVMIN:
-                return "svmin";
-            case SVMAX:
-                return "svmax";
-            case PIXEL:
-                return "px";
-            case INCH:
-                return "in";
-            case CENTIMETER:
-                return "cm";
-            case MILLIMETER:
-                return "mm";
-            case POINT:
-                return "pt";
-            case PICA:
-                return "pc";
-            case QUATER:
-                return "Q";
-            case PERCENTAGE:
-                return "%";
-            case DEGREE:
-                return "deg";
-            case GRADIAN:
-                return "grad";
-            case RADIAN:
-                return "rad";
-            case TURN:
-                return "turn";
-            case MILLISECOND:
-                return "ms";
-            case SECOND:
-                return "s";
-            case HERTZ:
-                return "Hz";
-            case KILOHERTZ:
-                return "kHz";
-            case DIMENSION:
-                return dimension_;
-            default:
-                return "";
-        }
+        return switch (lexicalUnitType_) {
+            case EM -> "em";
+            case REM -> "rem";
+            case EX -> "ex";
+            case CH -> "ch";
+            case VW -> "vw";
+            case VH -> "vh";
+            case VMIN -> "vmin";
+            case VMAX -> "vmax";
+            case DVW -> "dvw";
+            case DVH -> "dvh";
+            case DVMIN -> "dvmin";
+            case DVMAX -> "dvmax";
+            case LVW -> "lvw";
+            case LVH -> "lvh";
+            case LVMIN -> "lvmin";
+            case LVMAX -> "lvmax";
+            case SVW -> "svw";
+            case SVH -> "svh";
+            case SVMIN -> "svmin";
+            case SVMAX -> "svmax";
+            case PIXEL -> "px";
+            case INCH -> "in";
+            case CENTIMETER -> "cm";
+            case MILLIMETER -> "mm";
+            case POINT -> "pt";
+            case PICA -> "pc";
+            case QUATER -> "Q";
+            case PERCENTAGE -> "%";
+            case DEGREE -> "deg";
+            case GRADIAN -> "grad";
+            case RADIAN -> "rad";
+            case TURN -> "turn";
+            case MILLISECOND -> "ms";
+            case SECOND -> "s";
+            case HERTZ -> "Hz";
+            case KILOHERTZ -> "kHz";
+            case DIMENSION -> dimension_;
+            default -> "";
+        };
     }
 
     @Override

@@ -99,13 +99,7 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
                     DOMExceptionImpl.EXPECTING_STYLE_RULE);
             }
         }
-        catch (final CSSException e) {
-            throw new DOMExceptionImpl(
-                DOMException.SYNTAX_ERR,
-                DOMExceptionImpl.SYNTAX_ERROR,
-                e.getMessage());
-        }
-        catch (final IOException e) {
+        catch (final CSSException | IOException e) {
             throw new DOMExceptionImpl(
                 DOMException.SYNTAX_ERR,
                 DOMExceptionImpl.SYNTAX_ERROR,
@@ -130,13 +124,7 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
             final CSSOMParser parser = new CSSOMParser();
             selectors_ = parser.parseSelectors(selectorText);
         }
-        catch (final CSSException e) {
-            throw new DOMExceptionImpl(
-                DOMException.SYNTAX_ERR,
-                DOMExceptionImpl.SYNTAX_ERROR,
-                e.getMessage());
-        }
-        catch (final IOException e) {
+        catch (final CSSException | IOException e) {
             throw new DOMExceptionImpl(
                 DOMException.SYNTAX_ERR,
                 DOMExceptionImpl.SYNTAX_ERROR,
@@ -169,10 +157,9 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSStyleRuleImpl)) {
+        if (!(obj instanceof CSSStyleRuleImpl csr)) {
             return false;
         }
-        final CSSStyleRuleImpl csr = (CSSStyleRuleImpl) obj;
         return super.equals(obj)
             && ParserUtils.equals(getSelectorText(), csr.getSelectorText())
             && ParserUtils.equals(getStyle(), csr.getStyle());

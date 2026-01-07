@@ -83,13 +83,7 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
                     DOMExceptionImpl.EXPECTING_MEDIA_RULE);
             }
         }
-        catch (final CSSException e) {
-            throw new DOMExceptionImpl(
-                DOMException.SYNTAX_ERR,
-                DOMExceptionImpl.SYNTAX_ERROR,
-                e.getMessage());
-        }
-        catch (final IOException e) {
+        catch (final CSSException | IOException e) {
             throw new DOMExceptionImpl(
                 DOMException.SYNTAX_ERR,
                 DOMExceptionImpl.SYNTAX_ERROR,
@@ -145,13 +139,7 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
                 DOMExceptionImpl.INDEX_OUT_OF_BOUNDS,
                 e.getMessage());
         }
-        catch (final CSSException e) {
-            throw new DOMExceptionImpl(
-                DOMException.SYNTAX_ERR,
-                DOMExceptionImpl.SYNTAX_ERROR,
-                e.getMessage());
-        }
-        catch (final IOException e) {
+        catch (final CSSException | IOException e) {
             throw new DOMExceptionImpl(
                 DOMException.SYNTAX_ERR,
                 DOMExceptionImpl.SYNTAX_ERROR,
@@ -196,10 +184,9 @@ public class CSSMediaRuleImpl extends AbstractCSSRuleImpl {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSMediaRuleImpl)) {
+        if (!(obj instanceof CSSMediaRuleImpl cmr)) {
             return false;
         }
-        final CSSMediaRuleImpl cmr = (CSSMediaRuleImpl) obj;
         return super.equals(obj)
             && ParserUtils.equals(getMediaList(), cmr.getMediaList())
             && ParserUtils.equals(getCssRules(), cmr.getCssRules());

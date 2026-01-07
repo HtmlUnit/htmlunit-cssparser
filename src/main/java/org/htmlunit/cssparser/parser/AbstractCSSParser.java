@@ -110,7 +110,7 @@ public abstract class AbstractCSSParser {
      *
      * <p>If the application does not register a document handler, all
      * document events reported by the CSS parser will be silently
-     * ignored (this is the default behaviour implemented by
+     * ignored (this is the default behavior implemented by
      * HandlerBase).</p>
      *
      * <p>Applications may register a new or different handler in the
@@ -142,7 +142,7 @@ public abstract class AbstractCSSParser {
      * <p>If the application does not register an error event handler,
      * all error events reported by the CSS parser will be silently
      * ignored, except for fatalError, which will throw a CSSException
-     * (this is the default behaviour implemented by HandlerBase).</p>
+     * (this is the default behavior implemented by HandlerBase).</p>
      *
      * <p>Applications may register a new or different handler in the
      * middle of a parse, and the CSS parser must begin using the new
@@ -911,7 +911,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * Parses the sting into an double.
+     * Parses the sting into a double.
      *
      * @param op the sign char
      * @param s the string to parse
@@ -944,7 +944,7 @@ public abstract class AbstractCSSParser {
     /**
      * Unescapes escaped characters in the specified string, according to the
      * <a href="http://www.w3.org/TR/CSS21/syndata.html#escaped-characters">CSS specification</a>.
-     *
+     * <p>
      * This could be done directly in the parser, but portions of the lexer would have to be moved
      * to the parser, meaning that the grammar would no longer match the standard grammar specified
      * by the W3C. This would make the parser and lexer much less maintainable.
@@ -1075,49 +1075,25 @@ public abstract class AbstractCSSParser {
     }
 
     private static int hexval(final char c) {
-        switch (c) {
-            case '0' :
-                return 0;
-            case '1' :
-                return 1;
-            case '2' :
-                return 2;
-            case '3' :
-                return 3;
-            case '4' :
-                return 4;
-            case '5' :
-                return 5;
-            case '6' :
-                return 6;
-            case '7' :
-                return 7;
-            case '8' :
-                return 8;
-            case '9' :
-                return 9;
-
-            case 'a' :
-            case 'A' :
-                return 10;
-            case 'b' :
-            case 'B' :
-                return 11;
-            case 'c' :
-            case 'C' :
-                return 12;
-            case 'd' :
-            case 'D' :
-                return 13;
-            case 'e' :
-            case 'E' :
-                return 14;
-            case 'f' :
-            case 'F' :
-                return 15;
-            default :
-                return -1;
-        }
+        return switch (c) {
+            case '0' -> 0;
+            case '1' -> 1;
+            case '2' -> 2;
+            case '3' -> 3;
+            case '4' -> 4;
+            case '5' -> 5;
+            case '6' -> 6;
+            case '7' -> 7;
+            case '8' -> 8;
+            case '9' -> 9;
+            case 'a', 'A' -> 10;
+            case 'b', 'B' -> 11;
+            case 'c', 'C' -> 12;
+            case 'd', 'D' -> 13;
+            case 'e', 'E' -> 14;
+            case 'f', 'F' -> 15;
+            default -> -1;
+        };
     }
 
     protected String normalizeAndValidatePagePseudoClass(final Token t) {

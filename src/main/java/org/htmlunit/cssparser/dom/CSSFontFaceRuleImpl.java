@@ -75,13 +75,7 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl {
                     DOMExceptionImpl.EXPECTING_FONT_FACE_RULE);
             }
         }
-        catch (final CSSException e) {
-            throw new DOMExceptionImpl(
-                DOMException.SYNTAX_ERR,
-                DOMExceptionImpl.SYNTAX_ERROR,
-                e.getMessage());
-        }
-        catch (final IOException e) {
+        catch (final CSSException | IOException e) {
             throw new DOMExceptionImpl(
                 DOMException.SYNTAX_ERR,
                 DOMExceptionImpl.SYNTAX_ERROR,
@@ -113,10 +107,9 @@ public class CSSFontFaceRuleImpl extends AbstractCSSRuleImpl {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSFontFaceRuleImpl)) {
+        if (!(obj instanceof CSSFontFaceRuleImpl cffr)) {
             return false;
         }
-        final CSSFontFaceRuleImpl cffr = (CSSFontFaceRuleImpl) obj;
         return super.equals(obj)
             && ParserUtils.equals(getStyle(), cffr.getStyle());
     }

@@ -210,13 +210,7 @@ public class CSSStyleSheetImpl implements Serializable {
                 DOMExceptionImpl.INDEX_OUT_OF_BOUNDS,
                 e.getMessage());
         }
-        catch (final CSSException e) {
-            throw new DOMExceptionImpl(
-                DOMException.SYNTAX_ERR,
-                DOMExceptionImpl.SYNTAX_ERROR,
-                e.getMessage());
-        }
-        catch (final IOException e) {
+        catch (final CSSException | IOException e) {
             throw new DOMExceptionImpl(
                 DOMException.SYNTAX_ERR,
                 DOMExceptionImpl.SYNTAX_ERROR,
@@ -322,10 +316,9 @@ public class CSSStyleSheetImpl implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSStyleSheetImpl)) {
+        if (!(obj instanceof CSSStyleSheetImpl css)) {
             return false;
         }
-        final CSSStyleSheetImpl css = (CSSStyleSheetImpl) obj;
         boolean eq = ParserUtils.equals(getCssRules(), css.getCssRules());
         eq = eq && (getDisabled() == css.getDisabled());
         eq = eq && ParserUtils.equals(getHref(), css.getHref());

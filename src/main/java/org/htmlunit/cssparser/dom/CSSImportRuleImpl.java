@@ -87,13 +87,7 @@ public class CSSImportRuleImpl extends AbstractCSSRuleImpl {
                     DOMExceptionImpl.EXPECTING_IMPORT_RULE);
             }
         }
-        catch (final CSSException e) {
-            throw new DOMExceptionImpl(
-                DOMException.SYNTAX_ERR,
-                DOMExceptionImpl.SYNTAX_ERROR,
-                e.getMessage());
-        }
-        catch (final IOException e) {
+        catch (final CSSException | IOException e) {
             throw new DOMExceptionImpl(
                 DOMException.SYNTAX_ERR,
                 DOMExceptionImpl.SYNTAX_ERROR,
@@ -140,10 +134,9 @@ public class CSSImportRuleImpl extends AbstractCSSRuleImpl {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSImportRuleImpl)) {
+        if (!(obj instanceof CSSImportRuleImpl cir)) {
             return false;
         }
-        final CSSImportRuleImpl cir = (CSSImportRuleImpl) obj;
         return super.equals(obj)
             && ParserUtils.equals(getHref(), cir.getHref())
             && ParserUtils.equals(getMedia(), cir.getMedia());

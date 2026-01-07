@@ -29,7 +29,7 @@ public interface DocumentHandler {
 
     /**
      * Receive notification of the beginning of a style sheet.
-     *
+     * <p>
      * The CSS parser will invoke this method only once, before any other
      * methods in this interface.
      *
@@ -41,7 +41,7 @@ public interface DocumentHandler {
 
     /**
      * Receive notification of the end of a document.
-     *
+     * <p>
      * The CSS parser will invoke this method only once, and it will be the
      * last method invoked during the parse. The parser shall not invoke this
      * method until it has either abandoned parsing (because of an
@@ -126,7 +126,7 @@ public interface DocumentHandler {
 
     /**
      * Receive notification of the beginning of a font face statement.
-     *
+     * <p>
      * The Parser will invoke this method at the beginning of every font face
      * statement in the style sheet. there will be a corresponding endFontFace()
      * event for every startFontFace() event.
@@ -139,7 +139,7 @@ public interface DocumentHandler {
 
     /**
      * Receive notification of the beginning of a page statement.
-     *
+     * <p>
      * The Parser will invoke this method at the beginning of every page
      * statement in the style sheet. there will be a corresponding endPage()
      * event for every startPage() event.
@@ -154,7 +154,7 @@ public interface DocumentHandler {
 
     /**
      * Receive notification of the beginning of a media statement.
-     *
+     * <p>
      * The Parser will invoke this method at the beginning of every media
      * statement in the style sheet. there will be a corresponding endMedia()
      * event for every startElement() event.

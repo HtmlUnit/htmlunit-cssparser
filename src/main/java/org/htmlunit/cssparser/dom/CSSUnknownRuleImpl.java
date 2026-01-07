@@ -70,13 +70,7 @@ public class CSSUnknownRuleImpl extends AbstractCSSRuleImpl {
                     DOMExceptionImpl.EXPECTING_FONT_FACE_RULE);
             }
         }
-        catch (final CSSException e) {
-            throw new DOMExceptionImpl(
-                DOMException.SYNTAX_ERR,
-                DOMExceptionImpl.SYNTAX_ERROR,
-                e.getMessage());
-        }
-        catch (final IOException e) {
+        catch (final CSSException | IOException e) {
             throw new DOMExceptionImpl(
                 DOMException.SYNTAX_ERR,
                 DOMExceptionImpl.SYNTAX_ERROR,
@@ -96,10 +90,9 @@ public class CSSUnknownRuleImpl extends AbstractCSSRuleImpl {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSUnknownRuleImpl)) {
+        if (!(obj instanceof CSSUnknownRuleImpl cur)) {
             return false;
         }
-        final CSSUnknownRuleImpl cur = (CSSUnknownRuleImpl) obj;
         return super.equals(obj)
             && ParserUtils.equals(getCssText(), cur.getCssText());
     }

@@ -257,10 +257,9 @@ public class CSSStyleDeclarationImpl implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CSSStyleDeclarationImpl)) {
+        if (!(obj instanceof CSSStyleDeclarationImpl csd)) {
             return false;
         }
-        final CSSStyleDeclarationImpl csd = (CSSStyleDeclarationImpl) obj;
 
         // don't use parentRule in equals()
         // recursive loop -> stack overflow!
