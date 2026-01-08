@@ -97,6 +97,15 @@ public class Locator implements Serializable {
         lineNumber_ = line;
     }
 
+    /**
+     * Clears all fields (for object pooling).
+     */
+    public void clear() {
+        uri_ = null;
+        lineNumber_ = 0;
+        columnNumber_ = 0;
+    }
+
     /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
