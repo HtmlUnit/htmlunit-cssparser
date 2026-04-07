@@ -3727,25 +3727,27 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void unicode() throws Exception {
-        unicode("@p\\41ge :right {}", "@page :right { }");
-        unicode("@p\\041ge :right {}", "@page :right { }");
-        unicode("@p\\0041ge :right {}", "@page :right { }");
-        unicode("@p\\00041ge :right {}", "@page :right { }");
-        unicode("@p\\000041ge :right {}", "@page :right { }");
+        // no longer supported starting from version 5
+        // this is really uncommon and makes the parser much simpler
+        // unicode("@p\\41ge :right {}", "@page :right { }");
+        // unicode("@p\\041ge :right {}", "@page :right { }");
+        // unicode("@p\\0041ge :right {}", "@page :right { }");
+        // unicode("@p\\00041ge :right {}", "@page :right { }");
+        // unicode("@p\\000041ge :right {}", "@page :right { }");
 
         // \\0000041 - fails
-        unicode("@p\\0000041ge :right {}", "@p\\0000041ge :right {}");
+        // unicode("@p\\0000041ge :right {}", "@p\\0000041ge :right {}");
 
         // terminated by whitespace
-        unicode("@\\0070 age :right {}", "@page :right { }");
-        unicode("@\\0070\tage :right {}", "@page :right { }");
-        unicode("@\\0070\r\nage :right {}", "@page :right { }");
+        // unicode("@\\0070 age :right {}", "@page :right { }");
+        // unicode("@\\0070\tage :right {}", "@page :right { }");
+        // unicode("@\\0070\r\nage :right {}", "@page :right { }");
 
         // terminated by lenght
-        unicode("@\\000070age :right {}", "@page :right { }");
+        // unicode("@\\000070age :right {}", "@page :right { }");
 
         // backslash ignored
-        unicode("@\\page :right {}", "@page :right { }");
+        // unicode("@\\page :right {}", "@page :right { }");
     }
 
     /**
