@@ -22,7 +22,7 @@ options {
 //    DEBUG_TOKEN_MANAGER = true;
 //    DEBUG_PARSER = true;
 
-    JDK_VERSION = "1.8";
+    JDK_VERSION = "17";
 //    JAVA_TEMPLATE_TYPE = "modern"
 }
 
@@ -87,12 +87,12 @@ public class CSS3Parser extends AbstractCSSParser {
 
     @Override
     public String getParserVersion() {
-        return "http://www.w3.org/Style/CSS/";
+        return "https://www.w3.org/Style/CSS/";
     }
 
     protected String getGrammarUri()
     {
-        return "http://www.w3.org/TR/WD-css3-syntax-20030813";
+        return "https://www.w3.org/TR/css-syntax-3/";
     }
 }
 
