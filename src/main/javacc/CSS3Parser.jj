@@ -325,7 +325,7 @@ TOKEN_MGR_DECLS :
 | < LENGTH_PC: <NUM> "pc" > { matchedToken.image = ParserUtils.trimBy(image, 0, 2); }
 
 // {num}{Q}             {return LENGTH;}
-| < LENGTH_Q: <NUM> "Q" > { matchedToken.image = ParserUtils.trimBy(image, 0, 1); }
+| < LENGTH_Q: <NUM> "q" > { matchedToken.image = ParserUtils.trimBy(image, 0, 1); }
 
 // {num}{D}{E}{G}       {return ANGLE;}
 | < ANGLE_DEG: <NUM> "deg" > { matchedToken.image = ParserUtils.trimBy(image, 0, 3); }
