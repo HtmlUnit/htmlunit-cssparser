@@ -490,9 +490,6 @@ void styleSheetRuleList() :
                     if (t.kind != RBRACE) {
                         error_skipblock(null, null);
                     }
-                    if (t.kind == EOF) {
-                        return;
-                    }
                 }
             }
         )
@@ -927,7 +924,9 @@ void fontFaceRule() :
     }
     catch(ParseException e)
     {
-        throw toCSSParseException("invalidFontFaceRule", e);
+        CSSParseException cpe = toCSSParseException("invalidFontFaceRule", e);
+        getErrorHandler().error(cpe);
+        error_skipblock("invalidFontFaceRule", cpe);
     }
     finally {
         if (start) {

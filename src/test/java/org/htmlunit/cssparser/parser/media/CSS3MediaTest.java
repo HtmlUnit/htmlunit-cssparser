@@ -22,6 +22,8 @@ import java.util.List;
 
 import org.htmlunit.cssparser.dom.AbstractCSSRuleImpl;
 import org.htmlunit.cssparser.dom.CSSMediaRuleImpl;
+import org.htmlunit.cssparser.dom.CSSRuleListImpl;
+import org.htmlunit.cssparser.dom.CSSStyleRuleImpl;
 import org.htmlunit.cssparser.dom.CSSStyleSheetImpl;
 import org.htmlunit.cssparser.dom.CSSValueImpl;
 import org.htmlunit.cssparser.dom.MediaListImpl;
@@ -303,5 +305,48 @@ public class CSS3MediaTest extends AbstractCSSParserTest {
         assertEquals("aural", mediaQuery.getMedia());
         properties = mediaQuery.getProperties();
         assertEquals("device-aspect-ratio: 16 / 9", properties.get(0).toString());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void invalidMediaRule_isSkipped_andFollowingRulesStillParsed() throws Exception {
+        final String css =
+              "@media screen and (max-width: 30em { h1 { color: red } }\n"  // missing ')'
+            + "p { color: blue; }\n";
+
+        // Expect: 1 error (invalid media rule), 0 fatal, and at least 1 warning (skip).
+        // If your ErrorHandler counts the skip warning, keep warn=1; otherwise use warn=0.
+        final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
+
+        final CSSRuleListImpl rules = sheet.getCssRules();
+        // The invalid @media should be skipped, leaving the 'p { ... }' rule.
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertTrue(rule instanceof CSSStyleRuleImpl);
+        assertEquals("p { color: blue; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void validMediaRule_thenInvalidInnerContent_skipsBlock_andContinues() throws Exception {
+        final String css =
+              "@media screen { h1 { color: red; } abc } }\n"
+            + "p { color: blue; }";
+
+        final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
+
+        final CSSRuleListImpl rules = sheet.getCssRules();
+        // Depending on how inner errors are handled, you may still keep the @media rule.
+        // The key expectation: parsing continues and p{...} exists.
+        assertEquals(2, rules.getLength());
+
+        assertTrue(rules.getRules().get(0) instanceof CSSMediaRuleImpl);
+        assertTrue(rules.getRules().get(1) instanceof CSSStyleRuleImpl);
+        assertEquals("p { color: blue; }", rules.getRules().get(1).getCssText());
     }
 }

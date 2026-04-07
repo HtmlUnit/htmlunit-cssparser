@@ -31,7 +31,9 @@ import java.nio.charset.StandardCharsets;
 
 import org.htmlunit.cssparser.ErrorHandler;
 import org.htmlunit.cssparser.dom.AbstractCSSRuleImpl;
+import org.htmlunit.cssparser.dom.CSSFontFaceRuleImpl;
 import org.htmlunit.cssparser.dom.CSSMediaRuleImpl;
+import org.htmlunit.cssparser.dom.CSSPageRuleImpl;
 import org.htmlunit.cssparser.dom.CSSRuleListImpl;
 import org.htmlunit.cssparser.dom.CSSStyleDeclarationImpl;
 import org.htmlunit.cssparser.dom.CSSStyleRuleImpl;
@@ -737,6 +739,29 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 + "unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, "
                 + "U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215; }",
                 rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void invalidFontFaceRule_isSkipped_andFollowingRulesStillParsed() throws Exception {
+        final String css =
+              "@font-face { font-family: Gentium; ) }\n"
+            + "p { color: blue; }\n";
+
+        // If fontFaceRule() currently aborts parsing, this test will FAIL today.
+        // That’s OK: it captures the desired behavior.
+        final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
+
+        final CSSRuleListImpl rules = sheet.getCssRules();
+        assertEquals(2, rules.getLength());
+
+        assertTrue(rules.getRules().get(0) instanceof CSSFontFaceRuleImpl);
+        assertEquals("@font-face { font-family: Gentium; }", rules.getRules().get(0).getCssText());
+
+        assertTrue(rules.getRules().get(1) instanceof CSSStyleRuleImpl);
+        assertEquals("p { color: blue; }", rules.getRules().get(1).getCssText());
     }
 
     /**
@@ -4002,6 +4027,27 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
             final AbstractCSSRuleImpl rule = rules.getRules().get(0);
             assertEquals(expected, rule.getCssText());
         }
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void invalidPageRule_isSkipped_andFollowingRulesStillParsed() throws Exception {
+        final String css =
+              "@page :left { margin: 3cm; ) }\n"   // missing closing '}'
+            + "p { color: blue; }";
+
+        final CSSStyleSheetImpl sheet = parse(css, 1, 0, 1);
+
+        final CSSRuleListImpl rules = sheet.getCssRules();
+        assertEquals(2, rules.getLength());
+
+        assertTrue(rules.getRules().get(0) instanceof CSSPageRuleImpl);
+        assertEquals("@page :left { margin: 3cm; }", rules.getRules().get(0).getCssText());
+
+        assertTrue(rules.getRules().get(1) instanceof CSSStyleRuleImpl);
+        assertEquals("p { color: blue; }", rules.getRules().get(1).getCssText());
     }
 
     /**
