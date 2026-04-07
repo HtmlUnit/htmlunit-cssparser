@@ -2651,6 +2651,57 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      * @throws Exception if any error occurs
      */
     @Test
+    public void dimension_allowsEscapedHyphenInUnit() throws Exception {
+        // unit: a\-b  => should be parsed as DIMENSION token, not "a" + MINUS + "b"
+        final String css = "p { top: 1a\\-b; }";
+
+        final CSSStyleSheetImpl sheet = parse(css, 0, 0, 0);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+        assertEquals("p { top: 1a\\-b; }", rules.getRules().get(0).getCssText());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimension_allowsNonAsciiInUnit() throws Exception {
+        // Use a non-ascii letter (e.g. Greek alpha).
+        final String css = "p { top: 1\u03B1; }"; // 1α
+
+        final CSSStyleSheetImpl sheet = parse(css, 0, 0, 0);
+        assertEquals("p { top: 1\u03B1; }", sheet.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimension_allowsUnicodeEscapeInUnit() throws Exception {
+        // \61 == 'a'
+        final String css = "p { top: 1\\61bc; }";
+
+        final CSSStyleSheetImpl sheet = parse(css, 0, 0, 0);
+        assertEquals("p { top: 1\\61bc; }", sheet.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void dimension_allowsEscapeAfterStart() throws Exception {
+        // unit: a\31b  => a1b
+        final String css = "p { top: 1a\\31b; }";
+
+        final CSSStyleSheetImpl sheet = parse(css, 0, 0, 0);
+        assertEquals("p { top: 1a\\31b; }", sheet.toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
     public void illegalDimension() throws Exception {
         final String css = ".a { top: 0\\9; }"
                 + ".b { top: -01.234newDim; }";
