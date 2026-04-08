@@ -1672,7 +1672,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(0, errorHandler.getFatalErrorCount());
         assertEquals(1, errorHandler.getWarningCount());
-        assertTrue(errorHandler.getWarningMessage().startsWith("Ignoring the following declarations in this rule."),
+        assertTrue(errorHandler.getWarningMessage().startsWith("Ignoring the whole rule."),
                 errorHandler.getWarningMessage());
         assertEquals("6", errorHandler.getWarningLines());
         assertEquals("48", errorHandler.getWarningColumns());
@@ -1765,7 +1765,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(0, errorHandler.getFatalErrorCount());
         assertEquals(1, errorHandler.getWarningCount());
-        assertEquals("Ignoring the following declarations in this rule.", errorHandler.getWarningMessage());
+        assertEquals("Ignoring the whole rule.", errorHandler.getWarningMessage());
         assertEquals("2", errorHandler.getWarningLines());
         assertEquals("3", errorHandler.getWarningColumns());
 

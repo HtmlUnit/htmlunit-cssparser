@@ -22,7 +22,7 @@ options {
 //    DEBUG_TOKEN_MANAGER = true;
 //    DEBUG_PARSER = true;
 
-    JDK_VERSION = "17";
+    JDK_VERSION = "11";
 //    JAVA_TEMPLATE_TYPE = "modern"
 }
 
@@ -1037,7 +1037,7 @@ void styleRule() :
     {
         CSSParseException cpe = toCSSParseException("invalidStyleRule", e);
         getErrorHandler().error(cpe);
-        error_skipblock("ignoringFollowingDeclarations", cpe);
+        error_skipblock("ignoringRule", cpe);
     }
     finally {
         if (start) {
