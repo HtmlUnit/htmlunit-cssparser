@@ -557,7 +557,7 @@ void unknownAtRule() :
     }
     catch (ParseException e)
     {
-        getErrorHandler().error(toCSSParseException("invalidUnknownRule", generateParseException()));
+        getErrorHandler().error(toCSSParseException("invalidUnknownRule", e));
     }
 }
 
