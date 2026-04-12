@@ -28,11 +28,12 @@
         <commons-io.version>2.21.0</commons-io.version>
 
         <!-- quality -->
-        <checkstyle.version>13.0.0</checkstyle.version>
+        <checkstyle.version>12.3.1</checkstyle.version>
         <dependencycheck.version>10.0.4</dependencycheck.version>
 
         <!-- plugins -->
         <central-publishing-plugin.version>0.10.0</central-publishing-plugin.version>
+        <build-helper-plugin.version>3.6.1</build-helper-plugin.version>
         <checkstyle-plugin.version>3.6.0</checkstyle-plugin.version>
         <gpg-plugin.version>3.2.8</gpg-plugin.version>
         <enforcer-plugin.version>3.6.2</enforcer-plugin.version>
@@ -46,6 +47,26 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build-helper-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>add-module-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/module-info</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
