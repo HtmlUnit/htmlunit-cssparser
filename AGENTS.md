@@ -39,7 +39,22 @@ htmlunit-cssparser/
 │       ├── java/                    # JUnit 5 test classes
 │       └── resources/               # CSS test fixture files
 └── target/                          # Build output (not committed)
+
+src/main/module-info/
+└── module-info.java  # Java Platform Module System descriptor (separate for IDE compatibility)
 ```
+
+## Module System (JPMS)
+
+This project uses the Java Platform Module System. The `module-info.java` file is located in `src/main/module-info/` (instead of the standard `src/main/java/`) to avoid compatibility issues with Eclipse IDE.
+
+**Key Points:**
+- The module descriptor is automatically included during Maven builds via `build-helper-maven-plugin`
+- Eclipse users won't encounter module-related compilation errors
+- IntelliJ IDEA and other IDEs handle this setup correctly
+- The final JAR is a proper modular JAR with `module-info.class`
+
+See `src/main/module-info/README.md` for detailed information about this setup.
 
 ## Build and Test
 
