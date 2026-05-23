@@ -20,25 +20,11 @@ We will try to stay in sync with CSSParser regarding the features in the future.
 
 #### Version 5
 
-Work on HtmlUnit-CSSParser 5.0 has started. This new major version will require **JDK 17 or higher**.
+Starting with version 5.0.0, **JDK 17 or higher is required**.  
+If you are still on JDK 8, see [Legacy Support (JDK 8)](#legacy-support-jdk-8) below.
 
 
-#### Legacy Support (JDK 8)
-
-If you need to continue using **JDK 8**, please note that versions 4.x will remain available as-is. However,
-**ongoing maintenance and fixes for JDK 8 compatibility are only available through sponsorship**.
-
-Maintaining separate fix versions for JDK 8 requires significant additional effort for __backporting__, testing, and release management.
-
-**To enable continued JDK 8 support**, please contact me via email to discuss sponsorship options. Sponsorship provides:
-
-- __Backporting__ security and bug fixes to the 4.x branch
-- Maintaining compatibility with older Java versions
-- Timely releases for critical issues
-
-Without sponsorship, the 4.x branch will not receive updates. Your support ensures the long-term __sustainability__ of this project across multiple Java versions.
-
-### Latest release Version 4.21.0 / December 28, 2025
+### Latest release Version 5.0.0 / May 24, 2026
 
 ## Get it!
 
@@ -50,7 +36,7 @@ Add to your `pom.xml`:
 <dependency>
     <groupId>org.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>4.21.0</version>
+    <version>5.0.0</version>
 </dependency>
 ```
 
@@ -59,9 +45,22 @@ Add to your `pom.xml`:
 Add to your `build.gradle`:
 
 ```groovy
-implementation group: 'org.htmlunit', name: 'htmlunit-cssparser', version: '4.21.0'
+implementation group: 'org.htmlunit', name: 'htmlunit-cssparser', version: '5.0.0'
 ```
 
+
+<a name="legacy-support-jdk-8"></a>
+### Legacy Support (JDK 8)
+
+If you need to continue using **JDK 8**, versions 4.x remain available as-is.
+Ongoing maintenance and fixes for JDK 8 are only available through sponsorship —
+please contact me via email to discuss options. Sponsorship provides:
+
+- Backporting security and bug fixes to the 4.x branch
+- Compatibility maintenance with older Java versions
+- Timely releases for critical issues
+
+Without sponsorship, the 4.x branch will not receive further updates.
 
 
 ### Latest CI build
@@ -75,7 +74,7 @@ If you use maven please add:
     <dependency>
         <groupId>org.htmlunit</groupId>
         <artifactId>htmlunit-cssparser</artifactId>
-        <version>4.22.0-SNAPSHOT</version>
+        <version>5.1.0-SNAPSHOT</version>
     </dependency>
 
 You have to add the sonatype-central snapshot repository to your pom `repositories` section also:
