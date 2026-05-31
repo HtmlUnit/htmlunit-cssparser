@@ -24,7 +24,7 @@ Starting with version 5.0.0, **JDK 17 or higher is required**.
 If you are still on JDK 8, see [Legacy Support (JDK 8)](#legacy-support-jdk-8) below.
 
 
-### Latest release Version 5.0.0 / May 24, 2026
+### Latest release Version 5.0.0 / May 31, 2026
 
 ## Get it!
 
@@ -36,7 +36,7 @@ Add to your `pom.xml`:
 <dependency>
     <groupId>org.htmlunit</groupId>
     <artifactId>htmlunit-cssparser</artifactId>
-    <version>5.0.0</version>
+    <version>5.1.0</version>
 </dependency>
 ```
 
@@ -45,7 +45,7 @@ Add to your `pom.xml`:
 Add to your `build.gradle`:
 
 ```groovy
-implementation group: 'org.htmlunit', name: 'htmlunit-cssparser', version: '5.0.0'
+implementation group: 'org.htmlunit', name: 'htmlunit-cssparser', version: '5.1.0'
 ```
 
 
@@ -74,7 +74,7 @@ If you use maven please add:
     <dependency>
         <groupId>org.htmlunit</groupId>
         <artifactId>htmlunit-cssparser</artifactId>
-        <version>5.1.0-SNAPSHOT</version>
+        <version>5.2.0-SNAPSHOT</version>
     </dependency>
 
 You have to add the sonatype-central snapshot repository to your pom `repositories` section also:
@@ -153,16 +153,16 @@ This part is intended for committer who are packaging a release.
 * Create the version on Github
     * login to Github and open project https://github.com/HtmlUnit/htmlunit-cssparser
     * click Releases > Draft new release
-    * fill the tag and title field with the release number (e.g. 4.0.0)
+    * fill the tag and title field with the release number (e.g. 5.0.0)
     * append 
-        * htmlunit-cssparser-4.x.x.jar
-        * htmlunit-cssparser-4.x.x.jar.asc 
-        * htmlunit-cssparser-4.x.x.pom
-        * htmlunit-cssparser-4.x.x.pom.asc 
-        * htmlunit-cssparser-4.x.x-javadoc.jar
-        * htmlunit-cssparser-4.x.x-javadoc.jar.asc
-        * htmlunit-cssparser-4.x.x-sources.jar
-        * htmlunit-cssparser-4.x.x-sources.jar.asc
+        * htmlunit-cssparser-5.x.x.jar
+        * htmlunit-cssparser-5.x.x.jar.asc 
+        * htmlunit-cssparser-5.x.x.pom
+        * htmlunit-cssparser-5.x.x.pom.asc 
+        * htmlunit-cssparser-5.x.x-javadoc.jar
+        * htmlunit-cssparser-5.x.x-javadoc.jar.asc
+        * htmlunit-cssparser-5.x.x-sources.jar
+        * htmlunit-cssparser-5.x.x-sources.jar.asc
     * and publish the release 
 
 * Update the version number in pom.xml to start next snapshot development
