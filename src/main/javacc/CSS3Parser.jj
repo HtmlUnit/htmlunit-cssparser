@@ -751,7 +751,7 @@ Property mediaExpression() :
     <LROUND>
     ( <S> )*
     (
-        t = identExcludingOnly() ( <S> )*                    { p = unescape(t.image, false); }
+        t = identExcludingOnly() ( <S> )*       { p = unescape(t.image, false); }
         | t = <CUSTOM_PROPERTY_NAME> ( <S> )*   { p = unescape(t.image, false); }
     )
     (
