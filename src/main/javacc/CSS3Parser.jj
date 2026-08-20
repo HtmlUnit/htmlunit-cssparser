@@ -2044,18 +2044,8 @@ LexicalUnit rgbColor(LexicalUnit prev) :
         |
 
         (
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { param = LexicalUnitImpl.createNone(null); }
-                    | param = number(null, op)
-                    | param = percentage(null, op)
-
-                    | param = calc(null)
-                    | param = var(null)
-                )
-            )
-            { op = ' '; next = param; }
+            param = colorComponentNoneNumberPercentCalcVar(null)
+            { next = param; }
         
             ( <S> )*
             (
@@ -2063,18 +2053,7 @@ LexicalUnit rgbColor(LexicalUnit prev) :
                 ( <S> )*
             )?
         
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = number(next, op)
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentNoneNumberPercentCalcVar(next)
         
             ( <S> )*
             (
@@ -2082,18 +2061,7 @@ LexicalUnit rgbColor(LexicalUnit prev) :
                 ( <S> )*
             )?
         
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = number(next, op)
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentNoneNumberPercentCalcVar(next)
         
             ( <S> )*
             (
@@ -2105,15 +2073,7 @@ LexicalUnit rgbColor(LexicalUnit prev) :
                     ( <S> )*
                 )?
           
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = number(next, op)
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
+                next = colorComponentNoneNumberPercentCalcVar(next)
         
                 ( <S> )*
             )?
@@ -2276,15 +2236,7 @@ LexicalUnit hslColor(LexicalUnit prev) :
                     ( <S> )*
                 )?
           
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = number(next, op)
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
+                next = colorComponentNoneNumberPercentCalcVar(next)
         
                 ( <S> )*
             )?
@@ -2377,16 +2329,8 @@ LexicalUnit hwbColor(LexicalUnit prev) :
                     <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
                     ( <S> )*
                 )?
-          
-                (op = unaryOperator() )?
-                (
-                    next = number(next, op)
-                    | next = percentage(next, op)
 
-                    | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
-                    | next = calc(next)
-                    | next = var(next)
-                )
+                next = colorComponentNumberPercentIdentCalcVar(next)
         
                 ( <S> )*
             )?
@@ -2443,15 +2387,7 @@ LexicalUnit hwbColor(LexicalUnit prev) :
                     ( <S> )*
                 )?
           
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = number(next, op)
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
+                next = colorComponentNoneNumberPercentCalcVar(next)
         
                 ( <S> )*
             )?
@@ -2538,33 +2474,11 @@ LexicalUnit labColor(LexicalUnit prev) :
         
             ( <S> )*
         
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = number(next, op)
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentNoneNumberPercentCalcVar(next)
         
             ( <S> )*
         
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = number(next, op)
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentNoneNumberPercentCalcVar(next)
         
             ( <S> )*
             (
@@ -2573,15 +2487,7 @@ LexicalUnit labColor(LexicalUnit prev) :
                     ( <S> )*
                 )?
           
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = number(next, op)
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
+                next = colorComponentNoneNumberPercentCalcVar(next)
         
                 ( <S> )*
             )?
@@ -2678,18 +2584,7 @@ LexicalUnit lchColor(LexicalUnit prev) :
         
             ( <S> )*
         
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = number(next, op)
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentNoneNumberPercentCalcVar(next)
         
             ( <S> )*
         
@@ -2712,15 +2607,7 @@ LexicalUnit lchColor(LexicalUnit prev) :
                     ( <S> )*
                 )?
           
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = number(next, op)
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
+                next = colorComponentNoneNumberPercentCalcVar(next)
         
                 ( <S> )*
             )?
@@ -2751,6 +2638,27 @@ LexicalUnit colorComponentNumberPercentIdentCalcVar(LexicalUnit prev) :
     )
     { return next; }
 }
+
+// Helper: parse a single flexible color component ('none', number, %, calc, var)
+LexicalUnit colorComponentNoneNumberPercentCalcVar(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit next = null;
+}
+{
+    (op = unaryOperator() )?
+    (
+        <NONE> { next = LexicalUnitImpl.createNone(prev); }
+        | next = number(prev, op)
+        | next = percentage(prev, op)
+
+        | next = calc(prev)
+        | next = var(prev)
+    )
+    { return next; }
+}
+
 
 
 //
