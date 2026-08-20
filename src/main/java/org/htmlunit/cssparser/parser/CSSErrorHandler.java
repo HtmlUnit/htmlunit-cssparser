@@ -16,34 +16,32 @@ package org.htmlunit.cssparser.parser;
 
 /**
  * Interface for CSS parser error handlers.
+ *
  * @author Ronald Brill
  */
 public interface CSSErrorHandler {
 
     /**
-     * Warning.
+     * Handles a warning condition.
      *
-     * @param exception the {@link CSSParseException} that is the reason for the warning.
-     * @exception CSSException in case of error
-     * @throws CSSException if any.
+     * @param exception the {@link CSSParseException} that is the reason for the warning
+     * @throws CSSException in case of error
      */
     void warning(CSSParseException exception) throws CSSException;
 
     /**
-     * Error.
+     * Handles an error condition.
      *
-     * @param exception the {@link CSSParseException} that is the reason for the error.
-     * @exception CSSException in case of error
-     * @throws CSSException if any.
+     * @param exception the {@link CSSParseException} that is the reason for the error
+     * @throws CSSException in case of error
      */
     void error(CSSParseException exception) throws CSSException;
 
     /**
-     * Fatal error.
+     * Handles a fatal error condition.
      *
-     * @param exception the {@link CSSParseException} that is the reason for the error.
-     * @exception CSSException in case of error
-     * @throws CSSException if any.
+     * @param exception the {@link CSSParseException} that is the reason for the fatal error
+     * @throws CSSException in case of error
      */
     void fatalError(CSSParseException exception) throws CSSException;
 }

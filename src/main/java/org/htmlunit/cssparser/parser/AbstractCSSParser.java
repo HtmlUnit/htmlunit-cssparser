@@ -30,15 +30,22 @@ import org.htmlunit.cssparser.parser.selector.SelectorList;
 import org.w3c.dom.DOMException;
 
 /**
- * Base implementation.
+ * Abstract base class for CSS parser implementations.
  *
  * @author Ronald Brill
  */
 public abstract class AbstractCSSParser {
+
+    /** The document handler. */
     private DocumentHandler documentHandler_;
+
+    /** The error handler. */
     private CSSErrorHandler errorHandler_;
+
+    /** The input source. */
     private InputSource source_;
 
+    /** Map of parser message keys to message format strings. */
     private static final HashMap<String, String> PARSER_MESSAGES_ = new HashMap<>();
 
     static {
@@ -91,10 +98,11 @@ public abstract class AbstractCSSParser {
         PARSER_MESSAGES_.put("domException", "DOM exception: ''{0}''");
     }
 
+    /** String containing numeric characters. */
     private static final String NUM_CHARS = "0123456789.";
 
     /**
-     * <p>getDocumentHandler.</p>
+     * Returns the document handler.
      *
      * @return the document handler
      */
@@ -108,14 +116,14 @@ public abstract class AbstractCSSParser {
     /**
      * Allow an application to register a document event handler.
      *
-     * <p>If the application does not register a document handler, all
+     * If the application does not register a document handler, all
      * document events reported by the CSS parser will be silently
      * ignored (this is the default behavior implemented by
-     * HandlerBase).</p>
+     * HandlerBase).
      *
-     * <p>Applications may register a new or different handler in the
+     * Applications may register a new or different handler in the
      * middle of a parse, and the CSS parser must begin using the new
-     * handler immediately.</p>
+     * handler immediately.
      *
      * @param handler The document handler.
      * @see DocumentHandler
@@ -125,7 +133,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * <p>getErrorHandler.</p>
+     * Returns the error handler.
      *
      * @return the error handler
      */
@@ -139,14 +147,14 @@ public abstract class AbstractCSSParser {
     /**
      * Allow an application to register an error event handler.
      *
-     * <p>If the application does not register an error event handler,
+     * If the application does not register an error event handler,
      * all error events reported by the CSS parser will be silently
      * ignored, except for fatalError, which will throw a CSSException
-     * (this is the default behavior implemented by HandlerBase).</p>
+     * (this is the default behavior implemented by HandlerBase).
      *
-     * <p>Applications may register a new or different handler in the
+     * Applications may register a new or different handler in the
      * middle of a parse, and the CSS parser must begin using the new
-     * handler immediately.</p>
+     * handler immediately.
      *
      * @param handler The error handler.
      * @see CSSErrorHandler
@@ -157,7 +165,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * <p>getInputSource.</p>
+     * Returns the input source.
      *
      * @return the input source
      */
@@ -181,6 +189,7 @@ public abstract class AbstractCSSParser {
 
     /**
      * Returns a new locator for the given token.
+     *
      * @param t the token to generate the locator for
      * @return a new locator
      */
@@ -192,6 +201,7 @@ public abstract class AbstractCSSParser {
 
     /**
      * Escapes some chars in the given string.
+     *
      * @param str the input
      * @return a new string with the escaped values
      */
@@ -242,7 +252,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * <p>toCSSParseException.</p>
+     * Converts the specified ParseException into a {@link CSSParseException}.
      *
      * @param key the message lookup key
      * @param e the parse exception
@@ -292,7 +302,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * <p>toCSSParseException.</p>
+     * Converts the specified DOMException into a {@link CSSParseException}.
      *
      * @param e the DOMException
      * @return a new CSSParseException
@@ -304,7 +314,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * <p>toCSSParseException.</p>
+     * Converts the specified TokenMgrException into a {@link CSSParseException}.
      *
      * @param e the TokenMgrException
      * @return a new CSSParseException
@@ -342,15 +352,15 @@ public abstract class AbstractCSSParser {
     /**
      * Parse a CSS document.
      *
-     * <p>The application can use this method to instruct the CSS parser
+     * The application can use this method to instruct the CSS parser
      * to begin parsing an CSS document from any valid input
-     * source (a character stream, a byte stream, or a URI).</p>
+     * source (a character stream, a byte stream, or a URI).
      *
-     * <p>Applications may not invoke this method while a parse is in
+     * Applications may not invoke this method while a parse is in
      * progress (they should create a new Parser instead for each
      * additional CSS document).  Once a parse is complete, an
      * application may reuse the same Parser object, possibly with a
-     * different input source.</p>
+     * different input source.
      *
      * @param source The input source for the top-level of the
      *        CSS document.
@@ -498,7 +508,7 @@ public abstract class AbstractCSSParser {
      * Parse a CSS priority value (e.g. "!important").
      *
      * @param source source to be parsed
-     * @return true or flase
+     * @return true or false
      * @exception CSSException Any CSS exception, possibly
      *            wrapping another exception.
      * @exception java.io.IOException An IO exception from the parser,
@@ -526,6 +536,7 @@ public abstract class AbstractCSSParser {
 
     /**
      * Parse the given input source and return the media list.
+     *
      * @param source the input source
      * @return new media list
      * @throws IOException in case of errors
@@ -562,16 +573,18 @@ public abstract class AbstractCSSParser {
 
     /**
      * Returns a string about which CSS language is supported by this
-     *      parser. For CSS Level 1, it returns "http://www.w3.org/TR/REC-CSS1", for
-     *      CSS Level 2, it returns "http://www.w3.org/TR/REC-CSS2". Note that a
-     *      "CSSx" parser can return lexical unit other than those allowed by CSS
-     *      Level x but this usage is not recommended.
+     * parser. For CSS Level 1, it returns "http://www.w3.org/TR/REC-CSS1", for
+     * CSS Level 2, it returns "http://www.w3.org/TR/REC-CSS2". Note that a
+     * "CSSx" parser can return lexical unit other than those allowed by CSS
+     * Level x but this usage is not recommended.
+     *
      * @return a string about which CSS language is supported by this parser
      */
     public abstract String getParserVersion();
 
     /**
-     * Re intit the stream.
+     * Re-initializes the stream.
+     *
      * @param charStream the stream
      */
     protected abstract void ReInit(CharStream charStream);
@@ -631,21 +644,21 @@ public abstract class AbstractCSSParser {
     protected abstract void mediaList(MediaQueryList ml) throws ParseException;
 
     /**
-     * start document handler.
+     * Handles the start of a document.
      */
     protected void handleStartDocument() {
         getDocumentHandler().startDocument(getInputSource());
     }
 
     /**
-     * end document handler.
+     * Handles the end of a document.
      */
     protected void handleEndDocument() {
         getDocumentHandler().endDocument(getInputSource());
     }
 
     /**
-     * ignorable at rule handler.
+     * Handles an ignorable at-rule.
      *
      * @param s the rule
      * @param locator the locator
@@ -655,7 +668,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * charset handler.
+     * Handles a charset declaration.
      *
      * @param characterEncoding the encoding
      * @param locator the locator
@@ -665,7 +678,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * import style handler.
+     * Handles an import style rule.
      *
      * @param uri the uri
      * @param media the media query list
@@ -678,7 +691,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * start media handler.
+     * Handles the start of a media rule.
      *
      * @param media the media query list
      * @param locator the locator
@@ -688,7 +701,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * end media handler.
+     * Handles the end of a media rule.
      *
      * @param media the media query list
      */
@@ -697,7 +710,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * start page handler.
+     * Handles the start of a page rule.
      *
      * @param name the name
      * @param pseudoPage the pseudo page
@@ -708,7 +721,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * end page handler.
+     * Handles the end of a page rule.
      *
      * @param name the name
      * @param pseudoPage the pseudo page
@@ -718,7 +731,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * start font face handler.
+     * Handles the start of a font-face rule.
      *
      * @param locator the locator
      */
@@ -727,14 +740,14 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * end font face handler.
+     * Handles the end of a font-face rule.
      */
     protected void handleEndFontFace() {
         getDocumentHandler().endFontFace();
     }
 
     /**
-     * selector start handler.
+     * Handles the start of a selector.
      *
      * @param selectors the selector list
      * @param locator the locator
@@ -744,7 +757,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * selector end handler.
+     * Handles the end of a selector.
      *
      * @param selectors the selector list
      */
@@ -753,7 +766,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * property handler.
+     * Handles a property declaration.
      *
      * @param name the name
      * @param value the value
@@ -943,7 +956,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * Parses the sting into an integer.
+     * Parses the string into an integer.
      *
      * @param op the sign char
      * @param s the string to parse
@@ -958,7 +971,7 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * Parses the sting into a double.
+     * Parses the string into a double.
      *
      * @param op the sign char
      * @param s the string to parse
@@ -991,11 +1004,10 @@ public abstract class AbstractCSSParser {
     /**
      * Unescapes escaped characters in the specified string, according to the
      * <a href="http://www.w3.org/TR/CSS21/syndata.html#escaped-characters">CSS specification</a>.
-     * <p>
+     *
      * This could be done directly in the parser, but portions of the lexer would have to be moved
      * to the parser, meaning that the grammar would no longer match the standard grammar specified
      * by the W3C. This would make the parser and lexer much less maintainable.
-     * </p>
      *
      * @param s the string to unescape
      * @param unescapeDoubleQuotes if true unescape double quotes also
