@@ -2019,17 +2019,14 @@ LexicalUnit rgbColor(LexicalUnit prev) :
             ( <S> )*
 
             next = colorComponentNumberPercentIdentCalcVar(next)
-            { op = ' '; }
         
             ( <S> )*
         
             next = colorComponentNumberPercentIdentCalcVar(next)
-            { op = ' '; }
         
             ( <S> )*
         
             next = colorComponentNumberPercentIdentCalcVar(next)
-            { op = ' '; }
         
             ( <S> )*
             (
@@ -2501,17 +2498,14 @@ LexicalUnit labColor(LexicalUnit prev) :
             ( <S> )*
 
             next = colorComponentNumberPercentIdentCalcVar(next)
-            { op = ' '; }
         
             ( <S> )*
         
             next = colorComponentNumberPercentIdentCalcVar(next)
-            { op = ' '; }
         
             ( <S> )*
         
             next = colorComponentNumberPercentIdentCalcVar(next)
-            { op = ' '; }
         
             ( <S> )*
             (
@@ -2634,12 +2628,10 @@ LexicalUnit lchColor(LexicalUnit prev) :
             ( <S> )*
 
             next = colorComponentNumberPercentIdentCalcVar(next)
-            { op = ' '; }
         
             ( <S> )*
         
             next = colorComponentNumberPercentIdentCalcVar(next)
-            { op = ' '; }
         
             ( <S> )*
         
