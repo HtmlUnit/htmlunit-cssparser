@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -166,6 +166,8 @@ public abstract class AbstractCSSParser {
     }
 
     /**
+     * Returns the message for the given key.
+     *
      * @param key the lookup key
      * @return the parser message
      */
@@ -313,6 +315,8 @@ public abstract class AbstractCSSParser {
     }
 
     /**
+     * Converts the specified parameters into a {@link CSSParseException}.
+     *
      * @param messageKey the message key
      * @param msgParams the params
      * @param locator the locator
@@ -325,6 +329,8 @@ public abstract class AbstractCSSParser {
     }
 
     /**
+     * Creates a {@link CSSParseException} for a skipped rule/declaration warning.
+     *
      * @param messageKey the message key
      * @param e a CSSParseException
      * @return a new CSSParseException
@@ -555,11 +561,12 @@ public abstract class AbstractCSSParser {
     }
 
     /**
-     * @return a string about which CSS language is supported by this
+     * Returns a string about which CSS language is supported by this
      *      parser. For CSS Level 1, it returns "http://www.w3.org/TR/REC-CSS1", for
      *      CSS Level 2, it returns "http://www.w3.org/TR/REC-CSS2". Note that a
      *      "CSSx" parser can return lexical unit other than those allowed by CSS
      *      Level x but this usage is not recommended.
+     * @return a string about which CSS language is supported by this parser
      */
     public abstract String getParserVersion();
 
@@ -790,26 +797,66 @@ public abstract class AbstractCSSParser {
             params);
     }
 
+    /**
+     * Processes an RGB or RGBA color definition.
+     *
+     * @param prev the previous lexical unit
+     * @param funct the function name
+     * @param param the parameters lexical unit
+     * @return a new lexical unit
+     */
     protected LexicalUnit rgbColorInternal(final LexicalUnit prev, final String funct,
             final LexicalUnit param) {
         return LexicalUnitImpl.createRgbColor(prev, funct, param);
     }
 
+    /**
+     * Processes an HSL or HSLA color definition.
+     *
+     * @param prev the previous lexical unit
+     * @param funct the function name
+     * @param param the parameters lexical unit
+     * @return a new lexical unit
+     */
     protected LexicalUnit hslColorInternal(final LexicalUnit prev, final String funct,
             final LexicalUnit param) {
         return LexicalUnitImpl.createHslColor(prev, funct, param);
     }
 
+    /**
+     * Processes an HWB color definition.
+     *
+     * @param prev the previous lexical unit
+     * @param funct the function name
+     * @param param the parameters lexical unit
+     * @return a new lexical unit
+     */
     protected LexicalUnit hwbColorInternal(final LexicalUnit prev, final String funct,
             final LexicalUnit param) {
         return LexicalUnitImpl.createHwbColor(prev, funct, param);
     }
 
+    /**
+     * Processes a LAB color definition.
+     *
+     * @param prev the previous lexical unit
+     * @param funct the function name
+     * @param param the parameters lexical unit
+     * @return a new lexical unit
+     */
     protected LexicalUnit labColorInternal(final LexicalUnit prev, final String funct,
             final LexicalUnit param) {
         return LexicalUnitImpl.createLabColor(prev, funct, param);
     }
 
+    /**
+     * Processes an LCH color definition.
+     *
+     * @param prev the previous lexical unit
+     * @param funct the function name
+     * @param param the parameters lexical unit
+     * @return a new lexical unit
+     */
     protected LexicalUnit lchColorInternal(final LexicalUnit prev, final String funct,
             final LexicalUnit param) {
         return LexicalUnitImpl.createLchColor(prev, funct, param);
@@ -948,6 +995,7 @@ public abstract class AbstractCSSParser {
      * This could be done directly in the parser, but portions of the lexer would have to be moved
      * to the parser, meaning that the grammar would no longer match the standard grammar specified
      * by the W3C. This would make the parser and lexer much less maintainable.
+     * </p>
      *
      * @param s the string to unescape
      * @param unescapeDoubleQuotes if true unescape double quotes also
@@ -1096,6 +1144,13 @@ public abstract class AbstractCSSParser {
         };
     }
 
+    /**
+     * Normalizes and validates the page pseudo-class from the given token.
+     *
+     * @param t the token representing the page pseudo-class
+     * @return the normalized pseudo-class string in lowercase
+     * @throws CSSParseException if the pseudo-class is invalid
+     */
     protected String normalizeAndValidatePagePseudoClass(final Token t) {
         final String pseudo = unescape(t.image, false);
         final String pseudoLC = pseudo.toLowerCase(Locale.ROOT);

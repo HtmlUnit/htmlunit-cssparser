@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ package org.htmlunit.cssparser.parser.selector;
 import org.htmlunit.cssparser.parser.Locatable;
 
 /**
+ * Interface for CSS selectors.
+ *
  * @author Ronald Brill
  */
 public interface Selector extends Locatable {
@@ -48,21 +50,21 @@ public interface Selector extends Locatable {
     }
 
     /**
-     * <p>getSelectorType.</p>
+     * Returns the associated selector type.
      *
      * @return the associated selector type
      */
     SelectorType getSelectorType();
 
     /**
-     * <p>getSimpleSelector.</p>
+     * Returns the simple selector part.
      *
      * @return the simple selector part
      */
     SimpleSelector getSimpleSelector();
 
     /**
-     * <p>getSelectorSpecificity.</p>
+     * Returns the selector specificity.
      *
      * @return the selector specificity
      */

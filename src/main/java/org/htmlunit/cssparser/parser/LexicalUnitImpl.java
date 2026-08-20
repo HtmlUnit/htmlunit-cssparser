@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,19 +26,36 @@ import java.util.Locale;
  */
 public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, Serializable {
 
+    /** The lexical unit type. */
     private final LexicalUnitType lexicalUnitType_;
+
+    /** The next lexical unit. */
     private LexicalUnit nextLexicalUnit_;
+
+    /** The previous lexical unit. */
     private LexicalUnit previousLexicalUnit_;
+
+    /** The double value. */
     private double doubleValue_;
+
+    /** The dimension string. */
     private String dimension_;
+
+    /** The function name. */
     private String functionName_;
+
+    /** The parameter lexical unit. */
     private LexicalUnit parameters_;
+
+    /** The string value. */
     private String stringValue_;
 
-    /** cache */
+    /** The cached string representation. */
     private transient String toString_;
 
     /**
+     * Sets the next lexical unit.
+     *
      * @param next next LexicalUnit
      */
     public void setNextLexicalUnit(final LexicalUnit next) {
@@ -46,6 +63,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Sets the previous lexical unit.
+     *
      * @param prev previous LexicalUnit
      */
     public void setPreviousLexicalUnit(final LexicalUnit prev) {
@@ -53,6 +72,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Sets the double value.
+     *
      * @param doubleVal the double value
      */
     public void setDoubleValue(final double doubleVal) {
@@ -61,6 +82,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Returns the dimension.
+     *
      * @return the dimension
      */
     public String getDimension() {
@@ -68,6 +91,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Sets the dimension.
+     *
      * @param dimension the new dimension
      */
     public void setDimension(final String dimension) {
@@ -76,6 +101,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Sets the function name.
+     *
      * @param function the function name
      */
     public void setFunctionName(final String function) {
@@ -84,6 +111,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Sets the parameter lexical unit.
+     *
      * @param params the parameter LexicalUnit
      */
     public void setParameters(final LexicalUnit params) {
@@ -92,6 +121,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Sets the string value.
+     *
      * @param stringVal the string value
      */
     public void setStringValue(final String stringVal) {
@@ -100,7 +131,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * Ctor.
+     * Constructs a new LexicalUnitImpl.
      *
      * @param previous the previous LexicalUnit
      * @param type the LexicalUnitType
@@ -114,7 +145,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * Integer.
+     * Constructs a new integer LexicalUnitImpl.
      *
      * @param previous the previous LexicalUnit
      * @param value the int value
@@ -125,7 +156,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * Dimension.
+     * Constructs a new dimension LexicalUnitImpl.
      *
      * @param previous the previous LexicalUnit
      * @param type the LexicalUnitType
@@ -137,7 +168,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * Unknown dimension.
+     * Constructs a new unknown dimension LexicalUnitImpl.
      *
      * @param previous the previous LexicalUnit
      * @param type the LexicalUnitType
@@ -155,7 +186,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * String.
+     * Constructs a new string LexicalUnitImpl.
      *
      * @param previous the previous LexicalUnit
      * @param type the LexicalUnitType
@@ -167,7 +198,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * Function.
+     * Constructs a new function LexicalUnitImpl.
+     *
      * @param previous the previous LexicalUnit
      * @param type the LexicalUnitType
      * @param name the name
@@ -184,7 +216,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * Function.
+     * Constructs a new function LexicalUnitImpl.
+     *
      * @param previous the previous LexicalUnit
      * @param type the LexicalUnitType
      * @param name the name
@@ -197,31 +230,37 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         stringValue_ = stringValue;
     }
 
+    /** {@inheritDoc} */
     @Override
     public LexicalUnitType getLexicalUnitType() {
         return lexicalUnitType_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public LexicalUnit getNextLexicalUnit() {
         return nextLexicalUnit_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public LexicalUnit getPreviousLexicalUnit() {
         return previousLexicalUnit_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public int getIntegerValue() {
         return (int) doubleValue_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public double getDoubleValue() {
         return doubleValue_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getDimensionUnitText() {
         return switch (lexicalUnitType_) {
@@ -266,27 +305,33 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         };
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getFunctionName() {
         return functionName_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public LexicalUnit getParameters() {
         return parameters_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getStringValue() {
         return stringValue_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public LexicalUnit getSubValues() {
         return parameters_;
     }
 
     /**
+     * Returns the current CSS text.
+     *
      * @return the current css text
      */
     public String getCssText() {
@@ -474,12 +519,15 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         return toString_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return getCssText();
     }
 
     /**
+     * Returns a string representation to help with debugging.
+     *
      * @return a string helping to debug
      */
     public String toDebugString() {
@@ -840,6 +888,11 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         return sb.toString();
     }
 
+    /**
+     * Appends parameter lexical units to the string builder.
+     *
+     * @param sb the string builder
+     */
     private void appendParams(final StringBuilder sb) {
         LexicalUnit l = parameters_;
         if (l != null) {
@@ -861,6 +914,11 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
         }
     }
 
+    /**
+     * Returns the trimmed double value formatted as a string.
+     *
+     * @return the trimmed double value string
+     */
     private String getTrimedDoubleValue() {
         final double d = getDoubleValue();
         final int i = (int) d;
@@ -882,6 +940,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type integer.
+     *
      * @param prev the previous LexicalUnit
      * @param i the integer value
      * @return lexical unit with type integer
@@ -891,6 +951,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type real.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type real
@@ -900,6 +962,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type percentage.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type percent
@@ -909,6 +973,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type pixel.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type pixel
@@ -918,6 +984,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type centimeter.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type centimeter
@@ -927,6 +995,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type millimeter.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type millimeter
@@ -936,6 +1006,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type inch.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type inch
@@ -945,6 +1017,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type point.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type point
@@ -954,6 +1028,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type pica.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type pica
@@ -963,6 +1039,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type quater.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type quater
@@ -972,6 +1050,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type em.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type em
@@ -981,6 +1061,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type rem.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type rem
@@ -990,6 +1072,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type ex.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type ex
@@ -999,6 +1083,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type ch.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type ch
@@ -1008,6 +1094,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type vw.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type vw
@@ -1017,6 +1105,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type vh.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type vh
@@ -1026,6 +1116,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type vmin.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type vmin
@@ -1035,6 +1127,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type vmax.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type vmax
@@ -1044,6 +1138,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type dvw.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type dvw
@@ -1053,6 +1149,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type dvh.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type dvh
@@ -1062,6 +1160,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type dvmin.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type dvmin
@@ -1071,6 +1171,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type dvmax.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type dvmax
@@ -1080,6 +1182,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type lvw.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type lvw
@@ -1089,6 +1193,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type lvh.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type lvh
@@ -1098,6 +1204,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type lvmin.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type lvmin
@@ -1107,6 +1215,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type lvmax.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type lvmax
@@ -1116,6 +1226,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type svw.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type svw
@@ -1125,6 +1237,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type svh.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type svh
@@ -1134,6 +1248,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type svmin.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type svmin
@@ -1143,6 +1259,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type svmax.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type svmax
@@ -1152,6 +1270,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type degree.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type degree
@@ -1161,6 +1281,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type radian.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type radian
@@ -1170,6 +1292,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type gradian.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type gradian
@@ -1179,6 +1303,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type turn.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type turn
@@ -1188,6 +1314,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type millisecond.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type millisecond
@@ -1197,6 +1325,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type second.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type second
@@ -1206,6 +1336,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type hertz.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type hertz
@@ -1215,16 +1347,20 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type dimension.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
-     * @return lexical unit with type dimension
      * @param dim the dimension
+     * @return lexical unit with type dimension
      */
     public static LexicalUnit createDimension(final LexicalUnit prev, final double d, final String dim) {
         return new LexicalUnitImpl(prev, LexicalUnitType.DIMENSION, dim, d);
     }
 
     /**
+     * Creates a lexical unit with type kilohertz.
+     *
      * @param prev the previous LexicalUnit
      * @param d the double value
      * @return lexical unit with type kilohertz
@@ -1234,6 +1370,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type counter function.
+     *
      * @param prev the previous LexicalUnit
      * @param params the params
      * @return lexical unit with type counter
@@ -1243,6 +1381,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type counters function.
+     *
      * @param prev the previous LexicalUnit
      * @param params the params
      * @return lexical unit with type counters
@@ -1252,6 +1392,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type attr.
+     *
      * @param prev the previous LexicalUnit
      * @param value the value
      * @return lexical unit with type attr
@@ -1263,6 +1405,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type rect function.
+     *
      * @param prev the previous LexicalUnit
      * @param params the params
      * @return lexical unit with type rect
@@ -1272,6 +1416,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type rgb color.
+     *
      * @param prev the previous LexicalUnit
      * @param funct the name rgb or rgba
      * @param params the params
@@ -1282,6 +1428,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type hsl color.
+     *
      * @param prev the previous LexicalUnit
      * @param funct the name hsl or hsla
      * @param params the params
@@ -1292,6 +1440,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type hwb color.
+     *
      * @param prev the previous LexicalUnit
      * @param funct the name hwb
      * @param params the params
@@ -1302,6 +1452,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type lab color.
+     *
      * @param prev the previous LexicalUnit
      * @param funct the name lab
      * @param params the params
@@ -1312,6 +1464,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type lch color.
+     *
      * @param prev the previous LexicalUnit
      * @param funct the name lch
      * @param params the params
@@ -1322,6 +1476,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type none.
+     *
      * @param prev the previous LexicalUnit
      * @return lexical unit with type rgb color
      */
@@ -1330,6 +1486,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type from.
+     *
      * @param prev the previous LexicalUnit
      * @return lexical unit with type rgb color
      */
@@ -1338,6 +1496,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type calc function.
+     *
      * @param prev the previous LexicalUnit
      * @param params the params
      * @return lexical unit with type calc
@@ -1347,6 +1507,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type function.
+     *
      * @param prev the previous LexicalUnit
      * @param name the name
      * @param params the params
@@ -1357,6 +1519,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type string.
+     *
      * @param prev the previous LexicalUnit
      * @param value the value
      * @return lexical unit with type string
@@ -1366,6 +1530,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type ident.
+     *
      * @param prev the previous LexicalUnit
      * @param value the value
      * @return lexical unit with type ident
@@ -1375,6 +1541,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type uri.
+     *
      * @param prev the previous LexicalUnit
      * @param value the value
      * @return lexical unit with type uri
@@ -1384,6 +1552,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type comma.
+     *
      * @param prev the previous LexicalUnit
      * @return lexical unit with type comma
      */
@@ -1392,6 +1562,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type inherit.
+     *
      * @param prev the previous LexicalUnit
      * @return lexical unit with type comma
      */
@@ -1400,6 +1572,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type slash.
+     *
      * @param prev the previous LexicalUnit
      * @return lexical unit with type slash
      */
@@ -1408,6 +1582,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type plus.
+     *
      * @param prev the previous LexicalUnit
      * @return lexical unit with type plus
      */
@@ -1416,6 +1592,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type minus.
+     *
      * @param prev the previous LexicalUnit
      * @return lexical unit with type minus
      */
@@ -1424,6 +1602,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type multiply.
+     *
      * @param prev the previous LexicalUnit
      * @return lexical unit with type multiply
      */
@@ -1432,6 +1612,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
+     * Creates a lexical unit with type divide.
+     *
      * @param prev the previous LexicalUnit
      * @return lexical unit with type slash
      */

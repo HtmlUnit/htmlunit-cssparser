@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,10 @@ import org.w3c.dom.DOMException;
  */
 public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
 
+    /** The pseudo page. */
     private String pseudoPage_;
+
+    /** The style. */
     private CSSStyleDeclarationImpl style_;
 
     /**
@@ -47,9 +50,7 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
         pseudoPage_ = pseudoPage;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getCssText() {
         final StringBuilder sb = new StringBuilder();
@@ -73,9 +74,7 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
         return sb.toString();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setCssText(final String cssText) throws DOMException {
         try {
@@ -103,7 +102,7 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
     }
 
     /**
-     * <p>getSelectorText.</p>
+     * Returns the selector text.
      *
      * @return the selector text
      */
@@ -116,7 +115,9 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
 
     /**
      * Sets the selector text.
+     *
      * @param selectorText the new selector text
+     * @throws DOMException if the selector text is invalid
      */
     public void setSelectorText(final String selectorText) throws DOMException {
         try {
@@ -143,6 +144,8 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
     }
 
     /**
+     * Returns the style.
+     *
      * @return the style
      */
     public CSSStyleDeclarationImpl getStyle() {
@@ -151,12 +154,14 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
 
     /**
      * Changes the style.
+     *
      * @param style the new style
      */
     public void setStyle(final CSSStyleDeclarationImpl style) {
         style_ = style;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -170,6 +175,7 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
             && ParserUtils.equals(getStyle(), cpr.getStyle());
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int hash = super.hashCode();
@@ -178,6 +184,7 @@ public class CSSPageRuleImpl extends AbstractCSSRuleImpl {
         return hash;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return getCssText();

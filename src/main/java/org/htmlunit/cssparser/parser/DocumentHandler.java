@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,10 +32,11 @@ public interface DocumentHandler {
      * <p>
      * The CSS parser will invoke this method only once, before any other
      * methods in this interface.
+     * </p>
      *
      * @param source the input source to parse
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *                         exception.
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *                      exception.
      */
     void startDocument(InputSource source) throws CSSException;
 
@@ -46,10 +47,11 @@ public interface DocumentHandler {
      * last method invoked during the parse. The parser shall not invoke this
      * method until it has either abandoned parsing (because of an
      * unrecoverable error) or reached the end of input.
+     * </p>
      *
      * @param source the input source to parse
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *                         exception.
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *                      exception.
      */
     void endDocument(InputSource source) throws CSSException;
 
@@ -57,8 +59,8 @@ public interface DocumentHandler {
      * Receive notification of the end of a media statement.
      *
      * @param media The intended destination media for style information.
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *                         exception.
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *                      exception.
      */
     void endMedia(MediaQueryList media) throws CSSException;
 
@@ -67,16 +69,16 @@ public interface DocumentHandler {
      *
      * @param name the name
      * @param pseudoPage the pseudo page (if any, null otherwise)
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *                         exception.
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *                      exception.
      */
     void endPage(String name, String pseudoPage) throws CSSException;
 
     /**
      * Receive notification of the end of a font face statement.
      *
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *                         exception.
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *                      exception.
      */
     void endFontFace() throws CSSException;
 
@@ -84,8 +86,8 @@ public interface DocumentHandler {
      * Receive notification of the end of a rule statement.
      *
      * @param selectors All intended selectors for all declarations.
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *                         exception.
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *                      exception.
      */
     void endSelector(SelectorList selectors) throws CSSException;
 
@@ -95,7 +97,7 @@ public interface DocumentHandler {
      * @param characterEncoding the character encoding
      * @param locator the locator
      * @throws CSSException Any CSS exception, possibly wrapping another
-     *      exception.
+     *                      exception.
      */
     void charset(String characterEncoding, Locator locator) throws CSSException;
 
@@ -105,22 +107,21 @@ public interface DocumentHandler {
      * @param uri The URI of the imported style sheet.
      * @param media The intended destination media for style information.
      * @param defaultNamespaceURI The default namespace URI for the imported
-     *      style sheet.
+     *                            style sheet.
      * @param locator the locator
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *      exception.
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *                      exception.
      */
     void importStyle(String uri, MediaQueryList media,
         String defaultNamespaceURI, Locator locator) throws CSSException;
 
     /**
-     * Receive notification of an unknown rule t-rule not supported by this
-     * parser.
+     * Receive notification of an unknown at-rule not supported by this parser.
      *
      * @param atRule The complete ignored at-rule.
      * @param locator the locator
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *      exception.
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *                      exception.
      */
     void ignorableAtRule(String atRule, Locator locator) throws CSSException;
 
@@ -128,12 +129,13 @@ public interface DocumentHandler {
      * Receive notification of the beginning of a font face statement.
      * <p>
      * The Parser will invoke this method at the beginning of every font face
-     * statement in the style sheet. there will be a corresponding endFontFace()
+     * statement in the style sheet. There will be a corresponding endFontFace()
      * event for every startFontFace() event.
+     * </p>
      *
      * @param locator the locator
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *      exception.
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *                      exception.
      */
     void startFontFace(Locator locator) throws CSSException;
 
@@ -141,14 +143,15 @@ public interface DocumentHandler {
      * Receive notification of the beginning of a page statement.
      * <p>
      * The Parser will invoke this method at the beginning of every page
-     * statement in the style sheet. there will be a corresponding endPage()
+     * statement in the style sheet. There will be a corresponding endPage()
      * event for every startPage() event.
+     * </p>
      *
      * @param name the name of the page (if any, null otherwise)
      * @param pseudoPage the pseudo page (if any, null otherwise)
      * @param locator the locator
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *      exception.
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *                      exception.
      */
     void startPage(String name, String pseudoPage, Locator locator) throws CSSException;
 
@@ -156,13 +159,14 @@ public interface DocumentHandler {
      * Receive notification of the beginning of a media statement.
      * <p>
      * The Parser will invoke this method at the beginning of every media
-     * statement in the style sheet. there will be a corresponding endMedia()
-     * event for every startElement() event.
+     * statement in the style sheet. There will be a corresponding endMedia()
+     * event for every startMedia() event.
+     * </p>
      *
      * @param media The intended destination media for style information.
      * @param locator the locator
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *      exception.
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *                      exception.
      */
     void startMedia(MediaQueryList media, Locator locator) throws CSSException;
 
@@ -171,8 +175,8 @@ public interface DocumentHandler {
      *
      * @param selectors All intended selectors for all declarations.
      * @param locator the locator
-     * @exception CSSException Any CSS exception, possibly wrapping another
-     *     exception.
+     * @throws CSSException Any CSS exception, possibly wrapping another
+     *                      exception.
      */
     void startSelector(SelectorList selectors, Locator locator) throws CSSException;
 

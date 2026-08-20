@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -197,10 +197,11 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
         CSS_UNKNOWN
     }
 
+    /** The underlying value. */
     private Object value_;
 
     /**
-     * <p>getValue.</p>
+     * Returns the value.
      *
      * @return the value
      */
@@ -210,6 +211,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
 
     /**
      * Constructor.
+     *
      * @param value the lexical unit value
      * @param forcePrimitive true or false
      */
@@ -281,6 +283,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
 
     /**
      * Ctor.
+     *
      * @param value the value
      */
     public CSSValueImpl(final LexicalUnit value) {
@@ -288,7 +291,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
-     * <p>getCssText.</p>
+     * Returns the CSS text.
      *
      * @return the css text
      */
@@ -327,6 +330,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
 
     /**
      * Sets the css text.
+     *
      * @param cssText the new css text
      * @throws DOMException in case of error
      */
@@ -345,7 +349,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
-     * <p>getCssValueType.</p>
+     * Returns the CSS value type.
      *
      * @return the css value type
      */
@@ -361,7 +365,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
-     * <p>getPrimitiveType.</p>
+     * Returns the primitive type.
      *
      * @return the primitive type
      */
@@ -433,7 +437,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
-     * <p>getLexicalUnitType.</p>
+     * Returns the lexical unit type.
      *
      * @return the lexical unit type
      */
@@ -455,9 +459,9 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
-     * <p>getDoubleValue.</p>
+     * Returns the double value.
      *
-     * @return the double value.
+     * @return the double value
      * @throws DOMException in case of error
      */
     public double getDoubleValue() throws DOMException {
@@ -473,10 +477,10 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
-     * <p>getStringValue.</p>
+     * Returns the string value.
      *
-     * @return the string value.
-     * @throws DOMException case of error
+     * @return the string value
+     * @throws DOMException in case of error
      */
     public String getStringValue() throws DOMException {
         if (value_ instanceof LexicalUnit lu) {
@@ -511,8 +515,9 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
+     * Returns the length of the list if the value is a list, otherwise returns 0.
+     *
      * @return the length
-     * @throws DOMException in case of error
      */
     @SuppressWarnings("unchecked")
     public int getLength() {
@@ -523,7 +528,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
     }
 
     /**
-     * <p>item.</p>
+     * Returns the value at the specified index.
      *
      * @param index the position
      * @return the value at the position
@@ -558,6 +563,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
             && ParserUtils.equals(getCssText(), cv.getCssText());
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int hash = super.hashCode();

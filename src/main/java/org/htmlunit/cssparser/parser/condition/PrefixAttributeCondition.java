@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,15 @@
 package org.htmlunit.cssparser.parser.condition;
 
 /**
- * @author Ronlad Brill
+ * Implementation of {@link Condition} for prefix attribute matching ({@code ^=}).
+ *
+ * @author Ronald Brill
  */
 public class PrefixAttributeCondition extends AttributeCondition {
 
     /**
      * Ctor.
+     *
      * @param localName the local name
      * @param value the value
      * @param caseInSensitive null if not set, true/false for i/s
@@ -29,11 +32,13 @@ public class PrefixAttributeCondition extends AttributeCondition {
         super(localName, value, caseInSensitive);
     }
 
+    /** {@inheritDoc} */
     @Override
     public ConditionType getConditionType() {
-        return ConditionType.PREFIX_ATTRIBUTE_CONDITION; //for now
+        return ConditionType.PREFIX_ATTRIBUTE_CONDITION;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getOperator() {
         return "^=";

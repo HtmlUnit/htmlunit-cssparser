@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,16 @@
 package org.htmlunit.cssparser.parser.condition;
 
 /**
+ * Implementation of {@link Condition} for begin hyphen attribute matching ({@code |=}).
+ *
  * @author Ronald Brill
  */
 public class BeginHyphenAttributeCondition extends AttributeCondition {
 
     /**
      * Ctor.
-     * @param localName the local value
+     *
+     * @param localName the local name
      * @param value the value
      * @param caseInSensitive null if not set, true/false for i/s
      */
@@ -29,14 +32,15 @@ public class BeginHyphenAttributeCondition extends AttributeCondition {
         super(localName, value, caseInSensitive);
     }
 
+    /** {@inheritDoc} */
     @Override
     public ConditionType getConditionType() {
         return ConditionType.BEGIN_HYPHEN_ATTRIBUTE_CONDITION;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getOperator() {
         return "|=";
     }
 }
-

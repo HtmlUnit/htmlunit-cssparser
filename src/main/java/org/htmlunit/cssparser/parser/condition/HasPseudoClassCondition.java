@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,16 +21,18 @@ import org.htmlunit.cssparser.parser.Locator;
 import org.htmlunit.cssparser.parser.selector.SelectorList;
 
 /**
- * :has condition.
+ * Implementation of {@link Condition} for the {@code :has()} pseudo-class.
  *
  * @author Ronald Brill
  */
 public class HasPseudoClassCondition extends AbstractLocatable implements Condition, Serializable {
 
+    /** The selector list. */
     private final SelectorList selectors_;
 
     /**
      * Ctor.
+     *
      * @param selectors the selector list
      * @param locator the locator
      */
@@ -39,34 +41,34 @@ public class HasPseudoClassCondition extends AbstractLocatable implements Condit
         setLocator(locator);
     }
 
+    /** {@inheritDoc} */
     @Override
     public ConditionType getConditionType() {
         return ConditionType.HAS_PSEUDO_CLASS_CONDITION;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getLocalName() {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getValue() {
         return selectors_.toString();
     }
 
     /**
+     * Returns the list of selectors.
+     *
      * @return the list of selectors
      */
     public SelectorList getSelectors() {
         return selectors_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return ":has(" + getValue() + ")";

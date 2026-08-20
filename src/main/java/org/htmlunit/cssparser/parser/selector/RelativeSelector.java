@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,21 @@
 package org.htmlunit.cssparser.parser.selector;
 
 /**
+ * Implementation of RelativeSelector.
+ *
  * @author Ronald Brill
  */
 public class RelativeSelector extends AbstractSelector {
 
+    /** The combinator. */
     private final Combinator combinator_;
+
+    /** The selector. */
     private final Selector selector_;
 
     /**
      * Ctor.
+     *
      * @param combinator the combinator to use
      * @param selector the selector
      */
@@ -33,24 +39,30 @@ public class RelativeSelector extends AbstractSelector {
     }
 
     /**
+     * Returns the selector.
+     *
      * @return the containing selector
      */
     public Selector getSelector() {
         return selector_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public SelectorType getSelectorType() {
         return SelectorType.RELATIVE_SELECTOR;
     }
 
     /**
+     * Returns the combinator.
+     *
      * @return the combinator
      */
     public Combinator getCombinator() {
         return combinator_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public SimpleSelector getSimpleSelector() {
         return null;

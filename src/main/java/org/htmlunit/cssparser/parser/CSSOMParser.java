@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,11 +40,16 @@ import org.htmlunit.cssparser.parser.selector.SelectorList;
 import org.w3c.dom.DOMException;
 
 /**
+ * CSS Object Model (CSSOM) parser implementation.
+ *
  * @author Ronald Brill
  */
 public class CSSOMParser {
 
+    /** The parser. */
     private final AbstractCSSParser parser_;
+
+    /** The parent style sheet. */
     private CSSStyleSheetImpl parentStyleSheet_;
 
     /**
@@ -63,7 +68,7 @@ public class CSSOMParser {
     }
 
     /**
-     * <p>setErrorHandler.</p>
+     * Sets the error handler.
      *
      * @param eh the error handler to be used
      */
@@ -187,7 +192,7 @@ public class CSSOMParser {
     }
 
     /**
-     * <p>setParentStyleSheet.</p>
+     * Sets the parent style sheet.
      *
      * @param parentStyleSheet the new parent stylesheet
      */
@@ -196,7 +201,7 @@ public class CSSOMParser {
     }
 
     /**
-     * <p>getParentStyleSheet.</p>
+     * Returns the parent style sheet.
      *
      * @return the parent style sheet
      */
@@ -204,31 +209,64 @@ public class CSSOMParser {
         return parentStyleSheet_;
     }
 
+    /**
+     * Handler implementation for CSSOM document parsing events.
+     */
     class CSSOMHandler implements DocumentHandler {
+
+        /** The node stack. */
         private final Deque<Object> nodeStack_;
+
+        /** The root node object. */
         private Object root_;
+
+        /** The href string. */
         private String href_;
 
+        /**
+         * Returns the href.
+         *
+         * @return the href
+         */
         private String getHref() {
             return href_;
         }
 
+        /**
+         * Sets the href.
+         *
+         * @param href the href
+         */
         private void setHref(final String href) {
             href_ = href;
         }
 
+        /**
+         * Creates a new instance with specified node stack.
+         *
+         * @param nodeStack the node stack
+         */
         CSSOMHandler(final Deque<Object> nodeStack) {
             nodeStack_ = nodeStack;
         }
 
+        /**
+         * Creates a new instance.
+         */
         CSSOMHandler() {
             nodeStack_ = new ArrayDeque<>();
         }
 
+        /**
+         * Returns the root object.
+         *
+         * @return the root object
+         */
         Object getRoot() {
             return root_;
         }
 
+        /** {@inheritDoc} */
         @Override
         public void startDocument(final InputSource source) throws CSSException {
             if (nodeStack_.isEmpty()) {
@@ -245,6 +283,7 @@ public class CSSOMParser {
             }
         }
 
+        /** {@inheritDoc} */
         @Override
         public void endDocument(final InputSource source) throws CSSException {
             // Pop the rule list and style sheet nodes
@@ -252,6 +291,7 @@ public class CSSOMParser {
             root_ = nodeStack_.pop();
         }
 
+        /** {@inheritDoc} */
         @Override
         public void ignorableAtRule(final String atRule, final Locator locator) throws CSSException {
             // Create the unknown rule and add it to the rule list
@@ -268,6 +308,7 @@ public class CSSOMParser {
             }
         }
 
+        /** {@inheritDoc} */
         @Override
         public void charset(final String characterEncoding, final Locator locator)
             throws CSSException {
@@ -284,6 +325,7 @@ public class CSSOMParser {
             }
         }
 
+        /** {@inheritDoc} */
         @Override
         public void importStyle(final String uri, final MediaQueryList media,
             final String defaultNamespaceURI, final Locator locator) throws CSSException {
@@ -302,6 +344,7 @@ public class CSSOMParser {
             }
         }
 
+        /** {@inheritDoc} */
         @Override
         public void startMedia(final MediaQueryList media, final Locator locator) throws CSSException {
             final MediaListImpl ml = new MediaListImpl(media);
@@ -322,6 +365,7 @@ public class CSSOMParser {
             nodeStack_.push(rules);
         }
 
+        /** {@inheritDoc} */
         @Override
         public void endMedia(final MediaQueryList media) throws CSSException {
             // Pop the rule list and media rule nodes
@@ -329,6 +373,7 @@ public class CSSOMParser {
             root_ = nodeStack_.pop();
         }
 
+        /** {@inheritDoc} */
         @Override
         public void startPage(final String name, final String pseudoPage, final Locator locator)
             throws CSSException {
@@ -348,6 +393,7 @@ public class CSSOMParser {
             nodeStack_.push(decl);
         }
 
+        /** {@inheritDoc} */
         @Override
         public void endPage(final String name, final String pseudoPage) throws CSSException {
             // Pop both the style declaration and the page rule nodes
@@ -355,6 +401,7 @@ public class CSSOMParser {
             root_ = nodeStack_.pop();
         }
 
+        /** {@inheritDoc} */
         @Override
         public void startFontFace(final Locator locator) throws CSSException {
             // Create the font face rule and add it to the rule list
@@ -373,6 +420,7 @@ public class CSSOMParser {
             nodeStack_.push(decl);
         }
 
+        /** {@inheritDoc} */
         @Override
         public void endFontFace() throws CSSException {
             // Pop both the style declaration and the font face rule nodes
@@ -380,6 +428,7 @@ public class CSSOMParser {
             root_ = nodeStack_.pop();
         }
 
+        /** {@inheritDoc} */
         @Override
         public void startSelector(final SelectorList selectors, final Locator locator) throws CSSException {
             // Create the style rule and add it to the rule list
@@ -399,6 +448,7 @@ public class CSSOMParser {
             nodeStack_.push(decl);
         }
 
+        /** {@inheritDoc} */
         @Override
         public void endSelector(final SelectorList selectors) throws CSSException {
             // Pop both the style declaration and the style rule nodes
@@ -406,6 +456,7 @@ public class CSSOMParser {
             root_ = nodeStack_.pop();
         }
 
+        /** {@inheritDoc} */
         @Override
         public void property(final String name, final LexicalUnit value, final boolean important,
                                 final Locator locator) {
@@ -420,6 +471,11 @@ public class CSSOMParser {
             }
         }
 
+        /**
+         * Returns the parent rule.
+         *
+         * @return the parent rule
+         */
         private AbstractCSSRuleImpl getParentRule() {
             if (!nodeStack_.isEmpty() && nodeStack_.size() > 1) {
                 final Iterator<Object> iter = nodeStack_.iterator();

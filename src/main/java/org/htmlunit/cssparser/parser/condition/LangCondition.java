@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,43 +20,45 @@ import org.htmlunit.cssparser.parser.AbstractLocatable;
 import org.htmlunit.cssparser.parser.Locator;
 
 /**
+ * Implementation of {@link Condition} for the {@code :lang()} pseudo-class.
+ *
  * @author Ronald Brill
  */
 public class LangCondition extends AbstractLocatable implements Condition, Serializable {
 
+    /** The language. */
     private final String lang_;
 
     /**
      * Ctor.
+     *
      * @param lang the language
-     * @param locator the locato
+     * @param locator the locator
      */
     public LangCondition(final String lang, final Locator locator) {
         lang_ = lang;
         setLocator(locator);
     }
 
+    /** {@inheritDoc} */
     @Override
     public ConditionType getConditionType() {
         return ConditionType.LANG_CONDITION;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getLocalName() {
         return null;
     }
 
-    /**
-     * @return the language
-     */
+    /** {@inheritDoc} */
     @Override
     public String getValue() {
         return lang_;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder result = new StringBuilder();

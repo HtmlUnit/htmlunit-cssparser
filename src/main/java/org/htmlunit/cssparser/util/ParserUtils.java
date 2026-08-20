@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ package org.htmlunit.cssparser.util;
 import java.util.Objects;
 
 /**
- * Util methods.
+ * Utility methods for parser handling.
  *
  * @author Ronald Brill
  */
@@ -29,52 +29,63 @@ public final class ParserUtils {
     /** HASH_OFFSET = 37. */
     public static final int HASH_OFFSET = 37;
 
+    /**
+     * Private constructor for utility class.
+     */
     private ParserUtils() {
     }
 
     /**
+     * Calculates a hash code based on a given seed and integer value.
+     *
      * @param seed the seed to be used
      * @param hashcode the hashcode to be used as input
-     * @return a hash code calculated based on a given one.
+     * @return a hash code calculated based on a given one
      */
     public static int hashCode(final int seed, final int hashcode) {
         return seed * HASH_OFFSET + hashcode;
     }
 
     /**
+     * Calculates a hash code based on a given seed and boolean value.
+     *
      * @param seed the seed to be used
      * @param b the boolean to be used as input
-     * @return a hash code calculated based on a given boolean.
+     * @return a hash code calculated based on a given boolean
      */
     public static int hashCode(final int seed, final boolean b) {
         return hashCode(seed, b ? 1 : 0);
     }
 
     /**
+     * Calculates a hash code based on a given seed and object.
+     *
      * @param seed the seed to be used
      * @param obj the object to be used as input
-     * @return a hash code calculated based on a given object.
+     * @return a hash code calculated based on a given object
      */
     public static int hashCode(final int seed, final Object obj) {
         return hashCode(seed, obj != null ? obj.hashCode() : 0);
     }
 
     /**
+     * Compares two objects for equality.
+     *
      * @param obj1 the first object
      * @param obj2 the second object
-     * @return true if the both objects are equals
+     * @return true if both objects are equal
      */
     public static boolean equals(final Object obj1, final Object obj2) {
         return Objects.equals(obj1, obj2);
     }
 
     /**
-     * Remove the given number of chars from start and end.
+     * Removes the given number of characters from start and end.
      * There is no parameter checking, the caller has to take care of this.
      *
      * @param s the StringBuilder
-     * @param left no of chars to be removed from start
-     * @param right no of chars to be removed from end
+     * @param left number of characters to be removed from start
+     * @param right number of characters to be removed from end
      * @return the trimmed string
      */
     public static String trimBy(final StringBuilder s, final int left, final int right) {
@@ -84,6 +95,7 @@ public final class ParserUtils {
     /**
      * Helper that removes the leading "url(", the trailing ")"
      * and surrounding quotes from the given string builder.
+     *
      * @param s the StringBuilder
      * @return the trimmed string
      */

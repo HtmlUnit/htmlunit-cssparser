@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,11 +29,15 @@ import org.w3c.dom.DOMException;
  */
 public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
 
+    /** The selectors. */
     private SelectorList selectors_;
+
+    /** The style. */
     private CSSStyleDeclarationImpl style_;
 
     /**
      * Ctor.
+     *
      * @param parentStyleSheet the parent style sheet
      * @param parentRule the parent rule
      * @param selectors the selectors
@@ -45,6 +49,8 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
     }
 
     /**
+     * Returns all selectors.
+     *
      * @return all selectors
      */
     public SelectorList getSelectors() {
@@ -53,15 +59,14 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
 
     /**
      * Updates the selectors.
+     *
      * @param selectors the new selectors
      */
     public void setSelectors(final SelectorList selectors) {
         selectors_ = selectors;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getCssText() {
         final CSSStyleDeclarationImpl style = getStyle();
@@ -79,9 +84,7 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
         return selectorText + " { " + styleText + "; }";
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void setCssText(final String cssText) throws DOMException {
         try {
@@ -108,6 +111,8 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
     }
 
     /**
+     * Returns the selector text.
+     *
      * @return the selector text
      */
     public String getSelectorText() {
@@ -116,8 +121,9 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
 
     /**
      * Sets the selector text.
+     *
      * @param selectorText the new selector text
-     * @throws DOMException in clase of error
+     * @throws DOMException in case of error
      */
     public void setSelectorText(final String selectorText) throws DOMException {
         try {
@@ -133,6 +139,8 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
     }
 
     /**
+     * Returns the style.
+     *
      * @return the style
      */
     public CSSStyleDeclarationImpl getStyle() {
@@ -141,17 +149,20 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
 
     /**
      * Replaces the style.
+     *
      * @param style the new style
      */
     public void setStyle(final CSSStyleDeclarationImpl style) {
         style_ = style;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return getCssText();
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -165,6 +176,7 @@ public class CSSStyleRuleImpl extends AbstractCSSRuleImpl {
             && ParserUtils.equals(getStyle(), csr.getStyle());
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         int hash = super.hashCode();

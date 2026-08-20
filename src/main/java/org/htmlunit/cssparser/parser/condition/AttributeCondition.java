@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2024 Ronald Brill.
+ * Copyright (c) 2019-2026 Ronald Brill.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,17 +19,25 @@ import java.io.Serializable;
 import org.htmlunit.cssparser.parser.AbstractLocatable;
 
 /**
+ * Implementation of {@link Condition} for attributes.
+ *
  * @author Ronald Brill
  */
 public class AttributeCondition extends AbstractLocatable implements Condition, Serializable {
 
+    /** The local name. */
     private final String localName_;
+
+    /** The value. */
     private final String value_;
+
+    /** The case insensitive flag. */
     private final Boolean caseInSensitive_;
 
     /**
      * Ctor.
-     * @param localName the local value
+     *
+     * @param localName the local name
      * @param value the value
      * @param caseInSensitive null if not set, true/false for i/s
      */
@@ -39,28 +47,27 @@ public class AttributeCondition extends AbstractLocatable implements Condition, 
         caseInSensitive_ = caseInSensitive;
     }
 
+    /** {@inheritDoc} */
     @Override
     public ConditionType getConditionType() {
         return ConditionType.ATTRIBUTE_CONDITION;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getLocalName() {
         return localName_;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getValue() {
         return value_;
     }
 
     /**
+     * Returns whether case insensitivity option was set.
+     *
      * @return true if the caseInsensitive option was set
      */
     public boolean isCaseInSensitive() {
@@ -68,12 +75,15 @@ public class AttributeCondition extends AbstractLocatable implements Condition, 
     }
 
     /**
+     * Returns the operator.
+     *
      * @return the operator '='
      */
     public String getOperator() {
         return "=";
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         String insensitive = "";
