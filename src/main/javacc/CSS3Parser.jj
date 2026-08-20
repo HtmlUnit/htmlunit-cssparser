@@ -2119,18 +2119,7 @@ LexicalUnit hslColor(LexicalUnit prev) :
 
             ( <S> )*
 
-            (
-                (op = unaryOperator() )?
-                (
-                    next = number(next, op)
-                    | next = angle(next, op)
-
-                    | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentNumberAngleIdentCalcVar(next)
 
             ( <S> )*
 
@@ -2282,18 +2271,7 @@ LexicalUnit hwbColor(LexicalUnit prev) :
 
             ( <S> )*
 
-            (
-                (op = unaryOperator() )?
-                (
-                    next = number(next, op)
-                    | next = angle(next, op)
-
-                    | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentNumberAngleIdentCalcVar(next)
         
             ( <S> )*
         
@@ -2568,17 +2546,7 @@ LexicalUnit lchColor(LexicalUnit prev) :
         
             ( <S> )*
         
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = angle(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentNoneAngleCalcVar(next)
         
             ( <S> )*
             (
@@ -2639,6 +2607,46 @@ LexicalUnit colorComponentNoneNumberPercentCalcVar(LexicalUnit prev) :
     { return next; }
 }
 
+
+// Helper: parse a single flexible color component (number, angle, ident, calc, var)
+LexicalUnit colorComponentNumberAngleIdentCalcVar(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit next = null;
+}
+{
+    (op = unaryOperator() )?
+    (
+        next = number(prev, op)
+        | next = angle(prev, op)
+
+        | t = ident()         { next = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
+        | next = calc(prev)
+        | next = var(prev)
+    )
+    { return next; }
+}
+
+
+// Helper: parse a single flexible color component ('none', angle, calc, var)
+LexicalUnit colorComponentNoneAngleCalcVar(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit next = null;
+}
+{
+    (op = unaryOperator() )?
+    (
+        <NONE> { next = LexicalUnitImpl.createNone(prev); }
+        | next = angle(prev, op)
+
+        | next = calc(prev)
+        | next = var(prev)
+    )
+    { return next; }
+}
 
 
 //
