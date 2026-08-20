@@ -2020,15 +2020,10 @@ LexicalUnit rgbColor(LexicalUnit prev) :
 
             next = colorComponentNumberPercentIdentCalcVar(next)
         
-            ( <S> )*
-        
             next = colorComponentNumberPercentIdentCalcVar(next)
         
-            ( <S> )*
-        
             next = colorComponentNumberPercentIdentCalcVar(next)
-        
-            ( <S> )*
+
             (
                 (
                     <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
@@ -2036,8 +2031,6 @@ LexicalUnit rgbColor(LexicalUnit prev) :
                 )?
           
                 next = colorComponentNumberPercentIdentCalcVar(next)
-        
-                ( <S> )*
             )?
         )
 
@@ -2046,24 +2039,18 @@ LexicalUnit rgbColor(LexicalUnit prev) :
         (
             param = colorComponentNoneNumberPercentCalcVar(null)
             { next = param; }
-        
-            ( <S> )*
             (
                 <COMMA> { next = LexicalUnitImpl.createComma(next); }
                 ( <S> )*
             )?
         
             next = colorComponentNoneNumberPercentCalcVar(next)
-        
-            ( <S> )*
             (
                 <COMMA> { next = LexicalUnitImpl.createComma(next); }
                 ( <S> )*
             )?
         
             next = colorComponentNoneNumberPercentCalcVar(next)
-        
-            ( <S> )*
             (
                 (
                     (
@@ -2074,8 +2061,6 @@ LexicalUnit rgbColor(LexicalUnit prev) :
                 )?
           
                 next = colorComponentNoneNumberPercentCalcVar(next)
-        
-                ( <S> )*
             )?
         )
     )
@@ -2121,15 +2106,9 @@ LexicalUnit hslColor(LexicalUnit prev) :
 
             next = colorComponentNumberAngleIdentCalcVar(next)
 
-            ( <S> )*
-
             next = colorComponentPercentIdentCalcVar(next)
         
-            ( <S> )*
-        
             next = colorComponentPercentIdentCalcVar(next)
-
-            ( <S> )*
 
             (
                 (
@@ -2138,44 +2117,27 @@ LexicalUnit hslColor(LexicalUnit prev) :
                 )?
           
                 next = colorComponentNumberPercentIdentCalcVar(next)
-        
-                ( <S> )*
             )?
         )
 
         |
 
         (
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { param = LexicalUnitImpl.createNone(null); }
-                    | param = number(null, op)
-                    | param = angle(null, op)
+            param = colorComponentNoneNumberAngleCalcVar(null)
+            { next = param; }
 
-                    | param = calc(null)
-                    | param = var(null)
-                )
-            )
-            { op = ' '; next = param; }
-        
-            ( <S> )*
             (
                 <COMMA> { next = LexicalUnitImpl.createComma(next); }
                 ( <S> )*
             )?
         
             next = colorComponentNonePercentCalcVar(next)
-        
-            ( <S> )*
             (
                 <COMMA> { next = LexicalUnitImpl.createComma(next); }
                 ( <S> )*
             )?
         
             next = colorComponentNonePercentCalcVar(next)
-
-            ( <S> )*
             (
                 (
                     (
@@ -2186,8 +2148,6 @@ LexicalUnit hslColor(LexicalUnit prev) :
                 )?
           
                 next = colorComponentNoneNumberPercentCalcVar(next)
-        
-                ( <S> )*
             )?
         )
     )
@@ -2233,15 +2193,10 @@ LexicalUnit hwbColor(LexicalUnit prev) :
 
             next = colorComponentNumberAngleIdentCalcVar(next)
         
-            ( <S> )*
-        
             next = colorComponentPercentIdentCalcVar(next)
         
-            ( <S> )*
-        
             next = colorComponentPercentIdentCalcVar(next)
-        
-            ( <S> )*
+
             (
                 (
                     <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
@@ -2249,36 +2204,19 @@ LexicalUnit hwbColor(LexicalUnit prev) :
                 )?
 
                 next = colorComponentNumberPercentIdentCalcVar(next)
-        
-                ( <S> )*
             )?
         )
 
         |
 
         (
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { param = LexicalUnitImpl.createNone(null); }
-                    | param = number(null, op)
-                    | param = angle(null, op)
+            param = colorComponentNoneNumberAngleCalcVar(null)
+            { next = param; }
+        
+            next = colorComponentNonePercentCalcVar(next)
+        
+            next = colorComponentNonePercentCalcVar(next)
 
-                    | param = calc(null)
-                    | param = var(null)
-                )
-            )
-            { op = ' '; next = param; }
-        
-            ( <S> )*
-        
-            next = colorComponentNonePercentCalcVar(next)
-        
-            ( <S> )*
-        
-            next = colorComponentNonePercentCalcVar(next)
-        
-            ( <S> )*
             (
                 (
                     <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
@@ -2286,8 +2224,6 @@ LexicalUnit hwbColor(LexicalUnit prev) :
                 )?
           
                 next = colorComponentNoneNumberPercentCalcVar(next)
-        
-                ( <S> )*
             )?
         )
     )
@@ -2333,15 +2269,10 @@ LexicalUnit labColor(LexicalUnit prev) :
 
             next = colorComponentNumberPercentIdentCalcVar(next)
         
-            ( <S> )*
-        
             next = colorComponentNumberPercentIdentCalcVar(next)
-        
-            ( <S> )*
-        
+
             next = colorComponentNumberPercentIdentCalcVar(next)
-        
-            ( <S> )*
+
             (
                 (
                     <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
@@ -2349,8 +2280,6 @@ LexicalUnit labColor(LexicalUnit prev) :
                 )?
           
                 next = colorComponentNumberPercentIdentCalcVar(next)
-        
-                ( <S> )*
             )?
         )
 
@@ -2360,15 +2289,10 @@ LexicalUnit labColor(LexicalUnit prev) :
             param = colorComponentNoneNumberPercentCalcVar(null)
             { next = param; }
         
-            ( <S> )*
-        
             next = colorComponentNoneNumberPercentCalcVar(next)
         
-            ( <S> )*
-        
             next = colorComponentNoneNumberPercentCalcVar(next)
-        
-            ( <S> )*
+
             (
                 (
                     <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
@@ -2376,8 +2300,6 @@ LexicalUnit labColor(LexicalUnit prev) :
                 )?
           
                 next = colorComponentNoneNumberPercentCalcVar(next)
-        
-                ( <S> )*
             )?
         )
     )
@@ -2423,11 +2345,7 @@ LexicalUnit lchColor(LexicalUnit prev) :
 
             next = colorComponentNumberPercentIdentCalcVar(next)
         
-            ( <S> )*
-        
             next = colorComponentNumberPercentIdentCalcVar(next)
-        
-            ( <S> )*
         
             (
                 (op = unaryOperator() )?
@@ -2449,8 +2367,6 @@ LexicalUnit lchColor(LexicalUnit prev) :
                 )?
           
                 next = colorComponentNumberPercentIdentCalcVar(next)
-        
-                ( <S> )*
             )?
         )
 
@@ -2460,15 +2376,10 @@ LexicalUnit lchColor(LexicalUnit prev) :
             param = colorComponentNoneNumberPercentCalcVar(null)
             { next = param; }
         
-            ( <S> )*
-        
             next = colorComponentNoneNumberPercentCalcVar(next)
         
-            ( <S> )*
-        
             next = colorComponentNoneAngleCalcVar(next)
-        
-            ( <S> )*
+
             (
                 (
                     <SLASH>  { next = LexicalUnitImpl.createSlash(next); }
@@ -2476,8 +2387,6 @@ LexicalUnit lchColor(LexicalUnit prev) :
                 )?
           
                 next = colorComponentNoneNumberPercentCalcVar(next)
-        
-                ( <S> )*
             )?
         )
     )
@@ -2504,6 +2413,7 @@ LexicalUnit colorComponentNumberPercentIdentCalcVar(LexicalUnit prev) :
         | next = calc(prev)
         | next = var(prev)
     )
+    ( <S> )*
     { return next; }
 }
 
@@ -2524,6 +2434,7 @@ LexicalUnit colorComponentNoneNumberPercentCalcVar(LexicalUnit prev) :
         | next = calc(prev)
         | next = var(prev)
     )
+    ( <S> )*
     { return next; }
 }
 
@@ -2545,6 +2456,7 @@ LexicalUnit colorComponentNumberAngleIdentCalcVar(LexicalUnit prev) :
         | next = calc(prev)
         | next = var(prev)
     )
+    ( <S> )*
     { return next; }
 }
 
@@ -2565,6 +2477,7 @@ LexicalUnit colorComponentNoneAngleCalcVar(LexicalUnit prev) :
         | next = calc(prev)
         | next = var(prev)
     )
+    ( <S> )*
     { return next; }
 }
 
@@ -2585,6 +2498,7 @@ LexicalUnit colorComponentPercentIdentCalcVar(LexicalUnit prev) :
         | next = calc(prev)
         | next = var(prev)
     )
+    ( <S> )*
     { return next; }
 }
 
@@ -2605,6 +2519,29 @@ LexicalUnit colorComponentNonePercentCalcVar(LexicalUnit prev) :
         | next = calc(prev)
         | next = var(prev)
     )
+    ( <S> )*
+    { return next; }
+}
+
+
+// Helper: parse a single flexible color component ('none', number, angle, calc, var)
+LexicalUnit colorComponentNoneNumberAngleCalcVar(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit next = null;
+}
+{
+    (op = unaryOperator() )?
+    (
+        <NONE> { next = LexicalUnitImpl.createNone(prev); }
+        | next = number(prev, op)
+        | next = angle(prev, op)
+
+        | next = calc(prev)
+        | next = var(prev)
+    )
+    ( <S> )*
     { return next; }
 }
 
