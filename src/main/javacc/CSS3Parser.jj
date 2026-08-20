@@ -2459,18 +2459,8 @@ LexicalUnit labColor(LexicalUnit prev) :
         |
 
         (
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { param = LexicalUnitImpl.createNone(null); }
-                    | param = number(null, op)
-                    | param = percentage(null, op)
-
-                    | param = calc(null)
-                    | param = var(null)
-                )
-            )
-            { op = ' '; next = param; }
+            param = colorComponentNoneNumberPercentCalcVar(null)
+            { next = param; }
         
             ( <S> )*
         
@@ -2569,18 +2559,8 @@ LexicalUnit lchColor(LexicalUnit prev) :
         |
 
         (
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { param = LexicalUnitImpl.createNone(null); }
-                    | param = number(null, op)
-                    | param = percentage(null, op)
-
-                    | param = calc(null)
-                    | param = var(null)
-                )
-            )
-            { op = ' '; next = param; }
+            param = colorComponentNoneNumberPercentCalcVar(null)
+            { next = param; }
         
             ( <S> )*
         
