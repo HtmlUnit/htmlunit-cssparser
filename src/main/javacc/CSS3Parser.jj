@@ -2123,31 +2123,11 @@ LexicalUnit hslColor(LexicalUnit prev) :
 
             ( <S> )*
 
-            (
-                (op = unaryOperator() )?
-                (
-                    next = percentage(next, op)
-
-                    | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentPercentIdentCalcVar(next)
         
             ( <S> )*
         
-            (
-                (op = unaryOperator() )?
-                (
-                    next = percentage(next, op)
-
-                    | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentPercentIdentCalcVar(next)
 
             ( <S> )*
 
@@ -2185,17 +2165,7 @@ LexicalUnit hslColor(LexicalUnit prev) :
                 ( <S> )*
             )?
         
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentNonePercentCalcVar(next)
         
             ( <S> )*
             (
@@ -2203,17 +2173,7 @@ LexicalUnit hslColor(LexicalUnit prev) :
                 ( <S> )*
             )?
         
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentNonePercentCalcVar(next)
 
             ( <S> )*
             (
@@ -2275,31 +2235,11 @@ LexicalUnit hwbColor(LexicalUnit prev) :
         
             ( <S> )*
         
-            (
-                (op = unaryOperator() )?
-                (
-                    next = percentage(next, op)
-
-                    | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentPercentIdentCalcVar(next)
         
             ( <S> )*
         
-            (
-                (op = unaryOperator() )?
-                (
-                    next = percentage(next, op)
-
-                    | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentPercentIdentCalcVar(next)
         
             ( <S> )*
             (
@@ -2332,31 +2272,11 @@ LexicalUnit hwbColor(LexicalUnit prev) :
         
             ( <S> )*
         
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentNonePercentCalcVar(next)
         
             ( <S> )*
         
-            (
-                (op = unaryOperator() )?
-                (
-                    <NONE> { next = LexicalUnitImpl.createNone(next); }
-                    | next = percentage(next, op)
-
-                    | next = calc(next)
-                    | next = var(next)
-                )
-            )
-            { op = ' '; }
+            next = colorComponentNonePercentCalcVar(next)
         
             ( <S> )*
             (
@@ -2641,6 +2561,46 @@ LexicalUnit colorComponentNoneAngleCalcVar(LexicalUnit prev) :
     (
         <NONE> { next = LexicalUnitImpl.createNone(prev); }
         | next = angle(prev, op)
+
+        | next = calc(prev)
+        | next = var(prev)
+    )
+    { return next; }
+}
+
+
+// Helper: parse a single flexible color component (%, ident, calc, var)
+LexicalUnit colorComponentPercentIdentCalcVar(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit next = null;
+}
+{
+    (op = unaryOperator() )?
+    (
+        next = percentage(prev, op)
+
+        | t = ident()         { next = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
+        | next = calc(prev)
+        | next = var(prev)
+    )
+    { return next; }
+}
+
+
+// Helper: parse a single flexible color component ('none', %, ident, calc, var)
+LexicalUnit colorComponentNonePercentCalcVar(LexicalUnit prev) :
+{
+    Token t;
+    char op = ' ';
+    LexicalUnit next = null;
+}
+{
+    (op = unaryOperator() )?
+    (
+        <NONE> { next = LexicalUnitImpl.createNone(prev); }
+        | next = percentage(prev, op)
 
         | next = calc(prev)
         | next = var(prev)
