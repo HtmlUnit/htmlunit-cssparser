@@ -2847,158 +2847,52 @@ String skipUnit() {
 
 JAVACODE
 void appendUnit(Token t, StringBuilder sb) {
-    if (t.kind == EMS) {
-      sb.append("em");
-      return;
-    }
-    if (t.kind == REM) {
-      sb.append("rem");
-      return;
-    }
-    if (t.kind == EXS) {
-      sb.append("ex");
-      return;
-    }
-    if (t.kind == CH) {
-      sb.append("ch");
-      return;
-    }
-    if (t.kind == VW) {
-      sb.append("vw");
-      return;
-    }
-    if (t.kind == VH) {
-      sb.append("vh");
-      return;
-    }
-    if (t.kind == VMIN) {
-      sb.append("vmin");
-      return;
-    }
-    if (t.kind == VMAX) {
-      sb.append("vmax");
-      return;
-    }
-    if (t.kind == DVW) {
-      sb.append("dvw");
-      return;
-    }
-    if (t.kind == DVH) {
-      sb.append("dvh");
-      return;
-    }
-    if (t.kind == DVMIN) {
-      sb.append("dvmin");
-      return;
-    }
-    if (t.kind == DVMAX) {
-      sb.append("dvmax");
-      return;
-    }
-    if (t.kind == LVW) {
-      sb.append("lvw");
-      return;
-    }
-    if (t.kind == LVH) {
-      sb.append("lvh");
-      return;
-    }
-    if (t.kind == LVMIN) {
-      sb.append("lvmin");
-      return;
-    }
-    if (t.kind == LVMAX) {
-      sb.append("lvmax");
-      return;
-    }
-    if (t.kind == SVW) {
-      sb.append("svw");
-      return;
-    }
-    if (t.kind == SVH) {
-      sb.append("svh");
-      return;
-    }
-    if (t.kind == SVMIN) {
-      sb.append("svmin");
-      return;
-    }
-    if (t.kind == SVMAX) {
-      sb.append("svmax");
-      return;
-    }
+    switch (t.kind) {
+        case EMS: sb.append("em"); break;
+        case REM: sb.append("rem"); break;
+        case EXS: sb.append("ex"); break;
+        case CH: sb.append("ch"); break;
+        case VW: sb.append("vw"); break;
+        case VH: sb.append("vh"); break;
+        case VMIN: sb.append("vmin"); break;
+        case VMAX: sb.append("vmax"); break;
+        case DVW: sb.append("dvw"); break;
+        case DVH: sb.append("dvh"); break;
+        case DVMIN: sb.append("dvmin"); break;
+        case DVMAX: sb.append("dvmax"); break;
+        case LVW: sb.append("lvw"); break;
+        case LVH: sb.append("lvh"); break;
+        case LVMIN: sb.append("lvmin"); break;
+        case LVMAX: sb.append("lvmax"); break;
+        case SVW: sb.append("svw"); break;
+        case SVH: sb.append("svh"); break;
+        case SVMIN: sb.append("svmin"); break;
+        case SVMAX: sb.append("svmax"); break;
 
-    if (t.kind == LENGTH_PX) {
-      sb.append("px");
-      return;
-    }
-    if (t.kind == LENGTH_CM) {
-      sb.append("cm");
-      return;
-    }
-    if (t.kind == LENGTH_MM) {
-      sb.append("mm");
-      return;
-    }
-    if (t.kind == LENGTH_IN) {
-      sb.append("in");
-      return;
-    }
-    if (t.kind == LENGTH_PT) {
-      sb.append("pt");
-      return;
-    }
-    if (t.kind == LENGTH_PC) {
-      sb.append("pc");
-      return;
-    }
-    if (t.kind == LENGTH_Q) {
-      sb.append("Q");
-      return;
-    }
-    if (t.kind == ANGLE_DEG) {
-      sb.append("deg");
-      return;
-    }
-    if (t.kind == ANGLE_RAD) {
-      sb.append("rad");
-      return;
-    }
-    if (t.kind == ANGLE_GRAD) {
-      sb.append("grad");
-      return;
-    }
-    if (t.kind == ANGLE_TURN) {
-      sb.append("turn");
-      return;
-    }
-    if (t.kind == TIME_MS) {
-      sb.append("ms");
-      return;
-    }
-    if (t.kind == TIME_S) {
-      sb.append('s');
-      return;
-    }
-    if (t.kind == FREQ_HZ) {
-      sb.append("hz");
-      return;
-    }
-    if (t.kind == FREQ_KHZ) {
-      sb.append("khz");
-      return;
-    }
-    if (t.kind == RESOLUTION_DPI) {
-      sb.append("dpi");
-      return;
-    }
-    if (t.kind == RESOLUTION_DPCM) {
-      sb.append("dpcm");
-      return;
-    }
-    if (t.kind == PERCENTAGE) {
-      sb.append('%');
-      return;
+        case LENGTH_PX: sb.append("px"); break;
+        case LENGTH_CM: sb.append("cm"); break;
+        case LENGTH_MM: sb.append("mm"); break;
+        case LENGTH_IN: sb.append("in"); break;
+        case LENGTH_PT: sb.append("pt"); break;
+        case LENGTH_PC: sb.append("pc"); break;
+        case LENGTH_Q: sb.append("Q"); break;
+
+        case ANGLE_DEG: sb.append("deg"); break;
+        case ANGLE_RAD: sb.append("rad"); break;
+        case ANGLE_GRAD: sb.append("grad"); break;
+        case ANGLE_TURN: sb.append("turn"); break;
+
+        case TIME_MS: sb.append("ms"); break;
+        case TIME_S: sb.append('s'); break;
+
+        case FREQ_HZ: sb.append("hz"); break;
+        case FREQ_KHZ: sb.append("khz"); break;
+
+        case RESOLUTION_DPI: sb.append("dpi"); break;
+        case RESOLUTION_DPCM: sb.append("dpcm"); break;
+
+        case PERCENTAGE: sb.append('%'); break;
+        default: break;
     }
 }
 
