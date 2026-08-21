@@ -2874,6 +2874,55 @@ void appendUnit(Token t, StringBuilder sb) {
       sb.append("vmax");
       return;
     }
+    if (t.kind == DVW) {
+      sb.append("dvw");
+      return;
+    }
+    if (t.kind == DVH) {
+      sb.append("dvh");
+      return;
+    }
+    if (t.kind == DVMIN) {
+      sb.append("dvmin");
+      return;
+    }
+    if (t.kind == DVMAX) {
+      sb.append("dvmax");
+      return;
+    }
+    if (t.kind == LVW) {
+      sb.append("lvw");
+      return;
+    }
+    if (t.kind == LVH) {
+      sb.append("lvh");
+      return;
+    }
+    if (t.kind == LVMIN) {
+      sb.append("lvmin");
+      return;
+    }
+    if (t.kind == LVMAX) {
+      sb.append("lvmax");
+      return;
+    }
+    if (t.kind == SVW) {
+      sb.append("svw");
+      return;
+    }
+    if (t.kind == SVH) {
+      sb.append("svh");
+      return;
+    }
+    if (t.kind == SVMIN) {
+      sb.append("svmin");
+      return;
+    }
+    if (t.kind == SVMAX) {
+      sb.append("svmax");
+      return;
+    }
+
     if (t.kind == LENGTH_PX) {
       sb.append("px");
       return;
