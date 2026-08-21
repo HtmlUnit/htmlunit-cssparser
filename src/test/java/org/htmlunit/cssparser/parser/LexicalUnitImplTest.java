@@ -340,7 +340,7 @@ public class LexicalUnitImplTest {
         unit = new LexicalUnitImpl(null, LexicalUnitType.PICA);
         assertEquals("pc", unit.getDimensionUnitText());
 
-        unit = new LexicalUnitImpl(null, LexicalUnitType.QUATER);
+        unit = new LexicalUnitImpl(null, LexicalUnitType.QUARTER);
         assertEquals("Q", unit.getDimensionUnitText());
 
         unit = new LexicalUnitImpl(null, LexicalUnitType.PERCENTAGE);
@@ -621,10 +621,10 @@ public class LexicalUnitImplTest {
      * @throws Exception if any error occurs
      */
     @Test
-    public void createQuater() throws Exception {
-        final LexicalUnit unit = LexicalUnitImpl.createQuater(null, 1.7);
+    public void createQuarter() throws Exception {
+        final LexicalUnit unit = LexicalUnitImpl.createQuarter(null, 1.7);
 
-        assertEquals(LexicalUnitType.QUATER, unit.getLexicalUnitType());
+        assertEquals(LexicalUnitType.QUARTER, unit.getLexicalUnitType());
         assertEquals(1.7, unit.getDoubleValue(), 0.0001);
         assertEquals(1, unit.getIntegerValue());
         assertEquals("Q", unit.getDimensionUnitText());
@@ -636,7 +636,7 @@ public class LexicalUnitImplTest {
         assertNull(unit.getPreviousLexicalUnit());
 
         assertEquals("1.7Q", unit.toString());
-        assertEquals("QUATER(1.7Q)", ((LexicalUnitImpl) unit).toDebugString());
+        assertEquals("QUARTER(1.7Q)", ((LexicalUnitImpl) unit).toDebugString());
     }
 
     /**

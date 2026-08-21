@@ -290,7 +290,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
             case MILLIMETER -> "mm";
             case POINT -> "pt";
             case PICA -> "pc";
-            case QUATER -> "Q";
+            case QUARTER -> "Q";
             case PERCENTAGE -> "%";
             case DEGREE -> "deg";
             case GRADIAN -> "grad";
@@ -412,7 +412,7 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
             case MILLIMETER:
             case POINT:
             case PICA:
-            case QUATER:
+            case QUARTER:
             case PERCENTAGE:
             case DEGREE:
             case GRADIAN:
@@ -738,8 +738,8 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                     .append(getDimensionUnitText())
                     .append(")");
                 break;
-            case QUATER:
-                sb.append("QUATER(")
+            case QUARTER:
+                sb.append("QUARTER(")
                     .append(getTrimedDoubleValue())
                     .append(getDimensionUnitText())
                     .append(")");
@@ -1039,14 +1039,14 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
     }
 
     /**
-     * Creates a lexical unit with type quater.
+     * Creates a lexical unit with type quarter.
      *
      * @param prev the previous LexicalUnit
      * @param d the double value
-     * @return lexical unit with type quater
+     * @return lexical unit with type quarter
      */
-    public static LexicalUnit createQuater(final LexicalUnit prev, final double d) {
-        return new LexicalUnitImpl(prev, LexicalUnitType.QUATER, d);
+    public static LexicalUnit createQuarter(final LexicalUnit prev, final double d) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.QUARTER, d);
     }
 
     /**

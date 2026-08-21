@@ -71,12 +71,12 @@ public class CSSValueImplTest {
      */
     @Test
     public void q() throws Exception {
-        final LexicalUnit lu = LexicalUnitImpl.createQuater(null, 1.2);
+        final LexicalUnit lu = LexicalUnitImpl.createQuarter(null, 1.2);
         final CSSValueImpl value = new CSSValueImpl(lu, false);
 
         assertEquals("1.2Q", value.getCssText());
         assertEquals(CSSPrimitiveValueType.CSS_Q, value.getPrimitiveType());
-        assertEquals(LexicalUnit.LexicalUnitType.QUATER, value.getLexicalUnitType());
+        assertEquals(LexicalUnit.LexicalUnitType.QUARTER, value.getLexicalUnitType());
         assertEquals(1.2, value.getDoubleValue(), 0.00001);
         try {
             value.getStringValue();

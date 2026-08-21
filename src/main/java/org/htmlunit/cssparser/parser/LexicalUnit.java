@@ -107,8 +107,8 @@ public interface LexicalUnit {
         POINT,
         /** PICA. */
         PICA,
-        /** QUATER. */
-        QUATER,
+        /** QUARTER. */
+        QUARTER,
         /** PERCENTAGE. */
         PERCENTAGE,
         /** URI. */

@@ -2693,7 +2693,7 @@ LexicalUnit dimension(LexicalUnit prev, char op) :
         | t = <LENGTH_IN>         { value = LexicalUnitImpl.createInch(prev, doubleValue(op, t.image)); }
         | t = <LENGTH_PT>         { value = LexicalUnitImpl.createPoint(prev, doubleValue(op, t.image)); }
         | t = <LENGTH_PC>         { value = LexicalUnitImpl.createPica(prev, doubleValue(op, t.image)); }
-        | t = <LENGTH_Q>          { value = LexicalUnitImpl.createQuater(prev, doubleValue(op, t.image)); }
+        | t = <LENGTH_Q>          { value = LexicalUnitImpl.createQuarter(prev, doubleValue(op, t.image)); }
         | t = <EMS>               { value = LexicalUnitImpl.createEm(prev, doubleValue(op, t.image)); }
         | t = <REM>               { value = LexicalUnitImpl.createRem(prev, doubleValue(op, t.image)); }
         | t = <EXS>               { value = LexicalUnitImpl.createEx(prev, doubleValue(op, t.image)); }

@@ -400,7 +400,7 @@ public class CSSValueImpl extends AbstractLocatable implements Serializable {
                 case MILLIMETER -> CSSPrimitiveValueType.CSS_MM;
                 case POINT -> CSSPrimitiveValueType.CSS_PT;
                 case PICA -> CSSPrimitiveValueType.CSS_PC;
-                case QUATER -> CSSPrimitiveValueType.CSS_Q;
+                case QUARTER -> CSSPrimitiveValueType.CSS_Q;
                 case PERCENTAGE -> CSSPrimitiveValueType.CSS_PERCENTAGE;
                 case URI -> CSSPrimitiveValueType.CSS_URI;
                 case COUNTER_FUNCTION -> CSSPrimitiveValueType.CSS_COUNTER;
