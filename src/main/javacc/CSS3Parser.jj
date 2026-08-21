@@ -527,7 +527,7 @@ void charsetRule() :
         {
             locator = createLocator(token);
         }
-        <S>
+        ( <S> )*
         t = <STRING>
         <SEMICOLON>
         {
@@ -2793,11 +2793,16 @@ LexicalUnit hexcolor(LexicalUnit prev) :
 
 JAVACODE
 String skip() {
+    Token t = getToken(0);
+    if (t.kind == EOF) {
+    	return "";
+    }
+
     StringBuilder sb = new StringBuilder();
     int nesting = 0;
-    Token t = getToken(0);
     if (t.image != null) {
         sb.append(t.image);
+        appendUnit(t, sb);
     }
 
     do {
@@ -2833,7 +2838,7 @@ String skipUnit() {
 
         t = getNextToken();
     }
-    if (t.kind != EOF) {
+    if (t.kind != EOF && oldToken != null) {
         token = oldToken;
     }
 

@@ -360,6 +360,26 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      * @throws Exception if the test fails
      */
     @Test
+    public void charsetWithoutDelimitingWhitespace() throws Exception {
+        final String css = "@charset'UTF-8';\n"
+            + "h1 { color: blue }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(2, rules.getLength());
+
+        AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("@charset \"UTF-8\";", rule.getCssText());
+
+        rule = rules.getRules().get(1);
+        assertEquals("h1 { color: blue; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
     public void charsetWhitespaceBefore() throws Exception {
         final String css = "/* comment */ \n @charset 'UTF-8';\n"
             + "h1 { color: blue }\n";
