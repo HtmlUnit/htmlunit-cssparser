@@ -1068,7 +1068,7 @@ SelectorList selectorList() :
     sel = selector() { selList.setLocator(sel.getLocator()); }
     (   <COMMA> ( <S> )*
         { selList.add(sel); }
-        sel = selector() { selList.setLocator(sel.getLocator()); }
+        sel = selector()
     )*
     {
         selList.add(sel);
