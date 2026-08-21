@@ -1694,10 +1694,10 @@ LexicalUnit function(LexicalUnit prev) :
     Token t;
     LexicalUnit param = null;
     LexicalUnit body = null;
-    String funct = "";
+    String funct;
 }
 {
-    t = <FUNCTION> { funct = funct + unescape(t.image, false); }
+    t = <FUNCTION> { funct = unescape(t.image, false); }
     ( <S> )*
     (
         param = term(null) { body = param; }
