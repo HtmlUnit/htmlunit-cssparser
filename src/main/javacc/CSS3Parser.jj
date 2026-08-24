@@ -1990,7 +1990,6 @@ LexicalUnit var(LexicalUnit prev) :
 LexicalUnit rgbColor(LexicalUnit prev) :
 {
     Token t;
-    char op = ' ';
     LexicalUnit param = null;
     LexicalUnit next = null;
     String funct;
@@ -2076,7 +2075,6 @@ LexicalUnit rgbColor(LexicalUnit prev) :
 LexicalUnit hslColor(LexicalUnit prev) :
 {
     Token t;
-    char op = ' ';
     LexicalUnit param = null;
     LexicalUnit next = null;
     String funct;
@@ -2163,7 +2161,6 @@ LexicalUnit hslColor(LexicalUnit prev) :
 LexicalUnit hwbColor(LexicalUnit prev) :
 {
     Token t;
-    char op = ' ';
     LexicalUnit param = null;
     LexicalUnit next = null;
     String funct;
@@ -2239,7 +2236,6 @@ LexicalUnit hwbColor(LexicalUnit prev) :
 LexicalUnit labColor(LexicalUnit prev) :
 {
     Token t;
-    char op = ' ';
     LexicalUnit param = null;
     LexicalUnit next = null;
     String funct;
