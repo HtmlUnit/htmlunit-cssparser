@@ -699,6 +699,7 @@ MediaQuery mediaQuery() :
   (
     (
       (
+        LOOKAHEAD(2)
         (
           <ONLY> { only = true; }
           |
