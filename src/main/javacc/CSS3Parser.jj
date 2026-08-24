@@ -751,7 +751,7 @@ Property mediaExpression() :
     <LROUND>
     ( <S> )*
     (
-        t = identExcludingOnly() ( <S> )*       { p = unescape(t.image, false); }
+        t = ident() ( <S> )*       { p = unescape(t.image, false); }
         | t = <CUSTOM_PROPERTY_NAME> ( <S> )*   { p = unescape(t.image, false); }
     )
     (
@@ -790,7 +790,7 @@ String medium() :
   Token t;
 }
 {
-    t = identExcludingOnly() ( <S> )*
+    t = ident() ( <S> )*
     {
         return unescape(t.image, false);
     }
@@ -2561,6 +2561,7 @@ Token ident() :
             | t = <AND>
             | t = <ONLY>
             | t = <NONE>
+            | t = <NOT>
             | t = <FROM>
         )
         {
@@ -2584,33 +2585,10 @@ Token identExcludingInherit() :
     t = <IDENT> { return t; }
     |
         (
-            t = <ONLY>
+            t = <AND>
+            | t = <ONLY>
             | t = <NONE>
-            | t = <FROM>
-        )
-        {
-            Token ident = new Token(IDENT, unescape(t.image, false));
-            ident.beginLine = t.beginLine;
-            ident.beginColumn = t.beginColumn;
-            ident.endLine = t.endLine;
-            ident.endColumn = t.endColumn;
-            ident.next = t.next;
-            ident.specialToken = t.specialToken;
-            return ident;
-            
-        }
-}
-
-Token identExcludingOnly() :
-{
-    Token t;
-}
-{
-    t = <IDENT> { return t; }
-    |
-        (
-            t = <INHERIT>
-            | t = <NONE>
+            | t = <NOT>
             | t = <FROM>
         )
         {

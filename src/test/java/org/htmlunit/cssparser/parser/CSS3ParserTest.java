@@ -112,6 +112,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         selectorType(".none", SelectorType.ELEMENT_NODE_SELECTOR);
         selectorType(".from", SelectorType.ELEMENT_NODE_SELECTOR);
         selectorType(".and", SelectorType.ELEMENT_NODE_SELECTOR);
+        selectorType(".not", SelectorType.ELEMENT_NODE_SELECTOR);
     }
 
     /**
@@ -234,6 +235,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         conditionType(".none", ConditionType.CLASS_CONDITION);
         conditionType(".from", ConditionType.CLASS_CONDITION);
         conditionType(".and", ConditionType.CLASS_CONDITION);
+        conditionType(".not", ConditionType.CLASS_CONDITION);
     }
 
     /**
@@ -1667,7 +1669,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(7, errorHandler.getErrorCount());
         final String expected = "Error in declaration. (Invalid token \"}\". Was expecting one of: <S>, \":\".)"
                 + " Error in declaration. (Invalid token \";\". Was expecting one of: <S>, \":\".)"
-                + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
+                + " Error in expression. (Invalid token \"}\". Was expecting one of: <S>, \"and\", \"not\", \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, <DVW>, <DVH>, <DVMIN>, <DVMAX>, <LVW>, <LVH>, <LVMIN>, <LVMAX>, <SVW>, <SVH>, <SVMIN>, <SVMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
@@ -1675,7 +1677,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
                         + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)"
-                + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
+                + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, \"and\", \"not\", \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, <DVW>, <DVH>, <DVMIN>, <DVMAX>, <LVW>, <LVH>, <LVMIN>, <LVMAX>, <SVW>, <SVH>, <SVMIN>, <SVMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
@@ -1928,7 +1930,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in @page rule. "
-                + "(Invalid token \"<EOF>\". Was expecting one of: <S>, \"and\", \"only\", \"inherit\", \"none\", \"from\", <IDENT>,"
+                + "(Invalid token \"<EOF>\". Was expecting one of: <S>, \"and\", \"not\", \"only\", \"inherit\", \"none\", \"from\", <IDENT>,"
                 + " \"}\", \";\", \"*\", <CUSTOM_PROPERTY_NAME>.)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("1", errorHandler.getErrorLines());
@@ -1973,7 +1975,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         assertEquals(1, errorHandler.getErrorCount());
         final String expected = "Error in expression. "
-                + "(Invalid token \"\\'\". Was expecting one of: <S>, \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
+                + "(Invalid token \"\\'\". Was expecting one of: <S>, \"and\", \"not\", \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
                         + "<VW>, <VH>, <VMIN>, <VMAX>, <DVW>, <DVH>, <DVMIN>, <DVMAX>, <LVW>, <LVH>, <LVMIN>, <LVMAX>, <SVW>, <SVH>, <SVMIN>, <SVMAX>, "
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
@@ -3468,7 +3470,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         checkErrorSelector("input:not()",
                 "Error in simple selector. (Invalid token \")\". "
-                + "Was expecting one of: <S>, \"and\", \"only\", \"inherit\", \"none\", \"from\", <IDENT>, \".\", \":\", \"*\", \"[\", <HASH>.)");
+                + "Was expecting one of: <S>, \"and\", \"not\", \"only\", \"inherit\", \"none\", \"from\", <IDENT>, \".\", \":\", \"*\", \"[\", <HASH>.)");
 
 //        checkErrorSelector("input:not(*.home)",
 //                "Error in pseudo class or element. (Invalid token \".\"."
@@ -3547,7 +3549,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                 "Duplicate pseudo class \":foo(ab)\" or pseudo class \":foo(ab)\" not at end.");
         checkErrorSelector("input:before:",
                 "Error in pseudo class or element. (Invalid token \"<EOF>\". "
-                + "Was expecting one of: \"and\", \"only\", \"inherit\", \"none\", \"from\", <IDENT>, "
+                + "Was expecting one of: \"and\", \"not\", \"only\", \"inherit\", \"none\", \"from\", <IDENT>, "
                 + "\":\", <FUNCTION_NOT>, <FUNCTION_LANG>, "
                 + "<FUNCTION_IS>, <FUNCTION_WHERE>, <FUNCTION_HAS>, <FUNCTION>.)");
 
@@ -4318,6 +4320,57 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      * @throws Exception if the test fails
      */
     @Test
+    public void andClassName() throws Exception {
+        final String css = ".and { color: red }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.and { color: red; }", rule.toString());
+        assertEquals("*.and { color: red; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void andPropertyName() throws Exception {
+        final String css = ".test { and: value }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.test { and: value; }", rule.toString());
+        assertEquals("*.test { and: value; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void andPropertyValue() throws Exception {
+        final String css = ".test { display: and }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.test { display: and; }", rule.toString());
+        assertEquals("*.test { display: and; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
     public void onlyClassName() throws Exception {
         final String css = ".only { color: red }\n";
 
@@ -4414,6 +4467,165 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         final AbstractCSSRuleImpl rule = rules.getRules().get(0);
         assertEquals("*.test { display: none; }", rule.toString());
         assertEquals("*.test { display: none; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void notClassName() throws Exception {
+        final String css = ".not { color: red }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.not { color: red; }", rule.toString());
+        assertEquals("*.not { color: red; }", rule.getCssText());
+    }
+
+    /**
+     *
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void notPropertyName() throws Exception {
+        final String css = ".test { not: value }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.test { not: value; }", rule.toString());
+        assertEquals("*.test { not: value; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void notPropertyValue() throws Exception {
+        final String css = ".test { display: not }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.test { display: not; }", rule.toString());
+        assertEquals("*.test { display: not; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void fromClassName() throws Exception {
+        final String css = ".from { color: red }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.from { color: red; }", rule.toString());
+        assertEquals("*.from { color: red; }", rule.getCssText());
+    }
+
+    /**
+     *
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void fromPropertyName() throws Exception {
+        final String css = ".test { from: value }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.test { from: value; }", rule.toString());
+        assertEquals("*.test { from: value; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
+    public void fromPropertyValue() throws Exception {
+        final String css = ".test { display: from }\n";
+
+        final CSSStyleSheetImpl sheet = parse(css);
+        final CSSRuleListImpl rules = sheet.getCssRules();
+
+        assertEquals(1, rules.getLength());
+
+        final AbstractCSSRuleImpl rule = rules.getRules().get(0);
+        assertEquals("*.test { display: from; }", rule.toString());
+        assertEquals("*.test { display: from; }", rule.getCssText());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void uncommonAttributeNames() throws Exception {
+        parseSelectors(":has([inherit=abcd], h2)", 0, 0, 0);
+        parseSelectors(":has([and=abcd], h2)", 0, 0, 0);
+        parseSelectors(":has([only=abcd], h2)", 0, 0, 0);
+        parseSelectors(":has([none=abcd], h2)", 0, 0, 0);
+        parseSelectors(":has([not=abcd], h2)", 0, 0, 0);
+        parseSelectors(":has([from=abcd], h2)", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void uncommonMediaName() throws Exception {
+        parse("@media inherit and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media and and (color) { h1 { color: red } }", 0, 0, 0);
+        // parse("@media only and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media none and (color) { h1 { color: red } }", 0, 0, 0);
+        // parse("@media not and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media from and (color) { h1 { color: red } }", 0, 0, 0);
+
+        // only
+        parse("@media only inherit and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media only and and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media only only and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media only none and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media only not and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media only from and (color) { h1 { color: red } }", 0, 0, 0);
+
+        // not
+        parse("@media not inherit and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media not and and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media not only and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media not none and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media not not and (color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media not from and (color) { h1 { color: red } }", 0, 0, 0);
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void uncommonMediaFeatureName() throws Exception {
+        parse("@media (inherit: color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media (and: color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media (only: color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media (none: color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media (not: color) { h1 { color: red } }", 0, 0, 0);
+        parse("@media (from: color) { h1 { color: red } }", 0, 0, 0);
     }
 
 //    /**
