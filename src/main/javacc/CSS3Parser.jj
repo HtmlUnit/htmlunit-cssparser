@@ -2417,7 +2417,6 @@ LexicalUnit colorComponentNumberPercentIdentCalcVar(LexicalUnit prev) :
 // Helper: parse a single flexible color component ('none', number, %, calc, var)
 LexicalUnit colorComponentNoneNumberPercentCalcVar(LexicalUnit prev) :
 {
-    Token t;
     char op = ' ';
     LexicalUnit next = null;
 }
@@ -2461,7 +2460,6 @@ LexicalUnit colorComponentNumberAngleIdentCalcVar(LexicalUnit prev) :
 // Helper: parse a single flexible color component ('none', angle, calc, var)
 LexicalUnit colorComponentNoneAngleCalcVar(LexicalUnit prev) :
 {
-    Token t;
     char op = ' ';
     LexicalUnit next = null;
 }
@@ -2503,7 +2501,6 @@ LexicalUnit colorComponentPercentIdentCalcVar(LexicalUnit prev) :
 // Helper: parse a single flexible color component ('none', %, ident, calc, var)
 LexicalUnit colorComponentNonePercentCalcVar(LexicalUnit prev) :
 {
-    Token t;
     char op = ' ';
     LexicalUnit next = null;
 }
@@ -2524,7 +2521,6 @@ LexicalUnit colorComponentNonePercentCalcVar(LexicalUnit prev) :
 // Helper: parse a single flexible color component ('none', number, angle, calc, var)
 LexicalUnit colorComponentNoneNumberAngleCalcVar(LexicalUnit prev) :
 {
-    Token t;
     char op = ' ';
     LexicalUnit next = null;
 }
