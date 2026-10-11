@@ -15,5 +15,7 @@
     <suppress checks="RegexpMultiline" files="HandlerBase.java"/>
     <suppress checks="RegexpMultiline" files="LocatorTest.java"/>
     <suppress checks="RegexpMultiline" files="SerializableTest.java"/>
+    <suppress checks="RegexpMultiline" files="PerformanceMetrics.java"/>
+    <suppress checks="RegexpMultiline" files="PerformanceTest.java"/>
 
 </suppressions>
