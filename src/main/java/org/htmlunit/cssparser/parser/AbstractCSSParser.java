@@ -45,6 +45,16 @@ public abstract class AbstractCSSParser {
     /** The input source. */
     private InputSource source_;
 
+    /**
+     * The maximum nesting depth of functions, calc() blocks and selectors.
+     * Deeper nesting is reported as error; without a limit a deeply nested
+     * input results in a {@link StackOverflowError}.
+     */
+    public static final int MAX_NESTING_DEPTH = 32;
+
+    /** The current nesting depth. */
+    private int nestingDepth_;
+
     /** Map of parser message keys to message format strings. */
     private static final HashMap<String, String> PARSER_MESSAGES_ = new HashMap<>();
 
@@ -93,6 +103,8 @@ public abstract class AbstractCSSParser {
 
         PARSER_MESSAGES_.put("ignoringRule", "Ignoring the whole rule.");
         PARSER_MESSAGES_.put("ignoringFollowingDeclarations", "Ignoring the following declarations in this rule.");
+
+        PARSER_MESSAGES_.put("nestingTooDeep", "Nesting too deep; the maximum nesting depth is {0}.");
 
         PARSER_MESSAGES_.put("tokenMgrError", "Lexical error.");
         PARSER_MESSAGES_.put("domException", "DOM exception: ''{0}''");
@@ -185,6 +197,27 @@ public abstract class AbstractCSSParser {
             return "[[" + key + "]]";
         }
         return msg;
+    }
+
+    /**
+     * Has to be called when a nested construct (function, calc() block or selector) is entered;
+     * every call has to be followed by a call of {@link #leaveNesting()} (use a finally block).
+     *
+     * @param t the current token (used for the error location)
+     * @throws CSSParseException if the maximum nesting depth is exceeded
+     */
+    protected void enterNesting(final Token t) {
+        nestingDepth_++;
+        if (nestingDepth_ > MAX_NESTING_DEPTH) {
+            throw toCSSParseException("nestingTooDeep", new Object[] {MAX_NESTING_DEPTH}, createLocator(t));
+        }
+    }
+
+    /**
+     * Has to be called when a nested construct is left; see {@link #enterNesting(Token)}.
+     */
+    protected void leaveNesting() {
+        nestingDepth_--;
     }
 
     /**

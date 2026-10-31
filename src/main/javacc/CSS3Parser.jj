@@ -1378,6 +1378,8 @@ Object pseudo(boolean pseudoElementFound) :
 {
     try
     {
+        // limits the nesting depth of selectors like :not(:is(...))
+        { enterNesting(token); }
         <COLON> { locator = createLocator(token); }
         (<COLON> { doubleColon = true; } )?
 
@@ -1477,6 +1479,10 @@ Object pseudo(boolean pseudoElementFound) :
     catch (ParseException e)
     {
         throw toCSSParseException("invalidPseudo", e);
+    }
+    finally
+    {
+        leaveNesting();
     }
 }
 
@@ -1634,55 +1640,65 @@ LexicalUnit term(LexicalUnit prev) :
   Locator locator = null;
 }
 {
-    ( op = unaryOperator() )?    { if (op != ' ') { locator = createLocator(token); } }
-    (
-        (   value = number(prev, op)
-            | value = dimension(prev, op)
-            | value = percentage(prev, op)
-            | value = function(prev)
-            | value = rgbColor(prev)
-            | value = hslColor(prev)
-            | value = hwbColor(prev)
-            | value = labColor(prev)
-            | value = lchColor(prev)
-            | value = calc(prev)
-            | value = var(prev)
-        )
-        | t = <STRING>          { value = LexicalUnitImpl.createString(prev, unescape(t.image, false)); }
-        | t = "progid:"         { value = LexicalUnitImpl.createIdent(prev, skipUnit().trim()); }
-        |
-            (
-                t = identExcludingInherit()
-                ( <COLON> { throw toCSSParseException("invalidExprColon", new String[]{ unescape(t.image, false) }, createLocator(t)); } )?
+    try
+    {
+        // limits the nesting depth of functions
+        { enterNesting(token); }
+
+        ( op = unaryOperator() )?    { if (op != ' ') { locator = createLocator(token); } }
+        (
+            (   value = number(prev, op)
+                | value = dimension(prev, op)
+                | value = percentage(prev, op)
+                | value = function(prev)
+                | value = rgbColor(prev)
+                | value = hslColor(prev)
+                | value = hwbColor(prev)
+                | value = labColor(prev)
+                | value = lchColor(prev)
+                | value = calc(prev)
+                | value = var(prev)
             )
-            { value = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
-        | t = <URI>             { value = LexicalUnitImpl.createURI(prev, unescape(t.image, true)); }
-        | value = unicodeRange(prev)
-        | value = hexcolor(prev)
-        | t = <DIMENSION>
+            | t = <STRING>          { value = LexicalUnitImpl.createString(prev, unescape(t.image, false)); }
+            | t = "progid:"         { value = LexicalUnitImpl.createIdent(prev, skipUnit().trim()); }
+            |
+                (
+                    t = identExcludingInherit()
+                    ( <COLON> { throw toCSSParseException("invalidExprColon", new String[]{ unescape(t.image, false) }, createLocator(t)); } )?
+                )
+                { value = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
+            | t = <URI>             { value = LexicalUnitImpl.createURI(prev, unescape(t.image, true)); }
+            | value = unicodeRange(prev)
+            | value = hexcolor(prev)
+            | t = <DIMENSION>
+                {
+                    int n = getLastNumPos(t.image);
+                    value = LexicalUnitImpl.createDimension(
+                        prev,
+                        doubleValue(op, t.image.substring(0, n+1)),
+                        t.image.substring(n+1));
+                }
+            | t = <INHERIT>         { value = LexicalUnitImpl.createInherit(prev); }
+        )
             {
-                int n = getLastNumPos(t.image);
-                value = LexicalUnitImpl.createDimension(
-                    prev,
-                    doubleValue(op, t.image.substring(0, n+1)),
-                    t.image.substring(n+1));
+                if (locator == null)
+                {
+                    locator = createLocator(token);
+                }
             }
-        | t = <INHERIT>         { value = LexicalUnitImpl.createInherit(prev); }
-    )
-        {
-            if (locator == null)
+        ( <S> )*
             {
-                locator = createLocator(token);
+                if(value != null)
+                {
+                  value.setLocator(locator);
+                }
+                return value;
             }
-        }
-    ( <S> )*
-        {
-            if(value != null)
-            {
-              value.setLocator(locator);
-            }
-            return value;
-        }
+    }
+    finally
+    {
+        leaveNesting();
+    }
 }
 
 //
@@ -1812,37 +1828,47 @@ LexicalUnit calcValue(LexicalUnit prev) :
     LexicalUnit head = LexicalUnitImpl.createIdent(null, "");
 }
 {
-    (
+    try
+    {
+        // limits the nesting depth of calc() blocks
+        { enterNesting(token); }
+
         (
             (
-                (op = unaryOperator() )?
                 (
-                    prev = number(prev, op)
-                    | prev = dimension(prev, op)
-                    | prev = percentage(prev, op)
-                    | t = ident()                  { prev = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
+                    (op = unaryOperator() )?
+                    (
+                        prev = number(prev, op)
+                        | prev = dimension(prev, op)
+                        | prev = percentage(prev, op)
+                        | t = ident()                  { prev = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
+                    )
                 )
+                | prev = var(prev)
+                |
+                    (
+                        (<FUNCTION_CALC> | <LROUND>)
+                        calcSum(head)
+                        <RROUND>
+                    )
+                    {
+                        // use an empty function as block scope
+                        prev = functionInternal(prev, "(", head.getNextLexicalUnit());
+                    }
             )
-            | prev = var(prev)
-            |
-                (
-                    (<FUNCTION_CALC> | <LROUND>)
-                    calcSum(head)
-                    <RROUND>
-                )
-                {
-                    // use an empty function as block scope
-                    prev = functionInternal(prev, "(", head.getNextLexicalUnit());
-                }
+            ( <S> )*
         )
-        ( <S> )*
-    )
-    {
-        if (prev != null)
         {
-            prev.setLocator(createLocator(token));
+            if (prev != null)
+            {
+                prev.setLocator(createLocator(token));
+            }
+            return prev;
         }
-        return prev;
+    }
+    finally
+    {
+        leaveNesting();
     }
 }
 
@@ -1919,36 +1945,46 @@ LexicalUnit calcNumberValue(LexicalUnit prev) :
     LexicalUnit head = LexicalUnitImpl.createIdent(null, "");
 }
 {
-    (
+    try
+    {
+        // limits the nesting depth of calc() blocks
+        { enterNesting(token); }
+
         (
             (
-                (op = unaryOperator() )?
-                prev = number(prev, op)
-                | t = ident()         { prev = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
-            )
-            | prev = var(prev)
-            |
-            (
                 (
-                    t = <FUNCTION_CALC> { funct = unescape(t.image, false); }
-                    | t = <LROUND>      { funct = unescape(t.image, false); }
+                    (op = unaryOperator() )?
+                    prev = number(prev, op)
+                    | t = ident()         { prev = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
                 )
-                calcNumberSum(head)
-                <RROUND>
+                | prev = var(prev)
+                |
+                (
+                    (
+                        t = <FUNCTION_CALC> { funct = unescape(t.image, false); }
+                        | t = <LROUND>      { funct = unescape(t.image, false); }
+                    )
+                    calcNumberSum(head)
+                    <RROUND>
+                )
+                {
+                    // use an empty function as block scope
+                    prev = functionInternal(prev, funct, head.getNextLexicalUnit());
+                }
             )
-            {
-                // use an empty function as block scope
-                prev = functionInternal(prev, funct, head.getNextLexicalUnit());
-            }
+            ( <S> )*
         )
-        ( <S> )*
-    )
-    {
-        if (prev != null)
         {
-            prev.setLocator(createLocator(token));
+            if (prev != null)
+            {
+                prev.setLocator(createLocator(token));
+            }
+            return prev;
         }
-        return prev;
+    }
+    finally
+    {
+        leaveNesting();
     }
 }
 
@@ -2766,7 +2802,7 @@ JAVACODE
 String skip() {
     Token t = getToken(0);
     if (t.kind == EOF) {
-    	return "";
+        return "";
     }
 
     StringBuilder sb = new StringBuilder();
