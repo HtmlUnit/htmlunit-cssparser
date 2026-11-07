@@ -164,6 +164,12 @@ public interface LexicalUnit {
         FUNCTION,
         /** FUNCTION_CALC. */
         FUNCTION_CALC,
+        /** FUNCTION_MIN. */
+        FUNCTION_MIN,
+        /** FUNCTION_MAX. */
+        FUNCTION_MAX,
+        /** FUNCTION_CLAMP. */
+        FUNCTION_CLAMP,
         /** DIMENSION. */
         DIMENSION
     }

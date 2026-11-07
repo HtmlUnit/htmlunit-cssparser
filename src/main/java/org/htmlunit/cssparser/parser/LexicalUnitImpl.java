@@ -504,6 +504,9 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 break;
             case FUNCTION:
             case FUNCTION_CALC:
+            case FUNCTION_MIN:
+            case FUNCTION_MAX:
+            case FUNCTION_CLAMP:
                 final String functName = getFunctionName();
                 if (null != functName) {
                     sb.append(functName);
@@ -872,6 +875,9 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
                 break;
             case FUNCTION:
             case FUNCTION_CALC:
+            case FUNCTION_MIN:
+            case FUNCTION_MAX:
+            case FUNCTION_CLAMP:
                 sb.append("FUNCTION(")
                     .append(getFunctionName())
                     .append("(");
@@ -1504,6 +1510,39 @@ public class LexicalUnitImpl extends AbstractLocatable implements LexicalUnit, S
      */
     public static LexicalUnit createCalc(final LexicalUnit prev, final LexicalUnit params) {
         return new LexicalUnitImpl(prev, LexicalUnitType.FUNCTION_CALC, "calc", params);
+    }
+
+    /**
+     * Creates a lexical unit with type min function.
+     *
+     * @param prev the previous LexicalUnit
+     * @param params the params
+     * @return lexical unit with type min
+     */
+    public static LexicalUnit createMin(final LexicalUnit prev, final LexicalUnit params) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.FUNCTION_MIN, "min", params);
+    }
+
+    /**
+     * Creates a lexical unit with type max function.
+     *
+     * @param prev the previous LexicalUnit
+     * @param params the params
+     * @return lexical unit with type max
+     */
+    public static LexicalUnit createMax(final LexicalUnit prev, final LexicalUnit params) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.FUNCTION_MAX, "max", params);
+    }
+
+    /**
+     * Creates a lexical unit with type clamp function.
+     *
+     * @param prev the previous LexicalUnit
+     * @param params the params
+     * @return lexical unit with type clamp
+     */
+    public static LexicalUnit createClamp(final LexicalUnit prev, final LexicalUnit params) {
+        return new LexicalUnitImpl(prev, LexicalUnitType.FUNCTION_CLAMP, "clamp", params);
     }
 
     /**

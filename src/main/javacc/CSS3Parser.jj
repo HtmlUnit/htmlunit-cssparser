@@ -378,6 +378,9 @@ TOKEN_MGR_DECLS :
 
 // {C}{A}{L}{C} "("        {return FUNCTION_CALC;}
 | < FUNCTION_CALC: "calc" <LROUND> >
+| < FUNCTION_MIN: "min" <LROUND> >
+| < FUNCTION_MAX: "max" <LROUND> >
+| < FUNCTION_CLAMP: "clamp" <LROUND> >
 
 // {V}{A}{R} "("        {return FUNCTION_VAR;}
 | < FUNCTION_VAR: "var" <LROUND> >
@@ -1657,6 +1660,8 @@ LexicalUnit term(LexicalUnit prev) :
                 | value = labColor(prev)
                 | value = lchColor(prev)
                 | value = calc(prev)
+                | value = minMax(prev)
+                | value = clamp(prev)
                 | value = var(prev)
             )
             | t = <STRING>          { value = LexicalUnitImpl.createString(prev, unescape(t.image, false)); }
@@ -1750,6 +1755,68 @@ LexicalUnit calc(LexicalUnit prev) :
     t = <FUNCTION_CALC> { funct = unescape(t.image, false); }
     ( <S> )*
     calcSum(head)
+    ( <S> )*
+    <RROUND>
+    {
+        return functionInternal(prev, funct, head.getNextLexicalUnit());
+    }
+}
+
+//
+// min() / max()
+// https://www.w3.org/TR/css-values-4/#comp-func
+// <min()> = min( <calc-sum># )
+// <max()> = max( <calc-sum># )
+//
+LexicalUnit minMax(LexicalUnit prev) :
+{
+    Token t;
+    LexicalUnit head = LexicalUnitImpl.createIdent(null, "");
+    LexicalUnit body;
+    String funct = "";
+}
+{
+    ( t = <FUNCTION_MIN> | t = <FUNCTION_MAX> ) { funct = unescape(t.image, false); }
+    ( <S> )*
+    body = calcSum(head)
+    ( <S> )*
+    (
+        <COMMA> { body = LexicalUnitImpl.createComma(body); }
+        ( <S> )*
+        body = calcSum(body)
+        ( <S> )*
+    )*
+    <RROUND>
+    {
+        return functionInternal(prev, funct, head.getNextLexicalUnit());
+    }
+}
+
+//
+// clamp()
+// https://www.w3.org/TR/css-values-4/#comp-func
+// <clamp()> = clamp( <calc-sum>, <calc-sum>, <calc-sum> )
+//
+LexicalUnit clamp(LexicalUnit prev) :
+{
+    Token t;
+    LexicalUnit head = LexicalUnitImpl.createIdent(null, "");
+    LexicalUnit body;
+    String funct = "";
+}
+{
+    t = <FUNCTION_CLAMP> { funct = unescape(t.image, false); }
+    ( <S> )*
+    body = calcSum(head)
+    ( <S> )*
+    <COMMA> { body = LexicalUnitImpl.createComma(body); }
+    ( <S> )*
+    body = calcSum(body)
+    ( <S> )*
+    <COMMA> { body = LexicalUnitImpl.createComma(body); }
+    ( <S> )*
+    body = calcSum(body)
+    ( <S> )*
     <RROUND>
     {
         return functionInternal(prev, funct, head.getNextLexicalUnit());
@@ -1767,11 +1834,14 @@ LexicalUnit calcSum(LexicalUnit prev) :
     (
         prev = calcProduct(prev)
         (
+            // the + and - operators must be surrounded by whitespace
+            LOOKAHEAD( ( <S> )+ ( <PLUS> | <MINUS> ) <S> )
+            ( <S> )+
             (
                 <PLUS>       { prev = LexicalUnitImpl.createPlus(prev); }
                 | <MINUS>    { prev = LexicalUnitImpl.createMinus(prev); }
             )
-            ( <S> )*
+            ( <S> )+
             prev = calcProduct(prev)
         )*
     )
@@ -1795,16 +1865,20 @@ LexicalUnit calcProduct(LexicalUnit prev) :
     (
         prev = calcValue(prev)
         (
+            LOOKAHEAD( ( <S> )* ( <ASTERISK> | <SLASH> ) )
+            ( <S> )*
             (
-                <ASTERISK>  { prev = LexicalUnitImpl.createMultiply(prev); }
-                ( <S> )*
-                prev = calcValue(prev)
-            )
-            |
-            (
-                <SLASH>  { prev = LexicalUnitImpl.createDivide(prev); }
-                ( <S> )*
-                prev = calcNumberValue(prev)
+                (
+                    <ASTERISK>  { prev = LexicalUnitImpl.createMultiply(prev); }
+                    ( <S> )*
+                    prev = calcValue(prev)
+                )
+                |
+                (
+                    <SLASH>  { prev = LexicalUnitImpl.createDivide(prev); }
+                    ( <S> )*
+                    prev = calcNumberValue(prev)
+                )
             )
         )*
     )
@@ -1819,7 +1893,7 @@ LexicalUnit calcProduct(LexicalUnit prev) :
 
 //
 // calcValue()
-// <calc-value> = <number> | <dimension> | <percentage> | ( <calc-sum> )
+// <calc-value> = <number> | <dimension> | <percentage> | ( <calc-sum> ) | <min()> | <max()> | <clamp()>
 //
 LexicalUnit calcValue(LexicalUnit prev) :
 {
@@ -1845,10 +1919,14 @@ LexicalUnit calcValue(LexicalUnit prev) :
                     )
                 )
                 | prev = var(prev)
+                | prev = minMax(prev)
+                | prev = clamp(prev)
                 |
                     (
                         (<FUNCTION_CALC> | <LROUND>)
+                        ( <S> )*
                         calcSum(head)
+                        ( <S> )*
                         <RROUND>
                     )
                     {
@@ -1856,7 +1934,7 @@ LexicalUnit calcValue(LexicalUnit prev) :
                         prev = functionInternal(prev, "(", head.getNextLexicalUnit());
                     }
             )
-            ( <S> )*
+            // the whitespace after the value is handled by calcProduct() and calcSum()
         )
         {
             if (prev != null)
@@ -1883,11 +1961,14 @@ LexicalUnit calcNumberSum(LexicalUnit prev) :
     (
         prev = calcNumberProduct(prev)
         (
+            // the + and - operators must be surrounded by whitespace
+            LOOKAHEAD( ( <S> )+ ( <PLUS> | <MINUS> ) <S> )
+            ( <S> )+
             (
                 <PLUS>       { prev = LexicalUnitImpl.createPlus(prev); }
                 | <MINUS>    { prev = LexicalUnitImpl.createMinus(prev); }
             )
-            ( <S> )*
+            ( <S> )+
             prev = calcNumberProduct(prev)
         )*
     )
@@ -1911,16 +1992,20 @@ LexicalUnit calcNumberProduct(LexicalUnit prev) :
     (
         prev = calcNumberValue(prev)
         (
+            LOOKAHEAD( ( <S> )* ( <ASTERISK> | <SLASH> ) )
+            ( <S> )*
             (
-                <ASTERISK>  { prev = LexicalUnitImpl.createMultiply(prev); }
-                ( <S> )*
-                prev = calcNumberValue(prev)
-            )
-            |
-            (
-                <SLASH>  { prev = LexicalUnitImpl.createDivide(prev); }
-                ( <S> )*
-                prev = calcNumberValue(prev)
+                (
+                    <ASTERISK>  { prev = LexicalUnitImpl.createMultiply(prev); }
+                    ( <S> )*
+                    prev = calcNumberValue(prev)
+                )
+                |
+                (
+                    <SLASH>  { prev = LexicalUnitImpl.createDivide(prev); }
+                    ( <S> )*
+                    prev = calcNumberValue(prev)
+                )
             )
         )*
     )
@@ -1935,7 +2020,7 @@ LexicalUnit calcNumberProduct(LexicalUnit prev) :
 
 //
 // calcNumberValue()
-// <calc-number-value> = <number> | ( <calc-number-sum> )
+// <calc-number-value> = <number> | ( <calc-number-sum> ) | <min()> | <max()> | <clamp()>
 //
 LexicalUnit calcNumberValue(LexicalUnit prev) :
 {
@@ -1958,13 +2043,17 @@ LexicalUnit calcNumberValue(LexicalUnit prev) :
                     | t = ident()         { prev = LexicalUnitImpl.createIdent(prev, unescape(t.image, false)); }
                 )
                 | prev = var(prev)
+                | prev = minMax(prev)
+                | prev = clamp(prev)
                 |
                 (
                     (
                         t = <FUNCTION_CALC> { funct = unescape(t.image, false); }
                         | t = <LROUND>      { funct = unescape(t.image, false); }
                     )
+                    ( <S> )*
                     calcNumberSum(head)
+                    ( <S> )*
                     <RROUND>
                 )
                 {
@@ -1972,7 +2061,7 @@ LexicalUnit calcNumberValue(LexicalUnit prev) :
                     prev = functionInternal(prev, funct, head.getNextLexicalUnit());
                 }
             )
-            ( <S> )*
+            // the whitespace after the value is handled by calcNumberProduct() and calcNumberSum()
         )
         {
             if (prev != null)

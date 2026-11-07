@@ -952,7 +952,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
      */
     @Test
     public void funct() throws Exception {
-        final String cssText = "clip: foo(rect( 10px, 20em, 30px, max(40, blue(rgb(1,2,3))) ) )";
+        final String cssText = "clip: foo(rect( 10px, 20em, 30px, bar(40, blue(rgb(1,2,3))) ) )";
 
         final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
@@ -968,7 +968,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         assertEquals(1, style.getLength());
 
         final String name = style.getProperties().get(0).getName();
-        assertEquals("clip : foo(rect(10px, 20em, 30px, max(40, blue(rgb(1, 2, 3)))))",
+        assertEquals("clip : foo(rect(10px, 20em, 30px, bar(40, blue(rgb(1, 2, 3)))))",
                 name + " : " + style.getPropertyValue(name));
 
         final CSSValueImpl value = style.getPropertyCSSValue(name);
@@ -1003,7 +1003,7 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
         unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
         assertEquals(LexicalUnitType.FUNCTION, unit.getLexicalUnitType());
-        assertEquals("max", unit.getFunctionName());
+        assertEquals("bar", unit.getFunctionName());
 
         unit  = (LexicalUnitImpl) unit.getParameters();
         assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
@@ -1123,68 +1123,57 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
 
     @Test
     public void calcSumWhitespace() throws Exception {
-        String cssText = "width: calc(42 -16.4em)";
+        final String cssText = "width: calc(42 -16.4em)";
 
-        CSSOMParser parser = new CSSOMParser();
-        ErrorHandler errorHandler = new ErrorHandler();
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
         parser.setErrorHandler(errorHandler);
 
-        CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
 
-        assertEquals(0, errorHandler.getErrorCount());
+        // the + and - operators must be surrounded by whitespace;
+        // "-16.4em" is a negative value without operator
+        assertEquals(1, errorHandler.getErrorCount());
         assertEquals(0, errorHandler.getFatalErrorCount());
         assertEquals(0, errorHandler.getWarningCount());
 
-        // Enumerate the properties and retrieve their values
-        assertEquals(1, style.getLength());
+        assertEquals(0, style.getLength());
+    }
 
-        String name = style.getProperties().get(0).getName();
-        assertEquals("width : calc(42 - 16.4em)",
-                name + " : " + style.getPropertyValue(name));
+    @Test
+    public void calcOperatorWhitespace() throws Exception {
+        // the + and - operators must be surrounded by whitespace
+        expression("h1 { top: calc(42 -16.4em); }", 1, 0, 0);
+        expression("h1 { top: calc(42-16.4em); }", 1, 0, 0);
+        expression("h1 { top: calc(42vh-16.4em); }", 1, 0, 0);
+        expression("h1 { top: calc(42- 16.4em); }", 1, 0, 0);
+        expression("h1 { top: calc(42 +16.4em); }", 1, 0, 0);
+        expression("h1 { top: calc(42+16.4em); }", 1, 0, 0);
+        expression("h1 { top: calc(42+ 16.4em); }", 1, 0, 0);
+        expression("h1 { top: calc(100%-200px); }", 1, 0, 0);
+        expression("h1 { top: calc(1px + (2px-3px)); }", 1, 0, 0);
+        expression("h1 { top: calc(1px / (1 -2)); }", 1, 0, 0);
 
-        cssText = "width: calc(42-16.4em)";
+        expression("h1 { top: calc(42 - 16.4em); }");
+        expression("h1 { top: calc(42 + -16.4em); }");
+        expression("h1 { top: calc(42 - -16.4em); }");
+        expression("h1 { top: calc( 42  -  16.4em ); }", "h1 { top: calc(42 - 16.4em); }");
+        expression("h1 { top: calc(42\t-\n16.4em); }", "h1 { top: calc(42 - 16.4em); }");
+        expression("h1 { top: calc(( 1px + 2px ) - 3px); }", "h1 { top: calc((1px + 2px) - 3px); }");
+        expression("h1 { top: calc(1px / ( 1 + 2 )); }", "h1 { top: calc(1px / (1 + 2)); }");
 
-        parser = new CSSOMParser();
-        errorHandler = new ErrorHandler();
-        parser.setErrorHandler(errorHandler);
-
-        style = parser.parseStyleDeclaration(cssText);
-
-        assertEquals(0, errorHandler.getErrorCount());
-        assertEquals(0, errorHandler.getFatalErrorCount());
-        assertEquals(0, errorHandler.getWarningCount());
-
-        // Enumerate the properties and retrieve their values
-        assertEquals(1, style.getLength());
-
-        name = style.getProperties().get(0).getName();
-        assertEquals("width : calc(42 - 16.4em)",
-                name + " : " + style.getPropertyValue(name));
-
-        cssText = "width: calc(42vh-16.4em)";
-
-        parser = new CSSOMParser();
-        errorHandler = new ErrorHandler();
-        parser.setErrorHandler(errorHandler);
-
-        style = parser.parseStyleDeclaration(cssText);
-
-        assertEquals(0, errorHandler.getErrorCount());
-        assertEquals(0, errorHandler.getFatalErrorCount());
-        assertEquals(0, errorHandler.getWarningCount());
-
-        // Enumerate the properties and retrieve their values
-        assertEquals(1, style.getLength());
-
-        name = style.getProperties().get(0).getName();
-        assertEquals("width : calc(42vh - 16.4em)",
-                name + " : " + style.getPropertyValue(name));
+        // the * and / operators do not need whitespace
+        expression("h1 { top: calc(2*3px); }", "h1 { top: calc(2 * 3px); }");
+        expression("h1 { top: calc(2 *3px); }", "h1 { top: calc(2 * 3px); }");
+        expression("h1 { top: calc(2* 3px); }", "h1 { top: calc(2 * 3px); }");
+        expression("h1 { top: calc(6px/2); }", "h1 { top: calc(6px / 2); }");
+        expression("h1 { top: calc(6px / 2 ); }", "h1 { top: calc(6px / 2); }");
     }
 
     @Test
     public void calcUnits() throws Exception {
         final String cssText = "width: calc(1cm + 2mm - 3in + 4px - 5pt + 6pc"
-                + " - 7em + 8ex - 9ch + 10rem -11vw + 12vh - 13vmin + 14vmax - 15%)";
+                + " - 7em + 8ex - 9ch + 10rem - 11vw + 12vh - 13vmin + 14vmax - 15%)";
 
         final CSSOMParser parser = new CSSOMParser();
         final ErrorHandler errorHandler = new ErrorHandler();
@@ -1334,6 +1323,228 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         expression("h1 { top: calc(14 + (7)); }");
         expression("h1 { top: calc(14 + (7); }", 1, 0, 0);
         expression("h1 { top: calc(14 + (7 + 3) - 1); }");
+    }
+
+    @Test
+    public void min() throws Exception {
+        final String cssText = "width: min(100%, 200px)";
+
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        assertEquals(1, style.getLength());
+
+        final String name = style.getProperties().get(0).getName();
+        assertEquals("width : min(100%, 200px)",
+                name + " : " + style.getPropertyValue(name));
+
+        final CSSValueImpl value = style.getPropertyCSSValue(name);
+        LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
+        assertEquals(LexicalUnitType.FUNCTION_MIN, unit.getLexicalUnitType());
+        assertEquals("min", unit.getFunctionName());
+
+        unit  = (LexicalUnitImpl) unit.getParameters();
+        assertEquals(LexicalUnitType.PERCENTAGE, unit.getLexicalUnitType());
+        assertEquals(100d, unit.getDoubleValue(), 0.00001);
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
+        assertEquals(200d, unit.getDoubleValue(), 0.00001);
+
+        assertNull(unit.getNextLexicalUnit());
+    }
+
+    @Test
+    public void max() throws Exception {
+        final String cssText = "width: MAX(50% - 10px, 3em)";
+
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        assertEquals(1, style.getLength());
+
+        final String name = style.getProperties().get(0).getName();
+        assertEquals("width : max(50% - 10px, 3em)",
+                name + " : " + style.getPropertyValue(name));
+
+        final CSSValueImpl value = style.getPropertyCSSValue(name);
+        LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
+        assertEquals(LexicalUnitType.FUNCTION_MAX, unit.getLexicalUnitType());
+        assertEquals("max", unit.getFunctionName());
+
+        unit  = (LexicalUnitImpl) unit.getParameters();
+        assertEquals(LexicalUnitType.PERCENTAGE, unit.getLexicalUnitType());
+        assertEquals(50d, unit.getDoubleValue(), 0.00001);
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.OPERATOR_MINUS, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
+        assertEquals(10d, unit.getDoubleValue(), 0.00001);
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.EM, unit.getLexicalUnitType());
+        assertEquals(3d, unit.getDoubleValue(), 0.00001);
+
+        assertNull(unit.getNextLexicalUnit());
+    }
+
+    @Test
+    public void clamp() throws Exception {
+        final String cssText = "width: clamp(100px, 50% * 2, 200px)";
+
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        assertEquals(1, style.getLength());
+
+        final String name = style.getProperties().get(0).getName();
+        assertEquals("width : clamp(100px, 50% * 2, 200px)",
+                name + " : " + style.getPropertyValue(name));
+
+        final CSSValueImpl value = style.getPropertyCSSValue(name);
+        LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
+        assertEquals(LexicalUnitType.FUNCTION_CLAMP, unit.getLexicalUnitType());
+        assertEquals("clamp", unit.getFunctionName());
+
+        unit  = (LexicalUnitImpl) unit.getParameters();
+        assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
+        assertEquals(100d, unit.getDoubleValue(), 0.00001);
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.PERCENTAGE, unit.getLexicalUnitType());
+        assertEquals(50d, unit.getDoubleValue(), 0.00001);
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.OPERATOR_MULTIPLY, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.INTEGER, unit.getLexicalUnitType());
+        assertEquals(2, unit.getIntegerValue());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.OPERATOR_COMMA, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.PIXEL, unit.getLexicalUnitType());
+        assertEquals(200d, unit.getDoubleValue(), 0.00001);
+
+        assertNull(unit.getNextLexicalUnit());
+    }
+
+    @Test
+    public void calcWithMin() throws Exception {
+        final String cssText = "width: calc(min(10px, 5%) + 1em)";
+
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleDeclarationImpl style = parser.parseStyleDeclaration(cssText);
+
+        assertEquals(0, errorHandler.getErrorCount());
+        assertEquals(0, errorHandler.getFatalErrorCount());
+        assertEquals(0, errorHandler.getWarningCount());
+
+        // Enumerate the properties and retrieve their values
+        assertEquals(1, style.getLength());
+
+        final String name = style.getProperties().get(0).getName();
+        assertEquals("width : calc(min(10px, 5%) + 1em)",
+                name + " : " + style.getPropertyValue(name));
+
+        final CSSValueImpl value = style.getPropertyCSSValue(name);
+        LexicalUnitImpl unit  = (LexicalUnitImpl) value.getValue();
+        assertEquals(LexicalUnitType.FUNCTION_CALC, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getParameters();
+        assertEquals(LexicalUnitType.FUNCTION_MIN, unit.getLexicalUnitType());
+        assertEquals("min", unit.getFunctionName());
+
+        final LexicalUnitImpl minParam = (LexicalUnitImpl) unit.getParameters();
+        assertEquals(LexicalUnitType.PIXEL, minParam.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.OPERATOR_PLUS, unit.getLexicalUnitType());
+
+        unit  = (LexicalUnitImpl) unit.getNextLexicalUnit();
+        assertEquals(LexicalUnitType.EM, unit.getLexicalUnitType());
+        assertEquals(1d, unit.getDoubleValue(), 0.00001);
+
+        assertNull(unit.getNextLexicalUnit());
+    }
+
+    @Test
+    public void minMaxClampExpressions() throws Exception {
+        expression("h1 { top: min(1px); }");
+        expression("h1 { top: min(1px, 2px, 3px); }");
+        expression("h1 { top: max(1px + 2px, 10%); }");
+        expression("h1 { top: max(1px * 2, 10% / 2); }");
+        expression("h1 { top: min(calc(1px + 2px), 3px); }", "h1 { top: min((1px + 2px), 3px); }");
+        expression("h1 { top: min((1px + 2px), 3px); }");
+        expression("h1 { top: min(1px, max(2px, 3px)); }");
+        expression("h1 { top: calc(min(1px, 2px) + 3px); }");
+        expression("h1 { top: calc(1px / max(1, 2)); }");
+        expression("h1 { top: clamp(1px, 2px, 3px); }");
+        expression("h1 { top: clamp(1px, calc(2px * 3), 3px); }", "h1 { top: clamp(1px, (2px * 3), 3px); }");
+        expression("h1 { top: clamp(1px, 50% - 10px, min(3px, 2em)); }");
+        expression("h1 { top: max(var(--x), 10px); }");
+        expression("h1 { top: MIN(1px, 2px); }", "h1 { top: min(1px, 2px); }");
+        expression("h1 { top: Clamp(1px, 2px, 3px); }", "h1 { top: clamp(1px, 2px, 3px); }");
+        expression("h1 { top: min( 1px , 2px ); }", "h1 { top: min(1px, 2px); }");
+        expression("h1 { top: clamp( 1px , 2px , 3px ); }", "h1 { top: clamp(1px, 2px, 3px); }");
+        expression("h1 { margin: min(1px, 2px) max(3px, 4px); }");
+        expression("h1 { --my-var: min(1px, 2px); }");
+
+        // minmax() is not a math function
+        expression("h1 { grid-template-columns: minmax(100px, 1fr); }");
+
+        expression("h1 { top: min(); }", 1, 0, 0);
+        expression("h1 { top: min(1px,); }", 1, 0, 0);
+        expression("h1 { top: min(, 1px); }", 1, 0, 0);
+        expression("h1 { top: min(1px 2px); }", 1, 0, 0);
+        expression("h1 { top: min(1px-2px, 3px); }", 1, 0, 0);
+        expression("h1 { top: max(1px, foo(2px)); }", 1, 0, 0);
+        expression("h1 { top: max(1px, \"abc\"); }", 1, 0, 0);
+        expression("h1 { top: clamp(); }", 1, 0, 0);
+        expression("h1 { top: clamp(1px); }", 1, 0, 0);
+        expression("h1 { top: clamp(1px, 2px); }", 1, 0, 0);
+        expression("h1 { top: clamp(1px, 2px, 3px, 4px); }", 1, 0, 0);
+        expression("h1 { top: clamp(1px, 2px, 3px; }", 1, 0, 0);
     }
 
     @Test
@@ -1675,7 +1886,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, "
+                        + "<FUNCTION_MIN>, <FUNCTION_MAX>, <FUNCTION_CLAMP>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)"
                 + " Error in expression. (Invalid token \";\". Was expecting one of: <S>, \"and\", \"not\", \"only\", <NUMBER>, \"inherit\", \"none\", \"from\", "
                         + "<IDENT>, <STRING>, \"-\", \"+\", <HASH>, <EMS>, <REM>, <EXS>, <CH>, "
@@ -1683,7 +1895,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, "
+                        + "<FUNCTION_MIN>, <FUNCTION_MAX>, <FUNCTION_CLAMP>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)"
                 + " Error in declaration. (Invalid token \"{\". Was expecting one of: <S>, \":\".)"
                 + " Error in style rule. (Invalid token \" \". Was expecting one of: <EOF>, \"}\", \";\".)"
@@ -1981,7 +2194,8 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
                         + "<LENGTH_PX>, <LENGTH_CM>, <LENGTH_MM>, <LENGTH_IN>, <LENGTH_PT>, <LENGTH_PC>, <LENGTH_Q>, "
                         + "<ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, "
                         + "<TIME_MS>, <TIME_S>, <FREQ_HZ>, <FREQ_KHZ>, <RESOLUTION_DPI>, <RESOLUTION_DPCM>, <PERCENTAGE>, "
-                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, <FUNCTION_VAR>, "
+                        + "<DIMENSION>, <UNICODE_RANGE>, <URI>, <FUNCTION_CALC>, "
+                        + "<FUNCTION_MIN>, <FUNCTION_MAX>, <FUNCTION_CLAMP>, <FUNCTION_VAR>, "
                         + "<FUNCTION_RGB>, <FUNCTION_HSL>, <FUNCTION_HWB>, <FUNCTION_LAB>, <FUNCTION_LCH>, <FUNCTION>, \"progid:\".)";
         assertEquals(expected, errorHandler.getErrorMessage());
         assertEquals("3", errorHandler.getErrorLines());

@@ -837,6 +837,15 @@ public abstract class AbstractCSSParser {
         else if ("calc(".equalsIgnoreCase(funct)) {
             return LexicalUnitImpl.createCalc(prev, params);
         }
+        else if ("min(".equalsIgnoreCase(funct)) {
+            return LexicalUnitImpl.createMin(prev, params);
+        }
+        else if ("max(".equalsIgnoreCase(funct)) {
+            return LexicalUnitImpl.createMax(prev, params);
+        }
+        else if ("clamp(".equalsIgnoreCase(funct)) {
+            return LexicalUnitImpl.createClamp(prev, params);
+        }
         return LexicalUnitImpl.createFunction(
             prev,
             funct.substring(0, funct.length() - 1),
