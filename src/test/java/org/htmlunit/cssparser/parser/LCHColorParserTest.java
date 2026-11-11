@@ -68,6 +68,11 @@ public class LCHColorParserTest extends AbstractCSSParserTest {
         color("foreground: lch(42% 128% 255deg)", "foreground: lch(42% 128% 255deg)");
         color("foreground: lch(42 128% 255rad)", "foreground: lch(42 128% 255rad)");
         color("foreground: lch(42% 128% 255rad)", "foreground: lch(42% 128% 255rad)");
+
+        // hue as plain number
+        color("foreground: lch(42 128 255)", "foreground: lch(42 128 255)");
+        color("foreground: lch(42% 128% -25.5)", "foreground: lch(42% 128% -25.5)");
+        color("foreground: lch(42% 128% 255 / 0.5)", "foreground: lch(42% 128% 255/0.5)");
     }
 
     /**
@@ -80,6 +85,7 @@ public class LCHColorParserTest extends AbstractCSSParserTest {
 
         color("foreground: lch(from red 7 11% 13deg)", "foreground: lch(from red 7 11% 13deg)");
         color("foreground: lch(from red 7 11% 13deg / 0.7)", "foreground: lch(from red 7 11% 13deg / 0.7)");
+        color("foreground: lch(from red 7 11% 13)", "foreground: lch(from red 7 11% 13)");
 
         color("foreground: lch(from rgb(200 170 0) 7 11% 13deg)", "foreground: lch(from rgb(200 170 0) 7 11% 13deg)");
         color("foreground: lch(from var(--base-color) 7 11% 13deg)", "foreground: lch(from var(--base-color) 7 11% 13deg)");
@@ -104,7 +110,7 @@ public class LCHColorParserTest extends AbstractCSSParserTest {
                 "foreground: lch(-none 20 30deg)");
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: lch(10 -none 30deg)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: lch(10 20 -none)");
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: lch(10 20 30deg / -none)");
@@ -113,7 +119,7 @@ public class LCHColorParserTest extends AbstractCSSParserTest {
                 "foreground: lch()");
         color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: lch(10)");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: lch(10 20)");
 
         color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",

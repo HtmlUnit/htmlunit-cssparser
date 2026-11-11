@@ -2477,7 +2477,8 @@ LexicalUnit lchColor(LexicalUnit prev) :
             (
                 (op = unaryOperator() )?
                 (
-                    next = angle(next, op)
+                    next = number(next, op)
+                    | next = angle(next, op)
 
                     | t = ident()         { next = LexicalUnitImpl.createIdent(next, unescape(t.image, false)); }
                     | next = calc(next)
@@ -2505,7 +2506,7 @@ LexicalUnit lchColor(LexicalUnit prev) :
         
             next = colorComponentNoneNumberPercentCalcVar(next)
         
-            next = colorComponentNoneAngleCalcVar(next)
+            next = colorComponentNoneNumberAngleCalcVar(next)
 
             (
                 (

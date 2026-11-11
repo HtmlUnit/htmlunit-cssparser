@@ -68,6 +68,11 @@ public class OKLCHColorParserTest extends AbstractCSSParserTest {
         color("foreground: oklch(42% 128% 255deg)", "foreground: oklch(42% 128% 255deg)");
         color("foreground: oklch(42 128% 255rad)", "foreground: oklch(42 128% 255rad)");
         color("foreground: oklch(42% 128% 255rad)", "foreground: oklch(42% 128% 255rad)");
+
+        // hue as plain number
+        color("foreground: oklch(42 128 255)", "foreground: oklch(42 128 255)");
+        color("foreground: oklch(42% 128% -25.5)", "foreground: oklch(42% 128% -25.5)");
+        color("foreground: oklch(42% 128% 255 / 0.5)", "foreground: oklch(42% 128% 255/0.5)");
     }
 
     /**
@@ -80,6 +85,7 @@ public class OKLCHColorParserTest extends AbstractCSSParserTest {
 
         color("foreground: oklch(from red 7 11% 13deg)", "foreground: oklch(from red 7 11% 13deg)");
         color("foreground: oklch(from red 7 11% 13deg / 0.7)", "foreground: oklch(from red 7 11% 13deg / 0.7)");
+        color("foreground: oklch(from red 7 11% 13)", "foreground: oklch(from red 7 11% 13)");
 
         color("foreground: oklch(from rgb(200 170 0) 7 11% 13deg)", "foreground: oklch(from rgb(200 170 0) 7 11% 13deg)");
         color("foreground: oklch(from var(--base-color) 7 11% 13deg)", "foreground: oklch(from var(--base-color) 7 11% 13deg)");
@@ -104,7 +110,7 @@ public class OKLCHColorParserTest extends AbstractCSSParserTest {
                 "foreground: oklch(-none 20 30deg)");
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: oklch(10 -none 30deg)");
-        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: oklch(10 20 -none)");
         color(1, "Error in expression. (Invalid token \"-none\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: oklch(10 20 30deg / -none)");
@@ -113,7 +119,7 @@ public class OKLCHColorParserTest extends AbstractCSSParserTest {
                 "foreground: oklch()");
         color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: oklch(10)");
-        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
+        color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <ANGLE_DEG>, <ANGLE_RAD>, <ANGLE_GRAD>, <ANGLE_TURN>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
                 "foreground: oklch(10 20)");
 
         color(1, "Error in expression. (Invalid token \")\". Was expecting one of: <S>, <NUMBER>, \"none\", \"-\", \"+\", <PERCENTAGE>, <FUNCTION_CALC>, <FUNCTION_VAR>.)",
