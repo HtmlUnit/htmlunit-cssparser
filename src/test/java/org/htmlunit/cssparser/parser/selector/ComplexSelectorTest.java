@@ -392,7 +392,7 @@ public class ComplexSelectorTest {
 
         assertNotNull(sheet);
         assertEquals(1, errorHandler.getErrorCount());
-        assertEquals("Error in style rule. (Invalid token \"|\". Was expecting one of: <S>, \"{\", \".\", \":\", \"[\", \",\", <HASH>, <S>.)",
+        assertEquals("Error in style rule. (Invalid token \"|\". Was expecting one of: <S>, \"{\", \".\", \":\", \"[\", \",\", <HASH>.)",
                         errorHandler.getErrorMessage());
         assertEquals(1, errorHandler.getWarningCount());
 
@@ -452,5 +452,44 @@ public class ComplexSelectorTest {
         assertEquals("line-height: 1.5", rule.getStyle().getCssText());
         assertEquals(1, rule.getStyle().getLength());
         assertEquals("1.5", rule.getStyle().getPropertyValue("line-height"));
+    }
+
+    /**
+     * Whitespace on both sides of a comment produces two S tokens.
+     *
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void combinatorsWithComments() throws Exception {
+        selectorWithComments("div /* c */ p", "div p");
+        selectorWithComments("div /* a */ /* b */ p", "div p");
+        selectorWithComments("div /* c */\n p", "div p");
+        selectorWithComments("div /* c */ > p", "div > p");
+        selectorWithComments("div > /* c */ p", "div > p");
+        selectorWithComments("div /* c */ + /* d */ p", "div + p");
+        selectorWithComments("div /* c */ ~ *[x]", "div ~ *[x]");
+        selectorWithComments("a /* c */ :hover", "a *:hover");
+        selectorWithComments("div /* c */", "div");
+        selectorWithComments("div /* c */ , p /* d */", "div, p");
+        selectorWithComments("p:has( /* c */ > a /* d */ b)", "p:has(> a b)");
+    }
+
+    private static void selectorWithComments(final String selector, final String expected) throws Exception {
+        final String css = selector + " { color: red; }";
+
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+
+        final CSSStyleSheetImpl sheet = parser.parseStyleSheet(new InputSource(new StringReader(css)), null);
+
+        assertEquals(0, errorHandler.getErrorCount(), errorHandler.getErrorMessage());
+        assertEquals(0, errorHandler.getWarningCount());
+
+        final CSSRuleListImpl rules = sheet.getCssRules();
+        assertEquals(1, rules.getLength());
+
+        final CSSStyleRuleImpl rule = (CSSStyleRuleImpl) rules.getRules().get(0);
+        assertEquals(expected, rule.getSelectorText());
     }
 }

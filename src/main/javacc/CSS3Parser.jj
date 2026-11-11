@@ -957,7 +957,7 @@ LexicalUnit operator(LexicalUnit prev) :
 //  : PLUS S*
 //  | GREATER S*
 //  | TILDE S*
-//  | S
+//  | S+
 //  ;
 //
 Combinator combinator() :
@@ -969,7 +969,7 @@ Combinator combinator() :
     <PLUS> { c = Combinator.NEXT_SIBLING_COMBINATOR; } ( <S> )*
     | <GREATER> { c = Combinator.CHILD_COMBINATOR; } ( <S> )*
     | <TILDE> { c = Combinator.SUBSEQUENT_SIBLING_COMBINATOR; } ( <S> )*
-    | <S>
+    | ( <S> )+
       (
         ( <PLUS> { c = Combinator.NEXT_SIBLING_COMBINATOR; }
             | <GREATER> { c = Combinator.CHILD_COMBINATOR; }
@@ -1114,7 +1114,12 @@ Selector selector() :
 {
     try {
         sel = simpleSelector(null, Combinator.DESCENDANT_COMBINATOR)
-        ( LOOKAHEAD(2) comb = combinator() sel = simpleSelector(sel, comb) )* ( <S> )*
+        (
+            // syntactic lookahead because whitespace around comments produces more than one S token
+            LOOKAHEAD( combinator() ( ident() | <ASTERISK> | <HASH> | <DOT> | <LSQUARE> | <COLON> ) )
+            comb = combinator() sel = simpleSelector(sel, comb)
+        )*
+        ( <S> )*
         {
             return sel;
         }

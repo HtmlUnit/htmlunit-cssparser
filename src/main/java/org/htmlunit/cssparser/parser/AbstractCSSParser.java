@@ -19,7 +19,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import org.htmlunit.cssparser.parser.javacc.CharStream;
 import org.htmlunit.cssparser.parser.javacc.ParseException;
@@ -295,18 +297,19 @@ public abstract class AbstractCSSParser {
         final String messagePattern1 = getParserMessage("invalidExpectingOne");
         final String messagePattern2 = getParserMessage("invalidExpectingMore");
         int maxSize = 0;
-        final StringBuilder expected = new StringBuilder();
+        // syntactic lookahead may report the same expected token more than once
+        final Set<String> expectedSequences = new LinkedHashSet<>();
         for (int i = 0; i < e.expectedTokenSequences.length; i++) {
             if (maxSize < e.expectedTokenSequences[i].length) {
                 maxSize = e.expectedTokenSequences[i].length;
             }
+            final StringBuilder sequence = new StringBuilder();
             for (int j = 0; j < e.expectedTokenSequences[i].length; j++) {
-                expected.append(e.tokenImage[e.expectedTokenSequences[i][j]]);
+                sequence.append(e.tokenImage[e.expectedTokenSequences[i][j]]);
             }
-            if (i < e.expectedTokenSequences.length - 1) {
-                expected.append(", ");
-            }
+            expectedSequences.add(sequence.toString());
         }
+        final String expected = String.join(", ", expectedSequences);
         final StringBuilder invalid = new StringBuilder();
         Token tok = e.currentToken.next;
         for (int i = 0; i < maxSize; i++) {
@@ -322,7 +325,7 @@ public abstract class AbstractCSSParser {
         }
         final StringBuilder message = new StringBuilder(getParserMessage(key));
         message.append(" (");
-        if (e.expectedTokenSequences.length == 1) {
+        if (expectedSequences.size() == 1) {
             message.append(MessageFormat.format(messagePattern1, invalid, expected));
         }
         else {
