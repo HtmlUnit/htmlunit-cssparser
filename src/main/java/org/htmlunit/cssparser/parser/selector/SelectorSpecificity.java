@@ -20,6 +20,7 @@ import org.htmlunit.cssparser.parser.condition.Condition;
 import org.htmlunit.cssparser.parser.condition.HasPseudoClassCondition;
 import org.htmlunit.cssparser.parser.condition.IsPseudoClassCondition;
 import org.htmlunit.cssparser.parser.condition.NotPseudoClassCondition;
+import org.htmlunit.cssparser.parser.condition.NthPseudoClassCondition;
 
 /**
  * Calculates a selector's specificity.
@@ -174,6 +175,21 @@ public class SelectorSpecificity implements Comparable<SelectorSpecificity>, Ser
                     }
                 }
                 add(maxHas);
+                return;
+            case NTH_PSEUDO_CLASS_CONDITION:
+                // the pseudo-class itself plus the most specific selector of the 'of S' list
+                classCount_++;
+                final SelectorList nthSelectorList = ((NthPseudoClassCondition) condition).getSelectors();
+                if (nthSelectorList != null) {
+                    SelectorSpecificity maxNth = new SelectorSpecificity(false, 0, 0, 0);
+                    for (final Selector selector : nthSelectorList) {
+                        final SelectorSpecificity selSpec = new SelectorSpecificity(selector);
+                        if (selSpec.compareTo(maxNth) > 0) {
+                            maxNth = selSpec;
+                        }
+                    }
+                    add(maxNth);
+                }
                 return;
             case PSEUDO_CLASS_CONDITION:
                 classCount_++;

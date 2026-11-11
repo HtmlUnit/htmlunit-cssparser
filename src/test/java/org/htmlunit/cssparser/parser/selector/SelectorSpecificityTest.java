@@ -235,6 +235,19 @@ public class SelectorSpecificityTest {
      * @throws Exception if the test fails
      */
     @Test
+    public void nthTest() throws Exception {
+        selectorSpecifity("li:nth-child(2n+1)", "0,0,1,1");
+        selectorSpecifity("li:nth-last-of-type(odd)", "0,0,1,1");
+        selectorSpecifity("li:nth-child(2n+1 of .x)", "0,0,2,1");
+        selectorSpecifity("li:nth-last-child(odd of li.x)", "0,0,2,2");
+        selectorSpecifity("li:nth-child(1 of .x, #y)", "0,1,1,1");
+        selectorSpecifity(":nth-child(1 of p, p.x)", "0,0,2,1");
+    }
+
+    /**
+     * @throws Exception if the test fails
+     */
+    @Test
     public void whereTest() throws Exception {
         selectorSpecifity("div:where(.inner) p", "0,0,0,2");
         selectorSpecifity("div:where(.inner, #fakeId) p", "0,0,0,2");

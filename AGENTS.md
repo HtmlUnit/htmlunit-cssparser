@@ -123,8 +123,9 @@ Conditions attached to selectors (class, id, attribute, pseudo-class matching):
 
 - `ClassCondition` (`.foo`), `IdCondition` (`#bar`)
 - `AttributeCondition` (`[attr=val]`), `PrefixAttributeCondition` (`[attr^=val]`), `SuffixAttributeCondition` (`[attr$=val]`), `SubstringAttributeCondition` (`[attr*=val]`), `OneOfAttributeCondition` (`[attr~=val]`), `BeginHyphenAttributeCondition` (`[attr|=val]`)
-- `PseudoClassCondition` (`:hover`, `:nth-child()`, etc.)
+- `PseudoClassCondition` (`:hover`, `:first-child`, etc.)
 - `NotPseudoClassCondition` (`:not()`), `IsPseudoClassCondition` (`:is()`), `HasPseudoClassCondition` (`:has()`), `WherePseudoClassCondition` (`:where()`)
+- `NthPseudoClassCondition` (`:nth-child()`, `:nth-last-child()`, `:nth-of-type()`, `:nth-last-of-type()`; the `An+B` argument is parsed into `A` and `B`, plus the optional `of S` selector list)
 - `LangCondition` (`:lang()`)
 
 ### `org.htmlunit.cssparser.parser.media` — Media Queries

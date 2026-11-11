@@ -51,6 +51,8 @@ import org.htmlunit.cssparser.parser.condition.LangCondition;
 import org.htmlunit.cssparser.parser.condition.HasPseudoClassCondition;
 import org.htmlunit.cssparser.parser.condition.IsPseudoClassCondition;
 import org.htmlunit.cssparser.parser.condition.NotPseudoClassCondition;
+import org.htmlunit.cssparser.parser.condition.NthPseudoClassCondition;
+import org.htmlunit.cssparser.parser.condition.NthPseudoClassCondition.NthType;
 import org.htmlunit.cssparser.parser.condition.OneOfAttributeCondition;
 import org.htmlunit.cssparser.parser.condition.PrefixAttributeCondition;
 import org.htmlunit.cssparser.parser.condition.PseudoClassCondition;
@@ -93,6 +95,36 @@ public class CSS3Parser extends AbstractCSSParser {
     protected String getGrammarUri()
     {
         return "https://www.w3.org/TR/css-syntax-3/";
+    }
+
+    private static boolean isNthFunction(final Token t)
+    {
+        return t.kind == FUNCTION && NthType.fromName(t.image.substring(0, t.image.length() - 1)) != null;
+    }
+
+    private static boolean isDigits(final String s)
+    {
+        if (s.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            final char c = s.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // like the browsers, values out of the int range are clamped
+    private static int toNthInt(final String digits, final boolean negative)
+    {
+        try {
+            return Integer.parseInt(negative ? "-" + digits : digits);
+        }
+        catch (final NumberFormatException e) {
+            return negative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        }
     }
 }
 
@@ -1382,6 +1414,7 @@ Object pseudo(boolean pseudoElementFound) :
     SelectorList selectorList;
     SelectorList relativeSelectorList;
     Locator locator;
+    Condition o;
 }
 {
     try
@@ -1467,6 +1500,12 @@ Object pseudo(boolean pseudoElementFound) :
             )
             |
             (
+                LOOKAHEAD({ isNthFunction(getToken(1)) })
+                o = nthPseudoClass(pseudoElementFound, doubleColon, locator)
+                { return o; }
+            )
+            |
+            (
                 t = <FUNCTION> { function = unescape(t.image, false); StringBuilder args = new StringBuilder(); }
                 ( <S> )*
                 (
@@ -1491,6 +1530,149 @@ Object pseudo(boolean pseudoElementFound) :
     finally
     {
         leaveNesting();
+    }
+}
+
+//
+// nth-child(), nth-last-child(), nth-of-type() and nth-last-of-type()
+//
+// An+B microsyntax (https://www.w3.org/TR/css-syntax-3/#anb-microsyntax)
+// optionally followed by 'of S' for nth-child() and nth-last-child() (https://www.w3.org/TR/selectors-4/#the-nth-child-pseudo)
+//
+// tokens produced by our lexer
+//   odd | even          IDENT
+//   5 | +5 | -5         ['+' | '-']? NUMBER
+//   2n | +2n | -2n      ['+' | '-']? DIMENSION
+//   n | +n | -n         ['+']? IDENT
+//   n-3 | -n-3          ['+']? IDENT (B is part of the ident)
+//   n- 3 | -n- 3        ['+']? IDENT S* NUMBER
+//   followed by         S* ['+' | '-'] S* NUMBER  for B (if not already part of the ident)
+//
+Condition nthPseudoClass(boolean pseudoElementFound, boolean doubleColon, Locator locator) :
+{
+    Token t;
+    NthType type;
+    String name;
+    final StringBuilder nth = new StringBuilder();
+    String sign = null;
+    String bSign = null;
+    int a = 0;
+    int b = 0;
+    // 0: complete, 1: B with sign may follow, 2: B without sign has to follow ('n-')
+    int bState = 0;
+    SelectorList selectors = null;
+}
+{
+    t = <FUNCTION>
+    {
+        name = unescape(t.image.substring(0, t.image.length() - 1), false);
+        type = NthType.fromName(name);
+    }
+    ( <S> )*
+
+    ( ( t = <PLUS> | t = <MINUS> ) { sign = t.image; nth.append(sign); } )?
+    (
+        t = <NUMBER>
+        {
+            nth.append(t.image);
+            if (!isDigits(t.image)) {
+                throw toCSSParseException("invalidNth", new String[] { nth.toString(), name }, locator);
+            }
+            b = toNthInt(t.image, "-".equals(sign));
+        }
+        |
+        t = <DIMENSION>
+        {
+            nth.append(t.image);
+            final String number = t.image.substring(0, t.image.length() - 1);
+            final char unit = t.image.charAt(t.image.length() - 1);
+            if ((unit != 'n' && unit != 'N') || !isDigits(number)) {
+                throw toCSSParseException("invalidNth", new String[] { nth.toString(), name }, locator);
+            }
+            a = toNthInt(number, "-".equals(sign));
+            bState = 1;
+        }
+        |
+        t = <IDENT>
+        {
+            nth.append(t.image);
+            String ident = t.image.toLowerCase(Locale.ROOT);
+            if (sign == null && "odd".equals(ident)) {
+                a = 2;
+                b = 1;
+            }
+            else if (sign == null && "even".equals(ident)) {
+                a = 2;
+            }
+            else {
+                // a sign is only allowed in front of n...
+                a = 1;
+                if (ident.charAt(0) == '-') {
+                    a = -1;
+                    ident = ident.substring(1);
+                }
+                if ("-".equals(sign) || (sign != null && a == -1) || ident.charAt(0) != 'n') {
+                    throw toCSSParseException("invalidNth", new String[] { nth.toString(), name }, locator);
+                }
+
+                if ("n".equals(ident)) {
+                    bState = 1;
+                }
+                else if ("n-".equals(ident)) {
+                    bState = 2;
+                }
+                else if (ident.startsWith("n-") && isDigits(ident.substring(2))) {
+                    b = toNthInt(ident.substring(2), true);
+                }
+                else {
+                    throw toCSSParseException("invalidNth", new String[] { nth.toString(), name }, locator);
+                }
+            }
+        }
+    )
+
+    // B
+    (
+        LOOKAHEAD( ( <S> )* ( <PLUS> | <MINUS> | <NUMBER> ) )
+        ( t = <S> { nth.append(t.image); } )*
+        ( ( t = <PLUS> | t = <MINUS> ) { bSign = t.image; nth.append(bSign); } ( t = <S> { nth.append(t.image); } )* )?
+        t = <NUMBER>
+        {
+            nth.append(t.image);
+            // 'n-' requires B without sign, the other n forms B with sign
+            if (bState == 0 || (bState == 1) != (bSign != null) || !isDigits(t.image)) {
+                throw toCSSParseException("invalidNth", new String[] { nth.toString(), name }, locator);
+            }
+            b = toNthInt(t.image, bState == 2 || "-".equals(bSign));
+            bState = 0;
+        }
+    )?
+    {
+        if (bState == 2) {
+            throw toCSSParseException("invalidNth", new String[] { nth.toString(), name }, locator);
+        }
+    }
+
+    ( <S> )*
+    (
+        t = <IDENT>
+        {
+            if (!"of".equalsIgnoreCase(t.image)) {
+                throw toCSSParseException("invalidNth", new String[] { nth + " " + t.image, name }, locator);
+            }
+        }
+        ( <S> )*
+        selectors = selectorList()
+    )?
+    <RROUND>
+    {
+        final String text = name + "(" + nth + (selectors == null ? "" : " of " + selectors) + ")";
+        // 'of S' is supported by :nth-child() and :nth-last-child() only
+        if (doubleColon || (selectors != null && type.isOfType())) {
+            throw toCSSParseException("invalidPseudoColon", new String[] { (doubleColon ? ":" : "") + text }, locator);
+        }
+        if (pseudoElementFound) { throw toCSSParseException("duplicatePseudo", new String[] { text }, locator); }
+        return new NthPseudoClassCondition(type, nth.toString(), a, b, selectors, locator);
     }
 }
 

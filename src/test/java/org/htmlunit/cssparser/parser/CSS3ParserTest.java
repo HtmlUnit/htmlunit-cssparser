@@ -47,6 +47,8 @@ import org.htmlunit.cssparser.parser.LexicalUnit.LexicalUnitType;
 import org.htmlunit.cssparser.parser.condition.Condition;
 import org.htmlunit.cssparser.parser.condition.Condition.ConditionType;
 import org.htmlunit.cssparser.parser.condition.NotPseudoClassCondition;
+import org.htmlunit.cssparser.parser.condition.NthPseudoClassCondition;
+import org.htmlunit.cssparser.parser.condition.NthPseudoClassCondition.NthType;
 import org.htmlunit.cssparser.parser.condition.PrefixAttributeCondition;
 import org.htmlunit.cssparser.parser.condition.SubstringAttributeCondition;
 import org.htmlunit.cssparser.parser.condition.SuffixAttributeCondition;
@@ -3408,17 +3410,137 @@ public class CSS3ParserTest extends AbstractCSSParserTest {
         SelectorList selectors = createSelectors("div:nth-child( 0 )");
         assertEquals("div:nth-child(0)", selectors.get(0).toString());
 
-        selectors = createSelectors("div:nth-child( + 4 n )");
-        assertEquals("div:nth-child(+ 4 n)", selectors.get(0).toString());
+        selectors = createSelectors("div:nth-child( -5n + 2 )");
+        assertEquals("div:nth-child(-5n + 2)", selectors.get(0).toString());
 
-        selectors = createSelectors("div:nth-child( - 5 n + 2 )");
-        assertEquals("div:nth-child(- 5 n + 2)", selectors.get(0).toString());
-
-        selectors = createSelectors("div:nth-child( - 5     n\t\t+ \t 2 )");
-        assertEquals("div:nth-child(- 5     n\t\t+ \t 2)", selectors.get(0).toString());
+        selectors = createSelectors("div:nth-child( -5n\t\t+ \t 2 )");
+        assertEquals("div:nth-child(-5n\t\t+ \t 2)", selectors.get(0).toString());
 
         selectors = createSelectors("div:nth-child( odd )");
         assertEquals("div:nth-child(odd)", selectors.get(0).toString());
+    }
+
+    /**
+     * The An+B argument is parsed already.
+     *
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void nth_anPlusB() throws Exception {
+        nth("li:nth-child(odd)", NthType.NTH_CHILD, 2, 1);
+        nth("li:nth-child(EVEN)", NthType.NTH_CHILD, 2, 0);
+        nth("li:nth-last-child(5)", NthType.NTH_LAST_CHILD, 0, 5);
+        nth("li:nth-of-type(+5)", NthType.NTH_OF_TYPE, 0, 5);
+        nth("li:nth-last-of-type(-5)", NthType.NTH_LAST_OF_TYPE, 0, -5);
+        nth("li:nth-child(n)", NthType.NTH_CHILD, 1, 0);
+        nth("li:nth-child(+n)", NthType.NTH_CHILD, 1, 0);
+        nth("li:nth-child(-n)", NthType.NTH_CHILD, -1, 0);
+        nth("li:nth-child(2N)", NthType.NTH_CHILD, 2, 0);
+        nth("li:nth-child(-2n+3)", NthType.NTH_CHILD, -2, 3);
+        nth("li:nth-child(-n-3)", NthType.NTH_CHILD, -1, -3);
+        nth("li:nth-child(2n + 1)", NthType.NTH_CHILD, 2, 1);
+        nth("li:nth-child(2n- 1)", NthType.NTH_CHILD, 2, -1);
+        nth("li:nth-child(2n -1)", NthType.NTH_CHILD, 2, -1);
+        nth("li:nth-child(0n+0)", NthType.NTH_CHILD, 0, 0);
+        nth("li:nth-child(99999999999n+1)", NthType.NTH_CHILD, Integer.MAX_VALUE, 1);
+        nth("li:nth-child(1n-99999999999)", NthType.NTH_CHILD, 1, Integer.MIN_VALUE);
+
+        // the ident based forms
+        nth("li:nth-child(n-3)", NthType.NTH_CHILD, 1, -3);
+        nth("li:nth-child(+n-3)", NthType.NTH_CHILD, 1, -3);
+        nth("li:nth-child(+n+3)", NthType.NTH_CHILD, 1, 3);
+        nth("li:nth-child(n- 3)", NthType.NTH_CHILD, 1, -3);
+        nth("li:nth-child(-n- 3)", NthType.NTH_CHILD, -1, -3);
+        nth("li:nth-child(n -3)", NthType.NTH_CHILD, 1, -3);
+        nth("li:nth-child(-N + 3)", NthType.NTH_CHILD, -1, 3);
+        nth("li:nth-child( +n /* comment */ - /* comment */ 3 )", NthType.NTH_CHILD, 1, -3);
+    }
+
+    private void nth(final String css, final NthType type, final int a, final int b) throws Exception {
+        final SelectorList selectors = parseSelectors(css, 0, 0, 0);
+        final Condition condition = ((ElementSelector) selectors.get(0)).getConditions().get(0);
+        assertEquals(ConditionType.NTH_PSEUDO_CLASS_CONDITION, condition.getConditionType());
+
+        final NthPseudoClassCondition nth = (NthPseudoClassCondition) condition;
+        assertEquals(type, nth.getType(), css);
+        assertEquals(a, nth.getA(), css);
+        assertEquals(b, nth.getB(), css);
+        assertNull(nth.getSelectors(), css);
+    }
+
+    /**
+     * Invalid An+B arguments.
+     *
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void nth_anPlusBInvalid() throws Exception {
+        for (final String nth : new String[] {"+ 4 n", "- 5 n + 2", "2 n", "+ n", "2n + + 1", "2n+ -1", "2n 1",
+            "1.5", "2.5n", "1e1", "2e1n", "2px", "odd 1", "odd + 1", "+odd", "5 + 1", "+ 5", "abc", "n-", "2n+", "2n-",
+            "n- +3", "n- -3", "+-n", "--n", "n-3 + 1", "n-a", "na", "-n-", "2n- 1.5", "2n + 1 2"}) {
+            final String css = "li:nth-child(" + nth + ")";
+            assertNull(parseSelectors(css, 1, 0, 0), css);
+        }
+
+        final CSSOMParser parser = new CSSOMParser();
+        final ErrorHandler errorHandler = new ErrorHandler();
+        parser.setErrorHandler(errorHandler);
+        parser.parseSelectors("li:nth-last-of-type(2 n)");
+        assertEquals("Invalid argument \"2 n\" for \":nth-last-of-type()\".", errorHandler.getErrorMessage());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void nth_child_of() throws Exception {
+        SelectorList selectors = parseSelectors("li:nth-child(2n+1 of .x)", 0, 0, 0);
+        assertEquals("li:nth-child(2n+1 of *.x)", selectors.get(0).toString());
+
+        final ElementSelector selector = (ElementSelector) selectors.get(0);
+        assertEquals(1, selector.getConditions().size());
+        final Condition condition = selector.getConditions().get(0);
+        assertEquals(ConditionType.NTH_PSEUDO_CLASS_CONDITION, condition.getConditionType());
+        assertEquals("nth-child(2n+1 of *.x)", condition.getValue());
+
+        NthPseudoClassCondition nth = (NthPseudoClassCondition) condition;
+        assertEquals(NthType.NTH_CHILD, nth.getType());
+        assertEquals("2n+1", nth.getNth());
+        assertEquals(2, nth.getA());
+        assertEquals(1, nth.getB());
+        assertEquals(1, nth.getSelectors().size());
+        assertEquals("*.x", nth.getSelectors().get(0).toString());
+
+        selectors = parseSelectors("li:nth-last-child(odd of li.x, p > a)", 0, 0, 0);
+        assertEquals("li:nth-last-child(odd of li.x, p > a)", selectors.get(0).toString());
+        nth = (NthPseudoClassCondition) ((ElementSelector) selectors.get(0)).getConditions().get(0);
+        assertEquals(NthType.NTH_LAST_CHILD, nth.getType());
+        assertEquals(2, nth.getSelectors().size());
+
+        // whitespace and case
+        selectors = parseSelectors("li:nth-child( 2n + 1   OF   .x , p )", 0, 0, 0);
+        assertEquals("li:nth-child(2n + 1 of *.x, p)", selectors.get(0).toString());
+
+        selectors = parseSelectors("li:nth-child(-n+3 of :not(.y)):hover", 0, 0, 0);
+        assertEquals("li:nth-child(-n+3 of *:not(*.y)):hover", selectors.get(0).toString());
+    }
+
+    /**
+     * @throws Exception if any error occurs
+     */
+    @Test
+    public void nth_child_of_invalid() throws Exception {
+        // 'of' is only supported by nth-child() and nth-last-child()
+        assertNull(parseSelectors("li:nth-of-type(2n of .x)", 1, 0, 0));
+        assertNull(parseSelectors("li:nth-last-of-type(2n of .x)", 1, 0, 0));
+        assertNull(parseSelectors("li:dir(ltr of .x)", 1, 0, 0));
+        assertNull(parseSelectors("li::nth-child(2n of .x)", 1, 0, 0));
+        assertNull(parseSelectors("li::nth-child(2n)", 1, 0, 0));
+
+        assertNull(parseSelectors("li:nth-child(of .x)", 1, 0, 0));
+        assertNull(parseSelectors("li:nth-child(2n of)", 1, 0, 0));
+        assertNull(parseSelectors("li:nth-child(2n of .x", 1, 0, 0));
+        assertNull(parseSelectors("li:nth-child(2 n of .x)", 1, 0, 0));
     }
 
     /**

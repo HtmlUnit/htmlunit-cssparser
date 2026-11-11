@@ -63,6 +63,9 @@ public interface Condition extends Locatable {
         /** NOT_PSEUDO_CLASS_CONDITION. */
         NOT_PSEUDO_CLASS_CONDITION,
 
+        /** NTH_PSEUDO_CLASS_CONDITION (nth-child(), nth-last-child(), nth-of-type(), nth-last-of-type()). */
+        NTH_PSEUDO_CLASS_CONDITION,
+
         /** SUBSTRING_ATTRIBUTE_CONDITION. */
         SUBSTRING_ATTRIBUTE_CONDITION,
 
