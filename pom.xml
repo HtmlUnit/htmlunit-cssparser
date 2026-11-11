@@ -47,7 +47,7 @@
         <ph-javacc-plugin.version>5.0.3</ph-javacc-plugin.version>
         <javadoc-plugin.version>3.12.0</javadoc-plugin.version>
         <surefire-plugin.version>3.6.1</surefire-plugin.version>
-        <versions-plugin.version>2.23.0</versions-plugin.version>
+        <versions-plugin.version>2.24.0</versions-plugin.version>
         <cyclonedx-plugin.version>2.9.3</cyclonedx-plugin.version>
     </properties>
 
